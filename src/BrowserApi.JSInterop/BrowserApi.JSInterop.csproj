@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>BrowserApi.JSInterop</RootNamespace>
+        <Description>JavaScript interop backend for BrowserApi. Bridges typed browser API wrappers to a live browser via Microsoft.JSInterop.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../BrowserApi/BrowserApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.JSInterop" Version="10.0.*" />
+    </ItemGroup>
+
+</Project>

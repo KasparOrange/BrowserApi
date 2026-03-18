@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>BrowserApi.Generator</RootNamespace>
+        <Description>CLI tool that generates typed C# code from W3C WebIDL specs and CSS property data.</Description>
+    </PropertyGroup>
+
+</Project>

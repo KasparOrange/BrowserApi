@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>BrowserApi</RootNamespace>
+        <Description>Typed C# wrappers for browser APIs. Zero dependencies — pure types, CSS values, DOM interfaces, and enums generated from W3C WebIDL specs.</Description>
+    </PropertyGroup>
+
+</Project>

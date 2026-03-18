@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <RootNamespace>BrowserApi.Blazor</RootNamespace>
+        <Description>Blazor integration for BrowserApi. DI registration, component base classes, and lifecycle hooks.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../BrowserApi.JSInterop/BrowserApi.JSInterop.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.*" />
+    </ItemGroup>
+
+</Project>
