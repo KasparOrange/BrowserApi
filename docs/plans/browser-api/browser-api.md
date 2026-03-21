@@ -18,6 +18,8 @@ Generate typed C# wrappers for every browser API from W3C/WHATWG specs. The core
 | Fetch | [fetch.md](fetch.md) | Fetch API, Request, Response, Headers |
 | Storage | [storage.md](storage.md) | localStorage, sessionStorage, IndexedDB |
 | Animations | [animations.md](animations.md) | Web Animations API |
+| Runtime | [runtime.md](runtime.md) | **(Experimental)** Server-side JS execution via Jint — tests without a browser, SSR, user scripts |
+| Sessions | [sessions.md](sessions.md) | Session-by-session progress tracker (Claude Code-sized chunks) |
 | Diagrams | [diagrams.md](diagrams.md) | Shared visual reference |
 | Archive | [browser-api.archive.md](browser-api.archive.md) | Completed work history |
 
@@ -33,9 +35,15 @@ Generate typed C# wrappers for every browser API from W3C/WHATWG specs. The core
 
 Standard WebIDL → C# mapping (see [CLAUDE.md](../../../CLAUDE.md) for full table). Key decisions:
 - `Promise<T>` → `Task<T>` with `Async` suffix
-- Union types `(A or B)` → method overloads (preferred) or `OneOf<A, B>`
+- Union types `(A or B)` → method overloads (see "Union Types" below)
 - `sequence<T>` → `IReadOnlyList<T>` (not arrays, for immutability)
 - DOMString enums → C# enums with `[StringValue("...")]` attribute
+
+### Union Types
+
+**Decision:** Do not build a custom `OneOf<A, B>` type. Use method overloads to handle WebIDL union types for now. For cases where overloads don't work (return types, properties), use the most general applicable type with a doc comment noting the union.
+
+**Rationale:** C# 15 (.NET 11) ships native discriminated unions (`union` keyword) with exhaustive pattern matching and generic `Union<T1, T2>` types built into the language. Building a throwaway `OneOf<>` would be wasted effort. When .NET 11 is stable, upgrade `TargetFramework` from `net10.0` to `net11.0` and replace union workarounds with native `union` types.
 
 ### Serialization
 
@@ -56,7 +64,7 @@ The interop layer is behind an interface so it can be swapped:
 - [x] Spec files downloaded (337 IDL, 124 CSS JSON)
 - [ ] WebIDL parser (read `.idl` → AST)
 - [ ] CSS data parser (read `.json` → property definitions)
-- [ ] Core type primitives (`ICssValue`, `StringValueAttribute`, `OneOf<>`)
+- [ ] Core type primitives (`ICssValue`, `StringValueAttribute`)
 - [ ] Basic C# emitter (interfaces, enums, records from WebIDL)
 
 ### Phase 2: CSS Types
@@ -85,3 +93,9 @@ The interop layer is behind an interface so it can be swapped:
 - [ ] Fetch
 - [ ] Storage
 - [ ] Web Animations
+
+### Phase 7: Experimental — Server-Side Runtime (optional)
+- [ ] `BrowserApi.Runtime` package (depends on Jint)
+- [ ] Wire DOM types as Jint host objects
+- [ ] Virtual document for server-side JS execution
+- [ ] See [runtime.md](runtime.md) for details and use cases

@@ -21,12 +21,49 @@ CLI tool that reads W3C/WHATWG spec files and emits typed C# source code. The ge
 
 ## WebIDL Parser
 
-Options:
-- **Write a C# parser** from the [WebIDL grammar](https://webidl.spec.whatwg.org/#idl-grammar) — full control, no Node dependency
-- **Use webidl2.js via Node** — proven parser, but adds a Node dependency to the tool
-- **Use the pre-parsed JSON** from `specs/idlparsed/` in webref — already parsed, skip the parser entirely
+**Decision: Use the pre-parsed JSON** from webref's `ed/idlparsed/` directory.
 
-Decision: TBD. The pre-parsed JSON approach is fastest to implement but adds coupling to webref's JSON schema.
+The JSON files are a complete, lossless AST of the raw IDL — every interface, member, type tree, extended attribute, partial interface, mixin, and `includes` statement is preserved. The only things lost are IDL comments and whitespace, which are irrelevant for codegen.
+
+Download alongside the raw IDL files:
+```bash
+cp /tmp/webref/ed/idlparsed/*.json specs/idlparsed/
+```
+
+### Why not the alternatives?
+
+- **Custom C# parser** — the WebIDL grammar is complex, and writing a correct parser is months of work for no user-facing value. Not worth it when the parsed data already exists.
+- **webidl2.js via Node** — adds a Node dependency to a .NET tool. Unnecessary when the JSON output of webidl2.js is already available in webref.
+
+### Module seam for future swapability
+
+The generator pipeline has a clean separation between input parsing and code emission:
+
+```
+[Input Module] → Internal AST Model → [C# Emitter]
+```
+
+The input module is the **only** component that touches the source format (JSON today). The internal AST model and the C# emitter are format-agnostic. If we ever need to write a custom C# WebIDL parser (e.g., for specs not in webref, or to drop the webref dependency), we swap out the input module without touching the emitter.
+
+Concretely:
+- `ISpecReader` interface (or equivalent) abstracts over "give me parsed definitions"
+- `WebRefJsonReader` implements it today by deserializing the pre-parsed JSON
+- A future `WebIdlParser` could implement the same interface from raw `.idl` files
+
+### Pre-parsed JSON schema
+
+Each JSON file has this structure:
+
+| Key | Contains |
+|-----|----------|
+| `spec` | Title and URL of the source spec |
+| `idlparsed.idlNames` | Primary definitions: interfaces, mixins, dictionaries, enums, typedefs, callbacks |
+| `idlparsed.idlExtendedNames` | Extensions from this spec to names defined elsewhere: `partial interface`, `includes` |
+| `idlparsed.dependencies` | Per-name list of referenced type names |
+| `idlparsed.externalDependencies` | Names referenced here but defined in other specs |
+| `idlparsed.exposed` | Which global scopes each name is exposed to |
+
+Every definition and member node includes full type trees with `union`, `generic`, `nullable` flags, argument defaults, extended attributes, and `href` back to the spec.
 
 ## CSS Value Grammar Parser
 
@@ -56,5 +93,10 @@ public partial class Element : Node {
 ## Open Questions
 
 - Should the generator be a `dotnet tool` (installable via `dotnet tool install`)?
-- How to handle WebIDL `partial interface` (same interface defined across multiple specs)?
-- How to handle WebIDL `includes` (mixin pattern)?
+
+## Resolved Questions
+
+- **How to parse WebIDL?** → Use pre-parsed JSON from webref. See "WebIDL Parser" section above.
+- **How to handle `partial interface`?** → The JSON puts partials in `idlExtendedNames` with `"partial": true`. The resolver merges all partials into the primary definition from `idlNames`.
+- **How to handle `includes` (mixins)?** → The JSON has `"type": "includes"` records in `idlExtendedNames`. The resolver copies mixin members into the target interface.
+- **Union types in C#?** → Method overloads for now. Upgrade to C# 15 native `union` types when .NET 11 ships. See [master plan](browser-api.md) "Union Types" section.

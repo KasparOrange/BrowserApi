@@ -56,7 +56,7 @@ Output: src/BrowserApi/Generated/**/*.cs
 | `Promise<T> method()` | `Task<T> MethodAsync()` |
 | `sequence<T>` | `T[]` or `IReadOnlyList<T>` |
 | `T?` | `T?` (nullable) |
-| `(A or B)` | method overloads or `OneOf<A, B>` |
+| `(A or B)` | method overloads (native `union` types when targeting .NET 11+) |
 | `enum { "a", "b" }` | `enum` with `[StringValue]` attributes |
 | `dictionary` | `record class` |
 | `callback` | `delegate` / `Action<>` / `Func<>` |
@@ -105,10 +105,11 @@ Plans follow the [large project plan structure](docs/plans/browser-api/browser-a
 ### Update specs from webref
 
 ```bash
-# Clone/pull webref, copy IDL and CSS files
+# Clone/pull webref, copy IDL, CSS, and pre-parsed IDL JSON files
 git clone --depth 1 https://github.com/w3c/webref /tmp/webref
 cp /tmp/webref/ed/idl/*.idl specs/idl/
 cp /tmp/webref/ed/css/*.json specs/css/
+cp /tmp/webref/ed/idlparsed/*.json specs/idlparsed/
 ```
 
 ### Regenerate types
