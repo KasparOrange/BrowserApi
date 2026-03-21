@@ -33,9 +33,13 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUBindGroup")]
-    public partial class GpuBindGroup
+    public partial class GpuBindGroup : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
     }
 }

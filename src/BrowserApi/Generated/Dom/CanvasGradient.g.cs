@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class CanvasGradient
+    public partial class CanvasGradient : JsObject
     {
         [JsName("addColorStop")]
-        public void AddColorStop(double offset, string color) => throw new NotImplementedException();
+        public void AddColorStop(double offset, string color) => InvokeVoid("addColorStop", offset, color);
     }
 }

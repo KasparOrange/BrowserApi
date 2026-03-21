@@ -35,12 +35,16 @@ namespace BrowserApi
     public partial class DocumentPictureInPicture : EventTarget
     {
         [JsName("window")]
-        public Window Window { get; }
+        public Window Window => GetProperty<Window>("window");
 
         [JsName("onenter")]
-        public object Onenter { get; set; }
+        public object Onenter
+        {
+            get => GetProperty<object>("onenter");
+            set => SetProperty("onenter", value);
+        }
 
         [JsName("requestWindow")]
-        public Task<Window> RequestWindowAsync(DocumentPictureInPictureOptions? options = null) => throw new NotImplementedException();
+        public Task<Window> RequestWindowAsync(DocumentPictureInPictureOptions? options = null) => InvokeAsync<Window>("requestWindow", options);
     }
 }

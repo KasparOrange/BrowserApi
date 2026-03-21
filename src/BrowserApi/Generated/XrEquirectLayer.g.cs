@@ -36,24 +36,52 @@ namespace BrowserApi
     public partial class XrEquirectLayer : XrCompositionLayer
     {
         [JsName("space")]
-        public XrSpace Space { get; set; }
+        public XrSpace Space
+        {
+            get => GetProperty<XrSpace>("space");
+            set => SetProperty("space", value);
+        }
 
         [JsName("transform")]
-        public XrRigidTransform Transform { get; set; }
+        public XrRigidTransform Transform
+        {
+            get => GetProperty<XrRigidTransform>("transform");
+            set => SetProperty("transform", value);
+        }
 
         [JsName("radius")]
-        public float Radius { get; set; }
+        public float Radius
+        {
+            get => GetProperty<float>("radius");
+            set => SetProperty("radius", value);
+        }
 
         [JsName("centralHorizontalAngle")]
-        public float CentralHorizontalAngle { get; set; }
+        public float CentralHorizontalAngle
+        {
+            get => GetProperty<float>("centralHorizontalAngle");
+            set => SetProperty("centralHorizontalAngle", value);
+        }
 
         [JsName("upperVerticalAngle")]
-        public float UpperVerticalAngle { get; set; }
+        public float UpperVerticalAngle
+        {
+            get => GetProperty<float>("upperVerticalAngle");
+            set => SetProperty("upperVerticalAngle", value);
+        }
 
         [JsName("lowerVerticalAngle")]
-        public float LowerVerticalAngle { get; set; }
+        public float LowerVerticalAngle
+        {
+            get => GetProperty<float>("lowerVerticalAngle");
+            set => SetProperty("lowerVerticalAngle", value);
+        }
 
         [JsName("onredraw")]
-        public object Onredraw { get; set; }
+        public object Onredraw
+        {
+            get => GetProperty<object>("onredraw");
+            set => SetProperty("onredraw", value);
+        }
     }
 }

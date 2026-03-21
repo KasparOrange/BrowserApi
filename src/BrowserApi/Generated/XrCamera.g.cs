@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRCamera")]
-    public partial class XrCamera
+    public partial class XrCamera : JsObject
     {
         [JsName("width")]
-        public uint Width { get; }
+        public uint Width => GetProperty<uint>("width");
 
         [JsName("height")]
-        public uint Height { get; }
+        public uint Height => GetProperty<uint>("height");
     }
 }

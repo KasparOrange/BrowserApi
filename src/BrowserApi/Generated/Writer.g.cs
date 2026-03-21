@@ -32,31 +32,31 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Writer
+    public partial class Writer : JsObject
     {
         [JsName("sharedContext")]
-        public string SharedContext { get; }
+        public string SharedContext => GetProperty<string>("sharedContext");
 
         [JsName("tone")]
-        public WriterTone Tone { get; }
+        public WriterTone Tone => GetProperty<WriterTone>("tone");
 
         [JsName("format")]
-        public WriterFormat Format { get; }
+        public WriterFormat Format => GetProperty<WriterFormat>("format");
 
         [JsName("length")]
-        public WriterLength Length { get; }
+        public WriterLength Length => GetProperty<WriterLength>("length");
 
         [JsName("expectedInputLanguages")]
-        public IReadOnlyList<string>? ExpectedInputLanguages { get; }
+        public IReadOnlyList<string>? ExpectedInputLanguages => GetProperty<IReadOnlyList<string>?>("expectedInputLanguages");
 
         [JsName("expectedContextLanguages")]
-        public IReadOnlyList<string>? ExpectedContextLanguages { get; }
+        public IReadOnlyList<string>? ExpectedContextLanguages => GetProperty<IReadOnlyList<string>?>("expectedContextLanguages");
 
         [JsName("outputLanguage")]
-        public string? OutputLanguage { get; }
+        public string? OutputLanguage => GetProperty<string?>("outputLanguage");
 
         [JsName("inputQuota")]
-        public double InputQuota { get; }
+        public double InputQuota => GetProperty<double>("inputQuota");
 
         [JsName("create")]
         public static Task<Writer> CreateAsync(WriterCreateOptions? options = null) => throw new NotImplementedException();
@@ -65,15 +65,15 @@ namespace BrowserApi
         public static Task<Availability> AvailabilityAsync(WriterCreateCoreOptions? options = null) => throw new NotImplementedException();
 
         [JsName("write")]
-        public Task<string> WriteAsync(string input, WriterWriteOptions? options = null) => throw new NotImplementedException();
+        public Task<string> WriteAsync(string input, WriterWriteOptions? options = null) => InvokeAsync<string>("write", input, options);
 
         [JsName("writeStreaming")]
-        public ReadableStream WriteStreaming(string input, WriterWriteOptions? options = null) => throw new NotImplementedException();
+        public ReadableStream WriteStreaming(string input, WriterWriteOptions? options = null) => Invoke<ReadableStream>("writeStreaming", input, options);
 
         [JsName("measureInputUsage")]
-        public Task<double> MeasureInputUsageAsync(string input, WriterWriteOptions? options = null) => throw new NotImplementedException();
+        public Task<double> MeasureInputUsageAsync(string input, WriterWriteOptions? options = null) => InvokeAsync<double>("measureInputUsage", input, options);
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

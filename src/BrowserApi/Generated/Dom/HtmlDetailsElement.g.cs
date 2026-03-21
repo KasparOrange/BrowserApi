@@ -36,9 +36,17 @@ namespace BrowserApi.Dom
     public partial class HtmlDetailsElement : HtmlElement
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("open")]
-        public bool Open { get; set; }
+        public bool Open
+        {
+            get => GetProperty<bool>("open");
+            set => SetProperty("open", value);
+        }
     }
 }

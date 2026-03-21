@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Fetch
 {
-    public partial class BackgroundFetchRecord
+    public partial class BackgroundFetchRecord : JsObject
     {
         [JsName("request")]
-        public Request Request { get; }
+        public Request Request => GetProperty<Request>("request");
 
         [JsName("responseReady")]
-        public Task<Response> ResponseReady { get; }
+        public Task<Response> ResponseReady => GetProperty<Task<Response>>("responseReady");
     }
 }

@@ -35,6 +35,6 @@ namespace BrowserApi.FileApi
     public partial class FileSystemFileEntry : FileSystemEntry
     {
         [JsName("file")]
-        public void File(FileCallback successCallback, ErrorCallback? errorCallback = null) => throw new NotImplementedException();
+        public void File(FileCallback successCallback, ErrorCallback? errorCallback = null) => InvokeVoid("file", successCallback, errorCallback);
     }
 }

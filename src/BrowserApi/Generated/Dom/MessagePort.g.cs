@@ -35,24 +35,36 @@ namespace BrowserApi.Dom
     public partial class MessagePort : EventTarget
     {
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("onmessageerror")]
-        public object Onmessageerror { get; set; }
+        public object Onmessageerror
+        {
+            get => GetProperty<object>("onmessageerror");
+            set => SetProperty("onmessageerror", value);
+        }
 
         [JsName("postMessage")]
-        public void PostMessage(object message, IReadOnlyList<object> transfer) => throw new NotImplementedException();
+        public void PostMessage(object message, IReadOnlyList<object> transfer) => InvokeVoid("postMessage", message, transfer);
 
         [JsName("postMessage")]
-        public void PostMessage(object message, object? options = null) => throw new NotImplementedException();
+        public void PostMessage(object message, object? options = null) => InvokeVoid("postMessage", message, options);
 
         [JsName("start")]
-        public void Start() => throw new NotImplementedException();
+        public void Start() => InvokeVoid("start");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
     }
 }

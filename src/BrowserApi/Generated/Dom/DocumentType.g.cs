@@ -35,24 +35,24 @@ namespace BrowserApi.Dom
     public partial class DocumentType : Node
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("publicId")]
-        public string PublicId { get; }
+        public string PublicId => GetProperty<string>("publicId");
 
         [JsName("systemId")]
-        public string SystemId { get; }
+        public string SystemId => GetProperty<string>("systemId");
 
         [JsName("before")]
-        public void Before(params object[] nodes) => throw new NotImplementedException();
+        public void Before(params object[] nodes) => InvokeVoid("before", nodes);
 
         [JsName("after")]
-        public void After(params object[] nodes) => throw new NotImplementedException();
+        public void After(params object[] nodes) => InvokeVoid("after", nodes);
 
         [JsName("replaceWith")]
-        public void ReplaceWith(params object[] nodes) => throw new NotImplementedException();
+        public void ReplaceWith(params object[] nodes) => InvokeVoid("replaceWith", nodes);
 
         [JsName("remove")]
-        public void Remove() => throw new NotImplementedException();
+        public void Remove() => InvokeVoid("remove");
     }
 }

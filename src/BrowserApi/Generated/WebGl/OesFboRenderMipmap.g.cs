@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("OES_fbo_render_mipmap")]
-    public partial class OesFboRenderMipmap
+    public partial class OesFboRenderMipmap : JsObject
     {
     }
 }

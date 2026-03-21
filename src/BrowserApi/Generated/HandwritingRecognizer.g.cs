@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class HandwritingRecognizer
+    public partial class HandwritingRecognizer : JsObject
     {
         [JsName("startDrawing")]
-        public HandwritingDrawing StartDrawing(HandwritingHints? hints = null) => throw new NotImplementedException();
+        public HandwritingDrawing StartDrawing(HandwritingHints? hints = null) => Invoke<HandwritingDrawing>("startDrawing", hints);
 
         [JsName("finish")]
-        public void Finish() => throw new NotImplementedException();
+        public void Finish() => InvokeVoid("finish");
     }
 }

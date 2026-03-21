@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class PreferenceManager
+    public partial class PreferenceManager : JsObject
     {
         [JsName("colorScheme")]
-        public PreferenceObject ColorScheme { get; }
+        public PreferenceObject ColorScheme => GetProperty<PreferenceObject>("colorScheme");
 
         [JsName("contrast")]
-        public PreferenceObject Contrast { get; }
+        public PreferenceObject Contrast => GetProperty<PreferenceObject>("contrast");
 
         [JsName("reducedMotion")]
-        public PreferenceObject ReducedMotion { get; }
+        public PreferenceObject ReducedMotion => GetProperty<PreferenceObject>("reducedMotion");
 
         [JsName("reducedTransparency")]
-        public PreferenceObject ReducedTransparency { get; }
+        public PreferenceObject ReducedTransparency => GetProperty<PreferenceObject>("reducedTransparency");
 
         [JsName("reducedData")]
-        public PreferenceObject ReducedData { get; }
+        public PreferenceObject ReducedData => GetProperty<PreferenceObject>("reducedData");
     }
 }

@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Table
+    public partial class Table : JsObject
     {
         [JsName("length")]
-        public object Length { get; }
+        public object Length => GetProperty<object>("length");
 
         [JsName("grow")]
-        public object Grow(object delta, object? value = null) => throw new NotImplementedException();
+        public object Grow(object delta, object? value = null) => Invoke<object>("grow", delta, value);
 
         [JsName("get")]
-        public object Get(object index) => throw new NotImplementedException();
+        public object Get(object index) => Invoke<object>("get", index);
 
         [JsName("set")]
-        public void Set(object index, object? value = null) => throw new NotImplementedException();
+        public void Set(object index, object? value = null) => InvokeVoid("set", index, value);
     }
 }

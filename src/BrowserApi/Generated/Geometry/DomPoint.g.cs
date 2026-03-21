@@ -36,16 +36,32 @@ namespace BrowserApi.Geometry
     public partial class DomPoint : DomPointReadOnly
     {
         [JsName("x")]
-        public double X { get; set; }
+        public double X
+        {
+            get => GetProperty<double>("x");
+            set => SetProperty("x", value);
+        }
 
         [JsName("y")]
-        public double Y { get; set; }
+        public double Y
+        {
+            get => GetProperty<double>("y");
+            set => SetProperty("y", value);
+        }
 
         [JsName("z")]
-        public double Z { get; set; }
+        public double Z
+        {
+            get => GetProperty<double>("z");
+            set => SetProperty("z", value);
+        }
 
         [JsName("w")]
-        public double W { get; set; }
+        public double W
+        {
+            get => GetProperty<double>("w");
+            set => SetProperty("w", value);
+        }
 
         [JsName("fromPoint")]
         public static DomPoint FromPoint(DomPointInit? other = null) => throw new NotImplementedException();

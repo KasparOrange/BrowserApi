@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class ViewTransitionTypeSet
+    public partial class ViewTransitionTypeSet : JsObject
     {
     }
 }

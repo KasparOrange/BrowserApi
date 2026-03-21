@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Credentials
 {
-    public partial class AuthenticatorResponse
+    public partial class AuthenticatorResponse : JsObject
     {
         [JsName("clientDataJSON")]
-        public byte[] ClientDataJsOn { get; }
+        public byte[] ClientDataJsOn => GetProperty<byte[]>("clientDataJSON");
     }
 }

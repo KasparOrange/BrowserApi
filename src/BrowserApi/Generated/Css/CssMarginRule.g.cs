@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssMarginRule : CssRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("style")]
-        public CssStyleDeclaration Style { get; }
+        public CssStyleDeclaration Style => GetProperty<CssStyleDeclaration>("style");
     }
 }

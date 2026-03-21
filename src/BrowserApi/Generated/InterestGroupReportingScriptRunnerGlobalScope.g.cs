@@ -35,12 +35,12 @@ namespace BrowserApi
     public partial class InterestGroupReportingScriptRunnerGlobalScope : InterestGroupScriptRunnerGlobalScope
     {
         [JsName("sendReportTo")]
-        public void SendReportTo(string url) => throw new NotImplementedException();
+        public void SendReportTo(string url) => InvokeVoid("sendReportTo", url);
 
         [JsName("registerAdBeacon")]
-        public void RegisterAdBeacon(IReadOnlyDictionary<string, string> map) => throw new NotImplementedException();
+        public void RegisterAdBeacon(IReadOnlyDictionary<string, string> map) => InvokeVoid("registerAdBeacon", map);
 
         [JsName("registerAdMacro")]
-        public void RegisterAdMacro(string name, string value) => throw new NotImplementedException();
+        public void RegisterAdMacro(string name, string value) => InvokeVoid("registerAdMacro", name, value);
     }
 }

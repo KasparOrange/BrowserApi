@@ -35,6 +35,10 @@ namespace BrowserApi.Media
     public partial class ManagedSourceBuffer : SourceBuffer
     {
         [JsName("onbufferedchange")]
-        public object Onbufferedchange { get; set; }
+        public object Onbufferedchange
+        {
+            get => GetProperty<object>("onbufferedchange");
+            set => SetProperty("onbufferedchange", value);
+        }
     }
 }

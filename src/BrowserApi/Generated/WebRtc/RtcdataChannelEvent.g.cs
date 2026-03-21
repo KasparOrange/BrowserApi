@@ -36,6 +36,6 @@ namespace BrowserApi.WebRtc
     public partial class RtcdataChannelEvent : Event
     {
         [JsName("channel")]
-        public RtcdataChannel Channel { get; }
+        public RtcdataChannel Channel => GetProperty<RtcdataChannel>("channel");
     }
 }

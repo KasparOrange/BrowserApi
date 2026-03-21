@@ -33,12 +33,20 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGPathSegment")]
-    public partial class SvgPathSegment
+    public partial class SvgPathSegment : JsObject
     {
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("values")]
-        public IReadOnlyList<float> Values { get; set; }
+        public IReadOnlyList<float> Values
+        {
+            get => GetProperty<IReadOnlyList<float>>("values");
+            set => SetProperty("values", value);
+        }
     }
 }

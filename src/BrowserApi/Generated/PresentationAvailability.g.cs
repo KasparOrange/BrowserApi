@@ -35,9 +35,13 @@ namespace BrowserApi
     public partial class PresentationAvailability : EventTarget
     {
         [JsName("value")]
-        public bool Value { get; }
+        public bool Value => GetProperty<bool>("value");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
     }
 }

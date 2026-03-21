@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class SpeechSynthesisErrorEvent : SpeechSynthesisEvent
     {
         [JsName("error")]
-        public SpeechSynthesisErrorCode Error { get; }
+        public SpeechSynthesisErrorCode Error => GetProperty<SpeechSynthesisErrorCode>("error");
     }
 }

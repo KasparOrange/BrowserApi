@@ -33,33 +33,33 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGStringList")]
-    public partial class SvgStringList
+    public partial class SvgStringList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("numberOfItems")]
-        public uint NumberOfItems { get; }
+        public uint NumberOfItems => GetProperty<uint>("numberOfItems");
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
 
         [JsName("initialize")]
-        public string Initialize(string newItem) => throw new NotImplementedException();
+        public string Initialize(string newItem) => Invoke<string>("initialize", newItem);
 
         [JsName("getItem")]
-        public string GetItem(uint index) => throw new NotImplementedException();
+        public string GetItem(uint index) => Invoke<string>("getItem", index);
 
         [JsName("insertItemBefore")]
-        public string InsertItemBefore(string newItem, uint index) => throw new NotImplementedException();
+        public string InsertItemBefore(string newItem, uint index) => Invoke<string>("insertItemBefore", newItem, index);
 
         [JsName("replaceItem")]
-        public string ReplaceItem(string newItem, uint index) => throw new NotImplementedException();
+        public string ReplaceItem(string newItem, uint index) => Invoke<string>("replaceItem", newItem, index);
 
         [JsName("removeItem")]
-        public string RemoveItem(uint index) => throw new NotImplementedException();
+        public string RemoveItem(uint index) => Invoke<string>("removeItem", index);
 
         [JsName("appendItem")]
-        public string AppendItem(string newItem) => throw new NotImplementedException();
+        public string AppendItem(string newItem) => Invoke<string>("appendItem", newItem);
     }
 }

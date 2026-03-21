@@ -35,51 +35,83 @@ namespace BrowserApi.WebAudio
     public partial class PannerNode : AudioNode
     {
         [JsName("panningModel")]
-        public PanningModelType PanningModel { get; set; }
+        public PanningModelType PanningModel
+        {
+            get => GetProperty<PanningModelType>("panningModel");
+            set => SetProperty("panningModel", value);
+        }
 
         [JsName("positionX")]
-        public AudioParam PositionX { get; }
+        public AudioParam PositionX => GetProperty<AudioParam>("positionX");
 
         [JsName("positionY")]
-        public AudioParam PositionY { get; }
+        public AudioParam PositionY => GetProperty<AudioParam>("positionY");
 
         [JsName("positionZ")]
-        public AudioParam PositionZ { get; }
+        public AudioParam PositionZ => GetProperty<AudioParam>("positionZ");
 
         [JsName("orientationX")]
-        public AudioParam OrientationX { get; }
+        public AudioParam OrientationX => GetProperty<AudioParam>("orientationX");
 
         [JsName("orientationY")]
-        public AudioParam OrientationY { get; }
+        public AudioParam OrientationY => GetProperty<AudioParam>("orientationY");
 
         [JsName("orientationZ")]
-        public AudioParam OrientationZ { get; }
+        public AudioParam OrientationZ => GetProperty<AudioParam>("orientationZ");
 
         [JsName("distanceModel")]
-        public DistanceModelType DistanceModel { get; set; }
+        public DistanceModelType DistanceModel
+        {
+            get => GetProperty<DistanceModelType>("distanceModel");
+            set => SetProperty("distanceModel", value);
+        }
 
         [JsName("refDistance")]
-        public double RefDistance { get; set; }
+        public double RefDistance
+        {
+            get => GetProperty<double>("refDistance");
+            set => SetProperty("refDistance", value);
+        }
 
         [JsName("maxDistance")]
-        public double MaxDistance { get; set; }
+        public double MaxDistance
+        {
+            get => GetProperty<double>("maxDistance");
+            set => SetProperty("maxDistance", value);
+        }
 
         [JsName("rolloffFactor")]
-        public double RolloffFactor { get; set; }
+        public double RolloffFactor
+        {
+            get => GetProperty<double>("rolloffFactor");
+            set => SetProperty("rolloffFactor", value);
+        }
 
         [JsName("coneInnerAngle")]
-        public double ConeInnerAngle { get; set; }
+        public double ConeInnerAngle
+        {
+            get => GetProperty<double>("coneInnerAngle");
+            set => SetProperty("coneInnerAngle", value);
+        }
 
         [JsName("coneOuterAngle")]
-        public double ConeOuterAngle { get; set; }
+        public double ConeOuterAngle
+        {
+            get => GetProperty<double>("coneOuterAngle");
+            set => SetProperty("coneOuterAngle", value);
+        }
 
         [JsName("coneOuterGain")]
-        public double ConeOuterGain { get; set; }
+        public double ConeOuterGain
+        {
+            get => GetProperty<double>("coneOuterGain");
+            set => SetProperty("coneOuterGain", value);
+        }
 
         [JsName("setPosition")]
-        public void SetPosition(float x, float y, float z) => throw new NotImplementedException();
+        public void SetPosition(float x, float y, float z) => InvokeVoid("setPosition", x, y, z);
 
         [JsName("setOrientation")]
-        public void SetOrientation(float x, float y, float z) => throw new NotImplementedException();
+        public void SetOrientation(float x, float y, float z) => InvokeVoid("setOrientation", x, y, z);
     }
 }

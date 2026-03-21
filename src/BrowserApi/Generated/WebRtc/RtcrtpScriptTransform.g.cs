@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCRtpScriptTransform")]
-    public partial class RtcrtpScriptTransform
+    public partial class RtcrtpScriptTransform : JsObject
     {
     }
 }

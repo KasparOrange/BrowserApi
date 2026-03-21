@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Attribution
+    public partial class Attribution : JsObject
     {
         [JsName("aggregationServices")]
-        public AttributionAggregationServices AggregationServices { get; }
+        public AttributionAggregationServices AggregationServices => GetProperty<AttributionAggregationServices>("aggregationServices");
 
         [JsName("saveImpression")]
-        public Task<AttributionImpressionResult> SaveImpressionAsync(AttributionImpressionOptions options) => throw new NotImplementedException();
+        public Task<AttributionImpressionResult> SaveImpressionAsync(AttributionImpressionOptions options) => InvokeAsync<AttributionImpressionResult>("saveImpression", options);
 
         [JsName("measureConversion")]
-        public Task<AttributionConversionResult> MeasureConversionAsync(AttributionConversionOptions options) => throw new NotImplementedException();
+        public Task<AttributionConversionResult> MeasureConversionAsync(AttributionConversionOptions options) => InvokeAsync<AttributionConversionResult>("measureConversion", options);
     }
 }

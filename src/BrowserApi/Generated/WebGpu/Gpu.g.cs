@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPU")]
-    public partial class Gpu
+    public partial class Gpu : JsObject
     {
         [JsName("wgslLanguageFeatures")]
-        public WgsllanguageFeatures WgslLanguageFeatures { get; }
+        public WgsllanguageFeatures WgslLanguageFeatures => GetProperty<WgsllanguageFeatures>("wgslLanguageFeatures");
 
         [JsName("requestAdapter")]
-        public Task<GpuAdapter?> RequestAdapterAsync(GpuRequestAdapterOptions? options = null) => throw new NotImplementedException();
+        public Task<GpuAdapter?> RequestAdapterAsync(GpuRequestAdapterOptions? options = null) => InvokeAsync<GpuAdapter?>("requestAdapter", options);
 
         [JsName("getPreferredCanvasFormat")]
-        public GpuTextureFormat GetPreferredCanvasFormat() => throw new NotImplementedException();
+        public GpuTextureFormat GetPreferredCanvasFormat() => Invoke<GpuTextureFormat>("getPreferredCanvasFormat");
     }
 }

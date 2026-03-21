@@ -35,10 +35,14 @@ namespace BrowserApi
     public partial class TaskSignal : AbortSignal
     {
         [JsName("priority")]
-        public TaskPriority Priority { get; }
+        public TaskPriority Priority => GetProperty<TaskPriority>("priority");
 
         [JsName("onprioritychange")]
-        public object Onprioritychange { get; set; }
+        public object Onprioritychange
+        {
+            get => GetProperty<object>("onprioritychange");
+            set => SetProperty("onprioritychange", value);
+        }
 
         [JsName("any")]
         public static TaskSignal Any(IReadOnlyList<AbortSignal> signals, TaskSignalAnyInit? init = null) => throw new NotImplementedException();

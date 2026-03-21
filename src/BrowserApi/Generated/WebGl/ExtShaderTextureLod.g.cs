@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_shader_texture_lod")]
-    public partial class ExtShaderTextureLod
+    public partial class ExtShaderTextureLod : JsObject
     {
     }
 }

@@ -36,42 +36,86 @@ namespace BrowserApi.Dom
     public partial class HtmlMarqueeElement : HtmlElement
     {
         [JsName("behavior")]
-        public string Behavior { get; set; }
+        public string Behavior
+        {
+            get => GetProperty<string>("behavior");
+            set => SetProperty("behavior", value);
+        }
 
         [JsName("bgColor")]
-        public string BgColor { get; set; }
+        public string BgColor
+        {
+            get => GetProperty<string>("bgColor");
+            set => SetProperty("bgColor", value);
+        }
 
         [JsName("direction")]
-        public string Direction { get; set; }
+        public string Direction
+        {
+            get => GetProperty<string>("direction");
+            set => SetProperty("direction", value);
+        }
 
         [JsName("height")]
-        public string Height { get; set; }
+        public string Height
+        {
+            get => GetProperty<string>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("hspace")]
-        public uint Hspace { get; set; }
+        public uint Hspace
+        {
+            get => GetProperty<uint>("hspace");
+            set => SetProperty("hspace", value);
+        }
 
         [JsName("loop")]
-        public int Loop { get; set; }
+        public int Loop
+        {
+            get => GetProperty<int>("loop");
+            set => SetProperty("loop", value);
+        }
 
         [JsName("scrollAmount")]
-        public uint ScrollAmount { get; set; }
+        public uint ScrollAmount
+        {
+            get => GetProperty<uint>("scrollAmount");
+            set => SetProperty("scrollAmount", value);
+        }
 
         [JsName("scrollDelay")]
-        public uint ScrollDelay { get; set; }
+        public uint ScrollDelay
+        {
+            get => GetProperty<uint>("scrollDelay");
+            set => SetProperty("scrollDelay", value);
+        }
 
         [JsName("trueSpeed")]
-        public bool TrueSpeed { get; set; }
+        public bool TrueSpeed
+        {
+            get => GetProperty<bool>("trueSpeed");
+            set => SetProperty("trueSpeed", value);
+        }
 
         [JsName("vspace")]
-        public uint Vspace { get; set; }
+        public uint Vspace
+        {
+            get => GetProperty<uint>("vspace");
+            set => SetProperty("vspace", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("start")]
-        public void Start() => throw new NotImplementedException();
+        public void Start() => InvokeVoid("start");
 
         [JsName("stop")]
-        public void Stop() => throw new NotImplementedException();
+        public void Stop() => InvokeVoid("stop");
     }
 }

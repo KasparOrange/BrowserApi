@@ -36,49 +36,105 @@ namespace BrowserApi.Dom
     public partial class HtmlScriptElement : HtmlElement
     {
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("noModule")]
-        public bool NoModule { get; set; }
+        public bool NoModule
+        {
+            get => GetProperty<bool>("noModule");
+            set => SetProperty("noModule", value);
+        }
 
         [JsName("async")]
-        public bool Async { get; set; }
+        public bool Async
+        {
+            get => GetProperty<bool>("async");
+            set => SetProperty("async", value);
+        }
 
         [JsName("defer")]
-        public bool Defer { get; set; }
+        public bool Defer
+        {
+            get => GetProperty<bool>("defer");
+            set => SetProperty("defer", value);
+        }
 
         [JsName("blocking")]
-        public DomTokenList Blocking { get; }
+        public DomTokenList Blocking => GetProperty<DomTokenList>("blocking");
 
         [JsName("crossOrigin")]
-        public string? CrossOrigin { get; set; }
+        public string? CrossOrigin
+        {
+            get => GetProperty<string?>("crossOrigin");
+            set => SetProperty("crossOrigin", value);
+        }
 
         [JsName("referrerPolicy")]
-        public string ReferrerPolicy { get; set; }
+        public string ReferrerPolicy
+        {
+            get => GetProperty<string>("referrerPolicy");
+            set => SetProperty("referrerPolicy", value);
+        }
 
         [JsName("integrity")]
-        public string Integrity { get; set; }
+        public string Integrity
+        {
+            get => GetProperty<string>("integrity");
+            set => SetProperty("integrity", value);
+        }
 
         [JsName("fetchPriority")]
-        public string FetchPriority { get; set; }
+        public string FetchPriority
+        {
+            get => GetProperty<string>("fetchPriority");
+            set => SetProperty("fetchPriority", value);
+        }
 
         [JsName("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get => GetProperty<string>("text");
+            set => SetProperty("text", value);
+        }
 
         [JsName("charset")]
-        public string Charset { get; set; }
+        public string Charset
+        {
+            get => GetProperty<string>("charset");
+            set => SetProperty("charset", value);
+        }
 
         [JsName("event")]
-        public string Event { get; set; }
+        public string Event
+        {
+            get => GetProperty<string>("event");
+            set => SetProperty("event", value);
+        }
 
         [JsName("htmlFor")]
-        public string HtmlFor { get; set; }
+        public string HtmlFor
+        {
+            get => GetProperty<string>("htmlFor");
+            set => SetProperty("htmlFor", value);
+        }
 
         [JsName("attributionSrc")]
-        public string AttributionSrc { get; set; }
+        public string AttributionSrc
+        {
+            get => GetProperty<string>("attributionSrc");
+            set => SetProperty("attributionSrc", value);
+        }
 
         [JsName("supports")]
         public static bool Supports(string type) => throw new NotImplementedException();

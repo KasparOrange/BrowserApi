@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class ReadableStream
+    public partial class ReadableStream : JsObject
     {
         [JsName("locked")]
-        public bool Locked { get; }
+        public bool Locked => GetProperty<bool>("locked");
 
         [JsName("from")]
         public static ReadableStream From(object asyncIterable) => throw new NotImplementedException();
 
         [JsName("cancel")]
-        public Task CancelAsync(object? reason = null) => throw new NotImplementedException();
+        public Task CancelAsync(object? reason = null) => InvokeVoidAsync("cancel", reason);
 
         [JsName("getReader")]
-        public object GetReader(ReadableStreamGetReaderOptions? options = null) => throw new NotImplementedException();
+        public object GetReader(ReadableStreamGetReaderOptions? options = null) => Invoke<object>("getReader", options);
 
         [JsName("pipeThrough")]
-        public ReadableStream PipeThrough(ReadableWritablePair transform, StreamPipeOptions? options = null) => throw new NotImplementedException();
+        public ReadableStream PipeThrough(ReadableWritablePair transform, StreamPipeOptions? options = null) => Invoke<ReadableStream>("pipeThrough", transform, options);
 
         [JsName("pipeTo")]
-        public Task PipeToAsync(WritableStream destination, StreamPipeOptions? options = null) => throw new NotImplementedException();
+        public Task PipeToAsync(WritableStream destination, StreamPipeOptions? options = null) => InvokeVoidAsync("pipeTo", destination, options);
 
         [JsName("tee")]
-        public IReadOnlyList<ReadableStream> Tee() => throw new NotImplementedException();
+        public IReadOnlyList<ReadableStream> Tee() => Invoke<IReadOnlyList<ReadableStream>>("tee");
     }
 }

@@ -35,6 +35,6 @@ namespace BrowserApi.ServiceWorkers
     public partial class ExtendableEvent : Event
     {
         [JsName("waitUntil")]
-        public void WaitUntil(Task<object> f) => throw new NotImplementedException();
+        public void WaitUntil(Task<object> f) => InvokeVoid("waitUntil", f);
     }
 }

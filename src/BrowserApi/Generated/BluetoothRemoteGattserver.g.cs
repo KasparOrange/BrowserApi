@@ -33,24 +33,24 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("BluetoothRemoteGATTServer")]
-    public partial class BluetoothRemoteGattserver
+    public partial class BluetoothRemoteGattserver : JsObject
     {
         [JsName("device")]
-        public BluetoothDevice Device { get; }
+        public BluetoothDevice Device => GetProperty<BluetoothDevice>("device");
 
         [JsName("connected")]
-        public bool Connected { get; }
+        public bool Connected => GetProperty<bool>("connected");
 
         [JsName("connect")]
-        public Task<BluetoothRemoteGattserver> ConnectAsync() => throw new NotImplementedException();
+        public Task<BluetoothRemoteGattserver> ConnectAsync() => InvokeAsync<BluetoothRemoteGattserver>("connect");
 
         [JsName("disconnect")]
-        public void Disconnect() => throw new NotImplementedException();
+        public void Disconnect() => InvokeVoid("disconnect");
 
         [JsName("getPrimaryService")]
-        public Task<BluetoothRemoteGattservice> GetPrimaryServiceAsync(object service) => throw new NotImplementedException();
+        public Task<BluetoothRemoteGattservice> GetPrimaryServiceAsync(object service) => InvokeAsync<BluetoothRemoteGattservice>("getPrimaryService", service);
 
         [JsName("getPrimaryServices")]
-        public Task<IReadOnlyList<BluetoothRemoteGattservice>> GetPrimaryServicesAsync(object? service = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<BluetoothRemoteGattservice>> GetPrimaryServicesAsync(object? service = null) => InvokeAsync<IReadOnlyList<BluetoothRemoteGattservice>>("getPrimaryServices", service);
     }
 }

@@ -35,30 +35,30 @@ namespace BrowserApi
     public partial class TaskAttributionTiming : PerformanceEntry
     {
         [JsName("startTime")]
-        public double StartTime { get; }
+        public double StartTime => GetProperty<double>("startTime");
 
         [JsName("duration")]
-        public double Duration { get; }
+        public double Duration => GetProperty<double>("duration");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("entryType")]
-        public string EntryType { get; }
+        public string EntryType => GetProperty<string>("entryType");
 
         [JsName("containerType")]
-        public string ContainerType { get; }
+        public string ContainerType => GetProperty<string>("containerType");
 
         [JsName("containerSrc")]
-        public string ContainerSrc { get; }
+        public string ContainerSrc => GetProperty<string>("containerSrc");
 
         [JsName("containerId")]
-        public string ContainerId { get; }
+        public string ContainerId => GetProperty<string>("containerId");
 
         [JsName("containerName")]
-        public string ContainerName { get; }
+        public string ContainerName => GetProperty<string>("containerName");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

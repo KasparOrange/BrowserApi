@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Worklet
+    public partial class Worklet : JsObject
     {
         [JsName("addModule")]
-        public Task AddModuleAsync(string moduleUrl, WorkletOptions? options = null) => throw new NotImplementedException();
+        public Task AddModuleAsync(string moduleUrl, WorkletOptions? options = null) => InvokeVoidAsync("addModule", moduleUrl, options);
     }
 }

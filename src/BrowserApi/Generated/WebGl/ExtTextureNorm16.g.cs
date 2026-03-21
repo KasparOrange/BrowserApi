@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_texture_norm16")]
-    public partial class ExtTextureNorm16
+    public partial class ExtTextureNorm16 : JsObject
     {
         public const uint R16Ext = 0x822A;
 

@@ -33,63 +33,63 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Console
 {
     [JsName("console")]
-    public partial class Console
+    public partial class Console : JsObject
     {
         [JsName("assert")]
-        public void Assert(bool condition = false, params object[] data) => throw new NotImplementedException();
+        public void Assert(bool condition = false, params object[] data) => InvokeVoid("assert", condition, data);
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
 
         [JsName("debug")]
-        public void Debug(params object[] data) => throw new NotImplementedException();
+        public void Debug(params object[] data) => InvokeVoid("debug", data);
 
         [JsName("error")]
-        public void Error(params object[] data) => throw new NotImplementedException();
+        public void Error(params object[] data) => InvokeVoid("error", data);
 
         [JsName("info")]
-        public void Info(params object[] data) => throw new NotImplementedException();
+        public void Info(params object[] data) => InvokeVoid("info", data);
 
         [JsName("log")]
-        public void Log(params object[] data) => throw new NotImplementedException();
+        public void Log(params object[] data) => InvokeVoid("log", data);
 
         [JsName("table")]
-        public void Table(object? tabularData = null, IReadOnlyList<string>? properties = null) => throw new NotImplementedException();
+        public void Table(object? tabularData = null, IReadOnlyList<string>? properties = null) => InvokeVoid("table", tabularData, properties);
 
         [JsName("trace")]
-        public void Trace(params object[] data) => throw new NotImplementedException();
+        public void Trace(params object[] data) => InvokeVoid("trace", data);
 
         [JsName("warn")]
-        public void Warn(params object[] data) => throw new NotImplementedException();
+        public void Warn(params object[] data) => InvokeVoid("warn", data);
 
         [JsName("dir")]
-        public void Dir(object? item = null, object? options = null) => throw new NotImplementedException();
+        public void Dir(object? item = null, object? options = null) => InvokeVoid("dir", item, options);
 
         [JsName("dirxml")]
-        public void Dirxml(params object[] data) => throw new NotImplementedException();
+        public void Dirxml(params object[] data) => InvokeVoid("dirxml", data);
 
         [JsName("count")]
-        public void Count(string label = "default") => throw new NotImplementedException();
+        public void Count(string label = "default") => InvokeVoid("count", label);
 
         [JsName("countReset")]
-        public void CountReset(string label = "default") => throw new NotImplementedException();
+        public void CountReset(string label = "default") => InvokeVoid("countReset", label);
 
         [JsName("group")]
-        public void Group(params object[] data) => throw new NotImplementedException();
+        public void Group(params object[] data) => InvokeVoid("group", data);
 
         [JsName("groupCollapsed")]
-        public void GroupCollapsed(params object[] data) => throw new NotImplementedException();
+        public void GroupCollapsed(params object[] data) => InvokeVoid("groupCollapsed", data);
 
         [JsName("groupEnd")]
-        public void GroupEnd() => throw new NotImplementedException();
+        public void GroupEnd() => InvokeVoid("groupEnd");
 
         [JsName("time")]
-        public void Time(string label = "default") => throw new NotImplementedException();
+        public void Time(string label = "default") => InvokeVoid("time", label);
 
         [JsName("timeLog")]
-        public void TimeLog(string label = "default", params object[] data) => throw new NotImplementedException();
+        public void TimeLog(string label = "default", params object[] data) => InvokeVoid("timeLog", label, data);
 
         [JsName("timeEnd")]
-        public void TimeEnd(string label = "default") => throw new NotImplementedException();
+        public void TimeEnd(string label = "default") => InvokeVoid("timeEnd", label);
     }
 }

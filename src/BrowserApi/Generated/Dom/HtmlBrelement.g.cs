@@ -36,6 +36,10 @@ namespace BrowserApi.Dom
     public partial class HtmlBrelement : HtmlElement
     {
         [JsName("clear")]
-        public string Clear { get; set; }
+        public string Clear
+        {
+            get => GetProperty<string>("clear");
+            set => SetProperty("clear", value);
+        }
     }
 }

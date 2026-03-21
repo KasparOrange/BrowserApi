@@ -32,30 +32,30 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Fetch
 {
-    public partial class FormData
+    public partial class FormData : JsObject
     {
         [JsName("append")]
-        public void Append(string name, string value) => throw new NotImplementedException();
+        public void Append(string name, string value) => InvokeVoid("append", name, value);
 
         [JsName("append")]
-        public void Append(string name, Blob blobValue, string? filename = null) => throw new NotImplementedException();
+        public void Append(string name, Blob blobValue, string? filename = null) => InvokeVoid("append", name, blobValue, filename);
 
         [JsName("delete")]
-        public void Delete(string name) => throw new NotImplementedException();
+        public void Delete(string name) => InvokeVoid("delete", name);
 
         [JsName("get")]
-        public object Get(string name) => throw new NotImplementedException();
+        public object Get(string name) => Invoke<object>("get", name);
 
         [JsName("getAll")]
-        public IReadOnlyList<object> GetAll(string name) => throw new NotImplementedException();
+        public IReadOnlyList<object> GetAll(string name) => Invoke<IReadOnlyList<object>>("getAll", name);
 
         [JsName("has")]
-        public bool Has(string name) => throw new NotImplementedException();
+        public bool Has(string name) => Invoke<bool>("has", name);
 
         [JsName("set")]
-        public void Set(string name, string value) => throw new NotImplementedException();
+        public void Set(string name, string value) => InvokeVoid("set", name, value);
 
         [JsName("set")]
-        public void Set(string name, Blob blobValue, string? filename = null) => throw new NotImplementedException();
+        public void Set(string name, Blob blobValue, string? filename = null) => InvokeVoid("set", name, blobValue, filename);
     }
 }

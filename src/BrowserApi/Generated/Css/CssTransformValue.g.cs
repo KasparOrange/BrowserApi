@@ -36,12 +36,12 @@ namespace BrowserApi.Css
     public partial class CssTransformValue : CssStyleValue
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("is2D")]
-        public bool Is2D { get; }
+        public bool Is2D => GetProperty<bool>("is2D");
 
         [JsName("toMatrix")]
-        public DomMatrix ToMatrix() => throw new NotImplementedException();
+        public DomMatrix ToMatrix() => Invoke<DomMatrix>("toMatrix");
     }
 }

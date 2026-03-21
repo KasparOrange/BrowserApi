@@ -36,81 +36,117 @@ namespace BrowserApi.Dom
     public partial class HtmlSelectElement : HtmlElement
     {
         [JsName("autocomplete")]
-        public string Autocomplete { get; set; }
+        public string Autocomplete
+        {
+            get => GetProperty<string>("autocomplete");
+            set => SetProperty("autocomplete", value);
+        }
 
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
 
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("multiple")]
-        public bool Multiple { get; set; }
+        public bool Multiple
+        {
+            get => GetProperty<bool>("multiple");
+            set => SetProperty("multiple", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("required")]
-        public bool Required { get; set; }
+        public bool Required
+        {
+            get => GetProperty<bool>("required");
+            set => SetProperty("required", value);
+        }
 
         [JsName("size")]
-        public uint Size { get; set; }
+        public uint Size
+        {
+            get => GetProperty<uint>("size");
+            set => SetProperty("size", value);
+        }
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("options")]
-        public HtmlOptionsCollection Options { get; }
+        public HtmlOptionsCollection Options => GetProperty<HtmlOptionsCollection>("options");
 
         [JsName("length")]
-        public uint Length { get; set; }
+        public uint Length
+        {
+            get => GetProperty<uint>("length");
+            set => SetProperty("length", value);
+        }
 
         [JsName("selectedOptions")]
-        public HtmlCollection SelectedOptions { get; }
+        public HtmlCollection SelectedOptions => GetProperty<HtmlCollection>("selectedOptions");
 
         [JsName("selectedIndex")]
-        public int SelectedIndex { get; set; }
+        public int SelectedIndex
+        {
+            get => GetProperty<int>("selectedIndex");
+            set => SetProperty("selectedIndex", value);
+        }
 
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("willValidate")]
-        public bool WillValidate { get; }
+        public bool WillValidate => GetProperty<bool>("willValidate");
 
         [JsName("validity")]
-        public ValidityState Validity { get; }
+        public ValidityState Validity => GetProperty<ValidityState>("validity");
 
         [JsName("validationMessage")]
-        public string ValidationMessage { get; }
+        public string ValidationMessage => GetProperty<string>("validationMessage");
 
         [JsName("labels")]
-        public NodeList Labels { get; }
+        public NodeList Labels => GetProperty<NodeList>("labels");
 
         [JsName("item")]
-        public HtmlOptionElement? Item(uint index) => throw new NotImplementedException();
+        public HtmlOptionElement? Item(uint index) => Invoke<HtmlOptionElement?>("item", index);
 
         [JsName("namedItem")]
-        public HtmlOptionElement? NamedItem(string name) => throw new NotImplementedException();
+        public HtmlOptionElement? NamedItem(string name) => Invoke<HtmlOptionElement?>("namedItem", name);
 
         [JsName("add")]
-        public void Add(object element, object? before = null) => throw new NotImplementedException();
+        public void Add(object element, object? before = null) => InvokeVoid("add", element, before);
 
         [JsName("remove")]
-        public void Remove() => throw new NotImplementedException();
+        public void Remove() => InvokeVoid("remove");
 
         [JsName("remove")]
-        public void Remove(int index) => throw new NotImplementedException();
+        public void Remove(int index) => InvokeVoid("remove", index);
 
         [JsName("checkValidity")]
-        public bool CheckValidity() => throw new NotImplementedException();
+        public bool CheckValidity() => Invoke<bool>("checkValidity");
 
         [JsName("reportValidity")]
-        public bool ReportValidity() => throw new NotImplementedException();
+        public bool ReportValidity() => Invoke<bool>("reportValidity");
 
         [JsName("setCustomValidity")]
-        public void SetCustomValidity(string error) => throw new NotImplementedException();
+        public void SetCustomValidity(string error) => InvokeVoid("setCustomValidity", error);
 
         [JsName("showPicker")]
-        public void ShowPicker() => throw new NotImplementedException();
+        public void ShowPicker() => InvokeVoid("showPicker");
     }
 }

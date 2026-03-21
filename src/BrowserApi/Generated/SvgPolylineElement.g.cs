@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class SvgPolylineElement : SvgGeometryElement
     {
         [JsName("points")]
-        public SvgPointList Points { get; }
+        public SvgPointList Points => GetProperty<SvgPointList>("points");
 
         [JsName("animatedPoints")]
-        public SvgPointList AnimatedPoints { get; }
+        public SvgPointList AnimatedPoints => GetProperty<SvgPointList>("animatedPoints");
     }
 }

@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ModelContext
+    public partial class ModelContext : JsObject
     {
         [JsName("registerTool")]
-        public void RegisterTool(ModelContextTool tool) => throw new NotImplementedException();
+        public void RegisterTool(ModelContextTool tool) => InvokeVoid("registerTool", tool);
 
         [JsName("unregisterTool")]
-        public void UnregisterTool(string name) => throw new NotImplementedException();
+        public void UnregisterTool(string name) => InvokeVoid("unregisterTool", name);
     }
 }

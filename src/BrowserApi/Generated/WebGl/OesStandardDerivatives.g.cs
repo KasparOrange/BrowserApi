@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("OES_standard_derivatives")]
-    public partial class OesStandardDerivatives
+    public partial class OesStandardDerivatives : JsObject
     {
         public const uint FragmentShaderDerivativeHintOes = 0x8B8B;
     }

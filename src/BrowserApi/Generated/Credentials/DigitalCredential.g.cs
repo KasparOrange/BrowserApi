@@ -35,13 +35,13 @@ namespace BrowserApi.Credentials
     public partial class DigitalCredential : Credential
     {
         [JsName("protocol")]
-        public string Protocol { get; }
+        public string Protocol => GetProperty<string>("protocol");
 
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
 
         [JsName("userAgentAllowsProtocol")]
         public static bool UserAgentAllowsProtocol(string protocol) => throw new NotImplementedException();

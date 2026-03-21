@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class PerformanceMeasure : PerformanceEntry
     {
         [JsName("detail")]
-        public object Detail { get; }
+        public object Detail => GetProperty<object>("detail");
     }
 }

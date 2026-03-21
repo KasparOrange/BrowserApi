@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class MutationObserver
+    public partial class MutationObserver : JsObject
     {
         [JsName("observe")]
-        public void Observe(Node target, MutationObserverInit? options = null) => throw new NotImplementedException();
+        public void Observe(Node target, MutationObserverInit? options = null) => InvokeVoid("observe", target, options);
 
         [JsName("disconnect")]
-        public void Disconnect() => throw new NotImplementedException();
+        public void Disconnect() => InvokeVoid("disconnect");
 
         [JsName("takeRecords")]
-        public IReadOnlyList<MutationRecord> TakeRecords() => throw new NotImplementedException();
+        public IReadOnlyList<MutationRecord> TakeRecords() => Invoke<IReadOnlyList<MutationRecord>>("takeRecords");
     }
 }

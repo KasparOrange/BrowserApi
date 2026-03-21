@@ -35,24 +35,40 @@ namespace BrowserApi.Dom
     public partial class OffscreenCanvas : EventTarget
     {
         [JsName("width")]
-        public ulong Width { get; set; }
+        public ulong Width
+        {
+            get => GetProperty<ulong>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public ulong Height { get; set; }
+        public ulong Height
+        {
+            get => GetProperty<ulong>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("oncontextlost")]
-        public object Oncontextlost { get; set; }
+        public object Oncontextlost
+        {
+            get => GetProperty<object>("oncontextlost");
+            set => SetProperty("oncontextlost", value);
+        }
 
         [JsName("oncontextrestored")]
-        public object Oncontextrestored { get; set; }
+        public object Oncontextrestored
+        {
+            get => GetProperty<object>("oncontextrestored");
+            set => SetProperty("oncontextrestored", value);
+        }
 
         [JsName("getContext")]
-        public object GetContext(OffscreenRenderingContextId contextId, object? options = null) => throw new NotImplementedException();
+        public object GetContext(OffscreenRenderingContextId contextId, object? options = null) => Invoke<object>("getContext", contextId, options);
 
         [JsName("transferToImageBitmap")]
-        public ImageBitmap TransferToImageBitmap() => throw new NotImplementedException();
+        public ImageBitmap TransferToImageBitmap() => Invoke<ImageBitmap>("transferToImageBitmap");
 
         [JsName("convertToBlob")]
-        public Task<Blob> ConvertToBlobAsync(ImageEncodeOptions? options = null) => throw new NotImplementedException();
+        public Task<Blob> ConvertToBlobAsync(ImageEncodeOptions? options = null) => InvokeAsync<Blob>("convertToBlob", options);
     }
 }

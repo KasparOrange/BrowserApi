@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class CustomEvent : Event
     {
         [JsName("detail")]
-        public object Detail { get; }
+        public object Detail => GetProperty<object>("detail");
 
         [JsName("initCustomEvent")]
-        public void InitCustomEvent(string type, bool bubbles = false, bool cancelable = false, object? detail = null) => throw new NotImplementedException();
+        public void InitCustomEvent(string type, bool bubbles = false, bool cancelable = false, object? detail = null) => InvokeVoid("initCustomEvent", type, bubbles, cancelable, detail);
     }
 }

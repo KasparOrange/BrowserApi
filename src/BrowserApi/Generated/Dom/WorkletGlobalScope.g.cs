@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class WorkletGlobalScope
+    public partial class WorkletGlobalScope : JsObject
     {
     }
 }

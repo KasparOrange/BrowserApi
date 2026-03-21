@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class PageSwapEvent : Event
     {
         [JsName("activation")]
-        public NavigationActivation? Activation { get; }
+        public NavigationActivation? Activation => GetProperty<NavigationActivation?>("activation");
 
         [JsName("viewTransition")]
-        public ViewTransition? ViewTransition { get; }
+        public ViewTransition? ViewTransition => GetProperty<ViewTransition?>("viewTransition");
     }
 }

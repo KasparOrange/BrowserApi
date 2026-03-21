@@ -36,9 +36,13 @@ namespace BrowserApi.Css
     public partial class CssUnitValue : CssNumericValue
     {
         [JsName("value")]
-        public double Value { get; set; }
+        public double Value
+        {
+            get => GetProperty<double>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("unit")]
-        public string Unit { get; }
+        public string Unit => GetProperty<string>("unit");
     }
 }

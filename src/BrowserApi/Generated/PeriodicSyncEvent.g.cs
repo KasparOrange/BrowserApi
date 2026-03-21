@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class PeriodicSyncEvent : ExtendableEvent
     {
         [JsName("tag")]
-        public string Tag { get; }
+        public string Tag => GetProperty<string>("tag");
     }
 }

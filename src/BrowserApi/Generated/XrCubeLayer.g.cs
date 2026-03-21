@@ -36,12 +36,24 @@ namespace BrowserApi
     public partial class XrCubeLayer : XrCompositionLayer
     {
         [JsName("space")]
-        public XrSpace Space { get; set; }
+        public XrSpace Space
+        {
+            get => GetProperty<XrSpace>("space");
+            set => SetProperty("space", value);
+        }
 
         [JsName("orientation")]
-        public DomPointReadOnly Orientation { get; set; }
+        public DomPointReadOnly Orientation
+        {
+            get => GetProperty<DomPointReadOnly>("orientation");
+            set => SetProperty("orientation", value);
+        }
 
         [JsName("onredraw")]
-        public object Onredraw { get; set; }
+        public object Onredraw
+        {
+            get => GetProperty<object>("onredraw");
+            set => SetProperty("onredraw", value);
+        }
     }
 }

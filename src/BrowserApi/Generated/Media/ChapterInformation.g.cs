@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class ChapterInformation
+    public partial class ChapterInformation : JsObject
     {
         [JsName("title")]
-        public string Title { get; }
+        public string Title => GetProperty<string>("title");
 
         [JsName("startTime")]
-        public double StartTime { get; }
+        public double StartTime => GetProperty<double>("startTime");
 
         [JsName("artwork")]
-        public IReadOnlyList<MediaImage> Artwork { get; }
+        public IReadOnlyList<MediaImage> Artwork => GetProperty<IReadOnlyList<MediaImage>>("artwork");
     }
 }

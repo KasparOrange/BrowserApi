@@ -35,18 +35,22 @@ namespace BrowserApi.Css
     public partial class MediaQueryList : EventTarget
     {
         [JsName("media")]
-        public string Media { get; }
+        public string Media => GetProperty<string>("media");
 
         [JsName("matches")]
-        public bool Matches { get; }
+        public bool Matches => GetProperty<bool>("matches");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("addListener")]
-        public void AddListener(EventListener? callback) => throw new NotImplementedException();
+        public void AddListener(EventListener? callback) => InvokeVoid("addListener", callback);
 
         [JsName("removeListener")]
-        public void RemoveListener(EventListener? callback) => throw new NotImplementedException();
+        public void RemoveListener(EventListener? callback) => InvokeVoid("removeListener", callback);
     }
 }

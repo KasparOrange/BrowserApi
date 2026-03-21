@@ -36,96 +36,164 @@ namespace BrowserApi.Dom
     public partial class HtmlTextAreaElement : HtmlElement
     {
         [JsName("autocomplete")]
-        public string Autocomplete { get; set; }
+        public string Autocomplete
+        {
+            get => GetProperty<string>("autocomplete");
+            set => SetProperty("autocomplete", value);
+        }
 
         [JsName("cols")]
-        public uint Cols { get; set; }
+        public uint Cols
+        {
+            get => GetProperty<uint>("cols");
+            set => SetProperty("cols", value);
+        }
 
         [JsName("dirName")]
-        public string DirName { get; set; }
+        public string DirName
+        {
+            get => GetProperty<string>("dirName");
+            set => SetProperty("dirName", value);
+        }
 
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
 
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("maxLength")]
-        public int MaxLength { get; set; }
+        public int MaxLength
+        {
+            get => GetProperty<int>("maxLength");
+            set => SetProperty("maxLength", value);
+        }
 
         [JsName("minLength")]
-        public int MinLength { get; set; }
+        public int MinLength
+        {
+            get => GetProperty<int>("minLength");
+            set => SetProperty("minLength", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("placeholder")]
-        public string Placeholder { get; set; }
+        public string Placeholder
+        {
+            get => GetProperty<string>("placeholder");
+            set => SetProperty("placeholder", value);
+        }
 
         [JsName("readOnly")]
-        public bool ReadOnly { get; set; }
+        public bool ReadOnly
+        {
+            get => GetProperty<bool>("readOnly");
+            set => SetProperty("readOnly", value);
+        }
 
         [JsName("required")]
-        public bool Required { get; set; }
+        public bool Required
+        {
+            get => GetProperty<bool>("required");
+            set => SetProperty("required", value);
+        }
 
         [JsName("rows")]
-        public uint Rows { get; set; }
+        public uint Rows
+        {
+            get => GetProperty<uint>("rows");
+            set => SetProperty("rows", value);
+        }
 
         [JsName("wrap")]
-        public string Wrap { get; set; }
+        public string Wrap
+        {
+            get => GetProperty<string>("wrap");
+            set => SetProperty("wrap", value);
+        }
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("defaultValue")]
-        public string DefaultValue { get; set; }
+        public string DefaultValue
+        {
+            get => GetProperty<string>("defaultValue");
+            set => SetProperty("defaultValue", value);
+        }
 
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("textLength")]
-        public uint TextLength { get; }
+        public uint TextLength => GetProperty<uint>("textLength");
 
         [JsName("willValidate")]
-        public bool WillValidate { get; }
+        public bool WillValidate => GetProperty<bool>("willValidate");
 
         [JsName("validity")]
-        public ValidityState Validity { get; }
+        public ValidityState Validity => GetProperty<ValidityState>("validity");
 
         [JsName("validationMessage")]
-        public string ValidationMessage { get; }
+        public string ValidationMessage => GetProperty<string>("validationMessage");
 
         [JsName("labels")]
-        public NodeList Labels { get; }
+        public NodeList Labels => GetProperty<NodeList>("labels");
 
         [JsName("selectionStart")]
-        public uint SelectionStart { get; set; }
+        public uint SelectionStart
+        {
+            get => GetProperty<uint>("selectionStart");
+            set => SetProperty("selectionStart", value);
+        }
 
         [JsName("selectionEnd")]
-        public uint SelectionEnd { get; set; }
+        public uint SelectionEnd
+        {
+            get => GetProperty<uint>("selectionEnd");
+            set => SetProperty("selectionEnd", value);
+        }
 
         [JsName("selectionDirection")]
-        public string SelectionDirection { get; set; }
+        public string SelectionDirection
+        {
+            get => GetProperty<string>("selectionDirection");
+            set => SetProperty("selectionDirection", value);
+        }
 
         [JsName("checkValidity")]
-        public bool CheckValidity() => throw new NotImplementedException();
+        public bool CheckValidity() => Invoke<bool>("checkValidity");
 
         [JsName("reportValidity")]
-        public bool ReportValidity() => throw new NotImplementedException();
+        public bool ReportValidity() => Invoke<bool>("reportValidity");
 
         [JsName("setCustomValidity")]
-        public void SetCustomValidity(string error) => throw new NotImplementedException();
+        public void SetCustomValidity(string error) => InvokeVoid("setCustomValidity", error);
 
         [JsName("select")]
-        public void Select() => throw new NotImplementedException();
+        public void Select() => InvokeVoid("select");
 
         [JsName("setRangeText")]
-        public void SetRangeText(string replacement) => throw new NotImplementedException();
+        public void SetRangeText(string replacement) => InvokeVoid("setRangeText", replacement);
 
         [JsName("setRangeText")]
-        public void SetRangeText(string replacement, uint start, uint end, SelectionMode? selectionMode = null) => throw new NotImplementedException();
+        public void SetRangeText(string replacement, uint start, uint end, SelectionMode? selectionMode = null) => InvokeVoid("setRangeText", replacement, start, end, selectionMode);
 
         [JsName("setSelectionRange")]
-        public void SetSelectionRange(uint start, uint end, string? direction = null) => throw new NotImplementedException();
+        public void SetSelectionRange(uint start, uint end, string? direction = null) => InvokeVoid("setSelectionRange", start, end, direction);
     }
 }

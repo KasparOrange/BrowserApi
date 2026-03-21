@@ -36,24 +36,32 @@ namespace BrowserApi.Dom
     public partial class HtmlCanvasElement : HtmlElement
     {
         [JsName("width")]
-        public uint Width { get; set; }
+        public uint Width
+        {
+            get => GetProperty<uint>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public uint Height { get; set; }
+        public uint Height
+        {
+            get => GetProperty<uint>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("getContext")]
-        public object GetContext(string contextId, object? options = null) => throw new NotImplementedException();
+        public object GetContext(string contextId, object? options = null) => Invoke<object>("getContext", contextId, options);
 
         [JsName("toDataURL")]
-        public string ToDataUrl(string type = "image/png", object? quality = null) => throw new NotImplementedException();
+        public string ToDataUrl(string type = "image/png", object? quality = null) => Invoke<string>("toDataURL", type, quality);
 
         [JsName("toBlob")]
-        public void ToBlob(BlobCallback callback, string type = "image/png", object? quality = null) => throw new NotImplementedException();
+        public void ToBlob(BlobCallback callback, string type = "image/png", object? quality = null) => InvokeVoid("toBlob", callback, type, quality);
 
         [JsName("transferControlToOffscreen")]
-        public OffscreenCanvas TransferControlToOffscreen() => throw new NotImplementedException();
+        public OffscreenCanvas TransferControlToOffscreen() => Invoke<OffscreenCanvas>("transferControlToOffscreen");
 
         [JsName("captureStream")]
-        public MediaStream CaptureStream(double? frameRequestRate = null) => throw new NotImplementedException();
+        public MediaStream CaptureStream(double? frameRequestRate = null) => Invoke<MediaStream>("captureStream", frameRequestRate);
     }
 }

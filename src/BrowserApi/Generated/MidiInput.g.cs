@@ -36,6 +36,10 @@ namespace BrowserApi
     public partial class MidiInput : MidiPort
     {
         [JsName("onmidimessage")]
-        public object Onmidimessage { get; set; }
+        public object Onmidimessage
+        {
+            get => GetProperty<object>("onmidimessage");
+            set => SetProperty("onmidimessage", value);
+        }
     }
 }

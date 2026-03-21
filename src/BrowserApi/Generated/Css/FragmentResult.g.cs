@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class FragmentResult
+    public partial class FragmentResult : JsObject
     {
         [JsName("inlineSize")]
-        public double InlineSize { get; }
+        public double InlineSize => GetProperty<double>("inlineSize");
 
         [JsName("blockSize")]
-        public double BlockSize { get; }
+        public double BlockSize => GetProperty<double>("blockSize");
     }
 }

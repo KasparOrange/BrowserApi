@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class CanvasCaptureMediaStreamTrack : MediaStreamTrack
     {
         [JsName("canvas")]
-        public HtmlCanvasElement Canvas { get; }
+        public HtmlCanvasElement Canvas => GetProperty<HtmlCanvasElement>("canvas");
 
         [JsName("requestFrame")]
-        public void RequestFrame() => throw new NotImplementedException();
+        public void RequestFrame() => InvokeVoid("requestFrame");
     }
 }

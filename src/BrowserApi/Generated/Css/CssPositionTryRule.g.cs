@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssPositionTryRule : CssRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("style")]
-        public CssPositionTryDescriptors Style { get; }
+        public CssPositionTryDescriptors Style => GetProperty<CssPositionTryDescriptors>("style");
     }
 }

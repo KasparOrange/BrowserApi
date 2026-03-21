@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class TransformStream
+    public partial class TransformStream : JsObject
     {
         [JsName("readable")]
-        public ReadableStream Readable { get; }
+        public ReadableStream Readable => GetProperty<ReadableStream>("readable");
 
         [JsName("writable")]
-        public WritableStream Writable { get; }
+        public WritableStream Writable => GetProperty<WritableStream>("writable");
     }
 }

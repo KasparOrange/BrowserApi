@@ -36,12 +36,12 @@ namespace BrowserApi.WebRtc
     public partial class SframeTransformErrorEvent : Event
     {
         [JsName("errorType")]
-        public SframeTransformErrorEventType ErrorType { get; }
+        public SframeTransformErrorEventType ErrorType => GetProperty<SframeTransformErrorEventType>("errorType");
 
         [JsName("keyID")]
-        public object KeyId { get; }
+        public object KeyId => GetProperty<object>("keyID");
 
         [JsName("frame")]
-        public object Frame { get; }
+        public object Frame => GetProperty<object>("frame");
     }
 }

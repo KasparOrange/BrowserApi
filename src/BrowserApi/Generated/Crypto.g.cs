@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Crypto
+    public partial class Crypto : JsObject
     {
         [JsName("subtle")]
-        public SubtleCrypto Subtle { get; }
+        public SubtleCrypto Subtle => GetProperty<SubtleCrypto>("subtle");
 
         [JsName("getRandomValues")]
-        public byte[] GetRandomValues(byte[] array) => throw new NotImplementedException();
+        public byte[] GetRandomValues(byte[] array) => Invoke<byte[]>("getRandomValues", array);
 
         [JsName("randomUUID")]
-        public string RandomUuid() => throw new NotImplementedException();
+        public string RandomUuid() => Invoke<string>("randomUUID");
     }
 }

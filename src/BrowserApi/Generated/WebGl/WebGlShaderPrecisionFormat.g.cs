@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WebGLShaderPrecisionFormat")]
-    public partial class WebGlShaderPrecisionFormat
+    public partial class WebGlShaderPrecisionFormat : JsObject
     {
         [JsName("rangeMin")]
-        public int RangeMin { get; }
+        public int RangeMin => GetProperty<int>("rangeMin");
 
         [JsName("rangeMax")]
-        public int RangeMax { get; }
+        public int RangeMax => GetProperty<int>("rangeMax");
 
         [JsName("precision")]
-        public int Precision { get; }
+        public int Precision => GetProperty<int>("precision");
     }
 }

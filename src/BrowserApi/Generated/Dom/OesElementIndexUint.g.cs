@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("OES_element_index_uint")]
-    public partial class OesElementIndexUint
+    public partial class OesElementIndexUint : JsObject
     {
     }
 }

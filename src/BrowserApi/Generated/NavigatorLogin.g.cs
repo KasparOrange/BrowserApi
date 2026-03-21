@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class NavigatorLogin
+    public partial class NavigatorLogin : JsObject
     {
         [JsName("setStatus")]
-        public Task SetStatusAsync(LoginStatus status) => throw new NotImplementedException();
+        public Task SetStatusAsync(LoginStatus status) => InvokeVoidAsync("setStatus", status);
     }
 }

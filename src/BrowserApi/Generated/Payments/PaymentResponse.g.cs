@@ -35,39 +35,43 @@ namespace BrowserApi.Payments
     public partial class PaymentResponse : EventTarget
     {
         [JsName("requestId")]
-        public string RequestId { get; }
+        public string RequestId => GetProperty<string>("requestId");
 
         [JsName("methodName")]
-        public string MethodName { get; }
+        public string MethodName => GetProperty<string>("methodName");
 
         [JsName("details")]
-        public object Details { get; }
+        public object Details => GetProperty<object>("details");
 
         [JsName("shippingAddress")]
-        public ContactAddress? ShippingAddress { get; }
+        public ContactAddress? ShippingAddress => GetProperty<ContactAddress?>("shippingAddress");
 
         [JsName("shippingOption")]
-        public string? ShippingOption { get; }
+        public string? ShippingOption => GetProperty<string?>("shippingOption");
 
         [JsName("payerName")]
-        public string? PayerName { get; }
+        public string? PayerName => GetProperty<string?>("payerName");
 
         [JsName("payerEmail")]
-        public string? PayerEmail { get; }
+        public string? PayerEmail => GetProperty<string?>("payerEmail");
 
         [JsName("payerPhone")]
-        public string? PayerPhone { get; }
+        public string? PayerPhone => GetProperty<string?>("payerPhone");
 
         [JsName("onpayerdetailchange")]
-        public object Onpayerdetailchange { get; set; }
+        public object Onpayerdetailchange
+        {
+            get => GetProperty<object>("onpayerdetailchange");
+            set => SetProperty("onpayerdetailchange", value);
+        }
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
 
         [JsName("complete")]
-        public Task CompleteAsync(PaymentComplete? result = null, PaymentCompleteDetails? details = null) => throw new NotImplementedException();
+        public Task CompleteAsync(PaymentComplete? result = null, PaymentCompleteDetails? details = null) => InvokeVoidAsync("complete", result, details);
 
         [JsName("retry")]
-        public Task RetryAsync(PaymentValidationErrors? errorFields = null) => throw new NotImplementedException();
+        public Task RetryAsync(PaymentValidationErrors? errorFields = null) => InvokeVoidAsync("retry", errorFields);
     }
 }

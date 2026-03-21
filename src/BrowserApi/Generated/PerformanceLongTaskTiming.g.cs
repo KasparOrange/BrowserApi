@@ -35,21 +35,21 @@ namespace BrowserApi
     public partial class PerformanceLongTaskTiming : PerformanceEntry
     {
         [JsName("startTime")]
-        public double StartTime { get; }
+        public double StartTime => GetProperty<double>("startTime");
 
         [JsName("duration")]
-        public double Duration { get; }
+        public double Duration => GetProperty<double>("duration");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("entryType")]
-        public string EntryType { get; }
+        public string EntryType => GetProperty<string>("entryType");
 
         [JsName("attribution")]
-        public IReadOnlyList<TaskAttributionTiming> Attribution { get; }
+        public IReadOnlyList<TaskAttributionTiming> Attribution => GetProperty<IReadOnlyList<TaskAttributionTiming>>("attribution");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

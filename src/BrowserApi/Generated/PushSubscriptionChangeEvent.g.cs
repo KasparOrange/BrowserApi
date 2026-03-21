@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class PushSubscriptionChangeEvent : ExtendableEvent
     {
         [JsName("newSubscription")]
-        public PushSubscription? NewSubscription { get; }
+        public PushSubscription? NewSubscription => GetProperty<PushSubscription?>("newSubscription");
 
         [JsName("oldSubscription")]
-        public PushSubscription? OldSubscription { get; }
+        public PushSubscription? OldSubscription => GetProperty<PushSubscription?>("oldSubscription");
     }
 }

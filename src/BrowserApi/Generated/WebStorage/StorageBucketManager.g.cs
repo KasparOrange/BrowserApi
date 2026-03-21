@@ -32,15 +32,15 @@ using BrowserApi.WebSockets;
 
 namespace BrowserApi.WebStorage
 {
-    public partial class StorageBucketManager
+    public partial class StorageBucketManager : JsObject
     {
         [JsName("open")]
-        public Task<StorageBucket> OpenAsync(string name, StorageBucketOptions? options = null) => throw new NotImplementedException();
+        public Task<StorageBucket> OpenAsync(string name, StorageBucketOptions? options = null) => InvokeAsync<StorageBucket>("open", name, options);
 
         [JsName("keys")]
-        public Task<IReadOnlyList<string>> KeysAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<string>> KeysAsync() => InvokeAsync<IReadOnlyList<string>>("keys");
 
         [JsName("delete")]
-        public Task DeleteAsync(string name) => throw new NotImplementedException();
+        public Task DeleteAsync(string name) => InvokeVoidAsync("delete", name);
     }
 }

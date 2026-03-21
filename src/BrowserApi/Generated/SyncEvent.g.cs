@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class SyncEvent : ExtendableEvent
     {
         [JsName("tag")]
-        public string Tag { get; }
+        public string Tag => GetProperty<string>("tag");
 
         [JsName("lastChance")]
-        public bool LastChance { get; }
+        public bool LastChance => GetProperty<bool>("lastChance");
     }
 }

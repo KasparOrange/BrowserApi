@@ -35,9 +35,9 @@ namespace BrowserApi.Notifications
     public partial class NotificationEvent : ExtendableEvent
     {
         [JsName("notification")]
-        public Notification Notification { get; }
+        public Notification Notification => GetProperty<Notification>("notification");
 
         [JsName("action")]
-        public string Action { get; }
+        public string Action => GetProperty<string>("action");
     }
 }

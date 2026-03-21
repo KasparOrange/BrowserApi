@@ -32,57 +32,101 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class FontFace
+    public partial class FontFace : JsObject
     {
         [JsName("family")]
-        public string Family { get; set; }
+        public string Family
+        {
+            get => GetProperty<string>("family");
+            set => SetProperty("family", value);
+        }
 
         [JsName("style")]
-        public string Style { get; set; }
+        public string Style
+        {
+            get => GetProperty<string>("style");
+            set => SetProperty("style", value);
+        }
 
         [JsName("weight")]
-        public string Weight { get; set; }
+        public string Weight
+        {
+            get => GetProperty<string>("weight");
+            set => SetProperty("weight", value);
+        }
 
         [JsName("stretch")]
-        public string Stretch { get; set; }
+        public string Stretch
+        {
+            get => GetProperty<string>("stretch");
+            set => SetProperty("stretch", value);
+        }
 
         [JsName("unicodeRange")]
-        public string UnicodeRange { get; set; }
+        public string UnicodeRange
+        {
+            get => GetProperty<string>("unicodeRange");
+            set => SetProperty("unicodeRange", value);
+        }
 
         [JsName("featureSettings")]
-        public string FeatureSettings { get; set; }
+        public string FeatureSettings
+        {
+            get => GetProperty<string>("featureSettings");
+            set => SetProperty("featureSettings", value);
+        }
 
         [JsName("variationSettings")]
-        public string VariationSettings { get; set; }
+        public string VariationSettings
+        {
+            get => GetProperty<string>("variationSettings");
+            set => SetProperty("variationSettings", value);
+        }
 
         [JsName("display")]
-        public string Display { get; set; }
+        public string Display
+        {
+            get => GetProperty<string>("display");
+            set => SetProperty("display", value);
+        }
 
         [JsName("ascentOverride")]
-        public string AscentOverride { get; set; }
+        public string AscentOverride
+        {
+            get => GetProperty<string>("ascentOverride");
+            set => SetProperty("ascentOverride", value);
+        }
 
         [JsName("descentOverride")]
-        public string DescentOverride { get; set; }
+        public string DescentOverride
+        {
+            get => GetProperty<string>("descentOverride");
+            set => SetProperty("descentOverride", value);
+        }
 
         [JsName("lineGapOverride")]
-        public string LineGapOverride { get; set; }
+        public string LineGapOverride
+        {
+            get => GetProperty<string>("lineGapOverride");
+            set => SetProperty("lineGapOverride", value);
+        }
 
         [JsName("status")]
-        public FontFaceLoadStatus Status { get; }
+        public FontFaceLoadStatus Status => GetProperty<FontFaceLoadStatus>("status");
 
         [JsName("loaded")]
-        public Task<FontFace> Loaded { get; }
+        public Task<FontFace> Loaded => GetProperty<Task<FontFace>>("loaded");
 
         [JsName("features")]
-        public FontFaceFeatures Features { get; }
+        public FontFaceFeatures Features => GetProperty<FontFaceFeatures>("features");
 
         [JsName("variations")]
-        public FontFaceVariations Variations { get; }
+        public FontFaceVariations Variations => GetProperty<FontFaceVariations>("variations");
 
         [JsName("palettes")]
-        public FontFacePalettes Palettes { get; }
+        public FontFacePalettes Palettes => GetProperty<FontFacePalettes>("palettes");
 
         [JsName("load")]
-        public Task<FontFace> LoadAsync() => throw new NotImplementedException();
+        public Task<FontFace> LoadAsync() => InvokeAsync<FontFace>("load");
     }
 }

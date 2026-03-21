@@ -32,33 +32,33 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Sanitizer
+    public partial class Sanitizer : JsObject
     {
         [JsName("get")]
-        public SanitizerConfig Get() => throw new NotImplementedException();
+        public SanitizerConfig Get() => Invoke<SanitizerConfig>("get");
 
         [JsName("allowElement")]
-        public bool AllowElement(object element) => throw new NotImplementedException();
+        public bool AllowElement(object element) => Invoke<bool>("allowElement", element);
 
         [JsName("removeElement")]
-        public bool RemoveElement(object element) => throw new NotImplementedException();
+        public bool RemoveElement(object element) => Invoke<bool>("removeElement", element);
 
         [JsName("replaceElementWithChildren")]
-        public bool ReplaceElementWithChildren(object element) => throw new NotImplementedException();
+        public bool ReplaceElementWithChildren(object element) => Invoke<bool>("replaceElementWithChildren", element);
 
         [JsName("allowAttribute")]
-        public bool AllowAttribute(object attribute) => throw new NotImplementedException();
+        public bool AllowAttribute(object attribute) => Invoke<bool>("allowAttribute", attribute);
 
         [JsName("removeAttribute")]
-        public bool RemoveAttribute(object attribute) => throw new NotImplementedException();
+        public bool RemoveAttribute(object attribute) => Invoke<bool>("removeAttribute", attribute);
 
         [JsName("setComments")]
-        public bool SetComments(bool allow) => throw new NotImplementedException();
+        public bool SetComments(bool allow) => Invoke<bool>("setComments", allow);
 
         [JsName("setDataAttributes")]
-        public bool SetDataAttributes(bool allow) => throw new NotImplementedException();
+        public bool SetDataAttributes(bool allow) => Invoke<bool>("setDataAttributes", allow);
 
         [JsName("removeUnsafe")]
-        public bool RemoveUnsafe() => throw new NotImplementedException();
+        public bool RemoveUnsafe() => Invoke<bool>("removeUnsafe");
     }
 }

@@ -35,9 +35,9 @@ namespace BrowserApi.Credentials
     public partial class IdentityCredentialError : DomException
     {
         [JsName("error")]
-        public string Error { get; }
+        public string Error => GetProperty<string>("error");
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
     }
 }

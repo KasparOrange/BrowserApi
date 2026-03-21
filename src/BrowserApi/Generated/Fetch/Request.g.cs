@@ -32,84 +32,84 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Fetch
 {
-    public partial class Request
+    public partial class Request : JsObject
     {
         [JsName("method")]
-        public string Method { get; }
+        public string Method => GetProperty<string>("method");
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("headers")]
-        public Headers Headers { get; }
+        public Headers Headers => GetProperty<Headers>("headers");
 
         [JsName("destination")]
-        public RequestDestination Destination { get; }
+        public RequestDestination Destination => GetProperty<RequestDestination>("destination");
 
         [JsName("referrer")]
-        public string Referrer { get; }
+        public string Referrer => GetProperty<string>("referrer");
 
         [JsName("referrerPolicy")]
-        public ReferrerPolicy ReferrerPolicy { get; }
+        public ReferrerPolicy ReferrerPolicy => GetProperty<ReferrerPolicy>("referrerPolicy");
 
         [JsName("mode")]
-        public RequestMode Mode { get; }
+        public RequestMode Mode => GetProperty<RequestMode>("mode");
 
         [JsName("credentials")]
-        public RequestCredentials Credentials { get; }
+        public RequestCredentials Credentials => GetProperty<RequestCredentials>("credentials");
 
         [JsName("cache")]
-        public RequestCache Cache { get; }
+        public RequestCache Cache => GetProperty<RequestCache>("cache");
 
         [JsName("redirect")]
-        public RequestRedirect Redirect { get; }
+        public RequestRedirect Redirect => GetProperty<RequestRedirect>("redirect");
 
         [JsName("integrity")]
-        public string Integrity { get; }
+        public string Integrity => GetProperty<string>("integrity");
 
         [JsName("keepalive")]
-        public bool Keepalive { get; }
+        public bool Keepalive => GetProperty<bool>("keepalive");
 
         [JsName("isReloadNavigation")]
-        public bool IsReloadNavigation { get; }
+        public bool IsReloadNavigation => GetProperty<bool>("isReloadNavigation");
 
         [JsName("isHistoryNavigation")]
-        public bool IsHistoryNavigation { get; }
+        public bool IsHistoryNavigation => GetProperty<bool>("isHistoryNavigation");
 
         [JsName("signal")]
-        public AbortSignal Signal { get; }
+        public AbortSignal Signal => GetProperty<AbortSignal>("signal");
 
         [JsName("duplex")]
-        public RequestDuplex Duplex { get; }
+        public RequestDuplex Duplex => GetProperty<RequestDuplex>("duplex");
 
         [JsName("targetAddressSpace")]
-        public IpaddressSpace TargetAddressSpace { get; }
+        public IpaddressSpace TargetAddressSpace => GetProperty<IpaddressSpace>("targetAddressSpace");
 
         [JsName("body")]
-        public ReadableStream? Body { get; }
+        public ReadableStream? Body => GetProperty<ReadableStream?>("body");
 
         [JsName("bodyUsed")]
-        public bool BodyUsed { get; }
+        public bool BodyUsed => GetProperty<bool>("bodyUsed");
 
         [JsName("clone")]
-        public Request Clone() => throw new NotImplementedException();
+        public Request Clone() => Invoke<Request>("clone");
 
         [JsName("arrayBuffer")]
-        public Task<byte[]> ArrayBufferAsync() => throw new NotImplementedException();
+        public Task<byte[]> ArrayBufferAsync() => InvokeAsync<byte[]>("arrayBuffer");
 
         [JsName("blob")]
-        public Task<Blob> BlobAsync() => throw new NotImplementedException();
+        public Task<Blob> BlobAsync() => InvokeAsync<Blob>("blob");
 
         [JsName("bytes")]
-        public Task<byte[]> BytesAsync() => throw new NotImplementedException();
+        public Task<byte[]> BytesAsync() => InvokeAsync<byte[]>("bytes");
 
         [JsName("formData")]
-        public Task<FormData> FormDataAsync() => throw new NotImplementedException();
+        public Task<FormData> FormDataAsync() => InvokeAsync<FormData>("formData");
 
         [JsName("json")]
-        public Task<object> JsonAsync() => throw new NotImplementedException();
+        public Task<object> JsonAsync() => InvokeAsync<object>("json");
 
         [JsName("text")]
-        public Task<string> TextAsync() => throw new NotImplementedException();
+        public Task<string> TextAsync() => InvokeAsync<string>("text");
     }
 }

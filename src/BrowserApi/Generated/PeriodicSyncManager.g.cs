@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PeriodicSyncManager
+    public partial class PeriodicSyncManager : JsObject
     {
         [JsName("register")]
-        public Task RegisterAsync(string tag, BackgroundSyncOptions? options = null) => throw new NotImplementedException();
+        public Task RegisterAsync(string tag, BackgroundSyncOptions? options = null) => InvokeVoidAsync("register", tag, options);
 
         [JsName("getTags")]
-        public Task<IReadOnlyList<string>> GetTagsAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<string>> GetTagsAsync() => InvokeAsync<IReadOnlyList<string>>("getTags");
 
         [JsName("unregister")]
-        public Task UnregisterAsync(string tag) => throw new NotImplementedException();
+        public Task UnregisterAsync(string tag) => InvokeVoidAsync("unregister", tag);
     }
 }

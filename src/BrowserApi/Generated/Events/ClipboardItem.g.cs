@@ -32,16 +32,16 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Events
 {
-    public partial class ClipboardItem
+    public partial class ClipboardItem : JsObject
     {
         [JsName("presentationStyle")]
-        public PresentationStyle PresentationStyle { get; }
+        public PresentationStyle PresentationStyle => GetProperty<PresentationStyle>("presentationStyle");
 
         [JsName("types")]
-        public IReadOnlyList<string> Types { get; }
+        public IReadOnlyList<string> Types => GetProperty<IReadOnlyList<string>>("types");
 
         [JsName("getType")]
-        public Task<Blob> GetTypeAsync(string type) => throw new NotImplementedException();
+        public Task<Blob> GetTypeAsync(string type) => InvokeAsync<Blob>("getType", type);
 
         [JsName("supports")]
         public static bool Supports(string type) => throw new NotImplementedException();

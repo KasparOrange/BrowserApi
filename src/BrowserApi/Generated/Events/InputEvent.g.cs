@@ -35,18 +35,18 @@ namespace BrowserApi.Events
     public partial class InputEvent : Uievent
     {
         [JsName("data")]
-        public string? Data { get; }
+        public string? Data => GetProperty<string?>("data");
 
         [JsName("isComposing")]
-        public bool IsComposing { get; }
+        public bool IsComposing => GetProperty<bool>("isComposing");
 
         [JsName("inputType")]
-        public string InputType { get; }
+        public string InputType => GetProperty<string>("inputType");
 
         [JsName("dataTransfer")]
-        public DataTransfer? DataTransfer { get; }
+        public DataTransfer? DataTransfer => GetProperty<DataTransfer?>("dataTransfer");
 
         [JsName("getTargetRanges")]
-        public IReadOnlyList<StaticRange> GetTargetRanges() => throw new NotImplementedException();
+        public IReadOnlyList<StaticRange> GetTargetRanges() => Invoke<IReadOnlyList<StaticRange>>("getTargetRanges");
     }
 }

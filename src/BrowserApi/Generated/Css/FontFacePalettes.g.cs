@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class FontFacePalettes
+    public partial class FontFacePalettes : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
     }
 }

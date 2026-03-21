@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ForDebuggingOnly
+    public partial class ForDebuggingOnly : JsObject
     {
         [JsName("reportAdAuctionWin")]
-        public void ReportAdAuctionWin(string url) => throw new NotImplementedException();
+        public void ReportAdAuctionWin(string url) => InvokeVoid("reportAdAuctionWin", url);
 
         [JsName("reportAdAuctionLoss")]
-        public void ReportAdAuctionLoss(string url) => throw new NotImplementedException();
+        public void ReportAdAuctionLoss(string url) => InvokeVoid("reportAdAuctionLoss", url);
     }
 }

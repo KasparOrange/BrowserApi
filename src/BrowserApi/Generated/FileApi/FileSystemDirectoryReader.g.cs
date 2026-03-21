@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.FileApi
 {
-    public partial class FileSystemDirectoryReader
+    public partial class FileSystemDirectoryReader : JsObject
     {
         [JsName("readEntries")]
-        public void ReadEntries(FileSystemEntriesCallback successCallback, ErrorCallback? errorCallback = null) => throw new NotImplementedException();
+        public void ReadEntries(FileSystemEntriesCallback successCallback, ErrorCallback? errorCallback = null) => InvokeVoid("readEntries", successCallback, errorCallback);
     }
 }

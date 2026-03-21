@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class AbortController
+    public partial class AbortController : JsObject
     {
         [JsName("signal")]
-        public AbortSignal Signal { get; }
+        public AbortSignal Signal => GetProperty<AbortSignal>("signal");
 
         [JsName("abort")]
-        public void Abort(object? reason = null) => throw new NotImplementedException();
+        public void Abort(object? reason = null) => InvokeVoid("abort", reason);
     }
 }

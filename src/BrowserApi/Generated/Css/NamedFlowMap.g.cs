@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class NamedFlowMap
+    public partial class NamedFlowMap : JsObject
     {
     }
 }

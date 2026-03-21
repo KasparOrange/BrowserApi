@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class NavigationPrecommitController
+    public partial class NavigationPrecommitController : JsObject
     {
         [JsName("redirect")]
-        public void Redirect(string url, NavigationNavigateOptions? options = null) => throw new NotImplementedException();
+        public void Redirect(string url, NavigationNavigateOptions? options = null) => InvokeVoid("redirect", url, options);
 
         [JsName("addHandler")]
-        public void AddHandler(NavigationInterceptHandler handler) => throw new NotImplementedException();
+        public void AddHandler(NavigationInterceptHandler handler) => InvokeVoid("addHandler", handler);
     }
 }

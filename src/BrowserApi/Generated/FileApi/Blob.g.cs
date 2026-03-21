@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.FileApi
 {
-    public partial class Blob
+    public partial class Blob : JsObject
     {
         [JsName("size")]
-        public ulong Size { get; }
+        public ulong Size => GetProperty<ulong>("size");
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("slice")]
-        public Blob Slice(long? start = null, long? end = null, string? contentType = null) => throw new NotImplementedException();
+        public Blob Slice(long? start = null, long? end = null, string? contentType = null) => Invoke<Blob>("slice", start, end, contentType);
 
         [JsName("stream")]
-        public ReadableStream Stream() => throw new NotImplementedException();
+        public ReadableStream Stream() => Invoke<ReadableStream>("stream");
 
         [JsName("text")]
-        public Task<string> TextAsync() => throw new NotImplementedException();
+        public Task<string> TextAsync() => InvokeAsync<string>("text");
 
         [JsName("arrayBuffer")]
-        public Task<byte[]> ArrayBufferAsync() => throw new NotImplementedException();
+        public Task<byte[]> ArrayBufferAsync() => InvokeAsync<byte[]>("arrayBuffer");
 
         [JsName("bytes")]
-        public Task<byte[]> BytesAsync() => throw new NotImplementedException();
+        public Task<byte[]> BytesAsync() => InvokeAsync<byte[]>("bytes");
     }
 }

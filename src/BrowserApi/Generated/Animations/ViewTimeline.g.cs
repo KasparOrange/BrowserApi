@@ -35,12 +35,12 @@ namespace BrowserApi.Animations
     public partial class ViewTimeline : ScrollTimeline
     {
         [JsName("subject")]
-        public Element Subject { get; }
+        public Element Subject => GetProperty<Element>("subject");
 
         [JsName("startOffset")]
-        public CssNumericValue StartOffset { get; }
+        public CssNumericValue StartOffset => GetProperty<CssNumericValue>("startOffset");
 
         [JsName("endOffset")]
-        public CssNumericValue EndOffset { get; }
+        public CssNumericValue EndOffset => GetProperty<CssNumericValue>("endOffset");
     }
 }

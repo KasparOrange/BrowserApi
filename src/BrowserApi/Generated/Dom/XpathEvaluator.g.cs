@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("XPathEvaluator")]
-    public partial class XpathEvaluator
+    public partial class XpathEvaluator : JsObject
     {
         [JsName("createExpression")]
-        public XpathExpression CreateExpression(string expression, XpathNsresolver? resolver = null) => throw new NotImplementedException();
+        public XpathExpression CreateExpression(string expression, XpathNsresolver? resolver = null) => Invoke<XpathExpression>("createExpression", expression, resolver);
 
         [JsName("createNSResolver")]
-        public Node CreateNsresolver(Node nodeResolver) => throw new NotImplementedException();
+        public Node CreateNsresolver(Node nodeResolver) => Invoke<Node>("createNSResolver", nodeResolver);
 
         [JsName("evaluate")]
-        public XpathResult Evaluate(string expression, Node contextNode, XpathNsresolver? resolver = null, ushort type = 0, XpathResult? result = null) => throw new NotImplementedException();
+        public XpathResult Evaluate(string expression, Node contextNode, XpathNsresolver? resolver = null, ushort type = 0, XpathResult? result = null) => Invoke<XpathResult>("evaluate", expression, contextNode, resolver, type, result);
     }
 }

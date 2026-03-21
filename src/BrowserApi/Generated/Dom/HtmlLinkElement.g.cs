@@ -36,63 +36,127 @@ namespace BrowserApi.Dom
     public partial class HtmlLinkElement : HtmlElement
     {
         [JsName("href")]
-        public string Href { get; set; }
+        public string Href
+        {
+            get => GetProperty<string>("href");
+            set => SetProperty("href", value);
+        }
 
         [JsName("crossOrigin")]
-        public string? CrossOrigin { get; set; }
+        public string? CrossOrigin
+        {
+            get => GetProperty<string?>("crossOrigin");
+            set => SetProperty("crossOrigin", value);
+        }
 
         [JsName("rel")]
-        public string Rel { get; set; }
+        public string Rel
+        {
+            get => GetProperty<string>("rel");
+            set => SetProperty("rel", value);
+        }
 
         [JsName("as")]
-        public string As { get; set; }
+        public string As
+        {
+            get => GetProperty<string>("as");
+            set => SetProperty("as", value);
+        }
 
         [JsName("relList")]
-        public DomTokenList RelList { get; }
+        public DomTokenList RelList => GetProperty<DomTokenList>("relList");
 
         [JsName("media")]
-        public string Media { get; set; }
+        public string Media
+        {
+            get => GetProperty<string>("media");
+            set => SetProperty("media", value);
+        }
 
         [JsName("integrity")]
-        public string Integrity { get; set; }
+        public string Integrity
+        {
+            get => GetProperty<string>("integrity");
+            set => SetProperty("integrity", value);
+        }
 
         [JsName("hreflang")]
-        public string Hreflang { get; set; }
+        public string Hreflang
+        {
+            get => GetProperty<string>("hreflang");
+            set => SetProperty("hreflang", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("sizes")]
-        public DomTokenList Sizes { get; }
+        public DomTokenList Sizes => GetProperty<DomTokenList>("sizes");
 
         [JsName("imageSrcset")]
-        public string ImageSrcset { get; set; }
+        public string ImageSrcset
+        {
+            get => GetProperty<string>("imageSrcset");
+            set => SetProperty("imageSrcset", value);
+        }
 
         [JsName("imageSizes")]
-        public string ImageSizes { get; set; }
+        public string ImageSizes
+        {
+            get => GetProperty<string>("imageSizes");
+            set => SetProperty("imageSizes", value);
+        }
 
         [JsName("referrerPolicy")]
-        public string ReferrerPolicy { get; set; }
+        public string ReferrerPolicy
+        {
+            get => GetProperty<string>("referrerPolicy");
+            set => SetProperty("referrerPolicy", value);
+        }
 
         [JsName("blocking")]
-        public DomTokenList Blocking { get; }
+        public DomTokenList Blocking => GetProperty<DomTokenList>("blocking");
 
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
 
         [JsName("fetchPriority")]
-        public string FetchPriority { get; set; }
+        public string FetchPriority
+        {
+            get => GetProperty<string>("fetchPriority");
+            set => SetProperty("fetchPriority", value);
+        }
 
         [JsName("charset")]
-        public string Charset { get; set; }
+        public string Charset
+        {
+            get => GetProperty<string>("charset");
+            set => SetProperty("charset", value);
+        }
 
         [JsName("rev")]
-        public string Rev { get; set; }
+        public string Rev
+        {
+            get => GetProperty<string>("rev");
+            set => SetProperty("rev", value);
+        }
 
         [JsName("target")]
-        public string Target { get; set; }
+        public string Target
+        {
+            get => GetProperty<string>("target");
+            set => SetProperty("target", value);
+        }
 
         [JsName("sheet")]
-        public CssStyleSheet? Sheet { get; }
+        public CssStyleSheet? Sheet => GetProperty<CssStyleSheet?>("sheet");
     }
 }

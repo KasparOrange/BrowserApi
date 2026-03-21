@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_blend_minmax")]
-    public partial class ExtBlendMinmax
+    public partial class ExtBlendMinmax : JsObject
     {
         public const uint MinExt = 0x8007;
 

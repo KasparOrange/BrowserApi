@@ -36,15 +36,15 @@ namespace BrowserApi
     public partial class SvgEllipseElement : SvgGeometryElement
     {
         [JsName("cx")]
-        public SvgAnimatedLength Cx { get; }
+        public SvgAnimatedLength Cx => GetProperty<SvgAnimatedLength>("cx");
 
         [JsName("cy")]
-        public SvgAnimatedLength Cy { get; }
+        public SvgAnimatedLength Cy => GetProperty<SvgAnimatedLength>("cy");
 
         [JsName("rx")]
-        public SvgAnimatedLength Rx { get; }
+        public SvgAnimatedLength Rx => GetProperty<SvgAnimatedLength>("rx");
 
         [JsName("ry")]
-        public SvgAnimatedLength Ry { get; }
+        public SvgAnimatedLength Ry => GetProperty<SvgAnimatedLength>("ry");
     }
 }

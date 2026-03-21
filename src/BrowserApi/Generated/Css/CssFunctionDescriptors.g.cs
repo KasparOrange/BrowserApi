@@ -36,6 +36,10 @@ namespace BrowserApi.Css
     public partial class CssFunctionDescriptors : CssStyleDeclaration
     {
         [JsName("result")]
-        public string Result { get; set; }
+        public string Result
+        {
+            get => GetProperty<string>("result");
+            set => SetProperty("result", value);
+        }
     }
 }

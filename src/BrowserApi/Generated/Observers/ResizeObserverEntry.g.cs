@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Observers
 {
-    public partial class ResizeObserverEntry
+    public partial class ResizeObserverEntry : JsObject
     {
         [JsName("target")]
-        public Element Target { get; }
+        public Element Target => GetProperty<Element>("target");
 
         [JsName("contentRect")]
-        public DomRectReadOnly ContentRect { get; }
+        public DomRectReadOnly ContentRect => GetProperty<DomRectReadOnly>("contentRect");
 
         [JsName("borderBoxSize")]
-        public IReadOnlyList<ResizeObserverSize> BorderBoxSize { get; }
+        public IReadOnlyList<ResizeObserverSize> BorderBoxSize => GetProperty<IReadOnlyList<ResizeObserverSize>>("borderBoxSize");
 
         [JsName("contentBoxSize")]
-        public IReadOnlyList<ResizeObserverSize> ContentBoxSize { get; }
+        public IReadOnlyList<ResizeObserverSize> ContentBoxSize => GetProperty<IReadOnlyList<ResizeObserverSize>>("contentBoxSize");
 
         [JsName("devicePixelContentBoxSize")]
-        public IReadOnlyList<ResizeObserverSize> DevicePixelContentBoxSize { get; }
+        public IReadOnlyList<ResizeObserverSize> DevicePixelContentBoxSize => GetProperty<IReadOnlyList<ResizeObserverSize>>("devicePixelContentBoxSize");
     }
 }

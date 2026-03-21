@@ -33,244 +33,246 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSS")]
-    public partial class Css
+    public partial class Css : JsObject
     {
         [JsName("animationWorklet")]
-        public Worklet AnimationWorklet { get; }
+        public Worklet AnimationWorklet => GetProperty<Worklet>("animationWorklet");
 
         [JsName("highlights")]
-        public HighlightRegistry Highlights { get; }
+        public HighlightRegistry Highlights => GetProperty<HighlightRegistry>("highlights");
 
         [JsName("elementSources")]
-        public object ElementSources { get; }
+        public object ElementSources => GetProperty<object>("elementSources");
 
         [JsName("layoutWorklet")]
-        public Worklet LayoutWorklet { get; }
+        public Worklet LayoutWorklet => GetProperty<Worklet>("layoutWorklet");
 
         [JsName("paintWorklet")]
-        public Worklet PaintWorklet { get; }
+        public Worklet PaintWorklet => GetProperty<Worklet>("paintWorklet");
 
         [JsName("escape")]
-        public string Escape(string ident) => throw new NotImplementedException();
+        public string Escape(string ident) => Invoke<string>("escape", ident);
 
         [JsName("supports")]
-        public bool Supports(string property, string value) => throw new NotImplementedException();
+        public bool Supports(string property, string value) => Invoke<bool>("supports", property, value);
 
         [JsName("supports")]
-        public bool Supports(string conditionText) => throw new NotImplementedException();
+        public bool Supports(string conditionText) => Invoke<bool>("supports", conditionText);
 
         [JsName("parseStylesheet")]
-        public Task<IReadOnlyList<CssParserRule>> ParseStylesheetAsync(object css, CssParserOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<CssParserRule>> ParseStylesheetAsync(object css, CssParserOptions? options = null) => InvokeAsync<IReadOnlyList<CssParserRule>>("parseStylesheet", css, options);
 
         [JsName("parseRuleList")]
-        public Task<IReadOnlyList<CssParserRule>> ParseRuleListAsync(object css, CssParserOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<CssParserRule>> ParseRuleListAsync(object css, CssParserOptions? options = null) => InvokeAsync<IReadOnlyList<CssParserRule>>("parseRuleList", css, options);
 
         [JsName("parseRule")]
-        public Task<CssParserRule> ParseRuleAsync(object css, CssParserOptions? options = null) => throw new NotImplementedException();
+        public Task<CssParserRule> ParseRuleAsync(object css, CssParserOptions? options = null) => InvokeAsync<CssParserRule>("parseRule", css, options);
 
         [JsName("parseDeclarationList")]
-        public Task<IReadOnlyList<CssParserRule>> ParseDeclarationListAsync(object css, CssParserOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<CssParserRule>> ParseDeclarationListAsync(object css, CssParserOptions? options = null) => InvokeAsync<IReadOnlyList<CssParserRule>>("parseDeclarationList", css, options);
 
         [JsName("parseDeclaration")]
-        public CssParserDeclaration ParseDeclaration(string css, CssParserOptions? options = null) => throw new NotImplementedException();
+        public CssParserDeclaration ParseDeclaration(string css, CssParserOptions? options = null) => Invoke<CssParserDeclaration>("parseDeclaration", css, options);
 
         [JsName("parseValue")]
-        public object ParseValue(string css) => throw new NotImplementedException();
+        public object ParseValue(string css) => Invoke<object>("parseValue", css);
 
         [JsName("parseValueList")]
-        public IReadOnlyList<object> ParseValueList(string css) => throw new NotImplementedException();
+        public IReadOnlyList<object> ParseValueList(string css) => Invoke<IReadOnlyList<object>>("parseValueList", css);
 
         [JsName("parseCommaValueList")]
-        public IReadOnlyList<IReadOnlyList<object>> ParseCommaValueList(string css) => throw new NotImplementedException();
+        public IReadOnlyList<IReadOnlyList<object>> ParseCommaValueList(string css) => Invoke<IReadOnlyList<IReadOnlyList<object>>>("parseCommaValueList", css);
 
         [JsName("registerProperty")]
-        public void RegisterProperty(PropertyDefinition definition) => throw new NotImplementedException();
+        public void RegisterProperty(PropertyDefinition definition) => InvokeVoid("registerProperty", definition);
 
         [JsName("number")]
-        public CssUnitValue Number(double value) => throw new NotImplementedException();
+        public CssUnitValue Number(double value) => Invoke<CssUnitValue>("number", value);
 
         [JsName("percent")]
-        public CssUnitValue Percent(double value) => throw new NotImplementedException();
+        public CssUnitValue Percent(double value) => Invoke<CssUnitValue>("percent", value);
 
         [JsName("cap")]
-        public CssUnitValue Cap(double value) => throw new NotImplementedException();
+        public CssUnitValue Cap(double value) => Invoke<CssUnitValue>("cap", value);
 
         [JsName("ch")]
-        public CssUnitValue Ch(double value) => throw new NotImplementedException();
+        public CssUnitValue Ch(double value) => Invoke<CssUnitValue>("ch", value);
 
         [JsName("em")]
-        public CssUnitValue Em(double value) => throw new NotImplementedException();
+        public CssUnitValue Em(double value) => Invoke<CssUnitValue>("em", value);
 
         [JsName("ex")]
-        public CssUnitValue Ex(double value) => throw new NotImplementedException();
+        public CssUnitValue Ex(double value) => Invoke<CssUnitValue>("ex", value);
 
         [JsName("ic")]
-        public CssUnitValue Ic(double value) => throw new NotImplementedException();
+        public CssUnitValue Ic(double value) => Invoke<CssUnitValue>("ic", value);
 
         [JsName("lh")]
-        public CssUnitValue Lh(double value) => throw new NotImplementedException();
+        public CssUnitValue Lh(double value) => Invoke<CssUnitValue>("lh", value);
 
         [JsName("rcap")]
-        public CssUnitValue Rcap(double value) => throw new NotImplementedException();
+        public CssUnitValue Rcap(double value) => Invoke<CssUnitValue>("rcap", value);
 
         [JsName("rch")]
-        public CssUnitValue Rch(double value) => throw new NotImplementedException();
+        public CssUnitValue Rch(double value) => Invoke<CssUnitValue>("rch", value);
 
         [JsName("rem")]
-        public CssUnitValue Rem(double value) => throw new NotImplementedException();
+        public CssUnitValue Rem(double value) => Invoke<CssUnitValue>("rem", value);
 
         [JsName("rex")]
-        public CssUnitValue Rex(double value) => throw new NotImplementedException();
+        public CssUnitValue Rex(double value) => Invoke<CssUnitValue>("rex", value);
 
         [JsName("ric")]
-        public CssUnitValue Ric(double value) => throw new NotImplementedException();
+        public CssUnitValue Ric(double value) => Invoke<CssUnitValue>("ric", value);
 
         [JsName("rlh")]
-        public CssUnitValue Rlh(double value) => throw new NotImplementedException();
+        public CssUnitValue Rlh(double value) => Invoke<CssUnitValue>("rlh", value);
 
         [JsName("vw")]
-        public CssUnitValue Vw(double value) => throw new NotImplementedException();
+        public CssUnitValue Vw(double value) => Invoke<CssUnitValue>("vw", value);
 
         [JsName("vh")]
-        public CssUnitValue Vh(double value) => throw new NotImplementedException();
+        public CssUnitValue Vh(double value) => Invoke<CssUnitValue>("vh", value);
 
         [JsName("vi")]
-        public CssUnitValue Vi(double value) => throw new NotImplementedException();
+        public CssUnitValue Vi(double value) => Invoke<CssUnitValue>("vi", value);
 
         [JsName("vb")]
-        public CssUnitValue Vb(double value) => throw new NotImplementedException();
+        public CssUnitValue Vb(double value) => Invoke<CssUnitValue>("vb", value);
 
         [JsName("vmin")]
-        public CssUnitValue Vmin(double value) => throw new NotImplementedException();
+        public CssUnitValue Vmin(double value) => Invoke<CssUnitValue>("vmin", value);
 
         [JsName("vmax")]
-        public CssUnitValue Vmax(double value) => throw new NotImplementedException();
+        public CssUnitValue Vmax(double value) => Invoke<CssUnitValue>("vmax", value);
 
         [JsName("svw")]
-        public CssUnitValue Svw(double value) => throw new NotImplementedException();
+        public CssUnitValue Svw(double value) => Invoke<CssUnitValue>("svw", value);
 
         [JsName("svh")]
-        public CssUnitValue Svh(double value) => throw new NotImplementedException();
+        public CssUnitValue Svh(double value) => Invoke<CssUnitValue>("svh", value);
 
         [JsName("svi")]
-        public CssUnitValue Svi(double value) => throw new NotImplementedException();
+        public CssUnitValue Svi(double value) => Invoke<CssUnitValue>("svi", value);
 
         [JsName("svb")]
-        public CssUnitValue Svb(double value) => throw new NotImplementedException();
+        public CssUnitValue Svb(double value) => Invoke<CssUnitValue>("svb", value);
 
         [JsName("svmin")]
-        public CssUnitValue Svmin(double value) => throw new NotImplementedException();
+        public CssUnitValue Svmin(double value) => Invoke<CssUnitValue>("svmin", value);
 
         [JsName("svmax")]
-        public CssUnitValue Svmax(double value) => throw new NotImplementedException();
+        public CssUnitValue Svmax(double value) => Invoke<CssUnitValue>("svmax", value);
 
         [JsName("lvw")]
-        public CssUnitValue Lvw(double value) => throw new NotImplementedException();
+        public CssUnitValue Lvw(double value) => Invoke<CssUnitValue>("lvw", value);
 
         [JsName("lvh")]
-        public CssUnitValue Lvh(double value) => throw new NotImplementedException();
+        public CssUnitValue Lvh(double value) => Invoke<CssUnitValue>("lvh", value);
 
         [JsName("lvi")]
-        public CssUnitValue Lvi(double value) => throw new NotImplementedException();
+        public CssUnitValue Lvi(double value) => Invoke<CssUnitValue>("lvi", value);
 
         [JsName("lvb")]
-        public CssUnitValue Lvb(double value) => throw new NotImplementedException();
+        public CssUnitValue Lvb(double value) => Invoke<CssUnitValue>("lvb", value);
 
         [JsName("lvmin")]
-        public CssUnitValue Lvmin(double value) => throw new NotImplementedException();
+        public CssUnitValue Lvmin(double value) => Invoke<CssUnitValue>("lvmin", value);
 
         [JsName("lvmax")]
-        public CssUnitValue Lvmax(double value) => throw new NotImplementedException();
+        public CssUnitValue Lvmax(double value) => Invoke<CssUnitValue>("lvmax", value);
 
         [JsName("dvw")]
-        public CssUnitValue Dvw(double value) => throw new NotImplementedException();
+        public CssUnitValue Dvw(double value) => Invoke<CssUnitValue>("dvw", value);
 
         [JsName("dvh")]
-        public CssUnitValue Dvh(double value) => throw new NotImplementedException();
+        public CssUnitValue Dvh(double value) => Invoke<CssUnitValue>("dvh", value);
 
         [JsName("dvi")]
-        public CssUnitValue Dvi(double value) => throw new NotImplementedException();
+        public CssUnitValue Dvi(double value) => Invoke<CssUnitValue>("dvi", value);
 
         [JsName("dvb")]
-        public CssUnitValue Dvb(double value) => throw new NotImplementedException();
+        public CssUnitValue Dvb(double value) => Invoke<CssUnitValue>("dvb", value);
 
         [JsName("dvmin")]
-        public CssUnitValue Dvmin(double value) => throw new NotImplementedException();
+        public CssUnitValue Dvmin(double value) => Invoke<CssUnitValue>("dvmin", value);
 
         [JsName("dvmax")]
-        public CssUnitValue Dvmax(double value) => throw new NotImplementedException();
+        public CssUnitValue Dvmax(double value) => Invoke<CssUnitValue>("dvmax", value);
 
         [JsName("cqw")]
-        public CssUnitValue Cqw(double value) => throw new NotImplementedException();
+        public CssUnitValue Cqw(double value) => Invoke<CssUnitValue>("cqw", value);
 
         [JsName("cqh")]
-        public CssUnitValue Cqh(double value) => throw new NotImplementedException();
+        public CssUnitValue Cqh(double value) => Invoke<CssUnitValue>("cqh", value);
 
         [JsName("cqi")]
-        public CssUnitValue Cqi(double value) => throw new NotImplementedException();
+        public CssUnitValue Cqi(double value) => Invoke<CssUnitValue>("cqi", value);
 
         [JsName("cqb")]
-        public CssUnitValue Cqb(double value) => throw new NotImplementedException();
+        public CssUnitValue Cqb(double value) => Invoke<CssUnitValue>("cqb", value);
 
         [JsName("cqmin")]
-        public CssUnitValue Cqmin(double value) => throw new NotImplementedException();
+        public CssUnitValue Cqmin(double value) => Invoke<CssUnitValue>("cqmin", value);
 
         [JsName("cqmax")]
-        public CssUnitValue Cqmax(double value) => throw new NotImplementedException();
+        public CssUnitValue Cqmax(double value) => Invoke<CssUnitValue>("cqmax", value);
 
         [JsName("cm")]
-        public CssUnitValue Cm(double value) => throw new NotImplementedException();
+        public CssUnitValue Cm(double value) => Invoke<CssUnitValue>("cm", value);
 
         [JsName("mm")]
-        public CssUnitValue Mm(double value) => throw new NotImplementedException();
+        public CssUnitValue Mm(double value) => Invoke<CssUnitValue>("mm", value);
 
-        public CssUnitValue Q(double value) => throw new NotImplementedException();
+        [JsName("Q")]
+        public CssUnitValue Q(double value) => Invoke<CssUnitValue>("Q", value);
 
         [JsName("in")]
-        public CssUnitValue In(double value) => throw new NotImplementedException();
+        public CssUnitValue In(double value) => Invoke<CssUnitValue>("in", value);
 
         [JsName("pt")]
-        public CssUnitValue Pt(double value) => throw new NotImplementedException();
+        public CssUnitValue Pt(double value) => Invoke<CssUnitValue>("pt", value);
 
         [JsName("pc")]
-        public CssUnitValue Pc(double value) => throw new NotImplementedException();
+        public CssUnitValue Pc(double value) => Invoke<CssUnitValue>("pc", value);
 
         [JsName("px")]
-        public CssUnitValue Px(double value) => throw new NotImplementedException();
+        public CssUnitValue Px(double value) => Invoke<CssUnitValue>("px", value);
 
         [JsName("deg")]
-        public CssUnitValue Deg(double value) => throw new NotImplementedException();
+        public CssUnitValue Deg(double value) => Invoke<CssUnitValue>("deg", value);
 
         [JsName("grad")]
-        public CssUnitValue Grad(double value) => throw new NotImplementedException();
+        public CssUnitValue Grad(double value) => Invoke<CssUnitValue>("grad", value);
 
         [JsName("rad")]
-        public CssUnitValue Rad(double value) => throw new NotImplementedException();
+        public CssUnitValue Rad(double value) => Invoke<CssUnitValue>("rad", value);
 
         [JsName("turn")]
-        public CssUnitValue Turn(double value) => throw new NotImplementedException();
+        public CssUnitValue Turn(double value) => Invoke<CssUnitValue>("turn", value);
 
         [JsName("s")]
-        public CssUnitValue S(double value) => throw new NotImplementedException();
+        public CssUnitValue S(double value) => Invoke<CssUnitValue>("s", value);
 
         [JsName("ms")]
-        public CssUnitValue Ms(double value) => throw new NotImplementedException();
+        public CssUnitValue Ms(double value) => Invoke<CssUnitValue>("ms", value);
 
-        public CssUnitValue Hz(double value) => throw new NotImplementedException();
+        [JsName("Hz")]
+        public CssUnitValue Hz(double value) => Invoke<CssUnitValue>("Hz", value);
 
         [JsName("kHz")]
-        public CssUnitValue KHz(double value) => throw new NotImplementedException();
+        public CssUnitValue KHz(double value) => Invoke<CssUnitValue>("kHz", value);
 
         [JsName("dpi")]
-        public CssUnitValue Dpi(double value) => throw new NotImplementedException();
+        public CssUnitValue Dpi(double value) => Invoke<CssUnitValue>("dpi", value);
 
         [JsName("dpcm")]
-        public CssUnitValue Dpcm(double value) => throw new NotImplementedException();
+        public CssUnitValue Dpcm(double value) => Invoke<CssUnitValue>("dpcm", value);
 
         [JsName("dppx")]
-        public CssUnitValue Dppx(double value) => throw new NotImplementedException();
+        public CssUnitValue Dppx(double value) => Invoke<CssUnitValue>("dppx", value);
 
         [JsName("fr")]
-        public CssUnitValue Fr(double value) => throw new NotImplementedException();
+        public CssUnitValue Fr(double value) => Invoke<CssUnitValue>("fr", value);
     }
 }

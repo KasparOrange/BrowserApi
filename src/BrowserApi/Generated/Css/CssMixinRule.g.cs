@@ -36,12 +36,12 @@ namespace BrowserApi.Css
     public partial class CssMixinRule : CssGroupingRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("contents")]
-        public bool Contents { get; }
+        public bool Contents => GetProperty<bool>("contents");
 
         [JsName("getParameters")]
-        public IReadOnlyList<FunctionParameter> GetParameters() => throw new NotImplementedException();
+        public IReadOnlyList<FunctionParameter> GetParameters() => Invoke<IReadOnlyList<FunctionParameter>>("getParameters");
     }
 }

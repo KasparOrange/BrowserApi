@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class FaceDetector
+    public partial class FaceDetector : JsObject
     {
         [JsName("detect")]
-        public Task<IReadOnlyList<DetectedFace>> DetectAsync(object image) => throw new NotImplementedException();
+        public Task<IReadOnlyList<DetectedFace>> DetectAsync(object image) => InvokeAsync<IReadOnlyList<DetectedFace>>("detect", image);
     }
 }

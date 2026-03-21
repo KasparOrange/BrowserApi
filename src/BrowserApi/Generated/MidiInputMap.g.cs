@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("MIDIInputMap")]
-    public partial class MidiInputMap
+    public partial class MidiInputMap : JsObject
     {
     }
 }

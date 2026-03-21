@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class OrientationSensor : Sensor
     {
         [JsName("quaternion")]
-        public IReadOnlyList<double>? Quaternion { get; }
+        public IReadOnlyList<double>? Quaternion => GetProperty<IReadOnlyList<double>?>("quaternion");
 
         [JsName("populateMatrix")]
-        public void PopulateMatrix(object targetMatrix) => throw new NotImplementedException();
+        public void PopulateMatrix(object targetMatrix) => InvokeVoid("populateMatrix", targetMatrix);
     }
 }

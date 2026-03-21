@@ -35,15 +35,19 @@ namespace BrowserApi
     public partial class PresentationRequest : EventTarget
     {
         [JsName("onconnectionavailable")]
-        public object Onconnectionavailable { get; set; }
+        public object Onconnectionavailable
+        {
+            get => GetProperty<object>("onconnectionavailable");
+            set => SetProperty("onconnectionavailable", value);
+        }
 
         [JsName("start")]
-        public Task<PresentationConnection> StartAsync() => throw new NotImplementedException();
+        public Task<PresentationConnection> StartAsync() => InvokeAsync<PresentationConnection>("start");
 
         [JsName("reconnect")]
-        public Task<PresentationConnection> ReconnectAsync(string presentationId) => throw new NotImplementedException();
+        public Task<PresentationConnection> ReconnectAsync(string presentationId) => InvokeAsync<PresentationConnection>("reconnect", presentationId);
 
         [JsName("getAvailability")]
-        public Task<PresentationAvailability> GetAvailabilityAsync() => throw new NotImplementedException();
+        public Task<PresentationAvailability> GetAvailabilityAsync() => InvokeAsync<PresentationAvailability>("getAvailability");
     }
 }

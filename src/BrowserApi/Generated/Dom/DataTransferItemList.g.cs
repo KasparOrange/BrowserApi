@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class DataTransferItemList
+    public partial class DataTransferItemList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("add")]
-        public DataTransferItem? Add(string data, string type) => throw new NotImplementedException();
+        public DataTransferItem? Add(string data, string type) => Invoke<DataTransferItem?>("add", data, type);
 
         [JsName("add")]
-        public DataTransferItem? Add(WebFile data) => throw new NotImplementedException();
+        public DataTransferItem? Add(WebFile data) => Invoke<DataTransferItem?>("add", data);
 
         [JsName("remove")]
-        public void Remove(uint index) => throw new NotImplementedException();
+        public void Remove(uint index) => InvokeVoid("remove", index);
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
     }
 }

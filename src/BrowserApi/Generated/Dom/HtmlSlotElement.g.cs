@@ -36,15 +36,19 @@ namespace BrowserApi.Dom
     public partial class HtmlSlotElement : HtmlElement
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("assignedNodes")]
-        public IReadOnlyList<Node> AssignedNodes(AssignedNodesOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<Node> AssignedNodes(AssignedNodesOptions? options = null) => Invoke<IReadOnlyList<Node>>("assignedNodes", options);
 
         [JsName("assignedElements")]
-        public IReadOnlyList<Element> AssignedElements(AssignedNodesOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<Element> AssignedElements(AssignedNodesOptions? options = null) => Invoke<IReadOnlyList<Element>>("assignedElements", options);
 
         [JsName("assign")]
-        public void Assign(params object[] nodes) => throw new NotImplementedException();
+        public void Assign(params object[] nodes) => InvokeVoid("assign", nodes);
     }
 }

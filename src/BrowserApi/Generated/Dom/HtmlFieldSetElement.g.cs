@@ -36,36 +36,44 @@ namespace BrowserApi.Dom
     public partial class HtmlFieldSetElement : HtmlElement
     {
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
 
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("elements")]
-        public HtmlCollection Elements { get; }
+        public HtmlCollection Elements => GetProperty<HtmlCollection>("elements");
 
         [JsName("willValidate")]
-        public bool WillValidate { get; }
+        public bool WillValidate => GetProperty<bool>("willValidate");
 
         [JsName("validity")]
-        public ValidityState Validity { get; }
+        public ValidityState Validity => GetProperty<ValidityState>("validity");
 
         [JsName("validationMessage")]
-        public string ValidationMessage { get; }
+        public string ValidationMessage => GetProperty<string>("validationMessage");
 
         [JsName("checkValidity")]
-        public bool CheckValidity() => throw new NotImplementedException();
+        public bool CheckValidity() => Invoke<bool>("checkValidity");
 
         [JsName("reportValidity")]
-        public bool ReportValidity() => throw new NotImplementedException();
+        public bool ReportValidity() => Invoke<bool>("reportValidity");
 
         [JsName("setCustomValidity")]
-        public void SetCustomValidity(string error) => throw new NotImplementedException();
+        public void SetCustomValidity(string error) => InvokeVoid("setCustomValidity", error);
     }
 }

@@ -36,6 +36,10 @@ namespace BrowserApi.Dom
     public partial class HtmlTimeElement : HtmlElement
     {
         [JsName("dateTime")]
-        public string DateTime { get; set; }
+        public string DateTime
+        {
+            get => GetProperty<string>("dateTime");
+            set => SetProperty("dateTime", value);
+        }
     }
 }

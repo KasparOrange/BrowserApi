@@ -35,51 +35,71 @@ namespace BrowserApi
     public partial class EditContext : EventTarget
     {
         [JsName("text")]
-        public string Text { get; }
+        public string Text => GetProperty<string>("text");
 
         [JsName("selectionStart")]
-        public uint SelectionStart { get; }
+        public uint SelectionStart => GetProperty<uint>("selectionStart");
 
         [JsName("selectionEnd")]
-        public uint SelectionEnd { get; }
+        public uint SelectionEnd => GetProperty<uint>("selectionEnd");
 
         [JsName("characterBoundsRangeStart")]
-        public uint CharacterBoundsRangeStart { get; }
+        public uint CharacterBoundsRangeStart => GetProperty<uint>("characterBoundsRangeStart");
 
         [JsName("ontextupdate")]
-        public object Ontextupdate { get; set; }
+        public object Ontextupdate
+        {
+            get => GetProperty<object>("ontextupdate");
+            set => SetProperty("ontextupdate", value);
+        }
 
         [JsName("ontextformatupdate")]
-        public object Ontextformatupdate { get; set; }
+        public object Ontextformatupdate
+        {
+            get => GetProperty<object>("ontextformatupdate");
+            set => SetProperty("ontextformatupdate", value);
+        }
 
         [JsName("oncharacterboundsupdate")]
-        public object Oncharacterboundsupdate { get; set; }
+        public object Oncharacterboundsupdate
+        {
+            get => GetProperty<object>("oncharacterboundsupdate");
+            set => SetProperty("oncharacterboundsupdate", value);
+        }
 
         [JsName("oncompositionstart")]
-        public object Oncompositionstart { get; set; }
+        public object Oncompositionstart
+        {
+            get => GetProperty<object>("oncompositionstart");
+            set => SetProperty("oncompositionstart", value);
+        }
 
         [JsName("oncompositionend")]
-        public object Oncompositionend { get; set; }
+        public object Oncompositionend
+        {
+            get => GetProperty<object>("oncompositionend");
+            set => SetProperty("oncompositionend", value);
+        }
 
         [JsName("updateText")]
-        public void UpdateText(uint rangeStart, uint rangeEnd, string text) => throw new NotImplementedException();
+        public void UpdateText(uint rangeStart, uint rangeEnd, string text) => InvokeVoid("updateText", rangeStart, rangeEnd, text);
 
         [JsName("updateSelection")]
-        public void UpdateSelection(uint start, uint end) => throw new NotImplementedException();
+        public void UpdateSelection(uint start, uint end) => InvokeVoid("updateSelection", start, end);
 
         [JsName("updateControlBounds")]
-        public void UpdateControlBounds(DomRect controlBounds) => throw new NotImplementedException();
+        public void UpdateControlBounds(DomRect controlBounds) => InvokeVoid("updateControlBounds", controlBounds);
 
         [JsName("updateSelectionBounds")]
-        public void UpdateSelectionBounds(DomRect selectionBounds) => throw new NotImplementedException();
+        public void UpdateSelectionBounds(DomRect selectionBounds) => InvokeVoid("updateSelectionBounds", selectionBounds);
 
         [JsName("updateCharacterBounds")]
-        public void UpdateCharacterBounds(uint rangeStart, IReadOnlyList<DomRect> characterBounds) => throw new NotImplementedException();
+        public void UpdateCharacterBounds(uint rangeStart, IReadOnlyList<DomRect> characterBounds) => InvokeVoid("updateCharacterBounds", rangeStart, characterBounds);
 
         [JsName("attachedElements")]
-        public IReadOnlyList<HtmlElement> AttachedElements() => throw new NotImplementedException();
+        public IReadOnlyList<HtmlElement> AttachedElements() => Invoke<IReadOnlyList<HtmlElement>>("attachedElements");
 
         [JsName("characterBounds")]
-        public IReadOnlyList<DomRect> CharacterBounds() => throw new NotImplementedException();
+        public IReadOnlyList<DomRect> CharacterBounds() => Invoke<IReadOnlyList<DomRect>>("characterBounds");
     }
 }

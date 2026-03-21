@@ -35,30 +35,42 @@ namespace BrowserApi.ServiceWorkers
     public partial class ServiceWorkerContainer : EventTarget
     {
         [JsName("controller")]
-        public ServiceWorker? Controller { get; }
+        public ServiceWorker? Controller => GetProperty<ServiceWorker?>("controller");
 
         [JsName("ready")]
-        public Task<ServiceWorkerRegistration> Ready { get; }
+        public Task<ServiceWorkerRegistration> Ready => GetProperty<Task<ServiceWorkerRegistration>>("ready");
 
         [JsName("oncontrollerchange")]
-        public object Oncontrollerchange { get; set; }
+        public object Oncontrollerchange
+        {
+            get => GetProperty<object>("oncontrollerchange");
+            set => SetProperty("oncontrollerchange", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("onmessageerror")]
-        public object Onmessageerror { get; set; }
+        public object Onmessageerror
+        {
+            get => GetProperty<object>("onmessageerror");
+            set => SetProperty("onmessageerror", value);
+        }
 
         [JsName("register")]
-        public Task<ServiceWorkerRegistration> RegisterAsync(object scriptUrl, RegistrationOptions? options = null) => throw new NotImplementedException();
+        public Task<ServiceWorkerRegistration> RegisterAsync(object scriptUrl, RegistrationOptions? options = null) => InvokeAsync<ServiceWorkerRegistration>("register", scriptUrl, options);
 
         [JsName("getRegistration")]
-        public Task<object> GetRegistrationAsync(string clientUrl = "") => throw new NotImplementedException();
+        public Task<object> GetRegistrationAsync(string clientUrl = "") => InvokeAsync<object>("getRegistration", clientUrl);
 
         [JsName("getRegistrations")]
-        public Task<IReadOnlyList<ServiceWorkerRegistration>> GetRegistrationsAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<ServiceWorkerRegistration>> GetRegistrationsAsync() => InvokeAsync<IReadOnlyList<ServiceWorkerRegistration>>("getRegistrations");
 
         [JsName("startMessages")]
-        public void StartMessages() => throw new NotImplementedException();
+        public void StartMessages() => InvokeVoid("startMessages");
     }
 }

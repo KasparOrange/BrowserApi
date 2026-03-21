@@ -36,42 +36,46 @@ namespace BrowserApi
     public partial class BluetoothRemoteGattcharacteristic : EventTarget
     {
         [JsName("service")]
-        public BluetoothRemoteGattservice Service { get; }
+        public BluetoothRemoteGattservice Service => GetProperty<BluetoothRemoteGattservice>("service");
 
         [JsName("uuid")]
-        public string Uuid { get; }
+        public string Uuid => GetProperty<string>("uuid");
 
         [JsName("properties")]
-        public BluetoothCharacteristicProperties Properties { get; }
+        public BluetoothCharacteristicProperties Properties => GetProperty<BluetoothCharacteristicProperties>("properties");
 
         [JsName("value")]
-        public byte[]? Value { get; }
+        public byte[]? Value => GetProperty<byte[]?>("value");
 
         [JsName("oncharacteristicvaluechanged")]
-        public object Oncharacteristicvaluechanged { get; set; }
+        public object Oncharacteristicvaluechanged
+        {
+            get => GetProperty<object>("oncharacteristicvaluechanged");
+            set => SetProperty("oncharacteristicvaluechanged", value);
+        }
 
         [JsName("getDescriptor")]
-        public Task<BluetoothRemoteGattdescriptor> GetDescriptorAsync(object descriptor) => throw new NotImplementedException();
+        public Task<BluetoothRemoteGattdescriptor> GetDescriptorAsync(object descriptor) => InvokeAsync<BluetoothRemoteGattdescriptor>("getDescriptor", descriptor);
 
         [JsName("getDescriptors")]
-        public Task<IReadOnlyList<BluetoothRemoteGattdescriptor>> GetDescriptorsAsync(object? descriptor = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<BluetoothRemoteGattdescriptor>> GetDescriptorsAsync(object? descriptor = null) => InvokeAsync<IReadOnlyList<BluetoothRemoteGattdescriptor>>("getDescriptors", descriptor);
 
         [JsName("readValue")]
-        public Task<byte[]> ReadValueAsync() => throw new NotImplementedException();
+        public Task<byte[]> ReadValueAsync() => InvokeAsync<byte[]>("readValue");
 
         [JsName("writeValue")]
-        public Task WriteValueAsync(byte[] value) => throw new NotImplementedException();
+        public Task WriteValueAsync(byte[] value) => InvokeVoidAsync("writeValue", value);
 
         [JsName("writeValueWithResponse")]
-        public Task WriteValueWithResponseAsync(byte[] value) => throw new NotImplementedException();
+        public Task WriteValueWithResponseAsync(byte[] value) => InvokeVoidAsync("writeValueWithResponse", value);
 
         [JsName("writeValueWithoutResponse")]
-        public Task WriteValueWithoutResponseAsync(byte[] value) => throw new NotImplementedException();
+        public Task WriteValueWithoutResponseAsync(byte[] value) => InvokeVoidAsync("writeValueWithoutResponse", value);
 
         [JsName("startNotifications")]
-        public Task<BluetoothRemoteGattcharacteristic> StartNotificationsAsync() => throw new NotImplementedException();
+        public Task<BluetoothRemoteGattcharacteristic> StartNotificationsAsync() => InvokeAsync<BluetoothRemoteGattcharacteristic>("startNotifications");
 
         [JsName("stopNotifications")]
-        public Task<BluetoothRemoteGattcharacteristic> StopNotificationsAsync() => throw new NotImplementedException();
+        public Task<BluetoothRemoteGattcharacteristic> StopNotificationsAsync() => InvokeAsync<BluetoothRemoteGattcharacteristic>("stopNotifications");
     }
 }

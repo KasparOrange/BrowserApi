@@ -32,33 +32,41 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class DataTransfer
+    public partial class DataTransfer : JsObject
     {
         [JsName("dropEffect")]
-        public string DropEffect { get; set; }
+        public string DropEffect
+        {
+            get => GetProperty<string>("dropEffect");
+            set => SetProperty("dropEffect", value);
+        }
 
         [JsName("effectAllowed")]
-        public string EffectAllowed { get; set; }
+        public string EffectAllowed
+        {
+            get => GetProperty<string>("effectAllowed");
+            set => SetProperty("effectAllowed", value);
+        }
 
         [JsName("items")]
-        public DataTransferItemList Items { get; }
+        public DataTransferItemList Items => GetProperty<DataTransferItemList>("items");
 
         [JsName("types")]
-        public IReadOnlyList<string> Types { get; }
+        public IReadOnlyList<string> Types => GetProperty<IReadOnlyList<string>>("types");
 
         [JsName("files")]
-        public FileList Files { get; }
+        public FileList Files => GetProperty<FileList>("files");
 
         [JsName("setDragImage")]
-        public void SetDragImage(Element image, int x, int y) => throw new NotImplementedException();
+        public void SetDragImage(Element image, int x, int y) => InvokeVoid("setDragImage", image, x, y);
 
         [JsName("getData")]
-        public string GetData(string format) => throw new NotImplementedException();
+        public string GetData(string format) => Invoke<string>("getData", format);
 
         [JsName("setData")]
-        public void SetData(string format, string data) => throw new NotImplementedException();
+        public void SetData(string format, string data) => InvokeVoid("setData", format, data);
 
         [JsName("clearData")]
-        public void ClearData(string? format = null) => throw new NotImplementedException();
+        public void ClearData(string? format = null) => InvokeVoid("clearData", format);
     }
 }

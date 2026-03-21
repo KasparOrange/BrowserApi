@@ -36,129 +36,169 @@ namespace BrowserApi
     public partial class XrSession : EventTarget
     {
         [JsName("visibilityState")]
-        public XrVisibilityState VisibilityState { get; }
+        public XrVisibilityState VisibilityState => GetProperty<XrVisibilityState>("visibilityState");
 
         [JsName("frameRate")]
-        public float? FrameRate { get; }
+        public float? FrameRate => GetProperty<float?>("frameRate");
 
         [JsName("supportedFrameRates")]
-        public float[]? SupportedFrameRates { get; }
+        public float[]? SupportedFrameRates => GetProperty<float[]?>("supportedFrameRates");
 
         [JsName("renderState")]
-        public XrRenderState RenderState { get; }
+        public XrRenderState RenderState => GetProperty<XrRenderState>("renderState");
 
         [JsName("inputSources")]
-        public XrInputSourceArray InputSources { get; }
+        public XrInputSourceArray InputSources => GetProperty<XrInputSourceArray>("inputSources");
 
         [JsName("trackedSources")]
-        public XrInputSourceArray TrackedSources { get; }
+        public XrInputSourceArray TrackedSources => GetProperty<XrInputSourceArray>("trackedSources");
 
         [JsName("enabledFeatures")]
-        public IReadOnlyList<string> EnabledFeatures { get; }
+        public IReadOnlyList<string> EnabledFeatures => GetProperty<IReadOnlyList<string>>("enabledFeatures");
 
         [JsName("isSystemKeyboardSupported")]
-        public bool IsSystemKeyboardSupported { get; }
+        public bool IsSystemKeyboardSupported => GetProperty<bool>("isSystemKeyboardSupported");
 
         [JsName("onend")]
-        public object Onend { get; set; }
+        public object Onend
+        {
+            get => GetProperty<object>("onend");
+            set => SetProperty("onend", value);
+        }
 
         [JsName("oninputsourceschange")]
-        public object Oninputsourceschange { get; set; }
+        public object Oninputsourceschange
+        {
+            get => GetProperty<object>("oninputsourceschange");
+            set => SetProperty("oninputsourceschange", value);
+        }
 
         [JsName("onselect")]
-        public object Onselect { get; set; }
+        public object Onselect
+        {
+            get => GetProperty<object>("onselect");
+            set => SetProperty("onselect", value);
+        }
 
         [JsName("onselectstart")]
-        public object Onselectstart { get; set; }
+        public object Onselectstart
+        {
+            get => GetProperty<object>("onselectstart");
+            set => SetProperty("onselectstart", value);
+        }
 
         [JsName("onselectend")]
-        public object Onselectend { get; set; }
+        public object Onselectend
+        {
+            get => GetProperty<object>("onselectend");
+            set => SetProperty("onselectend", value);
+        }
 
         [JsName("onsqueeze")]
-        public object Onsqueeze { get; set; }
+        public object Onsqueeze
+        {
+            get => GetProperty<object>("onsqueeze");
+            set => SetProperty("onsqueeze", value);
+        }
 
         [JsName("onsqueezestart")]
-        public object Onsqueezestart { get; set; }
+        public object Onsqueezestart
+        {
+            get => GetProperty<object>("onsqueezestart");
+            set => SetProperty("onsqueezestart", value);
+        }
 
         [JsName("onsqueezeend")]
-        public object Onsqueezeend { get; set; }
+        public object Onsqueezeend
+        {
+            get => GetProperty<object>("onsqueezeend");
+            set => SetProperty("onsqueezeend", value);
+        }
 
         [JsName("onvisibilitychange")]
-        public object Onvisibilitychange { get; set; }
+        public object Onvisibilitychange
+        {
+            get => GetProperty<object>("onvisibilitychange");
+            set => SetProperty("onvisibilitychange", value);
+        }
 
         [JsName("onframeratechange")]
-        public object Onframeratechange { get; set; }
+        public object Onframeratechange
+        {
+            get => GetProperty<object>("onframeratechange");
+            set => SetProperty("onframeratechange", value);
+        }
 
         [JsName("persistentAnchors")]
-        public IReadOnlyList<string> PersistentAnchors { get; }
+        public IReadOnlyList<string> PersistentAnchors => GetProperty<IReadOnlyList<string>>("persistentAnchors");
 
         [JsName("environmentBlendMode")]
-        public XrEnvironmentBlendMode EnvironmentBlendMode { get; }
+        public XrEnvironmentBlendMode EnvironmentBlendMode => GetProperty<XrEnvironmentBlendMode>("environmentBlendMode");
 
         [JsName("interactionMode")]
-        public XrInteractionMode InteractionMode { get; }
+        public XrInteractionMode InteractionMode => GetProperty<XrInteractionMode>("interactionMode");
 
         [JsName("depthUsage")]
-        public XrDepthUsage DepthUsage { get; }
+        public XrDepthUsage DepthUsage => GetProperty<XrDepthUsage>("depthUsage");
 
         [JsName("depthDataFormat")]
-        public XrDepthDataFormat DepthDataFormat { get; }
+        public XrDepthDataFormat DepthDataFormat => GetProperty<XrDepthDataFormat>("depthDataFormat");
 
         [JsName("depthType")]
-        public XrDepthType? DepthType { get; }
+        public XrDepthType? DepthType => GetProperty<XrDepthType?>("depthType");
 
         [JsName("depthActive")]
-        public bool? DepthActive { get; }
+        public bool? DepthActive => GetProperty<bool?>("depthActive");
 
         [JsName("domOverlayState")]
-        public XrDomOverlayState? DomOverlayState { get; }
+        public XrDomOverlayState? DomOverlayState => GetProperty<XrDomOverlayState?>("domOverlayState");
 
         [JsName("preferredReflectionFormat")]
-        public XrReflectionFormat PreferredReflectionFormat { get; }
+        public XrReflectionFormat PreferredReflectionFormat => GetProperty<XrReflectionFormat>("preferredReflectionFormat");
 
         [JsName("maxRenderLayers")]
-        public uint MaxRenderLayers { get; }
+        public uint MaxRenderLayers => GetProperty<uint>("maxRenderLayers");
 
         [JsName("updateRenderState")]
-        public void UpdateRenderState(XrRenderStateInit? state = null) => throw new NotImplementedException();
+        public void UpdateRenderState(XrRenderStateInit? state = null) => InvokeVoid("updateRenderState", state);
 
         [JsName("updateTargetFrameRate")]
-        public Task UpdateTargetFrameRateAsync(float rate) => throw new NotImplementedException();
+        public Task UpdateTargetFrameRateAsync(float rate) => InvokeVoidAsync("updateTargetFrameRate", rate);
 
         [JsName("requestReferenceSpace")]
-        public Task<XrReferenceSpace> RequestReferenceSpaceAsync(XrReferenceSpaceType type) => throw new NotImplementedException();
+        public Task<XrReferenceSpace> RequestReferenceSpaceAsync(XrReferenceSpaceType type) => InvokeAsync<XrReferenceSpace>("requestReferenceSpace", type);
 
         [JsName("requestAnimationFrame")]
-        public uint RequestAnimationFrame(XrFrameRequestCallback callback) => throw new NotImplementedException();
+        public uint RequestAnimationFrame(XrFrameRequestCallback callback) => Invoke<uint>("requestAnimationFrame", callback);
 
         [JsName("cancelAnimationFrame")]
-        public void CancelAnimationFrame(uint handle) => throw new NotImplementedException();
+        public void CancelAnimationFrame(uint handle) => InvokeVoid("cancelAnimationFrame", handle);
 
         [JsName("end")]
-        public Task EndAsync() => throw new NotImplementedException();
+        public Task EndAsync() => InvokeVoidAsync("end");
 
         [JsName("restorePersistentAnchor")]
-        public Task<XrAnchor> RestorePersistentAnchorAsync(string uuid) => throw new NotImplementedException();
+        public Task<XrAnchor> RestorePersistentAnchorAsync(string uuid) => InvokeAsync<XrAnchor>("restorePersistentAnchor", uuid);
 
         [JsName("deletePersistentAnchor")]
-        public Task DeletePersistentAnchorAsync(string uuid) => throw new NotImplementedException();
+        public Task DeletePersistentAnchorAsync(string uuid) => InvokeVoidAsync("deletePersistentAnchor", uuid);
 
         [JsName("pauseDepthSensing")]
-        public void PauseDepthSensing() => throw new NotImplementedException();
+        public void PauseDepthSensing() => InvokeVoid("pauseDepthSensing");
 
         [JsName("resumeDepthSensing")]
-        public void ResumeDepthSensing() => throw new NotImplementedException();
+        public void ResumeDepthSensing() => InvokeVoid("resumeDepthSensing");
 
         [JsName("requestHitTestSource")]
-        public Task<XrHitTestSource> RequestHitTestSourceAsync(XrHitTestOptionsInit options) => throw new NotImplementedException();
+        public Task<XrHitTestSource> RequestHitTestSourceAsync(XrHitTestOptionsInit options) => InvokeAsync<XrHitTestSource>("requestHitTestSource", options);
 
         [JsName("requestHitTestSourceForTransientInput")]
-        public Task<XrTransientInputHitTestSource> RequestHitTestSourceForTransientInputAsync(XrTransientInputHitTestOptionsInit options) => throw new NotImplementedException();
+        public Task<XrTransientInputHitTestSource> RequestHitTestSourceForTransientInputAsync(XrTransientInputHitTestOptionsInit options) => InvokeAsync<XrTransientInputHitTestSource>("requestHitTestSourceForTransientInput", options);
 
         [JsName("requestLightProbe")]
-        public Task<XrLightProbe> RequestLightProbeAsync(XrLightProbeInit? options = null) => throw new NotImplementedException();
+        public Task<XrLightProbe> RequestLightProbeAsync(XrLightProbeInit? options = null) => InvokeAsync<XrLightProbe>("requestLightProbe", options);
 
         [JsName("initiateRoomCapture")]
-        public Task InitiateRoomCaptureAsync() => throw new NotImplementedException();
+        public Task InitiateRoomCaptureAsync() => InvokeVoidAsync("initiateRoomCapture");
     }
 }

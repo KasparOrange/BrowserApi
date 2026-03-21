@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCIceCandidatePair")]
-    public partial class RtciceCandidatePair
+    public partial class RtciceCandidatePair : JsObject
     {
         [JsName("local")]
-        public RtciceCandidate Local { get; }
+        public RtciceCandidate Local => GetProperty<RtciceCandidate>("local");
 
         [JsName("remote")]
-        public RtciceCandidate Remote { get; }
+        public RtciceCandidate Remote => GetProperty<RtciceCandidate>("remote");
     }
 }

@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_clip_cull_distance")]
-    public partial class WebglClipCullDistance
+    public partial class WebglClipCullDistance : JsObject
     {
         public const uint MaxClipDistancesWebgl = 0x0D32;
 

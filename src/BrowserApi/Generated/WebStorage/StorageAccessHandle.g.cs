@@ -32,37 +32,39 @@ using BrowserApi.WebSockets;
 
 namespace BrowserApi.WebStorage
 {
-    public partial class StorageAccessHandle
+    public partial class StorageAccessHandle : JsObject
     {
         [JsName("sessionStorage")]
-        public Storage SessionStorage { get; }
+        public Storage SessionStorage => GetProperty<Storage>("sessionStorage");
 
         [JsName("localStorage")]
-        public Storage LocalStorage { get; }
+        public Storage LocalStorage => GetProperty<Storage>("localStorage");
 
         [JsName("indexedDB")]
-        public IdbFactory IndexedDb { get; }
+        public IdbFactory IndexedDb => GetProperty<IdbFactory>("indexedDB");
 
         [JsName("locks")]
-        public LockManager Locks { get; }
+        public LockManager Locks => GetProperty<LockManager>("locks");
 
         [JsName("caches")]
-        public CacheStorage Caches { get; }
+        public CacheStorage Caches => GetProperty<CacheStorage>("caches");
 
         [JsName("getDirectory")]
-        public Task<FileSystemDirectoryHandle> GetDirectoryAsync() => throw new NotImplementedException();
+        public Task<FileSystemDirectoryHandle> GetDirectoryAsync() => InvokeAsync<FileSystemDirectoryHandle>("getDirectory");
 
         [JsName("estimate")]
-        public Task<StorageEstimate> EstimateAsync() => throw new NotImplementedException();
+        public Task<StorageEstimate> EstimateAsync() => InvokeAsync<StorageEstimate>("estimate");
 
         [JsName("createObjectURL")]
-        public string CreateObjectUrl(object obj) => throw new NotImplementedException();
+        public string CreateObjectUrl(object obj) => Invoke<string>("createObjectURL", obj);
 
         [JsName("revokeObjectURL")]
-        public void RevokeObjectUrl(string url) => throw new NotImplementedException();
+        public void RevokeObjectUrl(string url) => InvokeVoid("revokeObjectURL", url);
 
-        public BroadcastChannel BroadcastChannel(string name) => throw new NotImplementedException();
+        [JsName("BroadcastChannel")]
+        public BroadcastChannel BroadcastChannel(string name) => Invoke<BroadcastChannel>("BroadcastChannel", name);
 
-        public SharedWorker SharedWorker(string scriptUrl, object? options = null) => throw new NotImplementedException();
+        [JsName("SharedWorker")]
+        public SharedWorker SharedWorker(string scriptUrl, object? options = null) => Invoke<SharedWorker>("SharedWorker", scriptUrl, options);
     }
 }

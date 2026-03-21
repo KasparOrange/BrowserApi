@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PrivateAggregation
+    public partial class PrivateAggregation : JsObject
     {
         [JsName("contributeToHistogram")]
-        public void ContributeToHistogram(PahistogramContribution contribution) => throw new NotImplementedException();
+        public void ContributeToHistogram(PahistogramContribution contribution) => InvokeVoid("contributeToHistogram", contribution);
 
         [JsName("contributeToHistogramOnEvent")]
-        public void ContributeToHistogramOnEvent(string @event, IReadOnlyDictionary<string, object> contribution) => throw new NotImplementedException();
+        public void ContributeToHistogramOnEvent(string @event, IReadOnlyDictionary<string, object> contribution) => InvokeVoid("contributeToHistogramOnEvent", @event, contribution);
 
         [JsName("enableDebugMode")]
-        public void EnableDebugMode(PadebugModeOptions? options = null) => throw new NotImplementedException();
+        public void EnableDebugMode(PadebugModeOptions? options = null) => InvokeVoid("enableDebugMode", options);
     }
 }

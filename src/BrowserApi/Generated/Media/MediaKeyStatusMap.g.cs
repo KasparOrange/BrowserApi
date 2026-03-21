@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class MediaKeyStatusMap
+    public partial class MediaKeyStatusMap : JsObject
     {
         [JsName("size")]
-        public uint Size { get; }
+        public uint Size => GetProperty<uint>("size");
 
         [JsName("has")]
-        public bool Has(byte[] keyId) => throw new NotImplementedException();
+        public bool Has(byte[] keyId) => Invoke<bool>("has", keyId);
 
         [JsName("get")]
-        public object Get(byte[] keyId) => throw new NotImplementedException();
+        public object Get(byte[] keyId) => Invoke<object>("get", keyId);
     }
 }

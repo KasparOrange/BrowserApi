@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.ScreenApi
 {
-    public partial class WakeLock
+    public partial class WakeLock : JsObject
     {
         [JsName("request")]
-        public Task<WakeLockSentinel> RequestAsync(WakeLockType? type = null) => throw new NotImplementedException();
+        public Task<WakeLockSentinel> RequestAsync(WakeLockType? type = null) => InvokeAsync<WakeLockSentinel>("request", type);
     }
 }

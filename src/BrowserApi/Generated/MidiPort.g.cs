@@ -36,33 +36,37 @@ namespace BrowserApi
     public partial class MidiPort : EventTarget
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("manufacturer")]
-        public string? Manufacturer { get; }
+        public string? Manufacturer => GetProperty<string?>("manufacturer");
 
         [JsName("name")]
-        public string? Name { get; }
+        public string? Name => GetProperty<string?>("name");
 
         [JsName("type")]
-        public MidiPortType Type { get; }
+        public MidiPortType Type => GetProperty<MidiPortType>("type");
 
         [JsName("version")]
-        public string? Version { get; }
+        public string? Version => GetProperty<string?>("version");
 
         [JsName("state")]
-        public MidiPortDeviceState State { get; }
+        public MidiPortDeviceState State => GetProperty<MidiPortDeviceState>("state");
 
         [JsName("connection")]
-        public MidiPortConnectionState Connection { get; }
+        public MidiPortConnectionState Connection => GetProperty<MidiPortConnectionState>("connection");
 
         [JsName("onstatechange")]
-        public object Onstatechange { get; set; }
+        public object Onstatechange
+        {
+            get => GetProperty<object>("onstatechange");
+            set => SetProperty("onstatechange", value);
+        }
 
         [JsName("open")]
-        public Task<MidiPort> OpenAsync() => throw new NotImplementedException();
+        public Task<MidiPort> OpenAsync() => InvokeAsync<MidiPort>("open");
 
         [JsName("close")]
-        public Task<MidiPort> CloseAsync() => throw new NotImplementedException();
+        public Task<MidiPort> CloseAsync() => InvokeAsync<MidiPort>("close");
     }
 }

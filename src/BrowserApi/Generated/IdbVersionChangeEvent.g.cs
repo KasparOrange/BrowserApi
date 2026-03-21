@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class IdbVersionChangeEvent : Event
     {
         [JsName("oldVersion")]
-        public ulong OldVersion { get; }
+        public ulong OldVersion => GetProperty<ulong>("oldVersion");
 
         [JsName("newVersion")]
-        public ulong? NewVersion { get; }
+        public ulong? NewVersion => GetProperty<ulong?>("newVersion");
     }
 }

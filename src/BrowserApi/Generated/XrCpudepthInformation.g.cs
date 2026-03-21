@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class XrCpudepthInformation : XrDepthInformation
     {
         [JsName("data")]
-        public byte[] Data { get; }
+        public byte[] Data => GetProperty<byte[]>("data");
 
         [JsName("getDepthInMeters")]
-        public float GetDepthInMeters(float x, float y) => throw new NotImplementedException();
+        public float GetDepthInMeters(float x, float y) => Invoke<float>("getDepthInMeters", x, y);
     }
 }

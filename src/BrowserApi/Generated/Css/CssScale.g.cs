@@ -36,12 +36,24 @@ namespace BrowserApi.Css
     public partial class CssScale : CssTransformComponent
     {
         [JsName("x")]
-        public object X { get; set; }
+        public object X
+        {
+            get => GetProperty<object>("x");
+            set => SetProperty("x", value);
+        }
 
         [JsName("y")]
-        public object Y { get; set; }
+        public object Y
+        {
+            get => GetProperty<object>("y");
+            set => SetProperty("y", value);
+        }
 
         [JsName("z")]
-        public object Z { get; set; }
+        public object Z
+        {
+            get => GetProperty<object>("z");
+            set => SetProperty("z", value);
+        }
     }
 }

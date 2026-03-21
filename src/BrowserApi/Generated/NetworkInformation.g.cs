@@ -35,24 +35,28 @@ namespace BrowserApi
     public partial class NetworkInformation : EventTarget
     {
         [JsName("type")]
-        public ConnectionType Type { get; }
+        public ConnectionType Type => GetProperty<ConnectionType>("type");
 
         [JsName("effectiveType")]
-        public EffectiveConnectionType EffectiveType { get; }
+        public EffectiveConnectionType EffectiveType => GetProperty<EffectiveConnectionType>("effectiveType");
 
         [JsName("downlinkMax")]
-        public double DownlinkMax { get; }
+        public double DownlinkMax => GetProperty<double>("downlinkMax");
 
         [JsName("downlink")]
-        public double Downlink { get; }
+        public double Downlink => GetProperty<double>("downlink");
 
         [JsName("rtt")]
-        public ulong Rtt { get; }
+        public ulong Rtt => GetProperty<ulong>("rtt");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("saveData")]
-        public bool SaveData { get; }
+        public bool SaveData => GetProperty<bool>("saveData");
     }
 }

@@ -36,15 +36,23 @@ namespace BrowserApi.Dom
     public partial class HtmlOptionsCollection : HtmlCollection
     {
         [JsName("length")]
-        public uint Length { get; set; }
+        public uint Length
+        {
+            get => GetProperty<uint>("length");
+            set => SetProperty("length", value);
+        }
 
         [JsName("selectedIndex")]
-        public int SelectedIndex { get; set; }
+        public int SelectedIndex
+        {
+            get => GetProperty<int>("selectedIndex");
+            set => SetProperty("selectedIndex", value);
+        }
 
         [JsName("add")]
-        public void Add(object element, object? before = null) => throw new NotImplementedException();
+        public void Add(object element, object? before = null) => InvokeVoid("add", element, before);
 
         [JsName("remove")]
-        public void Remove(int index) => throw new NotImplementedException();
+        public void Remove(int index) => InvokeVoid("remove", index);
     }
 }

@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class CookieStoreManager
+    public partial class CookieStoreManager : JsObject
     {
         [JsName("subscribe")]
-        public Task SubscribeAsync(IReadOnlyList<CookieStoreGetOptions> subscriptions) => throw new NotImplementedException();
+        public Task SubscribeAsync(IReadOnlyList<CookieStoreGetOptions> subscriptions) => InvokeVoidAsync("subscribe", subscriptions);
 
         [JsName("getSubscriptions")]
-        public Task<IReadOnlyList<CookieStoreGetOptions>> GetSubscriptionsAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<CookieStoreGetOptions>> GetSubscriptionsAsync() => InvokeAsync<IReadOnlyList<CookieStoreGetOptions>>("getSubscriptions");
 
         [JsName("unsubscribe")]
-        public Task UnsubscribeAsync(IReadOnlyList<CookieStoreGetOptions> subscriptions) => throw new NotImplementedException();
+        public Task UnsubscribeAsync(IReadOnlyList<CookieStoreGetOptions> subscriptions) => InvokeVoidAsync("unsubscribe", subscriptions);
     }
 }

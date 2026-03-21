@@ -36,12 +36,12 @@ namespace BrowserApi.Css
     public partial class CssGroupingRule : CssRule
     {
         [JsName("cssRules")]
-        public CssRuleList CssRules { get; }
+        public CssRuleList CssRules => GetProperty<CssRuleList>("cssRules");
 
         [JsName("insertRule")]
-        public uint InsertRule(string rule, uint index = 0) => throw new NotImplementedException();
+        public uint InsertRule(string rule, uint index = 0) => Invoke<uint>("insertRule", rule, index);
 
         [JsName("deleteRule")]
-        public void DeleteRule(uint index) => throw new NotImplementedException();
+        public void DeleteRule(uint index) => InvokeVoid("deleteRule", index);
     }
 }

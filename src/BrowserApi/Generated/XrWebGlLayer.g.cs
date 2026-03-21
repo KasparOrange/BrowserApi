@@ -36,25 +36,29 @@ namespace BrowserApi
     public partial class XrWebGlLayer : XrLayer
     {
         [JsName("antialias")]
-        public bool Antialias { get; }
+        public bool Antialias => GetProperty<bool>("antialias");
 
         [JsName("ignoreDepthValues")]
-        public bool IgnoreDepthValues { get; }
+        public bool IgnoreDepthValues => GetProperty<bool>("ignoreDepthValues");
 
         [JsName("fixedFoveation")]
-        public float? FixedFoveation { get; set; }
+        public float? FixedFoveation
+        {
+            get => GetProperty<float?>("fixedFoveation");
+            set => SetProperty("fixedFoveation", value);
+        }
 
         [JsName("framebuffer")]
-        public WebGlFramebuffer? Framebuffer { get; }
+        public WebGlFramebuffer? Framebuffer => GetProperty<WebGlFramebuffer?>("framebuffer");
 
         [JsName("framebufferWidth")]
-        public uint FramebufferWidth { get; }
+        public uint FramebufferWidth => GetProperty<uint>("framebufferWidth");
 
         [JsName("framebufferHeight")]
-        public uint FramebufferHeight { get; }
+        public uint FramebufferHeight => GetProperty<uint>("framebufferHeight");
 
         [JsName("getViewport")]
-        public XrViewport? GetViewport(XrView view) => throw new NotImplementedException();
+        public XrViewport? GetViewport(XrView view) => Invoke<XrViewport?>("getViewport", view);
 
         [JsName("getNativeFramebufferScaleFactor")]
         public static double GetNativeFramebufferScaleFactor(XrSession session) => throw new NotImplementedException();

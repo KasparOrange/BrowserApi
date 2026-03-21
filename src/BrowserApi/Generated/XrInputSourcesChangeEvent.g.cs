@@ -36,12 +36,12 @@ namespace BrowserApi
     public partial class XrInputSourcesChangeEvent : Event
     {
         [JsName("session")]
-        public XrSession Session { get; }
+        public XrSession Session => GetProperty<XrSession>("session");
 
         [JsName("added")]
-        public IReadOnlyList<XrInputSource> Added { get; }
+        public IReadOnlyList<XrInputSource> Added => GetProperty<IReadOnlyList<XrInputSource>>("added");
 
         [JsName("removed")]
-        public IReadOnlyList<XrInputSource> Removed { get; }
+        public IReadOnlyList<XrInputSource> Removed => GetProperty<IReadOnlyList<XrInputSource>>("removed");
     }
 }

@@ -35,12 +35,12 @@ namespace BrowserApi.Css
     public partial class AnimationEvent : Event
     {
         [JsName("animationName")]
-        public string AnimationName { get; }
+        public string AnimationName => GetProperty<string>("animationName");
 
         [JsName("elapsedTime")]
-        public double ElapsedTime { get; }
+        public double ElapsedTime => GetProperty<double>("elapsedTime");
 
         [JsName("pseudoElement")]
-        public string PseudoElement { get; }
+        public string PseudoElement => GetProperty<string>("pseudoElement");
     }
 }

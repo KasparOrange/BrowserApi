@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class VideoColorSpace
+    public partial class VideoColorSpace : JsObject
     {
         [JsName("primaries")]
-        public VideoColorPrimaries? Primaries { get; }
+        public VideoColorPrimaries? Primaries => GetProperty<VideoColorPrimaries?>("primaries");
 
         [JsName("transfer")]
-        public VideoTransferCharacteristics? Transfer { get; }
+        public VideoTransferCharacteristics? Transfer => GetProperty<VideoTransferCharacteristics?>("transfer");
 
         [JsName("matrix")]
-        public VideoMatrixCoefficients? Matrix { get; }
+        public VideoMatrixCoefficients? Matrix => GetProperty<VideoMatrixCoefficients?>("matrix");
 
         [JsName("fullRange")]
-        public bool? FullRange { get; }
+        public bool? FullRange => GetProperty<bool?>("fullRange");
 
         [JsName("toJSON")]
-        public VideoColorSpaceInit ToJsOn() => throw new NotImplementedException();
+        public VideoColorSpaceInit ToJsOn() => Invoke<VideoColorSpaceInit>("toJSON");
     }
 }

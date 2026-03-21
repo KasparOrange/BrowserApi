@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class BreakToken
+    public partial class BreakToken : JsObject
     {
         [JsName("childBreakTokens")]
-        public IReadOnlyList<ChildBreakToken> ChildBreakTokens { get; }
+        public IReadOnlyList<ChildBreakToken> ChildBreakTokens => GetProperty<IReadOnlyList<ChildBreakToken>>("childBreakTokens");
 
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
     }
 }

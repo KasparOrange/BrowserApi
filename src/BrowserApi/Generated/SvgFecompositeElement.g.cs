@@ -50,39 +50,39 @@ namespace BrowserApi
         public const ushort SvgFecompositeOperatorArithmetic = 6;
 
         [JsName("in1")]
-        public SvgAnimatedString In1 { get; }
+        public SvgAnimatedString In1 => GetProperty<SvgAnimatedString>("in1");
 
         [JsName("in2")]
-        public SvgAnimatedString In2 { get; }
+        public SvgAnimatedString In2 => GetProperty<SvgAnimatedString>("in2");
 
         [JsName("operator")]
-        public SvgAnimatedEnumeration Operator { get; }
+        public SvgAnimatedEnumeration Operator => GetProperty<SvgAnimatedEnumeration>("operator");
 
         [JsName("k1")]
-        public SvgAnimatedNumber K1 { get; }
+        public SvgAnimatedNumber K1 => GetProperty<SvgAnimatedNumber>("k1");
 
         [JsName("k2")]
-        public SvgAnimatedNumber K2 { get; }
+        public SvgAnimatedNumber K2 => GetProperty<SvgAnimatedNumber>("k2");
 
         [JsName("k3")]
-        public SvgAnimatedNumber K3 { get; }
+        public SvgAnimatedNumber K3 => GetProperty<SvgAnimatedNumber>("k3");
 
         [JsName("k4")]
-        public SvgAnimatedNumber K4 { get; }
+        public SvgAnimatedNumber K4 => GetProperty<SvgAnimatedNumber>("k4");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
     }
 }

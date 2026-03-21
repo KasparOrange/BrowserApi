@@ -41,69 +41,85 @@ namespace BrowserApi.Notifications
         public static uint MaxActions { get; }
 
         [JsName("onclick")]
-        public object Onclick { get; set; }
+        public object Onclick
+        {
+            get => GetProperty<object>("onclick");
+            set => SetProperty("onclick", value);
+        }
 
         [JsName("onshow")]
-        public object Onshow { get; set; }
+        public object Onshow
+        {
+            get => GetProperty<object>("onshow");
+            set => SetProperty("onshow", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("title")]
-        public string Title { get; }
+        public string Title => GetProperty<string>("title");
 
         [JsName("dir")]
-        public NotificationDirection Dir { get; }
+        public NotificationDirection Dir => GetProperty<NotificationDirection>("dir");
 
         [JsName("lang")]
-        public string Lang { get; }
+        public string Lang => GetProperty<string>("lang");
 
         [JsName("body")]
-        public string Body { get; }
+        public string Body => GetProperty<string>("body");
 
         [JsName("navigate")]
-        public string Navigate { get; }
+        public string Navigate => GetProperty<string>("navigate");
 
         [JsName("tag")]
-        public string Tag { get; }
+        public string Tag => GetProperty<string>("tag");
 
         [JsName("image")]
-        public string Image { get; }
+        public string Image => GetProperty<string>("image");
 
         [JsName("icon")]
-        public string Icon { get; }
+        public string Icon => GetProperty<string>("icon");
 
         [JsName("badge")]
-        public string Badge { get; }
+        public string Badge => GetProperty<string>("badge");
 
         [JsName("vibrate")]
-        public IReadOnlyList<uint> Vibrate { get; }
+        public IReadOnlyList<uint> Vibrate => GetProperty<IReadOnlyList<uint>>("vibrate");
 
         [JsName("timestamp")]
-        public long Timestamp { get; }
+        public long Timestamp => GetProperty<long>("timestamp");
 
         [JsName("renotify")]
-        public bool Renotify { get; }
+        public bool Renotify => GetProperty<bool>("renotify");
 
         [JsName("silent")]
-        public bool? Silent { get; }
+        public bool? Silent => GetProperty<bool?>("silent");
 
         [JsName("requireInteraction")]
-        public bool RequireInteraction { get; }
+        public bool RequireInteraction => GetProperty<bool>("requireInteraction");
 
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
 
         [JsName("actions")]
-        public IReadOnlyList<NotificationAction> Actions { get; }
+        public IReadOnlyList<NotificationAction> Actions => GetProperty<IReadOnlyList<NotificationAction>>("actions");
 
         [JsName("requestPermission")]
         public static Task<NotificationPermission> RequestPermissionAsync(NotificationPermissionCallback? deprecatedCallback = null) => throw new NotImplementedException();
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
     }
 }

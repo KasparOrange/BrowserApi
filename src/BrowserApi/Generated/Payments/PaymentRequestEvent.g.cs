@@ -35,42 +35,42 @@ namespace BrowserApi.Payments
     public partial class PaymentRequestEvent : ExtendableEvent
     {
         [JsName("topOrigin")]
-        public string TopOrigin { get; }
+        public string TopOrigin => GetProperty<string>("topOrigin");
 
         [JsName("paymentRequestOrigin")]
-        public string PaymentRequestOrigin { get; }
+        public string PaymentRequestOrigin => GetProperty<string>("paymentRequestOrigin");
 
         [JsName("paymentRequestId")]
-        public string PaymentRequestId { get; }
+        public string PaymentRequestId => GetProperty<string>("paymentRequestId");
 
         [JsName("methodData")]
-        public IReadOnlyList<PaymentMethodData> MethodData { get; }
+        public IReadOnlyList<PaymentMethodData> MethodData => GetProperty<IReadOnlyList<PaymentMethodData>>("methodData");
 
         [JsName("total")]
-        public object Total { get; }
+        public object Total => GetProperty<object>("total");
 
         [JsName("modifiers")]
-        public IReadOnlyList<PaymentDetailsModifier> Modifiers { get; }
+        public IReadOnlyList<PaymentDetailsModifier> Modifiers => GetProperty<IReadOnlyList<PaymentDetailsModifier>>("modifiers");
 
         [JsName("paymentOptions")]
-        public object PaymentOptions { get; }
+        public object PaymentOptions => GetProperty<object>("paymentOptions");
 
         [JsName("shippingOptions")]
-        public IReadOnlyList<PaymentShippingOption>? ShippingOptions { get; }
+        public IReadOnlyList<PaymentShippingOption>? ShippingOptions => GetProperty<IReadOnlyList<PaymentShippingOption>?>("shippingOptions");
 
         [JsName("openWindow")]
-        public Task<WindowClient?> OpenWindowAsync(string url) => throw new NotImplementedException();
+        public Task<WindowClient?> OpenWindowAsync(string url) => InvokeAsync<WindowClient?>("openWindow", url);
 
         [JsName("changePaymentMethod")]
-        public Task<PaymentRequestDetailsUpdate?> ChangePaymentMethodAsync(string methodName, object? methodDetails = null) => throw new NotImplementedException();
+        public Task<PaymentRequestDetailsUpdate?> ChangePaymentMethodAsync(string methodName, object? methodDetails = null) => InvokeAsync<PaymentRequestDetailsUpdate?>("changePaymentMethod", methodName, methodDetails);
 
         [JsName("changeShippingAddress")]
-        public Task<PaymentRequestDetailsUpdate?> ChangeShippingAddressAsync(AddressInit? shippingAddress = null) => throw new NotImplementedException();
+        public Task<PaymentRequestDetailsUpdate?> ChangeShippingAddressAsync(AddressInit? shippingAddress = null) => InvokeAsync<PaymentRequestDetailsUpdate?>("changeShippingAddress", shippingAddress);
 
         [JsName("changeShippingOption")]
-        public Task<PaymentRequestDetailsUpdate?> ChangeShippingOptionAsync(string shippingOption) => throw new NotImplementedException();
+        public Task<PaymentRequestDetailsUpdate?> ChangeShippingOptionAsync(string shippingOption) => InvokeAsync<PaymentRequestDetailsUpdate?>("changeShippingOption", shippingOption);
 
         [JsName("respondWith")]
-        public void RespondWith(Task<PaymentHandlerResponse> handlerResponsePromise) => throw new NotImplementedException();
+        public void RespondWith(Task<PaymentHandlerResponse> handlerResponsePromise) => InvokeVoid("respondWith", handlerResponsePromise);
     }
 }

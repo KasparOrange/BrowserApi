@@ -33,30 +33,30 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Url
 {
     [JsName("URLSearchParams")]
-    public partial class UrlSearchParams
+    public partial class UrlSearchParams : JsObject
     {
         [JsName("size")]
-        public uint Size { get; }
+        public uint Size => GetProperty<uint>("size");
 
         [JsName("append")]
-        public void Append(string name, string value) => throw new NotImplementedException();
+        public void Append(string name, string value) => InvokeVoid("append", name, value);
 
         [JsName("delete")]
-        public void Delete(string name, string? value = null) => throw new NotImplementedException();
+        public void Delete(string name, string? value = null) => InvokeVoid("delete", name, value);
 
         [JsName("get")]
-        public string? Get(string name) => throw new NotImplementedException();
+        public string? Get(string name) => Invoke<string?>("get", name);
 
         [JsName("getAll")]
-        public IReadOnlyList<string> GetAll(string name) => throw new NotImplementedException();
+        public IReadOnlyList<string> GetAll(string name) => Invoke<IReadOnlyList<string>>("getAll", name);
 
         [JsName("has")]
-        public bool Has(string name, string? value = null) => throw new NotImplementedException();
+        public bool Has(string name, string? value = null) => Invoke<bool>("has", name, value);
 
         [JsName("set")]
-        public void Set(string name, string value) => throw new NotImplementedException();
+        public void Set(string name, string value) => InvokeVoid("set", name, value);
 
         [JsName("sort")]
-        public void Sort() => throw new NotImplementedException();
+        public void Sort() => InvokeVoid("sort");
     }
 }

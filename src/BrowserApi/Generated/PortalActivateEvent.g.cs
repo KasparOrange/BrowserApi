@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class PortalActivateEvent : Event
     {
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
 
         [JsName("adoptPredecessor")]
-        public HtmlPortalElement AdoptPredecessor() => throw new NotImplementedException();
+        public HtmlPortalElement AdoptPredecessor() => Invoke<HtmlPortalElement>("adoptPredecessor");
     }
 }

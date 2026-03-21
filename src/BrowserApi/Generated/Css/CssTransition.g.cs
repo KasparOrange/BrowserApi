@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssTransition : Animation
     {
         [JsName("transitionProperty")]
-        public string TransitionProperty { get; }
+        public string TransitionProperty => GetProperty<string>("transitionProperty");
     }
 }

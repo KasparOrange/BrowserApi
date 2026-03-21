@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("XPathExpression")]
-    public partial class XpathExpression
+    public partial class XpathExpression : JsObject
     {
         [JsName("evaluate")]
-        public XpathResult Evaluate(Node contextNode, ushort type = 0, XpathResult? result = null) => throw new NotImplementedException();
+        public XpathResult Evaluate(Node contextNode, ushort type = 0, XpathResult? result = null) => Invoke<XpathResult>("evaluate", contextNode, type, result);
     }
 }

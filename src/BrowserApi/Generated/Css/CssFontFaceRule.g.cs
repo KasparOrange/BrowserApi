@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssFontFaceRule : CssRule
     {
         [JsName("style")]
-        public CssFontFaceDescriptors Style { get; }
+        public CssFontFaceDescriptors Style => GetProperty<CssFontFaceDescriptors>("style");
     }
 }

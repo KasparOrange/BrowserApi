@@ -36,42 +36,70 @@ namespace BrowserApi.Dom
     public partial class HtmlVideoElement : HtmlMediaElement
     {
         [JsName("width")]
-        public uint Width { get; set; }
+        public uint Width
+        {
+            get => GetProperty<uint>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public uint Height { get; set; }
+        public uint Height
+        {
+            get => GetProperty<uint>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("videoWidth")]
-        public uint VideoWidth { get; }
+        public uint VideoWidth => GetProperty<uint>("videoWidth");
 
         [JsName("videoHeight")]
-        public uint VideoHeight { get; }
+        public uint VideoHeight => GetProperty<uint>("videoHeight");
 
         [JsName("poster")]
-        public string Poster { get; set; }
+        public string Poster
+        {
+            get => GetProperty<string>("poster");
+            set => SetProperty("poster", value);
+        }
 
         [JsName("playsInline")]
-        public bool PlaysInline { get; set; }
+        public bool PlaysInline
+        {
+            get => GetProperty<bool>("playsInline");
+            set => SetProperty("playsInline", value);
+        }
 
         [JsName("onenterpictureinpicture")]
-        public object Onenterpictureinpicture { get; set; }
+        public object Onenterpictureinpicture
+        {
+            get => GetProperty<object>("onenterpictureinpicture");
+            set => SetProperty("onenterpictureinpicture", value);
+        }
 
         [JsName("onleavepictureinpicture")]
-        public object Onleavepictureinpicture { get; set; }
+        public object Onleavepictureinpicture
+        {
+            get => GetProperty<object>("onleavepictureinpicture");
+            set => SetProperty("onleavepictureinpicture", value);
+        }
 
         [JsName("disablePictureInPicture")]
-        public bool DisablePictureInPicture { get; set; }
+        public bool DisablePictureInPicture
+        {
+            get => GetProperty<bool>("disablePictureInPicture");
+            set => SetProperty("disablePictureInPicture", value);
+        }
 
         [JsName("getVideoPlaybackQuality")]
-        public VideoPlaybackQuality GetVideoPlaybackQuality() => throw new NotImplementedException();
+        public VideoPlaybackQuality GetVideoPlaybackQuality() => Invoke<VideoPlaybackQuality>("getVideoPlaybackQuality");
 
         [JsName("requestPictureInPicture")]
-        public Task<PictureInPictureWindow> RequestPictureInPictureAsync() => throw new NotImplementedException();
+        public Task<PictureInPictureWindow> RequestPictureInPictureAsync() => InvokeAsync<PictureInPictureWindow>("requestPictureInPicture");
 
         [JsName("requestVideoFrameCallback")]
-        public uint RequestVideoFrameCallback(VideoFrameRequestCallback callback) => throw new NotImplementedException();
+        public uint RequestVideoFrameCallback(VideoFrameRequestCallback callback) => Invoke<uint>("requestVideoFrameCallback", callback);
 
         [JsName("cancelVideoFrameCallback")]
-        public void CancelVideoFrameCallback(uint handle) => throw new NotImplementedException();
+        public void CancelVideoFrameCallback(uint handle) => InvokeVoid("cancelVideoFrameCallback", handle);
     }
 }

@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class EventListener
+    public partial class EventListener : JsObject
     {
         [JsName("handleEvent")]
-        public void HandleEvent(Event @event) => throw new NotImplementedException();
+        public void HandleEvent(Event @event) => InvokeVoid("handleEvent", @event);
     }
 }

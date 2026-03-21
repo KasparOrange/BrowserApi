@@ -32,42 +32,50 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.WebAudio
 {
-    public partial class AudioParam
+    public partial class AudioParam : JsObject
     {
         [JsName("value")]
-        public float Value { get; set; }
+        public float Value
+        {
+            get => GetProperty<float>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("automationRate")]
-        public AutomationRate AutomationRate { get; set; }
+        public AutomationRate AutomationRate
+        {
+            get => GetProperty<AutomationRate>("automationRate");
+            set => SetProperty("automationRate", value);
+        }
 
         [JsName("defaultValue")]
-        public float DefaultValue { get; }
+        public float DefaultValue => GetProperty<float>("defaultValue");
 
         [JsName("minValue")]
-        public float MinValue { get; }
+        public float MinValue => GetProperty<float>("minValue");
 
         [JsName("maxValue")]
-        public float MaxValue { get; }
+        public float MaxValue => GetProperty<float>("maxValue");
 
         [JsName("setValueAtTime")]
-        public AudioParam SetValueAtTime(float value, double startTime) => throw new NotImplementedException();
+        public AudioParam SetValueAtTime(float value, double startTime) => Invoke<AudioParam>("setValueAtTime", value, startTime);
 
         [JsName("linearRampToValueAtTime")]
-        public AudioParam LinearRampToValueAtTime(float value, double endTime) => throw new NotImplementedException();
+        public AudioParam LinearRampToValueAtTime(float value, double endTime) => Invoke<AudioParam>("linearRampToValueAtTime", value, endTime);
 
         [JsName("exponentialRampToValueAtTime")]
-        public AudioParam ExponentialRampToValueAtTime(float value, double endTime) => throw new NotImplementedException();
+        public AudioParam ExponentialRampToValueAtTime(float value, double endTime) => Invoke<AudioParam>("exponentialRampToValueAtTime", value, endTime);
 
         [JsName("setTargetAtTime")]
-        public AudioParam SetTargetAtTime(float target, double startTime, float timeConstant) => throw new NotImplementedException();
+        public AudioParam SetTargetAtTime(float target, double startTime, float timeConstant) => Invoke<AudioParam>("setTargetAtTime", target, startTime, timeConstant);
 
         [JsName("setValueCurveAtTime")]
-        public AudioParam SetValueCurveAtTime(IReadOnlyList<float> values, double startTime, double duration) => throw new NotImplementedException();
+        public AudioParam SetValueCurveAtTime(IReadOnlyList<float> values, double startTime, double duration) => Invoke<AudioParam>("setValueCurveAtTime", values, startTime, duration);
 
         [JsName("cancelScheduledValues")]
-        public AudioParam CancelScheduledValues(double cancelTime) => throw new NotImplementedException();
+        public AudioParam CancelScheduledValues(double cancelTime) => Invoke<AudioParam>("cancelScheduledValues", cancelTime);
 
         [JsName("cancelAndHoldAtTime")]
-        public AudioParam CancelAndHoldAtTime(double cancelTime) => throw new NotImplementedException();
+        public AudioParam CancelAndHoldAtTime(double cancelTime) => Invoke<AudioParam>("cancelAndHoldAtTime", cancelTime);
     }
 }

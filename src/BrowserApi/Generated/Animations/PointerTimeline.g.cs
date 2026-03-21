@@ -35,9 +35,9 @@ namespace BrowserApi.Animations
     public partial class PointerTimeline : AnimationTimeline
     {
         [JsName("source")]
-        public Element? Source { get; }
+        public Element? Source => GetProperty<Element?>("source");
 
         [JsName("axis")]
-        public PointerAxis Axis { get; }
+        public PointerAxis Axis => GetProperty<PointerAxis>("axis");
     }
 }

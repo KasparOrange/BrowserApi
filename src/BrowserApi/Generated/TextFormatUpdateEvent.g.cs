@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class TextFormatUpdateEvent : Event
     {
         [JsName("getTextFormats")]
-        public IReadOnlyList<TextFormat> GetTextFormats() => throw new NotImplementedException();
+        public IReadOnlyList<TextFormat> GetTextFormats() => Invoke<IReadOnlyList<TextFormat>>("getTextFormats");
     }
 }

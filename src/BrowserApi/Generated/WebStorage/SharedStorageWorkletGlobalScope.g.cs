@@ -35,18 +35,18 @@ namespace BrowserApi.WebStorage
     public partial class SharedStorageWorkletGlobalScope : WorkletGlobalScope
     {
         [JsName("sharedStorage")]
-        public SharedStorage SharedStorage { get; }
+        public SharedStorage SharedStorage => GetProperty<SharedStorage>("sharedStorage");
 
         [JsName("privateAggregation")]
-        public PrivateAggregation PrivateAggregation { get; }
+        public PrivateAggregation PrivateAggregation => GetProperty<PrivateAggregation>("privateAggregation");
 
         [JsName("navigator")]
-        public SharedStorageWorkletNavigator Navigator { get; }
+        public SharedStorageWorkletNavigator Navigator => GetProperty<SharedStorageWorkletNavigator>("navigator");
 
         [JsName("register")]
-        public void Register(string name, Function operationCtor) => throw new NotImplementedException();
+        public void Register(string name, Function operationCtor) => InvokeVoid("register", name, operationCtor);
 
         [JsName("interestGroups")]
-        public Task<IReadOnlyList<StorageInterestGroup>> InterestGroupsAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<StorageInterestGroup>> InterestGroupsAsync() => InvokeAsync<IReadOnlyList<StorageInterestGroup>>("interestGroups");
     }
 }

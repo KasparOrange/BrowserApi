@@ -36,30 +36,66 @@ namespace BrowserApi.Css
     public partial class CssPageDescriptors : CssStyleDeclaration
     {
         [JsName("margin")]
-        public string Margin { get; set; }
+        public string Margin
+        {
+            get => GetProperty<string>("margin");
+            set => SetProperty("margin", value);
+        }
 
         [JsName("marginTop")]
-        public string MarginTop { get; set; }
+        public string MarginTop
+        {
+            get => GetProperty<string>("marginTop");
+            set => SetProperty("marginTop", value);
+        }
 
         [JsName("marginRight")]
-        public string MarginRight { get; set; }
+        public string MarginRight
+        {
+            get => GetProperty<string>("marginRight");
+            set => SetProperty("marginRight", value);
+        }
 
         [JsName("marginBottom")]
-        public string MarginBottom { get; set; }
+        public string MarginBottom
+        {
+            get => GetProperty<string>("marginBottom");
+            set => SetProperty("marginBottom", value);
+        }
 
         [JsName("marginLeft")]
-        public string MarginLeft { get; set; }
+        public string MarginLeft
+        {
+            get => GetProperty<string>("marginLeft");
+            set => SetProperty("marginLeft", value);
+        }
 
         [JsName("size")]
-        public string Size { get; set; }
+        public string Size
+        {
+            get => GetProperty<string>("size");
+            set => SetProperty("size", value);
+        }
 
         [JsName("pageOrientation")]
-        public string PageOrientation { get; set; }
+        public string PageOrientation
+        {
+            get => GetProperty<string>("pageOrientation");
+            set => SetProperty("pageOrientation", value);
+        }
 
         [JsName("marks")]
-        public string Marks { get; set; }
+        public string Marks
+        {
+            get => GetProperty<string>("marks");
+            set => SetProperty("marks", value);
+        }
 
         [JsName("bleed")]
-        public string Bleed { get; set; }
+        public string Bleed
+        {
+            get => GetProperty<string>("bleed");
+            set => SetProperty("bleed", value);
+        }
     }
 }

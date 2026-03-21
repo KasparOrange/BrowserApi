@@ -36,12 +36,12 @@ namespace BrowserApi
     public partial class SvgCircleElement : SvgGeometryElement
     {
         [JsName("cx")]
-        public SvgAnimatedLength Cx { get; }
+        public SvgAnimatedLength Cx => GetProperty<SvgAnimatedLength>("cx");
 
         [JsName("cy")]
-        public SvgAnimatedLength Cy { get; }
+        public SvgAnimatedLength Cy => GetProperty<SvgAnimatedLength>("cy");
 
         [JsName("r")]
-        public SvgAnimatedLength R { get; }
+        public SvgAnimatedLength R => GetProperty<SvgAnimatedLength>("r");
     }
 }

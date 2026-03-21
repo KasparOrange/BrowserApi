@@ -36,342 +36,774 @@ namespace BrowserApi
     public partial class MathMlelement : Element
     {
         [JsName("style")]
-        public CssStyleProperties Style { get; }
+        public CssStyleProperties Style => GetProperty<CssStyleProperties>("style");
 
         [JsName("attributeStyleMap")]
-        public StylePropertyMap AttributeStyleMap { get; }
+        public StylePropertyMap AttributeStyleMap => GetProperty<StylePropertyMap>("attributeStyleMap");
 
         [JsName("onabort")]
-        public object Onabort { get; set; }
+        public object Onabort
+        {
+            get => GetProperty<object>("onabort");
+            set => SetProperty("onabort", value);
+        }
 
         [JsName("onauxclick")]
-        public object Onauxclick { get; set; }
+        public object Onauxclick
+        {
+            get => GetProperty<object>("onauxclick");
+            set => SetProperty("onauxclick", value);
+        }
 
         [JsName("onbeforeinput")]
-        public object Onbeforeinput { get; set; }
+        public object Onbeforeinput
+        {
+            get => GetProperty<object>("onbeforeinput");
+            set => SetProperty("onbeforeinput", value);
+        }
 
         [JsName("onbeforematch")]
-        public object Onbeforematch { get; set; }
+        public object Onbeforematch
+        {
+            get => GetProperty<object>("onbeforematch");
+            set => SetProperty("onbeforematch", value);
+        }
 
         [JsName("onbeforetoggle")]
-        public object Onbeforetoggle { get; set; }
+        public object Onbeforetoggle
+        {
+            get => GetProperty<object>("onbeforetoggle");
+            set => SetProperty("onbeforetoggle", value);
+        }
 
         [JsName("onblur")]
-        public object Onblur { get; set; }
+        public object Onblur
+        {
+            get => GetProperty<object>("onblur");
+            set => SetProperty("onblur", value);
+        }
 
         [JsName("oncancel")]
-        public object Oncancel { get; set; }
+        public object Oncancel
+        {
+            get => GetProperty<object>("oncancel");
+            set => SetProperty("oncancel", value);
+        }
 
         [JsName("oncanplay")]
-        public object Oncanplay { get; set; }
+        public object Oncanplay
+        {
+            get => GetProperty<object>("oncanplay");
+            set => SetProperty("oncanplay", value);
+        }
 
         [JsName("oncanplaythrough")]
-        public object Oncanplaythrough { get; set; }
+        public object Oncanplaythrough
+        {
+            get => GetProperty<object>("oncanplaythrough");
+            set => SetProperty("oncanplaythrough", value);
+        }
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("onclick")]
-        public object Onclick { get; set; }
+        public object Onclick
+        {
+            get => GetProperty<object>("onclick");
+            set => SetProperty("onclick", value);
+        }
 
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("oncommand")]
-        public object Oncommand { get; set; }
+        public object Oncommand
+        {
+            get => GetProperty<object>("oncommand");
+            set => SetProperty("oncommand", value);
+        }
 
         [JsName("oncontextlost")]
-        public object Oncontextlost { get; set; }
+        public object Oncontextlost
+        {
+            get => GetProperty<object>("oncontextlost");
+            set => SetProperty("oncontextlost", value);
+        }
 
         [JsName("oncontextmenu")]
-        public object Oncontextmenu { get; set; }
+        public object Oncontextmenu
+        {
+            get => GetProperty<object>("oncontextmenu");
+            set => SetProperty("oncontextmenu", value);
+        }
 
         [JsName("oncontextrestored")]
-        public object Oncontextrestored { get; set; }
+        public object Oncontextrestored
+        {
+            get => GetProperty<object>("oncontextrestored");
+            set => SetProperty("oncontextrestored", value);
+        }
 
         [JsName("oncopy")]
-        public object Oncopy { get; set; }
+        public object Oncopy
+        {
+            get => GetProperty<object>("oncopy");
+            set => SetProperty("oncopy", value);
+        }
 
         [JsName("oncuechange")]
-        public object Oncuechange { get; set; }
+        public object Oncuechange
+        {
+            get => GetProperty<object>("oncuechange");
+            set => SetProperty("oncuechange", value);
+        }
 
         [JsName("oncut")]
-        public object Oncut { get; set; }
+        public object Oncut
+        {
+            get => GetProperty<object>("oncut");
+            set => SetProperty("oncut", value);
+        }
 
         [JsName("ondblclick")]
-        public object Ondblclick { get; set; }
+        public object Ondblclick
+        {
+            get => GetProperty<object>("ondblclick");
+            set => SetProperty("ondblclick", value);
+        }
 
         [JsName("ondrag")]
-        public object Ondrag { get; set; }
+        public object Ondrag
+        {
+            get => GetProperty<object>("ondrag");
+            set => SetProperty("ondrag", value);
+        }
 
         [JsName("ondragend")]
-        public object Ondragend { get; set; }
+        public object Ondragend
+        {
+            get => GetProperty<object>("ondragend");
+            set => SetProperty("ondragend", value);
+        }
 
         [JsName("ondragenter")]
-        public object Ondragenter { get; set; }
+        public object Ondragenter
+        {
+            get => GetProperty<object>("ondragenter");
+            set => SetProperty("ondragenter", value);
+        }
 
         [JsName("ondragleave")]
-        public object Ondragleave { get; set; }
+        public object Ondragleave
+        {
+            get => GetProperty<object>("ondragleave");
+            set => SetProperty("ondragleave", value);
+        }
 
         [JsName("ondragover")]
-        public object Ondragover { get; set; }
+        public object Ondragover
+        {
+            get => GetProperty<object>("ondragover");
+            set => SetProperty("ondragover", value);
+        }
 
         [JsName("ondragstart")]
-        public object Ondragstart { get; set; }
+        public object Ondragstart
+        {
+            get => GetProperty<object>("ondragstart");
+            set => SetProperty("ondragstart", value);
+        }
 
         [JsName("ondrop")]
-        public object Ondrop { get; set; }
+        public object Ondrop
+        {
+            get => GetProperty<object>("ondrop");
+            set => SetProperty("ondrop", value);
+        }
 
         [JsName("ondurationchange")]
-        public object Ondurationchange { get; set; }
+        public object Ondurationchange
+        {
+            get => GetProperty<object>("ondurationchange");
+            set => SetProperty("ondurationchange", value);
+        }
 
         [JsName("onemptied")]
-        public object Onemptied { get; set; }
+        public object Onemptied
+        {
+            get => GetProperty<object>("onemptied");
+            set => SetProperty("onemptied", value);
+        }
 
         [JsName("onended")]
-        public object Onended { get; set; }
+        public object Onended
+        {
+            get => GetProperty<object>("onended");
+            set => SetProperty("onended", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onfocus")]
-        public object Onfocus { get; set; }
+        public object Onfocus
+        {
+            get => GetProperty<object>("onfocus");
+            set => SetProperty("onfocus", value);
+        }
 
         [JsName("onformdata")]
-        public object Onformdata { get; set; }
+        public object Onformdata
+        {
+            get => GetProperty<object>("onformdata");
+            set => SetProperty("onformdata", value);
+        }
 
         [JsName("oninput")]
-        public object Oninput { get; set; }
+        public object Oninput
+        {
+            get => GetProperty<object>("oninput");
+            set => SetProperty("oninput", value);
+        }
 
         [JsName("oninvalid")]
-        public object Oninvalid { get; set; }
+        public object Oninvalid
+        {
+            get => GetProperty<object>("oninvalid");
+            set => SetProperty("oninvalid", value);
+        }
 
         [JsName("onkeydown")]
-        public object Onkeydown { get; set; }
+        public object Onkeydown
+        {
+            get => GetProperty<object>("onkeydown");
+            set => SetProperty("onkeydown", value);
+        }
 
         [JsName("onkeypress")]
-        public object Onkeypress { get; set; }
+        public object Onkeypress
+        {
+            get => GetProperty<object>("onkeypress");
+            set => SetProperty("onkeypress", value);
+        }
 
         [JsName("onkeyup")]
-        public object Onkeyup { get; set; }
+        public object Onkeyup
+        {
+            get => GetProperty<object>("onkeyup");
+            set => SetProperty("onkeyup", value);
+        }
 
         [JsName("onload")]
-        public object Onload { get; set; }
+        public object Onload
+        {
+            get => GetProperty<object>("onload");
+            set => SetProperty("onload", value);
+        }
 
         [JsName("onloadeddata")]
-        public object Onloadeddata { get; set; }
+        public object Onloadeddata
+        {
+            get => GetProperty<object>("onloadeddata");
+            set => SetProperty("onloadeddata", value);
+        }
 
         [JsName("onloadedmetadata")]
-        public object Onloadedmetadata { get; set; }
+        public object Onloadedmetadata
+        {
+            get => GetProperty<object>("onloadedmetadata");
+            set => SetProperty("onloadedmetadata", value);
+        }
 
         [JsName("onloadstart")]
-        public object Onloadstart { get; set; }
+        public object Onloadstart
+        {
+            get => GetProperty<object>("onloadstart");
+            set => SetProperty("onloadstart", value);
+        }
 
         [JsName("onmousedown")]
-        public object Onmousedown { get; set; }
+        public object Onmousedown
+        {
+            get => GetProperty<object>("onmousedown");
+            set => SetProperty("onmousedown", value);
+        }
 
         [JsName("onmouseenter")]
-        public object Onmouseenter { get; set; }
+        public object Onmouseenter
+        {
+            get => GetProperty<object>("onmouseenter");
+            set => SetProperty("onmouseenter", value);
+        }
 
         [JsName("onmouseleave")]
-        public object Onmouseleave { get; set; }
+        public object Onmouseleave
+        {
+            get => GetProperty<object>("onmouseleave");
+            set => SetProperty("onmouseleave", value);
+        }
 
         [JsName("onmousemove")]
-        public object Onmousemove { get; set; }
+        public object Onmousemove
+        {
+            get => GetProperty<object>("onmousemove");
+            set => SetProperty("onmousemove", value);
+        }
 
         [JsName("onmouseout")]
-        public object Onmouseout { get; set; }
+        public object Onmouseout
+        {
+            get => GetProperty<object>("onmouseout");
+            set => SetProperty("onmouseout", value);
+        }
 
         [JsName("onmouseover")]
-        public object Onmouseover { get; set; }
+        public object Onmouseover
+        {
+            get => GetProperty<object>("onmouseover");
+            set => SetProperty("onmouseover", value);
+        }
 
         [JsName("onmouseup")]
-        public object Onmouseup { get; set; }
+        public object Onmouseup
+        {
+            get => GetProperty<object>("onmouseup");
+            set => SetProperty("onmouseup", value);
+        }
 
         [JsName("onpaste")]
-        public object Onpaste { get; set; }
+        public object Onpaste
+        {
+            get => GetProperty<object>("onpaste");
+            set => SetProperty("onpaste", value);
+        }
 
         [JsName("onpause")]
-        public object Onpause { get; set; }
+        public object Onpause
+        {
+            get => GetProperty<object>("onpause");
+            set => SetProperty("onpause", value);
+        }
 
         [JsName("onplay")]
-        public object Onplay { get; set; }
+        public object Onplay
+        {
+            get => GetProperty<object>("onplay");
+            set => SetProperty("onplay", value);
+        }
 
         [JsName("onplaying")]
-        public object Onplaying { get; set; }
+        public object Onplaying
+        {
+            get => GetProperty<object>("onplaying");
+            set => SetProperty("onplaying", value);
+        }
 
         [JsName("onprogress")]
-        public object Onprogress { get; set; }
+        public object Onprogress
+        {
+            get => GetProperty<object>("onprogress");
+            set => SetProperty("onprogress", value);
+        }
 
         [JsName("onratechange")]
-        public object Onratechange { get; set; }
+        public object Onratechange
+        {
+            get => GetProperty<object>("onratechange");
+            set => SetProperty("onratechange", value);
+        }
 
         [JsName("onreset")]
-        public object Onreset { get; set; }
+        public object Onreset
+        {
+            get => GetProperty<object>("onreset");
+            set => SetProperty("onreset", value);
+        }
 
         [JsName("onresize")]
-        public object Onresize { get; set; }
+        public object Onresize
+        {
+            get => GetProperty<object>("onresize");
+            set => SetProperty("onresize", value);
+        }
 
         [JsName("onscroll")]
-        public object Onscroll { get; set; }
+        public object Onscroll
+        {
+            get => GetProperty<object>("onscroll");
+            set => SetProperty("onscroll", value);
+        }
 
         [JsName("onscrollend")]
-        public object Onscrollend { get; set; }
+        public object Onscrollend
+        {
+            get => GetProperty<object>("onscrollend");
+            set => SetProperty("onscrollend", value);
+        }
 
         [JsName("onsecuritypolicyviolation")]
-        public object Onsecuritypolicyviolation { get; set; }
+        public object Onsecuritypolicyviolation
+        {
+            get => GetProperty<object>("onsecuritypolicyviolation");
+            set => SetProperty("onsecuritypolicyviolation", value);
+        }
 
         [JsName("onseeked")]
-        public object Onseeked { get; set; }
+        public object Onseeked
+        {
+            get => GetProperty<object>("onseeked");
+            set => SetProperty("onseeked", value);
+        }
 
         [JsName("onseeking")]
-        public object Onseeking { get; set; }
+        public object Onseeking
+        {
+            get => GetProperty<object>("onseeking");
+            set => SetProperty("onseeking", value);
+        }
 
         [JsName("onselect")]
-        public object Onselect { get; set; }
+        public object Onselect
+        {
+            get => GetProperty<object>("onselect");
+            set => SetProperty("onselect", value);
+        }
 
         [JsName("onslotchange")]
-        public object Onslotchange { get; set; }
+        public object Onslotchange
+        {
+            get => GetProperty<object>("onslotchange");
+            set => SetProperty("onslotchange", value);
+        }
 
         [JsName("onstalled")]
-        public object Onstalled { get; set; }
+        public object Onstalled
+        {
+            get => GetProperty<object>("onstalled");
+            set => SetProperty("onstalled", value);
+        }
 
         [JsName("onsubmit")]
-        public object Onsubmit { get; set; }
+        public object Onsubmit
+        {
+            get => GetProperty<object>("onsubmit");
+            set => SetProperty("onsubmit", value);
+        }
 
         [JsName("onsuspend")]
-        public object Onsuspend { get; set; }
+        public object Onsuspend
+        {
+            get => GetProperty<object>("onsuspend");
+            set => SetProperty("onsuspend", value);
+        }
 
         [JsName("ontimeupdate")]
-        public object Ontimeupdate { get; set; }
+        public object Ontimeupdate
+        {
+            get => GetProperty<object>("ontimeupdate");
+            set => SetProperty("ontimeupdate", value);
+        }
 
         [JsName("ontoggle")]
-        public object Ontoggle { get; set; }
+        public object Ontoggle
+        {
+            get => GetProperty<object>("ontoggle");
+            set => SetProperty("ontoggle", value);
+        }
 
         [JsName("onvolumechange")]
-        public object Onvolumechange { get; set; }
+        public object Onvolumechange
+        {
+            get => GetProperty<object>("onvolumechange");
+            set => SetProperty("onvolumechange", value);
+        }
 
         [JsName("onwaiting")]
-        public object Onwaiting { get; set; }
+        public object Onwaiting
+        {
+            get => GetProperty<object>("onwaiting");
+            set => SetProperty("onwaiting", value);
+        }
 
         [JsName("onwebkitanimationend")]
-        public object Onwebkitanimationend { get; set; }
+        public object Onwebkitanimationend
+        {
+            get => GetProperty<object>("onwebkitanimationend");
+            set => SetProperty("onwebkitanimationend", value);
+        }
 
         [JsName("onwebkitanimationiteration")]
-        public object Onwebkitanimationiteration { get; set; }
+        public object Onwebkitanimationiteration
+        {
+            get => GetProperty<object>("onwebkitanimationiteration");
+            set => SetProperty("onwebkitanimationiteration", value);
+        }
 
         [JsName("onwebkitanimationstart")]
-        public object Onwebkitanimationstart { get; set; }
+        public object Onwebkitanimationstart
+        {
+            get => GetProperty<object>("onwebkitanimationstart");
+            set => SetProperty("onwebkitanimationstart", value);
+        }
 
         [JsName("onwebkittransitionend")]
-        public object Onwebkittransitionend { get; set; }
+        public object Onwebkittransitionend
+        {
+            get => GetProperty<object>("onwebkittransitionend");
+            set => SetProperty("onwebkittransitionend", value);
+        }
 
         [JsName("onwheel")]
-        public object Onwheel { get; set; }
+        public object Onwheel
+        {
+            get => GetProperty<object>("onwheel");
+            set => SetProperty("onwheel", value);
+        }
 
         [JsName("onanimationstart")]
-        public object Onanimationstart { get; set; }
+        public object Onanimationstart
+        {
+            get => GetProperty<object>("onanimationstart");
+            set => SetProperty("onanimationstart", value);
+        }
 
         [JsName("onanimationiteration")]
-        public object Onanimationiteration { get; set; }
+        public object Onanimationiteration
+        {
+            get => GetProperty<object>("onanimationiteration");
+            set => SetProperty("onanimationiteration", value);
+        }
 
         [JsName("onanimationend")]
-        public object Onanimationend { get; set; }
+        public object Onanimationend
+        {
+            get => GetProperty<object>("onanimationend");
+            set => SetProperty("onanimationend", value);
+        }
 
         [JsName("onanimationcancel")]
-        public object Onanimationcancel { get; set; }
+        public object Onanimationcancel
+        {
+            get => GetProperty<object>("onanimationcancel");
+            set => SetProperty("onanimationcancel", value);
+        }
 
         [JsName("onsnapchanged")]
-        public object Onsnapchanged { get; set; }
+        public object Onsnapchanged
+        {
+            get => GetProperty<object>("onsnapchanged");
+            set => SetProperty("onsnapchanged", value);
+        }
 
         [JsName("onsnapchanging")]
-        public object Onsnapchanging { get; set; }
+        public object Onsnapchanging
+        {
+            get => GetProperty<object>("onsnapchanging");
+            set => SetProperty("onsnapchanging", value);
+        }
 
         [JsName("ontransitionrun")]
-        public object Ontransitionrun { get; set; }
+        public object Ontransitionrun
+        {
+            get => GetProperty<object>("ontransitionrun");
+            set => SetProperty("ontransitionrun", value);
+        }
 
         [JsName("ontransitionstart")]
-        public object Ontransitionstart { get; set; }
+        public object Ontransitionstart
+        {
+            get => GetProperty<object>("ontransitionstart");
+            set => SetProperty("ontransitionstart", value);
+        }
 
         [JsName("ontransitionend")]
-        public object Ontransitionend { get; set; }
+        public object Ontransitionend
+        {
+            get => GetProperty<object>("ontransitionend");
+            set => SetProperty("ontransitionend", value);
+        }
 
         [JsName("ontransitioncancel")]
-        public object Ontransitioncancel { get; set; }
+        public object Ontransitioncancel
+        {
+            get => GetProperty<object>("ontransitioncancel");
+            set => SetProperty("ontransitioncancel", value);
+        }
 
         [JsName("onfencedtreeclick")]
-        public object Onfencedtreeclick { get; set; }
+        public object Onfencedtreeclick
+        {
+            get => GetProperty<object>("onfencedtreeclick");
+            set => SetProperty("onfencedtreeclick", value);
+        }
 
         [JsName("onpointerover")]
-        public object Onpointerover { get; set; }
+        public object Onpointerover
+        {
+            get => GetProperty<object>("onpointerover");
+            set => SetProperty("onpointerover", value);
+        }
 
         [JsName("onpointerenter")]
-        public object Onpointerenter { get; set; }
+        public object Onpointerenter
+        {
+            get => GetProperty<object>("onpointerenter");
+            set => SetProperty("onpointerenter", value);
+        }
 
         [JsName("onpointerdown")]
-        public object Onpointerdown { get; set; }
+        public object Onpointerdown
+        {
+            get => GetProperty<object>("onpointerdown");
+            set => SetProperty("onpointerdown", value);
+        }
 
         [JsName("onpointermove")]
-        public object Onpointermove { get; set; }
+        public object Onpointermove
+        {
+            get => GetProperty<object>("onpointermove");
+            set => SetProperty("onpointermove", value);
+        }
 
         [JsName("onpointerrawupdate")]
-        public object Onpointerrawupdate { get; set; }
+        public object Onpointerrawupdate
+        {
+            get => GetProperty<object>("onpointerrawupdate");
+            set => SetProperty("onpointerrawupdate", value);
+        }
 
         [JsName("onpointerup")]
-        public object Onpointerup { get; set; }
+        public object Onpointerup
+        {
+            get => GetProperty<object>("onpointerup");
+            set => SetProperty("onpointerup", value);
+        }
 
         [JsName("onpointercancel")]
-        public object Onpointercancel { get; set; }
+        public object Onpointercancel
+        {
+            get => GetProperty<object>("onpointercancel");
+            set => SetProperty("onpointercancel", value);
+        }
 
         [JsName("onpointerout")]
-        public object Onpointerout { get; set; }
+        public object Onpointerout
+        {
+            get => GetProperty<object>("onpointerout");
+            set => SetProperty("onpointerout", value);
+        }
 
         [JsName("onpointerleave")]
-        public object Onpointerleave { get; set; }
+        public object Onpointerleave
+        {
+            get => GetProperty<object>("onpointerleave");
+            set => SetProperty("onpointerleave", value);
+        }
 
         [JsName("ongotpointercapture")]
-        public object Ongotpointercapture { get; set; }
+        public object Ongotpointercapture
+        {
+            get => GetProperty<object>("ongotpointercapture");
+            set => SetProperty("ongotpointercapture", value);
+        }
 
         [JsName("onlostpointercapture")]
-        public object Onlostpointercapture { get; set; }
+        public object Onlostpointercapture
+        {
+            get => GetProperty<object>("onlostpointercapture");
+            set => SetProperty("onlostpointercapture", value);
+        }
 
         [JsName("onselectstart")]
-        public object Onselectstart { get; set; }
+        public object Onselectstart
+        {
+            get => GetProperty<object>("onselectstart");
+            set => SetProperty("onselectstart", value);
+        }
 
         [JsName("onselectionchange")]
-        public object Onselectionchange { get; set; }
+        public object Onselectionchange
+        {
+            get => GetProperty<object>("onselectionchange");
+            set => SetProperty("onselectionchange", value);
+        }
 
         [JsName("ontouchstart")]
-        public object Ontouchstart { get; set; }
+        public object Ontouchstart
+        {
+            get => GetProperty<object>("ontouchstart");
+            set => SetProperty("ontouchstart", value);
+        }
 
         [JsName("ontouchend")]
-        public object Ontouchend { get; set; }
+        public object Ontouchend
+        {
+            get => GetProperty<object>("ontouchend");
+            set => SetProperty("ontouchend", value);
+        }
 
         [JsName("ontouchmove")]
-        public object Ontouchmove { get; set; }
+        public object Ontouchmove
+        {
+            get => GetProperty<object>("ontouchmove");
+            set => SetProperty("ontouchmove", value);
+        }
 
         [JsName("ontouchcancel")]
-        public object Ontouchcancel { get; set; }
+        public object Ontouchcancel
+        {
+            get => GetProperty<object>("ontouchcancel");
+            set => SetProperty("ontouchcancel", value);
+        }
 
         [JsName("onbeforexrselect")]
-        public object Onbeforexrselect { get; set; }
+        public object Onbeforexrselect
+        {
+            get => GetProperty<object>("onbeforexrselect");
+            set => SetProperty("onbeforexrselect", value);
+        }
 
         [JsName("dataset")]
-        public DomStringMap Dataset { get; }
+        public DomStringMap Dataset => GetProperty<DomStringMap>("dataset");
 
         [JsName("nonce")]
-        public string Nonce { get; set; }
+        public string Nonce
+        {
+            get => GetProperty<string>("nonce");
+            set => SetProperty("nonce", value);
+        }
 
         [JsName("autofocus")]
-        public bool Autofocus { get; set; }
+        public bool Autofocus
+        {
+            get => GetProperty<bool>("autofocus");
+            set => SetProperty("autofocus", value);
+        }
 
         [JsName("tabIndex")]
-        public int TabIndex { get; set; }
+        public int TabIndex
+        {
+            get => GetProperty<int>("tabIndex");
+            set => SetProperty("tabIndex", value);
+        }
 
         [JsName("focus")]
-        public void Focus(FocusOptions? options = null) => throw new NotImplementedException();
+        public void Focus(FocusOptions? options = null) => InvokeVoid("focus", options);
 
         [JsName("blur")]
-        public void Blur() => throw new NotImplementedException();
+        public void Blur() => InvokeVoid("blur");
     }
 }

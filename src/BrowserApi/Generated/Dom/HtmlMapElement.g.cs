@@ -36,9 +36,13 @@ namespace BrowserApi.Dom
     public partial class HtmlMapElement : HtmlElement
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("areas")]
-        public HtmlCollection Areas { get; }
+        public HtmlCollection Areas => GetProperty<HtmlCollection>("areas");
     }
 }

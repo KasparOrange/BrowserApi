@@ -35,9 +35,9 @@ namespace BrowserApi.Payments
     public partial class PaymentMethodChangeEvent : PaymentRequestUpdateEvent
     {
         [JsName("methodName")]
-        public string MethodName { get; }
+        public string MethodName => GetProperty<string>("methodName");
 
         [JsName("methodDetails")]
-        public object MethodDetails { get; }
+        public object MethodDetails => GetProperty<object>("methodDetails");
     }
 }

@@ -36,12 +36,12 @@ namespace BrowserApi.Css
     public partial class CssFunctionRule : CssGroupingRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("returnType")]
-        public string ReturnType { get; }
+        public string ReturnType => GetProperty<string>("returnType");
 
         [JsName("getParameters")]
-        public IReadOnlyList<FunctionParameter> GetParameters() => throw new NotImplementedException();
+        public IReadOnlyList<FunctionParameter> GetParameters() => Invoke<IReadOnlyList<FunctionParameter>>("getParameters");
     }
 }

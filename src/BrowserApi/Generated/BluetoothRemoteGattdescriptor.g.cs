@@ -33,21 +33,21 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("BluetoothRemoteGATTDescriptor")]
-    public partial class BluetoothRemoteGattdescriptor
+    public partial class BluetoothRemoteGattdescriptor : JsObject
     {
         [JsName("characteristic")]
-        public BluetoothRemoteGattcharacteristic Characteristic { get; }
+        public BluetoothRemoteGattcharacteristic Characteristic => GetProperty<BluetoothRemoteGattcharacteristic>("characteristic");
 
         [JsName("uuid")]
-        public string Uuid { get; }
+        public string Uuid => GetProperty<string>("uuid");
 
         [JsName("value")]
-        public byte[]? Value { get; }
+        public byte[]? Value => GetProperty<byte[]?>("value");
 
         [JsName("readValue")]
-        public Task<byte[]> ReadValueAsync() => throw new NotImplementedException();
+        public Task<byte[]> ReadValueAsync() => InvokeAsync<byte[]>("readValue");
 
         [JsName("writeValue")]
-        public Task WriteValueAsync(byte[] value) => throw new NotImplementedException();
+        public Task WriteValueAsync(byte[] value) => InvokeVoidAsync("writeValue", value);
     }
 }

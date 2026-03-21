@@ -33,12 +33,16 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCEncodedAudioFrame")]
-    public partial class RtcencodedAudioFrame
+    public partial class RtcencodedAudioFrame : JsObject
     {
         [JsName("data")]
-        public byte[] Data { get; set; }
+        public byte[] Data
+        {
+            get => GetProperty<byte[]>("data");
+            set => SetProperty("data", value);
+        }
 
         [JsName("getMetadata")]
-        public RtcencodedAudioFrameMetadata GetMetadata() => throw new NotImplementedException();
+        public RtcencodedAudioFrameMetadata GetMetadata() => Invoke<RtcencodedAudioFrameMetadata>("getMetadata");
     }
 }

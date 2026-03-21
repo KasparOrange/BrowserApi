@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUMapMode")]
-    public partial class GpuMapMode
+    public partial class GpuMapMode : JsObject
     {
         public const uint Read = 0x0001;
 

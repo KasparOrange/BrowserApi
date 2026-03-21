@@ -32,58 +32,58 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class SubtleCrypto
+    public partial class SubtleCrypto : JsObject
     {
         [JsName("encrypt")]
-        public Task<byte[]> EncryptAsync(object algorithm, CryptoKey key, byte[] data) => throw new NotImplementedException();
+        public Task<byte[]> EncryptAsync(object algorithm, CryptoKey key, byte[] data) => InvokeAsync<byte[]>("encrypt", algorithm, key, data);
 
         [JsName("decrypt")]
-        public Task<byte[]> DecryptAsync(object algorithm, CryptoKey key, byte[] data) => throw new NotImplementedException();
+        public Task<byte[]> DecryptAsync(object algorithm, CryptoKey key, byte[] data) => InvokeAsync<byte[]>("decrypt", algorithm, key, data);
 
         [JsName("sign")]
-        public Task<byte[]> SignAsync(object algorithm, CryptoKey key, byte[] data) => throw new NotImplementedException();
+        public Task<byte[]> SignAsync(object algorithm, CryptoKey key, byte[] data) => InvokeAsync<byte[]>("sign", algorithm, key, data);
 
         [JsName("verify")]
-        public Task<bool> VerifyAsync(object algorithm, CryptoKey key, byte[] signature, byte[] data) => throw new NotImplementedException();
+        public Task<bool> VerifyAsync(object algorithm, CryptoKey key, byte[] signature, byte[] data) => InvokeAsync<bool>("verify", algorithm, key, signature, data);
 
         [JsName("digest")]
-        public Task<byte[]> DigestAsync(object algorithm, byte[] data) => throw new NotImplementedException();
+        public Task<byte[]> DigestAsync(object algorithm, byte[] data) => InvokeAsync<byte[]>("digest", algorithm, data);
 
         [JsName("generateKey")]
-        public Task<object> GenerateKeyAsync(object algorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => throw new NotImplementedException();
+        public Task<object> GenerateKeyAsync(object algorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => InvokeAsync<object>("generateKey", algorithm, extractable, keyUsages);
 
         [JsName("deriveKey")]
-        public Task<CryptoKey> DeriveKeyAsync(object algorithm, CryptoKey baseKey, object derivedKeyType, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => throw new NotImplementedException();
+        public Task<CryptoKey> DeriveKeyAsync(object algorithm, CryptoKey baseKey, object derivedKeyType, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => InvokeAsync<CryptoKey>("deriveKey", algorithm, baseKey, derivedKeyType, extractable, keyUsages);
 
         [JsName("deriveBits")]
-        public Task<byte[]> DeriveBitsAsync(object algorithm, CryptoKey baseKey, uint? length = null) => throw new NotImplementedException();
+        public Task<byte[]> DeriveBitsAsync(object algorithm, CryptoKey baseKey, uint? length = null) => InvokeAsync<byte[]>("deriveBits", algorithm, baseKey, length);
 
         [JsName("importKey")]
-        public Task<CryptoKey> ImportKeyAsync(KeyFormat format, object keyData, object algorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => throw new NotImplementedException();
+        public Task<CryptoKey> ImportKeyAsync(KeyFormat format, object keyData, object algorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => InvokeAsync<CryptoKey>("importKey", format, keyData, algorithm, extractable, keyUsages);
 
         [JsName("exportKey")]
-        public Task<object> ExportKeyAsync(KeyFormat format, CryptoKey key) => throw new NotImplementedException();
+        public Task<object> ExportKeyAsync(KeyFormat format, CryptoKey key) => InvokeAsync<object>("exportKey", format, key);
 
         [JsName("wrapKey")]
-        public Task<byte[]> WrapKeyAsync(KeyFormat format, CryptoKey key, CryptoKey wrappingKey, object wrapAlgorithm) => throw new NotImplementedException();
+        public Task<byte[]> WrapKeyAsync(KeyFormat format, CryptoKey key, CryptoKey wrappingKey, object wrapAlgorithm) => InvokeAsync<byte[]>("wrapKey", format, key, wrappingKey, wrapAlgorithm);
 
         [JsName("unwrapKey")]
-        public Task<CryptoKey> UnwrapKeyAsync(KeyFormat format, byte[] wrappedKey, CryptoKey unwrappingKey, object unwrapAlgorithm, object unwrappedKeyAlgorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => throw new NotImplementedException();
+        public Task<CryptoKey> UnwrapKeyAsync(KeyFormat format, byte[] wrappedKey, CryptoKey unwrappingKey, object unwrapAlgorithm, object unwrappedKeyAlgorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => InvokeAsync<CryptoKey>("unwrapKey", format, wrappedKey, unwrappingKey, unwrapAlgorithm, unwrappedKeyAlgorithm, extractable, keyUsages);
 
         [JsName("encapsulateKey")]
-        public Task<EncapsulatedKey> EncapsulateKeyAsync(object encapsulationAlgorithm, CryptoKey encapsulationKey, object sharedKeyAlgorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => throw new NotImplementedException();
+        public Task<EncapsulatedKey> EncapsulateKeyAsync(object encapsulationAlgorithm, CryptoKey encapsulationKey, object sharedKeyAlgorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => InvokeAsync<EncapsulatedKey>("encapsulateKey", encapsulationAlgorithm, encapsulationKey, sharedKeyAlgorithm, extractable, keyUsages);
 
         [JsName("encapsulateBits")]
-        public Task<EncapsulatedBits> EncapsulateBitsAsync(object encapsulationAlgorithm, CryptoKey encapsulationKey) => throw new NotImplementedException();
+        public Task<EncapsulatedBits> EncapsulateBitsAsync(object encapsulationAlgorithm, CryptoKey encapsulationKey) => InvokeAsync<EncapsulatedBits>("encapsulateBits", encapsulationAlgorithm, encapsulationKey);
 
         [JsName("decapsulateKey")]
-        public Task<CryptoKey> DecapsulateKeyAsync(object decapsulationAlgorithm, CryptoKey decapsulationKey, byte[] ciphertext, object sharedKeyAlgorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => throw new NotImplementedException();
+        public Task<CryptoKey> DecapsulateKeyAsync(object decapsulationAlgorithm, CryptoKey decapsulationKey, byte[] ciphertext, object sharedKeyAlgorithm, bool extractable, IReadOnlyList<KeyUsage> keyUsages) => InvokeAsync<CryptoKey>("decapsulateKey", decapsulationAlgorithm, decapsulationKey, ciphertext, sharedKeyAlgorithm, extractable, keyUsages);
 
         [JsName("decapsulateBits")]
-        public Task<byte[]> DecapsulateBitsAsync(object decapsulationAlgorithm, CryptoKey decapsulationKey, byte[] ciphertext) => throw new NotImplementedException();
+        public Task<byte[]> DecapsulateBitsAsync(object decapsulationAlgorithm, CryptoKey decapsulationKey, byte[] ciphertext) => InvokeAsync<byte[]>("decapsulateBits", decapsulationAlgorithm, decapsulationKey, ciphertext);
 
         [JsName("getPublicKey")]
-        public Task<CryptoKey> GetPublicKeyAsync(CryptoKey key, IReadOnlyList<KeyUsage> keyUsages) => throw new NotImplementedException();
+        public Task<CryptoKey> GetPublicKeyAsync(CryptoKey key, IReadOnlyList<KeyUsage> keyUsages) => InvokeAsync<CryptoKey>("getPublicKey", key, keyUsages);
 
         [JsName("supports")]
         public static bool Supports(string operation, object algorithm, uint? length = null) => throw new NotImplementedException();

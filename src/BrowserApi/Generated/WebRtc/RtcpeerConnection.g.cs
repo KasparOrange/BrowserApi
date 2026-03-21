@@ -36,150 +36,186 @@ namespace BrowserApi.WebRtc
     public partial class RtcpeerConnection : EventTarget
     {
         [JsName("localDescription")]
-        public RtcsessionDescription? LocalDescription { get; }
+        public RtcsessionDescription? LocalDescription => GetProperty<RtcsessionDescription?>("localDescription");
 
         [JsName("currentLocalDescription")]
-        public RtcsessionDescription? CurrentLocalDescription { get; }
+        public RtcsessionDescription? CurrentLocalDescription => GetProperty<RtcsessionDescription?>("currentLocalDescription");
 
         [JsName("pendingLocalDescription")]
-        public RtcsessionDescription? PendingLocalDescription { get; }
+        public RtcsessionDescription? PendingLocalDescription => GetProperty<RtcsessionDescription?>("pendingLocalDescription");
 
         [JsName("remoteDescription")]
-        public RtcsessionDescription? RemoteDescription { get; }
+        public RtcsessionDescription? RemoteDescription => GetProperty<RtcsessionDescription?>("remoteDescription");
 
         [JsName("currentRemoteDescription")]
-        public RtcsessionDescription? CurrentRemoteDescription { get; }
+        public RtcsessionDescription? CurrentRemoteDescription => GetProperty<RtcsessionDescription?>("currentRemoteDescription");
 
         [JsName("pendingRemoteDescription")]
-        public RtcsessionDescription? PendingRemoteDescription { get; }
+        public RtcsessionDescription? PendingRemoteDescription => GetProperty<RtcsessionDescription?>("pendingRemoteDescription");
 
         [JsName("signalingState")]
-        public RtcsignalingState SignalingState { get; }
+        public RtcsignalingState SignalingState => GetProperty<RtcsignalingState>("signalingState");
 
         [JsName("iceGatheringState")]
-        public RtciceGatheringState IceGatheringState { get; }
+        public RtciceGatheringState IceGatheringState => GetProperty<RtciceGatheringState>("iceGatheringState");
 
         [JsName("iceConnectionState")]
-        public RtciceConnectionState IceConnectionState { get; }
+        public RtciceConnectionState IceConnectionState => GetProperty<RtciceConnectionState>("iceConnectionState");
 
         [JsName("connectionState")]
-        public RtcpeerConnectionState ConnectionState { get; }
+        public RtcpeerConnectionState ConnectionState => GetProperty<RtcpeerConnectionState>("connectionState");
 
         [JsName("canTrickleIceCandidates")]
-        public bool? CanTrickleIceCandidates { get; }
+        public bool? CanTrickleIceCandidates => GetProperty<bool?>("canTrickleIceCandidates");
 
         [JsName("onnegotiationneeded")]
-        public object Onnegotiationneeded { get; set; }
+        public object Onnegotiationneeded
+        {
+            get => GetProperty<object>("onnegotiationneeded");
+            set => SetProperty("onnegotiationneeded", value);
+        }
 
         [JsName("onicecandidate")]
-        public object Onicecandidate { get; set; }
+        public object Onicecandidate
+        {
+            get => GetProperty<object>("onicecandidate");
+            set => SetProperty("onicecandidate", value);
+        }
 
         [JsName("onicecandidateerror")]
-        public object Onicecandidateerror { get; set; }
+        public object Onicecandidateerror
+        {
+            get => GetProperty<object>("onicecandidateerror");
+            set => SetProperty("onicecandidateerror", value);
+        }
 
         [JsName("onsignalingstatechange")]
-        public object Onsignalingstatechange { get; set; }
+        public object Onsignalingstatechange
+        {
+            get => GetProperty<object>("onsignalingstatechange");
+            set => SetProperty("onsignalingstatechange", value);
+        }
 
         [JsName("oniceconnectionstatechange")]
-        public object Oniceconnectionstatechange { get; set; }
+        public object Oniceconnectionstatechange
+        {
+            get => GetProperty<object>("oniceconnectionstatechange");
+            set => SetProperty("oniceconnectionstatechange", value);
+        }
 
         [JsName("onicegatheringstatechange")]
-        public object Onicegatheringstatechange { get; set; }
+        public object Onicegatheringstatechange
+        {
+            get => GetProperty<object>("onicegatheringstatechange");
+            set => SetProperty("onicegatheringstatechange", value);
+        }
 
         [JsName("onconnectionstatechange")]
-        public object Onconnectionstatechange { get; set; }
+        public object Onconnectionstatechange
+        {
+            get => GetProperty<object>("onconnectionstatechange");
+            set => SetProperty("onconnectionstatechange", value);
+        }
 
         [JsName("peerIdentity")]
-        public Task<RtcidentityAssertion> PeerIdentity { get; }
+        public Task<RtcidentityAssertion> PeerIdentity => GetProperty<Task<RtcidentityAssertion>>("peerIdentity");
 
         [JsName("idpLoginUrl")]
-        public string? IdpLoginUrl { get; }
+        public string? IdpLoginUrl => GetProperty<string?>("idpLoginUrl");
 
         [JsName("idpErrorInfo")]
-        public string? IdpErrorInfo { get; }
+        public string? IdpErrorInfo => GetProperty<string?>("idpErrorInfo");
 
         [JsName("ontrack")]
-        public object Ontrack { get; set; }
+        public object Ontrack
+        {
+            get => GetProperty<object>("ontrack");
+            set => SetProperty("ontrack", value);
+        }
 
         [JsName("sctp")]
-        public RtcsctpTransport? Sctp { get; }
+        public RtcsctpTransport? Sctp => GetProperty<RtcsctpTransport?>("sctp");
 
         [JsName("ondatachannel")]
-        public object Ondatachannel { get; set; }
+        public object Ondatachannel
+        {
+            get => GetProperty<object>("ondatachannel");
+            set => SetProperty("ondatachannel", value);
+        }
 
         [JsName("createOffer")]
-        public Task<RtcsessionDescriptionInit> CreateOfferAsync(RtcofferOptions? options = null) => throw new NotImplementedException();
+        public Task<RtcsessionDescriptionInit> CreateOfferAsync(RtcofferOptions? options = null) => InvokeAsync<RtcsessionDescriptionInit>("createOffer", options);
 
         [JsName("createAnswer")]
-        public Task<RtcsessionDescriptionInit> CreateAnswerAsync(RtcanswerOptions? options = null) => throw new NotImplementedException();
+        public Task<RtcsessionDescriptionInit> CreateAnswerAsync(RtcanswerOptions? options = null) => InvokeAsync<RtcsessionDescriptionInit>("createAnswer", options);
 
         [JsName("setLocalDescription")]
-        public Task SetLocalDescriptionAsync(RtclocalSessionDescriptionInit? description = null) => throw new NotImplementedException();
+        public Task SetLocalDescriptionAsync(RtclocalSessionDescriptionInit? description = null) => InvokeVoidAsync("setLocalDescription", description);
 
         [JsName("setRemoteDescription")]
-        public Task SetRemoteDescriptionAsync(RtcsessionDescriptionInit description) => throw new NotImplementedException();
+        public Task SetRemoteDescriptionAsync(RtcsessionDescriptionInit description) => InvokeVoidAsync("setRemoteDescription", description);
 
         [JsName("addIceCandidate")]
-        public Task AddIceCandidateAsync(RtciceCandidateInit? candidate = null) => throw new NotImplementedException();
+        public Task AddIceCandidateAsync(RtciceCandidateInit? candidate = null) => InvokeVoidAsync("addIceCandidate", candidate);
 
         [JsName("restartIce")]
-        public void RestartIce() => throw new NotImplementedException();
+        public void RestartIce() => InvokeVoid("restartIce");
 
         [JsName("getConfiguration")]
-        public Rtcconfiguration GetConfiguration() => throw new NotImplementedException();
+        public Rtcconfiguration GetConfiguration() => Invoke<Rtcconfiguration>("getConfiguration");
 
         [JsName("setConfiguration")]
-        public void SetConfiguration(Rtcconfiguration? configuration = null) => throw new NotImplementedException();
+        public void SetConfiguration(Rtcconfiguration? configuration = null) => InvokeVoid("setConfiguration", configuration);
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("createOffer")]
-        public Task CreateOfferAsync(RtcsessionDescriptionCallback successCallback, RtcpeerConnectionErrorCallback failureCallback, RtcofferOptions? options = null) => throw new NotImplementedException();
+        public Task CreateOfferAsync(RtcsessionDescriptionCallback successCallback, RtcpeerConnectionErrorCallback failureCallback, RtcofferOptions? options = null) => InvokeVoidAsync("createOffer", successCallback, failureCallback, options);
 
         [JsName("setLocalDescription")]
-        public Task SetLocalDescriptionAsync(RtclocalSessionDescriptionInit description, VoidFunction successCallback, RtcpeerConnectionErrorCallback failureCallback) => throw new NotImplementedException();
+        public Task SetLocalDescriptionAsync(RtclocalSessionDescriptionInit description, VoidFunction successCallback, RtcpeerConnectionErrorCallback failureCallback) => InvokeVoidAsync("setLocalDescription", description, successCallback, failureCallback);
 
         [JsName("createAnswer")]
-        public Task CreateAnswerAsync(RtcsessionDescriptionCallback successCallback, RtcpeerConnectionErrorCallback failureCallback) => throw new NotImplementedException();
+        public Task CreateAnswerAsync(RtcsessionDescriptionCallback successCallback, RtcpeerConnectionErrorCallback failureCallback) => InvokeVoidAsync("createAnswer", successCallback, failureCallback);
 
         [JsName("setRemoteDescription")]
-        public Task SetRemoteDescriptionAsync(RtcsessionDescriptionInit description, VoidFunction successCallback, RtcpeerConnectionErrorCallback failureCallback) => throw new NotImplementedException();
+        public Task SetRemoteDescriptionAsync(RtcsessionDescriptionInit description, VoidFunction successCallback, RtcpeerConnectionErrorCallback failureCallback) => InvokeVoidAsync("setRemoteDescription", description, successCallback, failureCallback);
 
         [JsName("addIceCandidate")]
-        public Task AddIceCandidateAsync(RtciceCandidateInit candidate, VoidFunction successCallback, RtcpeerConnectionErrorCallback failureCallback) => throw new NotImplementedException();
+        public Task AddIceCandidateAsync(RtciceCandidateInit candidate, VoidFunction successCallback, RtcpeerConnectionErrorCallback failureCallback) => InvokeVoidAsync("addIceCandidate", candidate, successCallback, failureCallback);
 
         [JsName("setIdentityProvider")]
-        public void SetIdentityProvider(string provider, RtcidentityProviderOptions? options = null) => throw new NotImplementedException();
+        public void SetIdentityProvider(string provider, RtcidentityProviderOptions? options = null) => InvokeVoid("setIdentityProvider", provider, options);
 
         [JsName("getIdentityAssertion")]
-        public Task<string> GetIdentityAssertionAsync() => throw new NotImplementedException();
+        public Task<string> GetIdentityAssertionAsync() => InvokeAsync<string>("getIdentityAssertion");
 
         [JsName("generateCertificate")]
         public static Task<Rtccertificate> GenerateCertificateAsync(object keygenAlgorithm) => throw new NotImplementedException();
 
         [JsName("getSenders")]
-        public IReadOnlyList<RtcrtpSender> GetSenders() => throw new NotImplementedException();
+        public IReadOnlyList<RtcrtpSender> GetSenders() => Invoke<IReadOnlyList<RtcrtpSender>>("getSenders");
 
         [JsName("getReceivers")]
-        public IReadOnlyList<RtcrtpReceiver> GetReceivers() => throw new NotImplementedException();
+        public IReadOnlyList<RtcrtpReceiver> GetReceivers() => Invoke<IReadOnlyList<RtcrtpReceiver>>("getReceivers");
 
         [JsName("getTransceivers")]
-        public IReadOnlyList<RtcrtpTransceiver> GetTransceivers() => throw new NotImplementedException();
+        public IReadOnlyList<RtcrtpTransceiver> GetTransceivers() => Invoke<IReadOnlyList<RtcrtpTransceiver>>("getTransceivers");
 
         [JsName("addTrack")]
-        public RtcrtpSender AddTrack(MediaStreamTrack track, params object[] streams) => throw new NotImplementedException();
+        public RtcrtpSender AddTrack(MediaStreamTrack track, params object[] streams) => Invoke<RtcrtpSender>("addTrack", track, streams);
 
         [JsName("removeTrack")]
-        public void RemoveTrack(RtcrtpSender sender) => throw new NotImplementedException();
+        public void RemoveTrack(RtcrtpSender sender) => InvokeVoid("removeTrack", sender);
 
         [JsName("addTransceiver")]
-        public RtcrtpTransceiver AddTransceiver(object trackOrKind, RtcrtpTransceiverInit? init = null) => throw new NotImplementedException();
+        public RtcrtpTransceiver AddTransceiver(object trackOrKind, RtcrtpTransceiverInit? init = null) => Invoke<RtcrtpTransceiver>("addTransceiver", trackOrKind, init);
 
         [JsName("createDataChannel")]
-        public RtcdataChannel CreateDataChannel(string label, RtcdataChannelInit? dataChannelDict = null) => throw new NotImplementedException();
+        public RtcdataChannel CreateDataChannel(string label, RtcdataChannelInit? dataChannelDict = null) => Invoke<RtcdataChannel>("createDataChannel", label, dataChannelDict);
 
         [JsName("getStats")]
-        public Task<RtcstatsReport> GetStatsAsync(MediaStreamTrack? selector = null) => throw new NotImplementedException();
+        public Task<RtcstatsReport> GetStatsAsync(MediaStreamTrack? selector = null) => InvokeAsync<RtcstatsReport>("getStats", selector);
     }
 }

@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class GeolocationPosition
+    public partial class GeolocationPosition : JsObject
     {
         [JsName("coords")]
-        public GeolocationCoordinates Coords { get; }
+        public GeolocationCoordinates Coords => GetProperty<GeolocationCoordinates>("coords");
 
         [JsName("timestamp")]
-        public long Timestamp { get; }
+        public long Timestamp => GetProperty<long>("timestamp");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

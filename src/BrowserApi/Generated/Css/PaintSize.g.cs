@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class PaintSize
+    public partial class PaintSize : JsObject
     {
         [JsName("width")]
-        public double Width { get; }
+        public double Width => GetProperty<double>("width");
 
         [JsName("height")]
-        public double Height { get; }
+        public double Height => GetProperty<double>("height");
     }
 }

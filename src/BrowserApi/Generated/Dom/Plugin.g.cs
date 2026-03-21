@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Plugin
+    public partial class Plugin : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("description")]
-        public string Description { get; }
+        public string Description => GetProperty<string>("description");
 
         [JsName("filename")]
-        public string Filename { get; }
+        public string Filename => GetProperty<string>("filename");
 
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public MimeType? Item(uint index) => throw new NotImplementedException();
+        public MimeType? Item(uint index) => Invoke<MimeType?>("item", index);
 
         [JsName("namedItem")]
-        public MimeType? NamedItem(string name) => throw new NotImplementedException();
+        public MimeType? NamedItem(string name) => Invoke<MimeType?>("namedItem", name);
     }
 }

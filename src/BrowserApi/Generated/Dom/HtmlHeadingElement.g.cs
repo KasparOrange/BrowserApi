@@ -36,6 +36,10 @@ namespace BrowserApi.Dom
     public partial class HtmlHeadingElement : HtmlElement
     {
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
     }
 }

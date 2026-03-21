@@ -36,27 +36,51 @@ namespace BrowserApi.Dom
     public partial class HtmlOptionElement : HtmlElement
     {
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
 
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("defaultSelected")]
-        public bool DefaultSelected { get; set; }
+        public bool DefaultSelected
+        {
+            get => GetProperty<bool>("defaultSelected");
+            set => SetProperty("defaultSelected", value);
+        }
 
         [JsName("selected")]
-        public bool Selected { get; set; }
+        public bool Selected
+        {
+            get => GetProperty<bool>("selected");
+            set => SetProperty("selected", value);
+        }
 
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get => GetProperty<string>("text");
+            set => SetProperty("text", value);
+        }
 
         [JsName("index")]
-        public int Index { get; }
+        public int Index => GetProperty<int>("index");
     }
 }

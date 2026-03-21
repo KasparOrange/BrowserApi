@@ -36,24 +36,36 @@ namespace BrowserApi.Dom
     public partial class HtmlDialogElement : HtmlElement
     {
         [JsName("open")]
-        public bool Open { get; set; }
+        public bool Open
+        {
+            get => GetProperty<bool>("open");
+            set => SetProperty("open", value);
+        }
 
         [JsName("returnValue")]
-        public string ReturnValue { get; set; }
+        public string ReturnValue
+        {
+            get => GetProperty<string>("returnValue");
+            set => SetProperty("returnValue", value);
+        }
 
         [JsName("closedBy")]
-        public string ClosedBy { get; set; }
+        public string ClosedBy
+        {
+            get => GetProperty<string>("closedBy");
+            set => SetProperty("closedBy", value);
+        }
 
         [JsName("show")]
-        public void Show() => throw new NotImplementedException();
+        public void Show() => InvokeVoid("show");
 
         [JsName("showModal")]
-        public void ShowModal() => throw new NotImplementedException();
+        public void ShowModal() => InvokeVoid("showModal");
 
         [JsName("close")]
-        public void Close(string? returnValue = null) => throw new NotImplementedException();
+        public void Close(string? returnValue = null) => InvokeVoid("close", returnValue);
 
         [JsName("requestClose")]
-        public void RequestClose(string? returnValue = null) => throw new NotImplementedException();
+        public void RequestClose(string? returnValue = null) => InvokeVoid("requestClose", returnValue);
     }
 }

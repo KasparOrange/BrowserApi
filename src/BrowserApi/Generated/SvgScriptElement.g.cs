@@ -36,12 +36,20 @@ namespace BrowserApi
     public partial class SvgScriptElement : SvgElement
     {
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("crossOrigin")]
-        public string? CrossOrigin { get; set; }
+        public string? CrossOrigin
+        {
+            get => GetProperty<string?>("crossOrigin");
+            set => SetProperty("crossOrigin", value);
+        }
 
         [JsName("href")]
-        public SvgAnimatedString Href { get; }
+        public SvgAnimatedString Href => GetProperty<SvgAnimatedString>("href");
     }
 }

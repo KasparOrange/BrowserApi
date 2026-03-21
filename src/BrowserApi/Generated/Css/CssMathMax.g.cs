@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssMathMax : CssMathValue
     {
         [JsName("values")]
-        public CssNumericArray Values { get; }
+        public CssNumericArray Values => GetProperty<CssNumericArray>("values");
     }
 }

@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class BarcodeDetector
+    public partial class BarcodeDetector : JsObject
     {
         [JsName("getSupportedFormats")]
         public static Task<IReadOnlyList<BarcodeFormat>> GetSupportedFormatsAsync() => throw new NotImplementedException();
 
         [JsName("detect")]
-        public Task<IReadOnlyList<DetectedBarcode>> DetectAsync(object image) => throw new NotImplementedException();
+        public Task<IReadOnlyList<DetectedBarcode>> DetectAsync(object image) => InvokeAsync<IReadOnlyList<DetectedBarcode>>("detect", image);
     }
 }

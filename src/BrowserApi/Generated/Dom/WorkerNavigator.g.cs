@@ -32,102 +32,102 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class WorkerNavigator
+    public partial class WorkerNavigator : JsObject
     {
         [JsName("mediaCapabilities")]
-        public MediaCapabilities MediaCapabilities { get; }
+        public MediaCapabilities MediaCapabilities => GetProperty<MediaCapabilities>("mediaCapabilities");
 
         [JsName("permissions")]
-        public Permissions Permissions { get; }
+        public Permissions Permissions => GetProperty<Permissions>("permissions");
 
         [JsName("serial")]
-        public Serial Serial { get; }
+        public Serial Serial => GetProperty<Serial>("serial");
 
         [JsName("serviceWorker")]
-        public ServiceWorkerContainer ServiceWorker { get; }
+        public ServiceWorkerContainer ServiceWorker => GetProperty<ServiceWorkerContainer>("serviceWorker");
 
         [JsName("hid")]
-        public Hid Hid { get; }
+        public Hid Hid => GetProperty<Hid>("hid");
 
         [JsName("usb")]
-        public Usb Usb { get; }
+        public Usb Usb => GetProperty<Usb>("usb");
 
         [JsName("deviceMemory")]
-        public double DeviceMemory { get; }
+        public double DeviceMemory => GetProperty<double>("deviceMemory");
 
         [JsName("globalPrivacyControl")]
-        public bool GlobalPrivacyControl { get; }
+        public bool GlobalPrivacyControl => GetProperty<bool>("globalPrivacyControl");
 
         [JsName("appCodeName")]
-        public string AppCodeName { get; }
+        public string AppCodeName => GetProperty<string>("appCodeName");
 
         [JsName("appName")]
-        public string AppName { get; }
+        public string AppName => GetProperty<string>("appName");
 
         [JsName("appVersion")]
-        public string AppVersion { get; }
+        public string AppVersion => GetProperty<string>("appVersion");
 
         [JsName("platform")]
-        public string Platform { get; }
+        public string Platform => GetProperty<string>("platform");
 
         [JsName("product")]
-        public string Product { get; }
+        public string Product => GetProperty<string>("product");
 
         [JsName("productSub")]
-        public string ProductSub { get; }
+        public string ProductSub => GetProperty<string>("productSub");
 
         [JsName("userAgent")]
-        public string UserAgent { get; }
+        public string UserAgent => GetProperty<string>("userAgent");
 
         [JsName("vendor")]
-        public string Vendor { get; }
+        public string Vendor => GetProperty<string>("vendor");
 
         [JsName("vendorSub")]
-        public string VendorSub { get; }
+        public string VendorSub => GetProperty<string>("vendorSub");
 
         [JsName("oscpu")]
-        public string Oscpu { get; }
+        public string Oscpu => GetProperty<string>("oscpu");
 
         [JsName("language")]
-        public string Language { get; }
+        public string Language => GetProperty<string>("language");
 
         [JsName("languages")]
-        public IReadOnlyList<string> Languages { get; }
+        public IReadOnlyList<string> Languages => GetProperty<IReadOnlyList<string>>("languages");
 
         [JsName("onLine")]
-        public bool OnLine { get; }
+        public bool OnLine => GetProperty<bool>("onLine");
 
         [JsName("hardwareConcurrency")]
-        public ulong HardwareConcurrency { get; }
+        public ulong HardwareConcurrency => GetProperty<ulong>("hardwareConcurrency");
 
         [JsName("connection")]
-        public NetworkInformation Connection { get; }
+        public NetworkInformation Connection => GetProperty<NetworkInformation>("connection");
 
         [JsName("storageBuckets")]
-        public StorageBucketManager StorageBuckets { get; }
+        public StorageBucketManager StorageBuckets => GetProperty<StorageBucketManager>("storageBuckets");
 
         [JsName("storage")]
-        public StorageManager Storage { get; }
+        public StorageManager Storage => GetProperty<StorageManager>("storage");
 
         [JsName("userAgentData")]
-        public NavigatorUadata UserAgentData { get; }
+        public NavigatorUadata UserAgentData => GetProperty<NavigatorUadata>("userAgentData");
 
         [JsName("locks")]
-        public LockManager Locks { get; }
+        public LockManager Locks => GetProperty<LockManager>("locks");
 
         [JsName("gpu")]
-        public Gpu Gpu { get; }
+        public Gpu Gpu => GetProperty<Gpu>("gpu");
 
         [JsName("ml")]
-        public Ml Ml { get; }
+        public Ml Ml => GetProperty<Ml>("ml");
 
         [JsName("setAppBadge")]
-        public Task SetAppBadgeAsync(ulong? contents = null) => throw new NotImplementedException();
+        public Task SetAppBadgeAsync(ulong? contents = null) => InvokeVoidAsync("setAppBadge", contents);
 
         [JsName("clearAppBadge")]
-        public Task ClearAppBadgeAsync() => throw new NotImplementedException();
+        public Task ClearAppBadgeAsync() => InvokeVoidAsync("clearAppBadge");
 
         [JsName("taintEnabled")]
-        public bool TaintEnabled() => throw new NotImplementedException();
+        public bool TaintEnabled() => Invoke<bool>("taintEnabled");
     }
 }

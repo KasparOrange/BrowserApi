@@ -32,13 +32,13 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Credentials
 {
-    public partial class Credential
+    public partial class Credential : JsObject
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("isConditionalMediationAvailable")]
         public static Task<bool> IsConditionalMediationAvailableAsync() => throw new NotImplementedException();

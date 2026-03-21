@@ -35,9 +35,13 @@ namespace BrowserApi
     public partial class DataCue : TextTrackCue
     {
         [JsName("value")]
-        public object Value { get; set; }
+        public object Value
+        {
+            get => GetProperty<object>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
     }
 }

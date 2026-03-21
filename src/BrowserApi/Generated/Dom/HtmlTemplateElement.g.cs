@@ -36,21 +36,41 @@ namespace BrowserApi.Dom
     public partial class HtmlTemplateElement : HtmlElement
     {
         [JsName("content")]
-        public DocumentFragment Content { get; }
+        public DocumentFragment Content => GetProperty<DocumentFragment>("content");
 
         [JsName("shadowRootMode")]
-        public string ShadowRootMode { get; set; }
+        public string ShadowRootMode
+        {
+            get => GetProperty<string>("shadowRootMode");
+            set => SetProperty("shadowRootMode", value);
+        }
 
         [JsName("shadowRootDelegatesFocus")]
-        public bool ShadowRootDelegatesFocus { get; set; }
+        public bool ShadowRootDelegatesFocus
+        {
+            get => GetProperty<bool>("shadowRootDelegatesFocus");
+            set => SetProperty("shadowRootDelegatesFocus", value);
+        }
 
         [JsName("shadowRootClonable")]
-        public bool ShadowRootClonable { get; set; }
+        public bool ShadowRootClonable
+        {
+            get => GetProperty<bool>("shadowRootClonable");
+            set => SetProperty("shadowRootClonable", value);
+        }
 
         [JsName("shadowRootSerializable")]
-        public bool ShadowRootSerializable { get; set; }
+        public bool ShadowRootSerializable
+        {
+            get => GetProperty<bool>("shadowRootSerializable");
+            set => SetProperty("shadowRootSerializable", value);
+        }
 
         [JsName("shadowRootCustomElementRegistry")]
-        public string ShadowRootCustomElementRegistry { get; set; }
+        public string ShadowRootCustomElementRegistry
+        {
+            get => GetProperty<string>("shadowRootCustomElementRegistry");
+            set => SetProperty("shadowRootCustomElementRegistry", value);
+        }
     }
 }

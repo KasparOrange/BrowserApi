@@ -35,15 +35,19 @@ namespace BrowserApi.WebAudio
     public partial class OscillatorNode : AudioScheduledSourceNode
     {
         [JsName("type")]
-        public OscillatorType Type { get; set; }
+        public OscillatorType Type
+        {
+            get => GetProperty<OscillatorType>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("frequency")]
-        public AudioParam Frequency { get; }
+        public AudioParam Frequency => GetProperty<AudioParam>("frequency");
 
         [JsName("detune")]
-        public AudioParam Detune { get; }
+        public AudioParam Detune => GetProperty<AudioParam>("detune");
 
         [JsName("setPeriodicWave")]
-        public void SetPeriodicWave(PeriodicWave periodicWave) => throw new NotImplementedException();
+        public void SetPeriodicWave(PeriodicWave periodicWave) => InvokeVoid("setPeriodicWave", periodicWave);
     }
 }

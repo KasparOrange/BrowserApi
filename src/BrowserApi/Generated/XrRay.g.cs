@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRRay")]
-    public partial class XrRay
+    public partial class XrRay : JsObject
     {
         [JsName("origin")]
-        public DomPointReadOnly Origin { get; }
+        public DomPointReadOnly Origin => GetProperty<DomPointReadOnly>("origin");
 
         [JsName("direction")]
-        public DomPointReadOnly Direction { get; }
+        public DomPointReadOnly Direction => GetProperty<DomPointReadOnly>("direction");
 
         [JsName("matrix")]
-        public float[] Matrix { get; }
+        public float[] Matrix => GetProperty<float[]>("matrix");
     }
 }

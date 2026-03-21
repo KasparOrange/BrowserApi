@@ -36,18 +36,26 @@ namespace BrowserApi
     public partial class Ndefreader : EventTarget
     {
         [JsName("onreading")]
-        public object Onreading { get; set; }
+        public object Onreading
+        {
+            get => GetProperty<object>("onreading");
+            set => SetProperty("onreading", value);
+        }
 
         [JsName("onreadingerror")]
-        public object Onreadingerror { get; set; }
+        public object Onreadingerror
+        {
+            get => GetProperty<object>("onreadingerror");
+            set => SetProperty("onreadingerror", value);
+        }
 
         [JsName("scan")]
-        public Task ScanAsync(NdefscanOptions? options = null) => throw new NotImplementedException();
+        public Task ScanAsync(NdefscanOptions? options = null) => InvokeVoidAsync("scan", options);
 
         [JsName("write")]
-        public Task WriteAsync(object message, NdefwriteOptions? options = null) => throw new NotImplementedException();
+        public Task WriteAsync(object message, NdefwriteOptions? options = null) => InvokeVoidAsync("write", message, options);
 
         [JsName("makeReadOnly")]
-        public Task MakeReadOnlyAsync(NdefmakeReadOnlyOptions? options = null) => throw new NotImplementedException();
+        public Task MakeReadOnlyAsync(NdefmakeReadOnlyOptions? options = null) => InvokeVoidAsync("makeReadOnly", options);
     }
 }

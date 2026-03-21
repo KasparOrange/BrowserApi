@@ -36,21 +36,45 @@ namespace BrowserApi.Dom
     public partial class HtmlTableColElement : HtmlElement
     {
         [JsName("span")]
-        public uint Span { get; set; }
+        public uint Span
+        {
+            get => GetProperty<uint>("span");
+            set => SetProperty("span", value);
+        }
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("ch")]
-        public string Ch { get; set; }
+        public string Ch
+        {
+            get => GetProperty<string>("ch");
+            set => SetProperty("ch", value);
+        }
 
         [JsName("chOff")]
-        public string ChOff { get; set; }
+        public string ChOff
+        {
+            get => GetProperty<string>("chOff");
+            set => SetProperty("chOff", value);
+        }
 
         [JsName("vAlign")]
-        public string VAlign { get; set; }
+        public string VAlign
+        {
+            get => GetProperty<string>("vAlign");
+            set => SetProperty("vAlign", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
     }
 }

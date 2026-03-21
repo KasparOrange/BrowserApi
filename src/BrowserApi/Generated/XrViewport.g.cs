@@ -33,18 +33,18 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRViewport")]
-    public partial class XrViewport
+    public partial class XrViewport : JsObject
     {
         [JsName("x")]
-        public int X { get; }
+        public int X => GetProperty<int>("x");
 
         [JsName("y")]
-        public int Y { get; }
+        public int Y => GetProperty<int>("y");
 
         [JsName("width")]
-        public int Width { get; }
+        public int Width => GetProperty<int>("width");
 
         [JsName("height")]
-        public int Height { get; }
+        public int Height => GetProperty<int>("height");
     }
 }

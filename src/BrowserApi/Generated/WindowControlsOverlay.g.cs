@@ -35,12 +35,16 @@ namespace BrowserApi
     public partial class WindowControlsOverlay : EventTarget
     {
         [JsName("visible")]
-        public bool Visible { get; }
+        public bool Visible => GetProperty<bool>("visible");
 
         [JsName("ongeometrychange")]
-        public object Ongeometrychange { get; set; }
+        public object Ongeometrychange
+        {
+            get => GetProperty<object>("ongeometrychange");
+            set => SetProperty("ongeometrychange", value);
+        }
 
         [JsName("getTitlebarAreaRect")]
-        public DomRect GetTitlebarAreaRect() => throw new NotImplementedException();
+        public DomRect GetTitlebarAreaRect() => Invoke<DomRect>("getTitlebarAreaRect");
     }
 }

@@ -36,9 +36,13 @@ namespace BrowserApi.Dom
     public partial class HtmlLegendElement : HtmlElement
     {
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
     }
 }

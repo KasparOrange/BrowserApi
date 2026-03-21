@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class ImageBitmap
+    public partial class ImageBitmap : JsObject
     {
         [JsName("width")]
-        public uint Width { get; }
+        public uint Width => GetProperty<uint>("width");
 
         [JsName("height")]
-        public uint Height { get; }
+        public uint Height => GetProperty<uint>("height");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
     }
 }

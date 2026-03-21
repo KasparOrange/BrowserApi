@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class IdleDeadline
+    public partial class IdleDeadline : JsObject
     {
         [JsName("didTimeout")]
-        public bool DidTimeout { get; }
+        public bool DidTimeout => GetProperty<bool>("didTimeout");
 
         [JsName("timeRemaining")]
-        public double TimeRemaining() => throw new NotImplementedException();
+        public double TimeRemaining() => Invoke<double>("timeRemaining");
     }
 }

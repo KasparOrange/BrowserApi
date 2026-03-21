@@ -36,21 +36,37 @@ namespace BrowserApi
     public partial class HtmlPortalElement : HtmlElement
     {
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("referrerPolicy")]
-        public string ReferrerPolicy { get; set; }
+        public string ReferrerPolicy
+        {
+            get => GetProperty<string>("referrerPolicy");
+            set => SetProperty("referrerPolicy", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("onmessageerror")]
-        public object Onmessageerror { get; set; }
+        public object Onmessageerror
+        {
+            get => GetProperty<object>("onmessageerror");
+            set => SetProperty("onmessageerror", value);
+        }
 
         [JsName("activate")]
-        public Task ActivateAsync(PortalActivateOptions? options = null) => throw new NotImplementedException();
+        public Task ActivateAsync(PortalActivateOptions? options = null) => InvokeVoidAsync("activate", options);
 
         [JsName("postMessage")]
-        public void PostMessage(object message, object? options = null) => throw new NotImplementedException();
+        public void PostMessage(object message, object? options = null) => InvokeVoid("postMessage", message, options);
     }
 }

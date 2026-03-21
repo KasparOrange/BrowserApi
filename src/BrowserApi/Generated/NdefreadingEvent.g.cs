@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class NdefreadingEvent : Event
     {
         [JsName("serialNumber")]
-        public string SerialNumber { get; }
+        public string SerialNumber => GetProperty<string>("serialNumber");
 
         [JsName("message")]
-        public Ndefmessage Message { get; }
+        public Ndefmessage Message => GetProperty<Ndefmessage>("message");
     }
 }

@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class SvgClipPathElement : SvgElement
     {
         [JsName("clipPathUnits")]
-        public SvgAnimatedEnumeration ClipPathUnits { get; }
+        public SvgAnimatedEnumeration ClipPathUnits => GetProperty<SvgAnimatedEnumeration>("clipPathUnits");
 
         [JsName("transform")]
-        public SvgAnimatedTransformList Transform { get; }
+        public SvgAnimatedTransformList Transform => GetProperty<SvgAnimatedTransformList>("transform");
     }
 }

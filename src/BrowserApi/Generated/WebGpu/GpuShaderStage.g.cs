@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUShaderStage")]
-    public partial class GpuShaderStage
+    public partial class GpuShaderStage : JsObject
     {
         public const uint Vertex = 0x1;
 

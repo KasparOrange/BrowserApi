@@ -36,6 +36,6 @@ namespace BrowserApi.WebRtc
     public partial class RtcidentityProviderGlobalScope : WorkerGlobalScope
     {
         [JsName("rtcIdentityProvider")]
-        public RtcidentityProviderRegistrar RtcIdentityProvider { get; }
+        public RtcidentityProviderRegistrar RtcIdentityProvider => GetProperty<RtcidentityProviderRegistrar>("rtcIdentityProvider");
     }
 }

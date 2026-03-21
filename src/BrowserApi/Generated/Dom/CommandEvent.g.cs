@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class CommandEvent : Event
     {
         [JsName("source")]
-        public Element? Source { get; }
+        public Element? Source => GetProperty<Element?>("source");
 
         [JsName("command")]
-        public string Command { get; }
+        public string Command => GetProperty<string>("command");
     }
 }

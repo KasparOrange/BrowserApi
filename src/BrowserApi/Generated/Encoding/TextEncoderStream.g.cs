@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Encoding
 {
-    public partial class TextEncoderStream
+    public partial class TextEncoderStream : JsObject
     {
         [JsName("encoding")]
-        public string Encoding { get; }
+        public string Encoding => GetProperty<string>("encoding");
 
         [JsName("readable")]
-        public ReadableStream Readable { get; }
+        public ReadableStream Readable => GetProperty<ReadableStream>("readable");
 
         [JsName("writable")]
-        public WritableStream Writable { get; }
+        public WritableStream Writable => GetProperty<WritableStream>("writable");
     }
 }

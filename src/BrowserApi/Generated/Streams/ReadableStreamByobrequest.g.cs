@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Streams
 {
     [JsName("ReadableStreamBYOBRequest")]
-    public partial class ReadableStreamByobrequest
+    public partial class ReadableStreamByobrequest : JsObject
     {
         [JsName("view")]
-        public byte[]? View { get; }
+        public byte[]? View => GetProperty<byte[]?>("view");
 
         [JsName("respond")]
-        public void Respond(ulong bytesWritten) => throw new NotImplementedException();
+        public void Respond(ulong bytesWritten) => InvokeVoid("respond", bytesWritten);
 
         [JsName("respondWithNewView")]
-        public void RespondWithNewView(byte[] view) => throw new NotImplementedException();
+        public void RespondWithNewView(byte[] view) => InvokeVoid("respondWithNewView", view);
     }
 }

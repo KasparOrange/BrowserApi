@@ -35,30 +35,46 @@ namespace BrowserApi.WebAudio
     public partial class AnalyserNode : AudioNode
     {
         [JsName("fftSize")]
-        public uint FftSize { get; set; }
+        public uint FftSize
+        {
+            get => GetProperty<uint>("fftSize");
+            set => SetProperty("fftSize", value);
+        }
 
         [JsName("frequencyBinCount")]
-        public uint FrequencyBinCount { get; }
+        public uint FrequencyBinCount => GetProperty<uint>("frequencyBinCount");
 
         [JsName("minDecibels")]
-        public double MinDecibels { get; set; }
+        public double MinDecibels
+        {
+            get => GetProperty<double>("minDecibels");
+            set => SetProperty("minDecibels", value);
+        }
 
         [JsName("maxDecibels")]
-        public double MaxDecibels { get; set; }
+        public double MaxDecibels
+        {
+            get => GetProperty<double>("maxDecibels");
+            set => SetProperty("maxDecibels", value);
+        }
 
         [JsName("smoothingTimeConstant")]
-        public double SmoothingTimeConstant { get; set; }
+        public double SmoothingTimeConstant
+        {
+            get => GetProperty<double>("smoothingTimeConstant");
+            set => SetProperty("smoothingTimeConstant", value);
+        }
 
         [JsName("getFloatFrequencyData")]
-        public void GetFloatFrequencyData(float[] array) => throw new NotImplementedException();
+        public void GetFloatFrequencyData(float[] array) => InvokeVoid("getFloatFrequencyData", array);
 
         [JsName("getByteFrequencyData")]
-        public void GetByteFrequencyData(byte[] array) => throw new NotImplementedException();
+        public void GetByteFrequencyData(byte[] array) => InvokeVoid("getByteFrequencyData", array);
 
         [JsName("getFloatTimeDomainData")]
-        public void GetFloatTimeDomainData(float[] array) => throw new NotImplementedException();
+        public void GetFloatTimeDomainData(float[] array) => InvokeVoid("getFloatTimeDomainData", array);
 
         [JsName("getByteTimeDomainData")]
-        public void GetByteTimeDomainData(byte[] array) => throw new NotImplementedException();
+        public void GetByteTimeDomainData(byte[] array) => InvokeVoid("getByteTimeDomainData", array);
     }
 }

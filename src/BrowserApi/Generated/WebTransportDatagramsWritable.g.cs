@@ -35,9 +35,17 @@ namespace BrowserApi
     public partial class WebTransportDatagramsWritable : WritableStream
     {
         [JsName("sendGroup")]
-        public WebTransportSendGroup? SendGroup { get; set; }
+        public WebTransportSendGroup? SendGroup
+        {
+            get => GetProperty<WebTransportSendGroup?>("sendGroup");
+            set => SetProperty("sendGroup", value);
+        }
 
         [JsName("sendOrder")]
-        public long SendOrder { get; set; }
+        public long SendOrder
+        {
+            get => GetProperty<long>("sendOrder");
+            set => SetProperty("sendOrder", value);
+        }
     }
 }

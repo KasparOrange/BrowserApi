@@ -35,12 +35,20 @@ namespace BrowserApi.Media
     public partial class SourceBufferList : EventTarget
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("onaddsourcebuffer")]
-        public object Onaddsourcebuffer { get; set; }
+        public object Onaddsourcebuffer
+        {
+            get => GetProperty<object>("onaddsourcebuffer");
+            set => SetProperty("onaddsourcebuffer", value);
+        }
 
         [JsName("onremovesourcebuffer")]
-        public object Onremovesourcebuffer { get; set; }
+        public object Onremovesourcebuffer
+        {
+            get => GetProperty<object>("onremovesourcebuffer");
+            set => SetProperty("onremovesourcebuffer", value);
+        }
     }
 }

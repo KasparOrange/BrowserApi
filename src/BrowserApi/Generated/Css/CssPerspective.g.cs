@@ -36,6 +36,10 @@ namespace BrowserApi.Css
     public partial class CssPerspective : CssTransformComponent
     {
         [JsName("length")]
-        public object Length { get; set; }
+        public object Length
+        {
+            get => GetProperty<object>("length");
+            set => SetProperty("length", value);
+        }
     }
 }

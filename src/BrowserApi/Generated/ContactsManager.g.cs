@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ContactsManager
+    public partial class ContactsManager : JsObject
     {
         [JsName("getProperties")]
-        public Task<IReadOnlyList<ContactProperty>> GetPropertiesAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<ContactProperty>> GetPropertiesAsync() => InvokeAsync<IReadOnlyList<ContactProperty>>("getProperties");
 
         [JsName("select")]
-        public Task<IReadOnlyList<ContactInfo>> SelectAsync(IReadOnlyList<ContactProperty> properties, ContactsSelectOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<ContactInfo>> SelectAsync(IReadOnlyList<ContactProperty> properties, ContactsSelectOptions? options = null) => InvokeAsync<IReadOnlyList<ContactInfo>>("select", properties, options);
     }
 }

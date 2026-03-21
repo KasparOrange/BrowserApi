@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class PopStateEvent : Event
     {
         [JsName("state")]
-        public object State { get; }
+        public object State => GetProperty<object>("state");
 
         [JsName("hasUAVisualTransition")]
-        public bool HasUavisualTransition { get; }
+        public bool HasUavisualTransition => GetProperty<bool>("hasUAVisualTransition");
     }
 }

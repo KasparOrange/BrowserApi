@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class TextDetector
+    public partial class TextDetector : JsObject
     {
         [JsName("availability")]
         public static Task<Availability> AvailabilityAsync(TextDetectorOptions options) => throw new NotImplementedException();
@@ -41,6 +41,6 @@ namespace BrowserApi
         public static Task<TextDetector> CreateAsync(TextDetectorCreateOptions? options = null) => throw new NotImplementedException();
 
         [JsName("detect")]
-        public Task<IReadOnlyList<DetectedText>> DetectAsync(object image) => throw new NotImplementedException();
+        public Task<IReadOnlyList<DetectedText>> DetectAsync(object image) => InvokeAsync<IReadOnlyList<DetectedText>>("detect", image);
     }
 }

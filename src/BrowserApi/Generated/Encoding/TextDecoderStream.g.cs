@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Encoding
 {
-    public partial class TextDecoderStream
+    public partial class TextDecoderStream : JsObject
     {
         [JsName("encoding")]
-        public string Encoding { get; }
+        public string Encoding => GetProperty<string>("encoding");
 
         [JsName("fatal")]
-        public bool Fatal { get; }
+        public bool Fatal => GetProperty<bool>("fatal");
 
         [JsName("ignoreBOM")]
-        public bool IgnoreBom { get; }
+        public bool IgnoreBom => GetProperty<bool>("ignoreBOM");
 
         [JsName("readable")]
-        public ReadableStream Readable { get; }
+        public ReadableStream Readable => GetProperty<ReadableStream>("readable");
 
         [JsName("writable")]
-        public WritableStream Writable { get; }
+        public WritableStream Writable => GetProperty<WritableStream>("writable");
     }
 }

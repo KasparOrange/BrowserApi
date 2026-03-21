@@ -36,18 +36,22 @@ namespace BrowserApi.WebRtc
     public partial class SframeDecrypterStream : EventTarget
     {
         [JsName("readable")]
-        public ReadableStream Readable { get; }
+        public ReadableStream Readable => GetProperty<ReadableStream>("readable");
 
         [JsName("writable")]
-        public WritableStream Writable { get; }
+        public WritableStream Writable => GetProperty<WritableStream>("writable");
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("addDecryptionKey")]
-        public Task AddDecryptionKeyAsync(CryptoKey key, object keyId) => throw new NotImplementedException();
+        public Task AddDecryptionKeyAsync(CryptoKey key, object keyId) => InvokeVoidAsync("addDecryptionKey", key, keyId);
 
         [JsName("removeDecryptionKey")]
-        public Task RemoveDecryptionKeyAsync(object keyId) => throw new NotImplementedException();
+        public Task RemoveDecryptionKeyAsync(object keyId) => InvokeVoidAsync("removeDecryptionKey", keyId);
     }
 }

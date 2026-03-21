@@ -36,84 +36,184 @@ namespace BrowserApi.Dom
     public partial class HtmlAnchorElement : HtmlElement
     {
         [JsName("target")]
-        public string Target { get; set; }
+        public string Target
+        {
+            get => GetProperty<string>("target");
+            set => SetProperty("target", value);
+        }
 
         [JsName("download")]
-        public string Download { get; set; }
+        public string Download
+        {
+            get => GetProperty<string>("download");
+            set => SetProperty("download", value);
+        }
 
         [JsName("ping")]
-        public string Ping { get; set; }
+        public string Ping
+        {
+            get => GetProperty<string>("ping");
+            set => SetProperty("ping", value);
+        }
 
         [JsName("rel")]
-        public string Rel { get; set; }
+        public string Rel
+        {
+            get => GetProperty<string>("rel");
+            set => SetProperty("rel", value);
+        }
 
         [JsName("relList")]
-        public DomTokenList RelList { get; }
+        public DomTokenList RelList => GetProperty<DomTokenList>("relList");
 
         [JsName("hreflang")]
-        public string Hreflang { get; set; }
+        public string Hreflang
+        {
+            get => GetProperty<string>("hreflang");
+            set => SetProperty("hreflang", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get => GetProperty<string>("text");
+            set => SetProperty("text", value);
+        }
 
         [JsName("referrerPolicy")]
-        public string ReferrerPolicy { get; set; }
+        public string ReferrerPolicy
+        {
+            get => GetProperty<string>("referrerPolicy");
+            set => SetProperty("referrerPolicy", value);
+        }
 
         [JsName("coords")]
-        public string Coords { get; set; }
+        public string Coords
+        {
+            get => GetProperty<string>("coords");
+            set => SetProperty("coords", value);
+        }
 
         [JsName("charset")]
-        public string Charset { get; set; }
+        public string Charset
+        {
+            get => GetProperty<string>("charset");
+            set => SetProperty("charset", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("rev")]
-        public string Rev { get; set; }
+        public string Rev
+        {
+            get => GetProperty<string>("rev");
+            set => SetProperty("rev", value);
+        }
 
         [JsName("shape")]
-        public string Shape { get; set; }
+        public string Shape
+        {
+            get => GetProperty<string>("shape");
+            set => SetProperty("shape", value);
+        }
 
         [JsName("attributionSourceId")]
-        public uint AttributionSourceId { get; set; }
+        public uint AttributionSourceId
+        {
+            get => GetProperty<uint>("attributionSourceId");
+            set => SetProperty("attributionSourceId", value);
+        }
 
         [JsName("attributionSrc")]
-        public string AttributionSrc { get; set; }
+        public string AttributionSrc
+        {
+            get => GetProperty<string>("attributionSrc");
+            set => SetProperty("attributionSrc", value);
+        }
 
         [JsName("origin")]
-        public string Origin { get; }
+        public string Origin => GetProperty<string>("origin");
 
         [JsName("protocol")]
-        public string Protocol { get; set; }
+        public string Protocol
+        {
+            get => GetProperty<string>("protocol");
+            set => SetProperty("protocol", value);
+        }
 
         [JsName("username")]
-        public string Username { get; set; }
+        public string Username
+        {
+            get => GetProperty<string>("username");
+            set => SetProperty("username", value);
+        }
 
         [JsName("password")]
-        public string Password { get; set; }
+        public string Password
+        {
+            get => GetProperty<string>("password");
+            set => SetProperty("password", value);
+        }
 
         [JsName("host")]
-        public string Host { get; set; }
+        public string Host
+        {
+            get => GetProperty<string>("host");
+            set => SetProperty("host", value);
+        }
 
         [JsName("hostname")]
-        public string Hostname { get; set; }
+        public string Hostname
+        {
+            get => GetProperty<string>("hostname");
+            set => SetProperty("hostname", value);
+        }
 
         [JsName("port")]
-        public string Port { get; set; }
+        public string Port
+        {
+            get => GetProperty<string>("port");
+            set => SetProperty("port", value);
+        }
 
         [JsName("pathname")]
-        public string Pathname { get; set; }
+        public string Pathname
+        {
+            get => GetProperty<string>("pathname");
+            set => SetProperty("pathname", value);
+        }
 
         [JsName("search")]
-        public string Search { get; set; }
+        public string Search
+        {
+            get => GetProperty<string>("search");
+            set => SetProperty("search", value);
+        }
 
         [JsName("hash")]
-        public string Hash { get; set; }
+        public string Hash
+        {
+            get => GetProperty<string>("hash");
+            set => SetProperty("hash", value);
+        }
 
         [JsName("href")]
-        public string Href { get; set; }
+        public string Href
+        {
+            get => GetProperty<string>("href");
+            set => SetProperty("href", value);
+        }
     }
 }

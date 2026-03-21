@@ -33,12 +33,20 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCIdentityAssertion")]
-    public partial class RtcidentityAssertion
+    public partial class RtcidentityAssertion : JsObject
     {
         [JsName("idp")]
-        public string Idp { get; set; }
+        public string Idp
+        {
+            get => GetProperty<string>("idp");
+            set => SetProperty("idp", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
     }
 }

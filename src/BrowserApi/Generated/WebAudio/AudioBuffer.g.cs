@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.WebAudio
 {
-    public partial class AudioBuffer
+    public partial class AudioBuffer : JsObject
     {
         [JsName("sampleRate")]
-        public float SampleRate { get; }
+        public float SampleRate => GetProperty<float>("sampleRate");
 
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("duration")]
-        public double Duration { get; }
+        public double Duration => GetProperty<double>("duration");
 
         [JsName("numberOfChannels")]
-        public uint NumberOfChannels { get; }
+        public uint NumberOfChannels => GetProperty<uint>("numberOfChannels");
 
         [JsName("getChannelData")]
-        public float[] GetChannelData(uint channel) => throw new NotImplementedException();
+        public float[] GetChannelData(uint channel) => Invoke<float[]>("getChannelData", channel);
 
         [JsName("copyFromChannel")]
-        public void CopyFromChannel(float[] destination, uint channelNumber, uint bufferOffset = 0) => throw new NotImplementedException();
+        public void CopyFromChannel(float[] destination, uint channelNumber, uint bufferOffset = 0) => InvokeVoid("copyFromChannel", destination, channelNumber, bufferOffset);
 
         [JsName("copyToChannel")]
-        public void CopyToChannel(float[] source, uint channelNumber, uint bufferOffset = 0) => throw new NotImplementedException();
+        public void CopyToChannel(float[] source, uint channelNumber, uint bufferOffset = 0) => InvokeVoid("copyToChannel", source, channelNumber, bufferOffset);
     }
 }

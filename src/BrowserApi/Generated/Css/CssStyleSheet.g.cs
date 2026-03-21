@@ -36,30 +36,30 @@ namespace BrowserApi.Css
     public partial class CssStyleSheet : StyleSheet
     {
         [JsName("ownerRule")]
-        public CssRule? OwnerRule { get; }
+        public CssRule? OwnerRule => GetProperty<CssRule?>("ownerRule");
 
         [JsName("cssRules")]
-        public CssRuleList CssRules { get; }
+        public CssRuleList CssRules => GetProperty<CssRuleList>("cssRules");
 
         [JsName("rules")]
-        public CssRuleList Rules { get; }
+        public CssRuleList Rules => GetProperty<CssRuleList>("rules");
 
         [JsName("insertRule")]
-        public uint InsertRule(string rule, uint index = 0) => throw new NotImplementedException();
+        public uint InsertRule(string rule, uint index = 0) => Invoke<uint>("insertRule", rule, index);
 
         [JsName("deleteRule")]
-        public void DeleteRule(uint index) => throw new NotImplementedException();
+        public void DeleteRule(uint index) => InvokeVoid("deleteRule", index);
 
         [JsName("replace")]
-        public Task<CssStyleSheet> ReplaceAsync(string text) => throw new NotImplementedException();
+        public Task<CssStyleSheet> ReplaceAsync(string text) => InvokeAsync<CssStyleSheet>("replace", text);
 
         [JsName("replaceSync")]
-        public void ReplaceSync(string text) => throw new NotImplementedException();
+        public void ReplaceSync(string text) => InvokeVoid("replaceSync", text);
 
         [JsName("addRule")]
-        public int AddRule(string selector = "undefined", string style = "undefined", uint? index = null) => throw new NotImplementedException();
+        public int AddRule(string selector = "undefined", string style = "undefined", uint? index = null) => Invoke<int>("addRule", selector, style, index);
 
         [JsName("removeRule")]
-        public void RemoveRule(uint index = 0) => throw new NotImplementedException();
+        public void RemoveRule(uint index = 0) => InvokeVoid("removeRule", index);
     }
 }

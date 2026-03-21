@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class FencedFrameConfig
+    public partial class FencedFrameConfig : JsObject
     {
         [JsName("setSharedStorageContext")]
-        public void SetSharedStorageContext(string contextString) => throw new NotImplementedException();
+        public void SetSharedStorageContext(string contextString) => InvokeVoid("setSharedStorageContext", contextString);
     }
 }

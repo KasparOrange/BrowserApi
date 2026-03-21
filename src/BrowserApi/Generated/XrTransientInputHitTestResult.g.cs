@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRTransientInputHitTestResult")]
-    public partial class XrTransientInputHitTestResult
+    public partial class XrTransientInputHitTestResult : JsObject
     {
         [JsName("inputSource")]
-        public XrInputSource InputSource { get; }
+        public XrInputSource InputSource => GetProperty<XrInputSource>("inputSource");
 
         [JsName("results")]
-        public IReadOnlyList<XrHitTestResult> Results { get; }
+        public IReadOnlyList<XrHitTestResult> Results => GetProperty<IReadOnlyList<XrHitTestResult>>("results");
     }
 }

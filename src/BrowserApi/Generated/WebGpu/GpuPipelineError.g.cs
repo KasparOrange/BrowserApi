@@ -36,6 +36,6 @@ namespace BrowserApi.WebGpu
     public partial class GpuPipelineError : DomException
     {
         [JsName("reason")]
-        public GpuPipelineErrorReason Reason { get; }
+        public GpuPipelineErrorReason Reason => GetProperty<GpuPipelineErrorReason>("reason");
     }
 }

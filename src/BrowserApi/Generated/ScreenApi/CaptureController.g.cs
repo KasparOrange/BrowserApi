@@ -35,30 +35,38 @@ namespace BrowserApi.ScreenApi
     public partial class CaptureController : EventTarget
     {
         [JsName("oncapturedmousechange")]
-        public object Oncapturedmousechange { get; set; }
+        public object Oncapturedmousechange
+        {
+            get => GetProperty<object>("oncapturedmousechange");
+            set => SetProperty("oncapturedmousechange", value);
+        }
 
         [JsName("zoomLevel")]
-        public int? ZoomLevel { get; }
+        public int? ZoomLevel => GetProperty<int?>("zoomLevel");
 
         [JsName("onzoomlevelchange")]
-        public object Onzoomlevelchange { get; set; }
+        public object Onzoomlevelchange
+        {
+            get => GetProperty<object>("onzoomlevelchange");
+            set => SetProperty("onzoomlevelchange", value);
+        }
 
         [JsName("setFocusBehavior")]
-        public void SetFocusBehavior(CaptureStartFocusBehavior focusBehavior) => throw new NotImplementedException();
+        public void SetFocusBehavior(CaptureStartFocusBehavior focusBehavior) => InvokeVoid("setFocusBehavior", focusBehavior);
 
         [JsName("getSupportedZoomLevels")]
-        public IReadOnlyList<int> GetSupportedZoomLevels() => throw new NotImplementedException();
+        public IReadOnlyList<int> GetSupportedZoomLevels() => Invoke<IReadOnlyList<int>>("getSupportedZoomLevels");
 
         [JsName("increaseZoomLevel")]
-        public Task IncreaseZoomLevelAsync() => throw new NotImplementedException();
+        public Task IncreaseZoomLevelAsync() => InvokeVoidAsync("increaseZoomLevel");
 
         [JsName("decreaseZoomLevel")]
-        public Task DecreaseZoomLevelAsync() => throw new NotImplementedException();
+        public Task DecreaseZoomLevelAsync() => InvokeVoidAsync("decreaseZoomLevel");
 
         [JsName("resetZoomLevel")]
-        public Task ResetZoomLevelAsync() => throw new NotImplementedException();
+        public Task ResetZoomLevelAsync() => InvokeVoidAsync("resetZoomLevel");
 
         [JsName("forwardWheel")]
-        public Task ForwardWheelAsync(HtmlElement? element) => throw new NotImplementedException();
+        public Task ForwardWheelAsync(HtmlElement? element) => InvokeVoidAsync("forwardWheel", element);
     }
 }

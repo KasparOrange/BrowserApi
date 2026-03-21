@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.FileApi
 {
-    public partial class FileSystemHandle
+    public partial class FileSystemHandle : JsObject
     {
         [JsName("kind")]
-        public FileSystemHandleKind Kind { get; }
+        public FileSystemHandleKind Kind => GetProperty<FileSystemHandleKind>("kind");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("isSameEntry")]
-        public Task<bool> IsSameEntryAsync(FileSystemHandle other) => throw new NotImplementedException();
+        public Task<bool> IsSameEntryAsync(FileSystemHandle other) => InvokeAsync<bool>("isSameEntry", other);
 
         [JsName("queryPermission")]
-        public Task<PermissionState> QueryPermissionAsync(FileSystemHandlePermissionDescriptor? descriptor = null) => throw new NotImplementedException();
+        public Task<PermissionState> QueryPermissionAsync(FileSystemHandlePermissionDescriptor? descriptor = null) => InvokeAsync<PermissionState>("queryPermission", descriptor);
 
         [JsName("requestPermission")]
-        public Task<PermissionState> RequestPermissionAsync(FileSystemHandlePermissionDescriptor? descriptor = null) => throw new NotImplementedException();
+        public Task<PermissionState> RequestPermissionAsync(FileSystemHandlePermissionDescriptor? descriptor = null) => InvokeAsync<PermissionState>("requestPermission", descriptor);
     }
 }

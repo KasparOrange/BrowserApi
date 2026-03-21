@@ -33,39 +33,39 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGTransformList")]
-    public partial class SvgTransformList
+    public partial class SvgTransformList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("numberOfItems")]
-        public uint NumberOfItems { get; }
+        public uint NumberOfItems => GetProperty<uint>("numberOfItems");
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
 
         [JsName("initialize")]
-        public SvgTransform Initialize(SvgTransform newItem) => throw new NotImplementedException();
+        public SvgTransform Initialize(SvgTransform newItem) => Invoke<SvgTransform>("initialize", newItem);
 
         [JsName("getItem")]
-        public SvgTransform GetItem(uint index) => throw new NotImplementedException();
+        public SvgTransform GetItem(uint index) => Invoke<SvgTransform>("getItem", index);
 
         [JsName("insertItemBefore")]
-        public SvgTransform InsertItemBefore(SvgTransform newItem, uint index) => throw new NotImplementedException();
+        public SvgTransform InsertItemBefore(SvgTransform newItem, uint index) => Invoke<SvgTransform>("insertItemBefore", newItem, index);
 
         [JsName("replaceItem")]
-        public SvgTransform ReplaceItem(SvgTransform newItem, uint index) => throw new NotImplementedException();
+        public SvgTransform ReplaceItem(SvgTransform newItem, uint index) => Invoke<SvgTransform>("replaceItem", newItem, index);
 
         [JsName("removeItem")]
-        public SvgTransform RemoveItem(uint index) => throw new NotImplementedException();
+        public SvgTransform RemoveItem(uint index) => Invoke<SvgTransform>("removeItem", index);
 
         [JsName("appendItem")]
-        public SvgTransform AppendItem(SvgTransform newItem) => throw new NotImplementedException();
+        public SvgTransform AppendItem(SvgTransform newItem) => Invoke<SvgTransform>("appendItem", newItem);
 
         [JsName("createSVGTransformFromMatrix")]
-        public SvgTransform CreateSvgTransformFromMatrix(DomMatrix2Dinit? matrix = null) => throw new NotImplementedException();
+        public SvgTransform CreateSvgTransformFromMatrix(DomMatrix2Dinit? matrix = null) => Invoke<SvgTransform>("createSVGTransformFromMatrix", matrix);
 
         [JsName("consolidate")]
-        public SvgTransform? Consolidate() => throw new NotImplementedException();
+        public SvgTransform? Consolidate() => Invoke<SvgTransform?>("consolidate");
     }
 }

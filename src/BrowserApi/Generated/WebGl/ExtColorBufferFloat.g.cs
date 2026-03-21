@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_color_buffer_float")]
-    public partial class ExtColorBufferFloat
+    public partial class ExtColorBufferFloat : JsObject
     {
     }
 }

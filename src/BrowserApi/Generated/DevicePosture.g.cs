@@ -35,9 +35,13 @@ namespace BrowserApi
     public partial class DevicePosture : EventTarget
     {
         [JsName("type")]
-        public DevicePostureType Type { get; }
+        public DevicePostureType Type => GetProperty<DevicePostureType>("type");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
     }
 }

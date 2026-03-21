@@ -35,15 +35,23 @@ namespace BrowserApi
     public partial class ScreenDetails : EventTarget
     {
         [JsName("screens")]
-        public IReadOnlyList<ScreenDetailed> Screens { get; }
+        public IReadOnlyList<ScreenDetailed> Screens => GetProperty<IReadOnlyList<ScreenDetailed>>("screens");
 
         [JsName("currentScreen")]
-        public ScreenDetailed CurrentScreen { get; }
+        public ScreenDetailed CurrentScreen => GetProperty<ScreenDetailed>("currentScreen");
 
         [JsName("onscreenschange")]
-        public object Onscreenschange { get; set; }
+        public object Onscreenschange
+        {
+            get => GetProperty<object>("onscreenschange");
+            set => SetProperty("onscreenschange", value);
+        }
 
         [JsName("oncurrentscreenchange")]
-        public object Oncurrentscreenchange { get; set; }
+        public object Oncurrentscreenchange
+        {
+            get => GetProperty<object>("oncurrentscreenchange");
+            set => SetProperty("oncurrentscreenchange", value);
+        }
     }
 }

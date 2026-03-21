@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_disjoint_timer_query")]
-    public partial class ExtDisjointTimerQuery
+    public partial class ExtDisjointTimerQuery : JsObject
     {
         public const uint QueryCounterBitsExt = 0x8864;
 
@@ -50,27 +50,27 @@ namespace BrowserApi.WebGl
         public const uint GpuDisjointExt = 0x8FBB;
 
         [JsName("createQueryEXT")]
-        public WebGlTimerQueryExt CreateQueryExt() => throw new NotImplementedException();
+        public WebGlTimerQueryExt CreateQueryExt() => Invoke<WebGlTimerQueryExt>("createQueryEXT");
 
         [JsName("deleteQueryEXT")]
-        public void DeleteQueryExt(WebGlTimerQueryExt? query) => throw new NotImplementedException();
+        public void DeleteQueryExt(WebGlTimerQueryExt? query) => InvokeVoid("deleteQueryEXT", query);
 
         [JsName("isQueryEXT")]
-        public bool IsQueryExt(WebGlTimerQueryExt? query) => throw new NotImplementedException();
+        public bool IsQueryExt(WebGlTimerQueryExt? query) => Invoke<bool>("isQueryEXT", query);
 
         [JsName("beginQueryEXT")]
-        public void BeginQueryExt(uint target, WebGlTimerQueryExt query) => throw new NotImplementedException();
+        public void BeginQueryExt(uint target, WebGlTimerQueryExt query) => InvokeVoid("beginQueryEXT", target, query);
 
         [JsName("endQueryEXT")]
-        public void EndQueryExt(uint target) => throw new NotImplementedException();
+        public void EndQueryExt(uint target) => InvokeVoid("endQueryEXT", target);
 
         [JsName("queryCounterEXT")]
-        public void QueryCounterExt(WebGlTimerQueryExt query, uint target) => throw new NotImplementedException();
+        public void QueryCounterExt(WebGlTimerQueryExt query, uint target) => InvokeVoid("queryCounterEXT", query, target);
 
         [JsName("getQueryEXT")]
-        public object GetQueryExt(uint target, uint pname) => throw new NotImplementedException();
+        public object GetQueryExt(uint target, uint pname) => Invoke<object>("getQueryEXT", target, pname);
 
         [JsName("getQueryObjectEXT")]
-        public object GetQueryObjectExt(WebGlTimerQueryExt query, uint pname) => throw new NotImplementedException();
+        public object GetQueryObjectExt(WebGlTimerQueryExt query, uint pname) => Invoke<object>("getQueryObjectEXT", query, pname);
     }
 }

@@ -35,12 +35,12 @@ namespace BrowserApi.FileApi
     public partial class FileSystemWritableFileStream : WritableStream
     {
         [JsName("write")]
-        public Task WriteAsync(object data) => throw new NotImplementedException();
+        public Task WriteAsync(object data) => InvokeVoidAsync("write", data);
 
         [JsName("seek")]
-        public Task SeekAsync(ulong position) => throw new NotImplementedException();
+        public Task SeekAsync(ulong position) => InvokeVoidAsync("seek", position);
 
         [JsName("truncate")]
-        public Task TruncateAsync(ulong size) => throw new NotImplementedException();
+        public Task TruncateAsync(ulong size) => InvokeVoidAsync("truncate", size);
     }
 }

@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGAnimatedPreserveAspectRatio")]
-    public partial class SvgAnimatedPreserveAspectRatio
+    public partial class SvgAnimatedPreserveAspectRatio : JsObject
     {
         [JsName("baseVal")]
-        public SvgPreserveAspectRatio BaseVal { get; }
+        public SvgPreserveAspectRatio BaseVal => GetProperty<SvgPreserveAspectRatio>("baseVal");
 
         [JsName("animVal")]
-        public SvgPreserveAspectRatio AnimVal { get; }
+        public SvgPreserveAspectRatio AnimVal => GetProperty<SvgPreserveAspectRatio>("animVal");
     }
 }

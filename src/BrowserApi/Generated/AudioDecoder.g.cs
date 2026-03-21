@@ -35,28 +35,32 @@ namespace BrowserApi
     public partial class AudioDecoder : EventTarget
     {
         [JsName("state")]
-        public CodecState State { get; }
+        public CodecState State => GetProperty<CodecState>("state");
 
         [JsName("decodeQueueSize")]
-        public uint DecodeQueueSize { get; }
+        public uint DecodeQueueSize => GetProperty<uint>("decodeQueueSize");
 
         [JsName("ondequeue")]
-        public object Ondequeue { get; set; }
+        public object Ondequeue
+        {
+            get => GetProperty<object>("ondequeue");
+            set => SetProperty("ondequeue", value);
+        }
 
         [JsName("configure")]
-        public void Configure(AudioDecoderConfig config) => throw new NotImplementedException();
+        public void Configure(AudioDecoderConfig config) => InvokeVoid("configure", config);
 
         [JsName("decode")]
-        public void Decode(EncodedAudioChunk chunk) => throw new NotImplementedException();
+        public void Decode(EncodedAudioChunk chunk) => InvokeVoid("decode", chunk);
 
         [JsName("flush")]
-        public Task FlushAsync() => throw new NotImplementedException();
+        public Task FlushAsync() => InvokeVoidAsync("flush");
 
         [JsName("reset")]
-        public void Reset() => throw new NotImplementedException();
+        public void Reset() => InvokeVoid("reset");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("isConfigSupported")]
         public static Task<AudioDecoderSupport> IsConfigSupportedAsync(AudioDecoderConfig config) => throw new NotImplementedException();

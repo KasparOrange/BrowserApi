@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class RestrictionTarget
+    public partial class RestrictionTarget : JsObject
     {
         [JsName("fromElement")]
         public static Task<RestrictionTarget> FromElementAsync(Element element) => throw new NotImplementedException();

@@ -32,33 +32,33 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class BluetoothCharacteristicProperties
+    public partial class BluetoothCharacteristicProperties : JsObject
     {
         [JsName("broadcast")]
-        public bool Broadcast { get; }
+        public bool Broadcast => GetProperty<bool>("broadcast");
 
         [JsName("read")]
-        public bool Read { get; }
+        public bool Read => GetProperty<bool>("read");
 
         [JsName("writeWithoutResponse")]
-        public bool WriteWithoutResponse { get; }
+        public bool WriteWithoutResponse => GetProperty<bool>("writeWithoutResponse");
 
         [JsName("write")]
-        public bool Write { get; }
+        public bool Write => GetProperty<bool>("write");
 
         [JsName("notify")]
-        public bool Notify { get; }
+        public bool Notify => GetProperty<bool>("notify");
 
         [JsName("indicate")]
-        public bool Indicate { get; }
+        public bool Indicate => GetProperty<bool>("indicate");
 
         [JsName("authenticatedSignedWrites")]
-        public bool AuthenticatedSignedWrites { get; }
+        public bool AuthenticatedSignedWrites => GetProperty<bool>("authenticatedSignedWrites");
 
         [JsName("reliableWrite")]
-        public bool ReliableWrite { get; }
+        public bool ReliableWrite => GetProperty<bool>("reliableWrite");
 
         [JsName("writableAuxiliaries")]
-        public bool WritableAuxiliaries { get; }
+        public bool WritableAuxiliaries => GetProperty<bool>("writableAuxiliaries");
     }
 }

@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class MediaElementAudioSourceNode : AudioNode
     {
         [JsName("mediaElement")]
-        public HtmlMediaElement MediaElement { get; }
+        public HtmlMediaElement MediaElement => GetProperty<HtmlMediaElement>("mediaElement");
     }
 }

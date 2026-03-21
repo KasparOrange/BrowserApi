@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("USBIsochronousInTransferResult")]
-    public partial class UsbIsochronousInTransferResult
+    public partial class UsbIsochronousInTransferResult : JsObject
     {
         [JsName("data")]
-        public byte[]? Data { get; }
+        public byte[]? Data => GetProperty<byte[]?>("data");
 
         [JsName("packets")]
-        public IReadOnlyList<UsbIsochronousInTransferPacket> Packets { get; }
+        public IReadOnlyList<UsbIsochronousInTransferPacket> Packets => GetProperty<IReadOnlyList<UsbIsochronousInTransferPacket>>("packets");
     }
 }

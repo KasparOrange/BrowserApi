@@ -46,69 +46,85 @@ namespace BrowserApi.Fetch
         public const ushort Done = 4;
 
         [JsName("onreadystatechange")]
-        public object Onreadystatechange { get; set; }
+        public object Onreadystatechange
+        {
+            get => GetProperty<object>("onreadystatechange");
+            set => SetProperty("onreadystatechange", value);
+        }
 
         [JsName("readyState")]
-        public ushort ReadyState { get; }
+        public ushort ReadyState => GetProperty<ushort>("readyState");
 
         [JsName("timeout")]
-        public uint Timeout { get; set; }
+        public uint Timeout
+        {
+            get => GetProperty<uint>("timeout");
+            set => SetProperty("timeout", value);
+        }
 
         [JsName("withCredentials")]
-        public bool WithCredentials { get; set; }
+        public bool WithCredentials
+        {
+            get => GetProperty<bool>("withCredentials");
+            set => SetProperty("withCredentials", value);
+        }
 
         [JsName("upload")]
-        public XmlHttpRequestUpload Upload { get; }
+        public XmlHttpRequestUpload Upload => GetProperty<XmlHttpRequestUpload>("upload");
 
         [JsName("responseURL")]
-        public string ResponseUrl { get; }
+        public string ResponseUrl => GetProperty<string>("responseURL");
 
         [JsName("status")]
-        public ushort Status { get; }
+        public ushort Status => GetProperty<ushort>("status");
 
         [JsName("statusText")]
-        public string StatusText { get; }
+        public string StatusText => GetProperty<string>("statusText");
 
         [JsName("responseType")]
-        public XmlHttpRequestResponseType ResponseType { get; set; }
+        public XmlHttpRequestResponseType ResponseType
+        {
+            get => GetProperty<XmlHttpRequestResponseType>("responseType");
+            set => SetProperty("responseType", value);
+        }
 
         [JsName("response")]
-        public object Response { get; }
+        public object Response => GetProperty<object>("response");
 
         [JsName("responseText")]
-        public string ResponseText { get; }
+        public string ResponseText => GetProperty<string>("responseText");
 
         [JsName("responseXML")]
-        public Document? ResponseXml { get; }
+        public Document? ResponseXml => GetProperty<Document?>("responseXML");
 
         [JsName("open")]
-        public void Open(string method, string url) => throw new NotImplementedException();
+        public void Open(string method, string url) => InvokeVoid("open", method, url);
 
         [JsName("open")]
-        public void Open(string method, string url, bool async, string? username = null, string? password = null) => throw new NotImplementedException();
+        public void Open(string method, string url, bool async, string? username = null, string? password = null) => InvokeVoid("open", method, url, async, username, password);
 
         [JsName("setRequestHeader")]
-        public void SetRequestHeader(string name, string value) => throw new NotImplementedException();
+        public void SetRequestHeader(string name, string value) => InvokeVoid("setRequestHeader", name, value);
 
         [JsName("send")]
-        public void Send(object? body = null) => throw new NotImplementedException();
+        public void Send(object? body = null) => InvokeVoid("send", body);
 
         [JsName("abort")]
-        public void Abort() => throw new NotImplementedException();
+        public void Abort() => InvokeVoid("abort");
 
         [JsName("getResponseHeader")]
-        public string? GetResponseHeader(string name) => throw new NotImplementedException();
+        public string? GetResponseHeader(string name) => Invoke<string?>("getResponseHeader", name);
 
         [JsName("getAllResponseHeaders")]
-        public string GetAllResponseHeaders() => throw new NotImplementedException();
+        public string GetAllResponseHeaders() => Invoke<string>("getAllResponseHeaders");
 
         [JsName("overrideMimeType")]
-        public void OverrideMimeType(string mime) => throw new NotImplementedException();
+        public void OverrideMimeType(string mime) => InvokeVoid("overrideMimeType", mime);
 
         [JsName("setAttributionReporting")]
-        public void SetAttributionReporting(AttributionReportingRequestOptions options) => throw new NotImplementedException();
+        public void SetAttributionReporting(AttributionReportingRequestOptions options) => InvokeVoid("setAttributionReporting", options);
 
         [JsName("setPrivateToken")]
-        public void SetPrivateToken(PrivateToken privateToken) => throw new NotImplementedException();
+        public void SetPrivateToken(PrivateToken privateToken) => InvokeVoid("setPrivateToken", privateToken);
     }
 }

@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class WritableStream
+    public partial class WritableStream : JsObject
     {
         [JsName("locked")]
-        public bool Locked { get; }
+        public bool Locked => GetProperty<bool>("locked");
 
         [JsName("abort")]
-        public Task AbortAsync(object? reason = null) => throw new NotImplementedException();
+        public Task AbortAsync(object? reason = null) => InvokeVoidAsync("abort", reason);
 
         [JsName("close")]
-        public Task CloseAsync() => throw new NotImplementedException();
+        public Task CloseAsync() => InvokeVoidAsync("close");
 
         [JsName("getWriter")]
-        public WritableStreamDefaultWriter GetWriter() => throw new NotImplementedException();
+        public WritableStreamDefaultWriter GetWriter() => Invoke<WritableStreamDefaultWriter>("getWriter");
     }
 }

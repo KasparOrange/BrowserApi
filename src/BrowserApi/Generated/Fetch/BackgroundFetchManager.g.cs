@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Fetch
 {
-    public partial class BackgroundFetchManager
+    public partial class BackgroundFetchManager : JsObject
     {
         [JsName("fetch")]
-        public Task<BackgroundFetchRegistration> FetchAsync(string id, object requests, BackgroundFetchOptions? options = null) => throw new NotImplementedException();
+        public Task<BackgroundFetchRegistration> FetchAsync(string id, object requests, BackgroundFetchOptions? options = null) => InvokeAsync<BackgroundFetchRegistration>("fetch", id, requests, options);
 
         [JsName("get")]
-        public Task<BackgroundFetchRegistration?> GetAsync(string id) => throw new NotImplementedException();
+        public Task<BackgroundFetchRegistration?> GetAsync(string id) => InvokeAsync<BackgroundFetchRegistration?>("get", id);
 
         [JsName("getIds")]
-        public Task<IReadOnlyList<string>> GetIdsAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<string>> GetIdsAsync() => InvokeAsync<IReadOnlyList<string>>("getIds");
     }
 }

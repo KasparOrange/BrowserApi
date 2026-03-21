@@ -35,21 +35,21 @@ namespace BrowserApi.WebAudio
     public partial class DynamicsCompressorNode : AudioNode
     {
         [JsName("threshold")]
-        public AudioParam Threshold { get; }
+        public AudioParam Threshold => GetProperty<AudioParam>("threshold");
 
         [JsName("knee")]
-        public AudioParam Knee { get; }
+        public AudioParam Knee => GetProperty<AudioParam>("knee");
 
         [JsName("ratio")]
-        public AudioParam Ratio { get; }
+        public AudioParam Ratio => GetProperty<AudioParam>("ratio");
 
         [JsName("reduction")]
-        public float Reduction { get; }
+        public float Reduction => GetProperty<float>("reduction");
 
         [JsName("attack")]
-        public AudioParam Attack { get; }
+        public AudioParam Attack => GetProperty<AudioParam>("attack");
 
         [JsName("release")]
-        public AudioParam Release { get; }
+        public AudioParam Release => GetProperty<AudioParam>("release");
     }
 }

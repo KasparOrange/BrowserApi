@@ -35,18 +35,18 @@ namespace BrowserApi.ServiceWorkers
     public partial class WindowClient : Client
     {
         [JsName("visibilityState")]
-        public DocumentVisibilityState VisibilityState { get; }
+        public DocumentVisibilityState VisibilityState => GetProperty<DocumentVisibilityState>("visibilityState");
 
         [JsName("focused")]
-        public bool Focused { get; }
+        public bool Focused => GetProperty<bool>("focused");
 
         [JsName("ancestorOrigins")]
-        public IReadOnlyList<string> AncestorOrigins { get; }
+        public IReadOnlyList<string> AncestorOrigins => GetProperty<IReadOnlyList<string>>("ancestorOrigins");
 
         [JsName("focus")]
-        public Task<WindowClient> FocusAsync() => throw new NotImplementedException();
+        public Task<WindowClient> FocusAsync() => InvokeAsync<WindowClient>("focus");
 
         [JsName("navigate")]
-        public Task<WindowClient?> NavigateAsync(string url) => throw new NotImplementedException();
+        public Task<WindowClient?> NavigateAsync(string url) => InvokeAsync<WindowClient?>("navigate", url);
     }
 }

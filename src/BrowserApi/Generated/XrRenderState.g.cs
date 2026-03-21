@@ -33,24 +33,24 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRRenderState")]
-    public partial class XrRenderState
+    public partial class XrRenderState : JsObject
     {
         [JsName("depthNear")]
-        public double DepthNear { get; }
+        public double DepthNear => GetProperty<double>("depthNear");
 
         [JsName("depthFar")]
-        public double DepthFar { get; }
+        public double DepthFar => GetProperty<double>("depthFar");
 
         [JsName("passthroughFullyObscured")]
-        public bool? PassthroughFullyObscured { get; }
+        public bool? PassthroughFullyObscured => GetProperty<bool?>("passthroughFullyObscured");
 
         [JsName("inlineVerticalFieldOfView")]
-        public double? InlineVerticalFieldOfView { get; }
+        public double? InlineVerticalFieldOfView => GetProperty<double?>("inlineVerticalFieldOfView");
 
         [JsName("baseLayer")]
-        public XrWebGlLayer? BaseLayer { get; }
+        public XrWebGlLayer? BaseLayer => GetProperty<XrWebGlLayer?>("baseLayer");
 
         [JsName("layers")]
-        public IReadOnlyList<XrLayer> Layers { get; }
+        public IReadOnlyList<XrLayer> Layers => GetProperty<IReadOnlyList<XrLayer>>("layers");
     }
 }

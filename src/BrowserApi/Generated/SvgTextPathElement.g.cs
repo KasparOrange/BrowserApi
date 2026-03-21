@@ -48,15 +48,15 @@ namespace BrowserApi
         public const ushort TextpathSpacingtypeExact = 2;
 
         [JsName("startOffset")]
-        public SvgAnimatedLength StartOffset { get; }
+        public SvgAnimatedLength StartOffset => GetProperty<SvgAnimatedLength>("startOffset");
 
         [JsName("method")]
-        public SvgAnimatedEnumeration Method { get; }
+        public SvgAnimatedEnumeration Method => GetProperty<SvgAnimatedEnumeration>("method");
 
         [JsName("spacing")]
-        public SvgAnimatedEnumeration Spacing { get; }
+        public SvgAnimatedEnumeration Spacing => GetProperty<SvgAnimatedEnumeration>("spacing");
 
         [JsName("href")]
-        public SvgAnimatedString Href { get; }
+        public SvgAnimatedString Href => GetProperty<SvgAnimatedString>("href");
     }
 }

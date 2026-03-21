@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class CrashReportContext
+    public partial class CrashReportContext : JsObject
     {
         [JsName("initialize")]
-        public Task InitializeAsync(ulong length) => throw new NotImplementedException();
+        public Task InitializeAsync(ulong length) => InvokeVoidAsync("initialize", length);
 
         [JsName("set")]
-        public void Set(string key, string value) => throw new NotImplementedException();
+        public void Set(string key, string value) => InvokeVoid("set", key, value);
 
         [JsName("delete")]
-        public void Delete(string key) => throw new NotImplementedException();
+        public void Delete(string key) => InvokeVoid("delete", key);
     }
 }

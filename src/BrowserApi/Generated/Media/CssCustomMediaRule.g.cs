@@ -36,9 +36,9 @@ namespace BrowserApi.Media
     public partial class CssCustomMediaRule : CssRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("query")]
-        public object Query { get; }
+        public object Query => GetProperty<object>("query");
     }
 }

@@ -36,87 +36,199 @@ namespace BrowserApi.Dom
     public partial class HtmlBodyElement : HtmlElement
     {
         [JsName("onorientationchange")]
-        public object Onorientationchange { get; set; }
+        public object Onorientationchange
+        {
+            get => GetProperty<object>("onorientationchange");
+            set => SetProperty("onorientationchange", value);
+        }
 
         [JsName("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get => GetProperty<string>("text");
+            set => SetProperty("text", value);
+        }
 
         [JsName("link")]
-        public string Link { get; set; }
+        public string Link
+        {
+            get => GetProperty<string>("link");
+            set => SetProperty("link", value);
+        }
 
         [JsName("vLink")]
-        public string VLink { get; set; }
+        public string VLink
+        {
+            get => GetProperty<string>("vLink");
+            set => SetProperty("vLink", value);
+        }
 
         [JsName("aLink")]
-        public string ALink { get; set; }
+        public string ALink
+        {
+            get => GetProperty<string>("aLink");
+            set => SetProperty("aLink", value);
+        }
 
         [JsName("bgColor")]
-        public string BgColor { get; set; }
+        public string BgColor
+        {
+            get => GetProperty<string>("bgColor");
+            set => SetProperty("bgColor", value);
+        }
 
         [JsName("background")]
-        public string Background { get; set; }
+        public string Background
+        {
+            get => GetProperty<string>("background");
+            set => SetProperty("background", value);
+        }
 
         [JsName("onafterprint")]
-        public object Onafterprint { get; set; }
+        public object Onafterprint
+        {
+            get => GetProperty<object>("onafterprint");
+            set => SetProperty("onafterprint", value);
+        }
 
         [JsName("onbeforeprint")]
-        public object Onbeforeprint { get; set; }
+        public object Onbeforeprint
+        {
+            get => GetProperty<object>("onbeforeprint");
+            set => SetProperty("onbeforeprint", value);
+        }
 
         [JsName("onbeforeunload")]
-        public object Onbeforeunload { get; set; }
+        public object Onbeforeunload
+        {
+            get => GetProperty<object>("onbeforeunload");
+            set => SetProperty("onbeforeunload", value);
+        }
 
         [JsName("onhashchange")]
-        public object Onhashchange { get; set; }
+        public object Onhashchange
+        {
+            get => GetProperty<object>("onhashchange");
+            set => SetProperty("onhashchange", value);
+        }
 
         [JsName("onlanguagechange")]
-        public object Onlanguagechange { get; set; }
+        public object Onlanguagechange
+        {
+            get => GetProperty<object>("onlanguagechange");
+            set => SetProperty("onlanguagechange", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("onmessageerror")]
-        public object Onmessageerror { get; set; }
+        public object Onmessageerror
+        {
+            get => GetProperty<object>("onmessageerror");
+            set => SetProperty("onmessageerror", value);
+        }
 
         [JsName("onoffline")]
-        public object Onoffline { get; set; }
+        public object Onoffline
+        {
+            get => GetProperty<object>("onoffline");
+            set => SetProperty("onoffline", value);
+        }
 
         [JsName("ononline")]
-        public object Ononline { get; set; }
+        public object Ononline
+        {
+            get => GetProperty<object>("ononline");
+            set => SetProperty("ononline", value);
+        }
 
         [JsName("onpagehide")]
-        public object Onpagehide { get; set; }
+        public object Onpagehide
+        {
+            get => GetProperty<object>("onpagehide");
+            set => SetProperty("onpagehide", value);
+        }
 
         [JsName("onpagereveal")]
-        public object Onpagereveal { get; set; }
+        public object Onpagereveal
+        {
+            get => GetProperty<object>("onpagereveal");
+            set => SetProperty("onpagereveal", value);
+        }
 
         [JsName("onpageshow")]
-        public object Onpageshow { get; set; }
+        public object Onpageshow
+        {
+            get => GetProperty<object>("onpageshow");
+            set => SetProperty("onpageshow", value);
+        }
 
         [JsName("onpageswap")]
-        public object Onpageswap { get; set; }
+        public object Onpageswap
+        {
+            get => GetProperty<object>("onpageswap");
+            set => SetProperty("onpageswap", value);
+        }
 
         [JsName("onpopstate")]
-        public object Onpopstate { get; set; }
+        public object Onpopstate
+        {
+            get => GetProperty<object>("onpopstate");
+            set => SetProperty("onpopstate", value);
+        }
 
         [JsName("onrejectionhandled")]
-        public object Onrejectionhandled { get; set; }
+        public object Onrejectionhandled
+        {
+            get => GetProperty<object>("onrejectionhandled");
+            set => SetProperty("onrejectionhandled", value);
+        }
 
         [JsName("onstorage")]
-        public object Onstorage { get; set; }
+        public object Onstorage
+        {
+            get => GetProperty<object>("onstorage");
+            set => SetProperty("onstorage", value);
+        }
 
         [JsName("onunhandledrejection")]
-        public object Onunhandledrejection { get; set; }
+        public object Onunhandledrejection
+        {
+            get => GetProperty<object>("onunhandledrejection");
+            set => SetProperty("onunhandledrejection", value);
+        }
 
         [JsName("onunload")]
-        public object Onunload { get; set; }
+        public object Onunload
+        {
+            get => GetProperty<object>("onunload");
+            set => SetProperty("onunload", value);
+        }
 
         [JsName("ongamepadconnected")]
-        public object Ongamepadconnected { get; set; }
+        public object Ongamepadconnected
+        {
+            get => GetProperty<object>("ongamepadconnected");
+            set => SetProperty("ongamepadconnected", value);
+        }
 
         [JsName("ongamepaddisconnected")]
-        public object Ongamepaddisconnected { get; set; }
+        public object Ongamepaddisconnected
+        {
+            get => GetProperty<object>("ongamepaddisconnected");
+            set => SetProperty("ongamepaddisconnected", value);
+        }
 
         [JsName("onportalactivate")]
-        public object Onportalactivate { get; set; }
+        public object Onportalactivate
+        {
+            get => GetProperty<object>("onportalactivate");
+            set => SetProperty("onportalactivate", value);
+        }
     }
 }

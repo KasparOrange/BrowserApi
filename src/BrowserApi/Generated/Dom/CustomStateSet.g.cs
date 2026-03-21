@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class CustomStateSet
+    public partial class CustomStateSet : JsObject
     {
     }
 }

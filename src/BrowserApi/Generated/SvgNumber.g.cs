@@ -33,9 +33,13 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGNumber")]
-    public partial class SvgNumber
+    public partial class SvgNumber : JsObject
     {
         [JsName("value")]
-        public float Value { get; set; }
+        public float Value
+        {
+            get => GetProperty<float>("value");
+            set => SetProperty("value", value);
+        }
     }
 }

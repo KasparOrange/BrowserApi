@@ -36,12 +36,12 @@ namespace BrowserApi.Css
     public partial class CssMathClamp : CssMathValue
     {
         [JsName("lower")]
-        public CssNumericValue Lower { get; }
+        public CssNumericValue Lower => GetProperty<CssNumericValue>("lower");
 
         [JsName("value")]
-        public CssNumericValue Value { get; }
+        public CssNumericValue Value => GetProperty<CssNumericValue>("value");
 
         [JsName("upper")]
-        public CssNumericValue Upper { get; }
+        public CssNumericValue Upper => GetProperty<CssNumericValue>("upper");
     }
 }

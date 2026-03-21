@@ -33,48 +33,52 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUCommandEncoder")]
-    public partial class GpuCommandEncoder
+    public partial class GpuCommandEncoder : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("beginRenderPass")]
-        public GpuRenderPassEncoder BeginRenderPass(GpuRenderPassDescriptor descriptor) => throw new NotImplementedException();
+        public GpuRenderPassEncoder BeginRenderPass(GpuRenderPassDescriptor descriptor) => Invoke<GpuRenderPassEncoder>("beginRenderPass", descriptor);
 
         [JsName("beginComputePass")]
-        public GpuComputePassEncoder BeginComputePass(GpuComputePassDescriptor? descriptor = null) => throw new NotImplementedException();
+        public GpuComputePassEncoder BeginComputePass(GpuComputePassDescriptor? descriptor = null) => Invoke<GpuComputePassEncoder>("beginComputePass", descriptor);
 
         [JsName("copyBufferToBuffer")]
-        public void CopyBufferToBuffer(GpuBuffer source, GpuBuffer destination, ulong? size = null) => throw new NotImplementedException();
+        public void CopyBufferToBuffer(GpuBuffer source, GpuBuffer destination, ulong? size = null) => InvokeVoid("copyBufferToBuffer", source, destination, size);
 
         [JsName("copyBufferToBuffer")]
-        public void CopyBufferToBuffer(GpuBuffer source, ulong sourceOffset, GpuBuffer destination, ulong destinationOffset, ulong? size = null) => throw new NotImplementedException();
+        public void CopyBufferToBuffer(GpuBuffer source, ulong sourceOffset, GpuBuffer destination, ulong destinationOffset, ulong? size = null) => InvokeVoid("copyBufferToBuffer", source, sourceOffset, destination, destinationOffset, size);
 
         [JsName("copyBufferToTexture")]
-        public void CopyBufferToTexture(GpuTexelCopyBufferInfo source, GpuTexelCopyTextureInfo destination, object copySize) => throw new NotImplementedException();
+        public void CopyBufferToTexture(GpuTexelCopyBufferInfo source, GpuTexelCopyTextureInfo destination, object copySize) => InvokeVoid("copyBufferToTexture", source, destination, copySize);
 
         [JsName("copyTextureToBuffer")]
-        public void CopyTextureToBuffer(GpuTexelCopyTextureInfo source, GpuTexelCopyBufferInfo destination, object copySize) => throw new NotImplementedException();
+        public void CopyTextureToBuffer(GpuTexelCopyTextureInfo source, GpuTexelCopyBufferInfo destination, object copySize) => InvokeVoid("copyTextureToBuffer", source, destination, copySize);
 
         [JsName("copyTextureToTexture")]
-        public void CopyTextureToTexture(GpuTexelCopyTextureInfo source, GpuTexelCopyTextureInfo destination, object copySize) => throw new NotImplementedException();
+        public void CopyTextureToTexture(GpuTexelCopyTextureInfo source, GpuTexelCopyTextureInfo destination, object copySize) => InvokeVoid("copyTextureToTexture", source, destination, copySize);
 
         [JsName("clearBuffer")]
-        public void ClearBuffer(GpuBuffer buffer, ulong offset = 0, ulong? size = null) => throw new NotImplementedException();
+        public void ClearBuffer(GpuBuffer buffer, ulong offset = 0, ulong? size = null) => InvokeVoid("clearBuffer", buffer, offset, size);
 
         [JsName("resolveQuerySet")]
-        public void ResolveQuerySet(GpuQuerySet querySet, uint firstQuery, uint queryCount, GpuBuffer destination, ulong destinationOffset) => throw new NotImplementedException();
+        public void ResolveQuerySet(GpuQuerySet querySet, uint firstQuery, uint queryCount, GpuBuffer destination, ulong destinationOffset) => InvokeVoid("resolveQuerySet", querySet, firstQuery, queryCount, destination, destinationOffset);
 
         [JsName("finish")]
-        public GpuCommandBuffer Finish(GpuCommandBufferDescriptor? descriptor = null) => throw new NotImplementedException();
+        public GpuCommandBuffer Finish(GpuCommandBufferDescriptor? descriptor = null) => Invoke<GpuCommandBuffer>("finish", descriptor);
 
         [JsName("pushDebugGroup")]
-        public void PushDebugGroup(string groupLabel) => throw new NotImplementedException();
+        public void PushDebugGroup(string groupLabel) => InvokeVoid("pushDebugGroup", groupLabel);
 
         [JsName("popDebugGroup")]
-        public void PopDebugGroup() => throw new NotImplementedException();
+        public void PopDebugGroup() => InvokeVoid("popDebugGroup");
 
         [JsName("insertDebugMarker")]
-        public void InsertDebugMarker(string markerLabel) => throw new NotImplementedException();
+        public void InsertDebugMarker(string markerLabel) => InvokeVoid("insertDebugMarker", markerLabel);
     }
 }

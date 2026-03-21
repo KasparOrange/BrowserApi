@@ -36,33 +36,33 @@ namespace BrowserApi
     public partial class SvgPatternElement : SvgElement
     {
         [JsName("patternUnits")]
-        public SvgAnimatedEnumeration PatternUnits { get; }
+        public SvgAnimatedEnumeration PatternUnits => GetProperty<SvgAnimatedEnumeration>("patternUnits");
 
         [JsName("patternContentUnits")]
-        public SvgAnimatedEnumeration PatternContentUnits { get; }
+        public SvgAnimatedEnumeration PatternContentUnits => GetProperty<SvgAnimatedEnumeration>("patternContentUnits");
 
         [JsName("patternTransform")]
-        public SvgAnimatedTransformList PatternTransform { get; }
+        public SvgAnimatedTransformList PatternTransform => GetProperty<SvgAnimatedTransformList>("patternTransform");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("viewBox")]
-        public SvgAnimatedRect ViewBox { get; }
+        public SvgAnimatedRect ViewBox => GetProperty<SvgAnimatedRect>("viewBox");
 
         [JsName("preserveAspectRatio")]
-        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio { get; }
+        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio => GetProperty<SvgAnimatedPreserveAspectRatio>("preserveAspectRatio");
 
         [JsName("href")]
-        public SvgAnimatedString Href { get; }
+        public SvgAnimatedString Href => GetProperty<SvgAnimatedString>("href");
     }
 }

@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class UserActivation
+    public partial class UserActivation : JsObject
     {
         [JsName("hasBeenActive")]
-        public bool HasBeenActive { get; }
+        public bool HasBeenActive => GetProperty<bool>("hasBeenActive");
 
         [JsName("isActive")]
-        public bool IsActive { get; }
+        public bool IsActive => GetProperty<bool>("isActive");
     }
 }

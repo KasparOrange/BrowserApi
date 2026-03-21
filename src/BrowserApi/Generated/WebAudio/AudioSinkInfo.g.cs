@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.WebAudio
 {
-    public partial class AudioSinkInfo
+    public partial class AudioSinkInfo : JsObject
     {
         [JsName("type")]
-        public AudioSinkType Type { get; }
+        public AudioSinkType Type => GetProperty<AudioSinkType>("type");
     }
 }

@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WebGL2RenderingContext")]
-    public partial class WebGl2RenderingContext
+    public partial class WebGl2RenderingContext : JsObject
     {
         public const uint DepthBufferBit = 0x00000100;
 
@@ -1154,723 +1154,731 @@ namespace BrowserApi.WebGl
         public const uint MaxClientWaiTTimeoutWebgl = 0x9247;
 
         [JsName("canvas")]
-        public object Canvas { get; }
+        public object Canvas => GetProperty<object>("canvas");
 
         [JsName("drawingBufferWidth")]
-        public int DrawingBufferWidth { get; }
+        public int DrawingBufferWidth => GetProperty<int>("drawingBufferWidth");
 
         [JsName("drawingBufferHeight")]
-        public int DrawingBufferHeight { get; }
+        public int DrawingBufferHeight => GetProperty<int>("drawingBufferHeight");
 
         [JsName("drawingBufferFormat")]
-        public uint DrawingBufferFormat { get; }
+        public uint DrawingBufferFormat => GetProperty<uint>("drawingBufferFormat");
 
         [JsName("drawingBufferColorSpace")]
-        public PredefinedColorSpace DrawingBufferColorSpace { get; set; }
+        public PredefinedColorSpace DrawingBufferColorSpace
+        {
+            get => GetProperty<PredefinedColorSpace>("drawingBufferColorSpace");
+            set => SetProperty("drawingBufferColorSpace", value);
+        }
 
         [JsName("unpackColorSpace")]
-        public PredefinedColorSpace UnpackColorSpace { get; set; }
+        public PredefinedColorSpace UnpackColorSpace
+        {
+            get => GetProperty<PredefinedColorSpace>("unpackColorSpace");
+            set => SetProperty("unpackColorSpace", value);
+        }
 
         [JsName("getContextAttributes")]
-        public WebGlContextAttributes? GetContextAttributes() => throw new NotImplementedException();
+        public WebGlContextAttributes? GetContextAttributes() => Invoke<WebGlContextAttributes?>("getContextAttributes");
 
         [JsName("isContextLost")]
-        public bool IsContextLost() => throw new NotImplementedException();
+        public bool IsContextLost() => Invoke<bool>("isContextLost");
 
         [JsName("getSupportedExtensions")]
-        public IReadOnlyList<string>? GetSupportedExtensions() => throw new NotImplementedException();
+        public IReadOnlyList<string>? GetSupportedExtensions() => Invoke<IReadOnlyList<string>?>("getSupportedExtensions");
 
         [JsName("getExtension")]
-        public object GetExtension(string name) => throw new NotImplementedException();
+        public object GetExtension(string name) => Invoke<object>("getExtension", name);
 
         [JsName("drawingBufferStorage")]
-        public void DrawingBufferStorage(uint sizedFormat, uint width, uint height) => throw new NotImplementedException();
+        public void DrawingBufferStorage(uint sizedFormat, uint width, uint height) => InvokeVoid("drawingBufferStorage", sizedFormat, width, height);
 
         [JsName("attachShader")]
-        public void AttachShader(WebGlProgram program, WebGlShader shader) => throw new NotImplementedException();
+        public void AttachShader(WebGlProgram program, WebGlShader shader) => InvokeVoid("attachShader", program, shader);
 
         [JsName("bindAttribLocation")]
-        public void BindAttribLocation(WebGlProgram program, uint index, string name) => throw new NotImplementedException();
+        public void BindAttribLocation(WebGlProgram program, uint index, string name) => InvokeVoid("bindAttribLocation", program, index, name);
 
         [JsName("bindBuffer")]
-        public void BindBuffer(uint target, WebGlBuffer? buffer) => throw new NotImplementedException();
+        public void BindBuffer(uint target, WebGlBuffer? buffer) => InvokeVoid("bindBuffer", target, buffer);
 
         [JsName("bindFramebuffer")]
-        public void BindFramebuffer(uint target, WebGlFramebuffer? framebuffer) => throw new NotImplementedException();
+        public void BindFramebuffer(uint target, WebGlFramebuffer? framebuffer) => InvokeVoid("bindFramebuffer", target, framebuffer);
 
         [JsName("bindRenderbuffer")]
-        public void BindRenderbuffer(uint target, WebGlRenderbuffer? renderbuffer) => throw new NotImplementedException();
+        public void BindRenderbuffer(uint target, WebGlRenderbuffer? renderbuffer) => InvokeVoid("bindRenderbuffer", target, renderbuffer);
 
         [JsName("bindTexture")]
-        public void BindTexture(uint target, WebGlTexture? texture) => throw new NotImplementedException();
+        public void BindTexture(uint target, WebGlTexture? texture) => InvokeVoid("bindTexture", target, texture);
 
         [JsName("blendEquationSeparate")]
-        public void BlendEquationSeparate(uint modeRgb, uint modeAlpha) => throw new NotImplementedException();
+        public void BlendEquationSeparate(uint modeRgb, uint modeAlpha) => InvokeVoid("blendEquationSeparate", modeRgb, modeAlpha);
 
         [JsName("blendFunc")]
-        public void BlendFunc(uint sfactor, uint dfactor) => throw new NotImplementedException();
+        public void BlendFunc(uint sfactor, uint dfactor) => InvokeVoid("blendFunc", sfactor, dfactor);
 
         [JsName("blendFuncSeparate")]
-        public void BlendFuncSeparate(uint srcRgb, uint dstRgb, uint srcAlpha, uint dstAlpha) => throw new NotImplementedException();
+        public void BlendFuncSeparate(uint srcRgb, uint dstRgb, uint srcAlpha, uint dstAlpha) => InvokeVoid("blendFuncSeparate", srcRgb, dstRgb, srcAlpha, dstAlpha);
 
         [JsName("checkFramebufferStatus")]
-        public uint CheckFramebufferStatus(uint target) => throw new NotImplementedException();
+        public uint CheckFramebufferStatus(uint target) => Invoke<uint>("checkFramebufferStatus", target);
 
         [JsName("clear")]
-        public void Clear(uint mask) => throw new NotImplementedException();
+        public void Clear(uint mask) => InvokeVoid("clear", mask);
 
         [JsName("clearColor")]
-        public void ClearColor(float red, float green, float blue, float alpha) => throw new NotImplementedException();
+        public void ClearColor(float red, float green, float blue, float alpha) => InvokeVoid("clearColor", red, green, blue, alpha);
 
         [JsName("clearDepth")]
-        public void ClearDepth(float depth) => throw new NotImplementedException();
+        public void ClearDepth(float depth) => InvokeVoid("clearDepth", depth);
 
         [JsName("clearStencil")]
-        public void ClearStencil(int s) => throw new NotImplementedException();
+        public void ClearStencil(int s) => InvokeVoid("clearStencil", s);
 
         [JsName("colorMask")]
-        public void ColorMask(bool red, bool green, bool blue, bool alpha) => throw new NotImplementedException();
+        public void ColorMask(bool red, bool green, bool blue, bool alpha) => InvokeVoid("colorMask", red, green, blue, alpha);
 
         [JsName("compileShader")]
-        public void CompileShader(WebGlShader shader) => throw new NotImplementedException();
+        public void CompileShader(WebGlShader shader) => InvokeVoid("compileShader", shader);
 
         [JsName("copyTexImage2D")]
-        public void CopyTexImage2D(uint target, int level, uint internalformat, int x, int y, int width, int height, int border) => throw new NotImplementedException();
+        public void CopyTexImage2D(uint target, int level, uint internalformat, int x, int y, int width, int height, int border) => InvokeVoid("copyTexImage2D", target, level, internalformat, x, y, width, height, border);
 
         [JsName("copyTexSubImage2D")]
-        public void CopyTexSubImage2D(uint target, int level, int xoffset, int yoffset, int x, int y, int width, int height) => throw new NotImplementedException();
+        public void CopyTexSubImage2D(uint target, int level, int xoffset, int yoffset, int x, int y, int width, int height) => InvokeVoid("copyTexSubImage2D", target, level, xoffset, yoffset, x, y, width, height);
 
         [JsName("createBuffer")]
-        public WebGlBuffer CreateBuffer() => throw new NotImplementedException();
+        public WebGlBuffer CreateBuffer() => Invoke<WebGlBuffer>("createBuffer");
 
         [JsName("createFramebuffer")]
-        public WebGlFramebuffer CreateFramebuffer() => throw new NotImplementedException();
+        public WebGlFramebuffer CreateFramebuffer() => Invoke<WebGlFramebuffer>("createFramebuffer");
 
         [JsName("createProgram")]
-        public WebGlProgram CreateProgram() => throw new NotImplementedException();
+        public WebGlProgram CreateProgram() => Invoke<WebGlProgram>("createProgram");
 
         [JsName("createRenderbuffer")]
-        public WebGlRenderbuffer CreateRenderbuffer() => throw new NotImplementedException();
+        public WebGlRenderbuffer CreateRenderbuffer() => Invoke<WebGlRenderbuffer>("createRenderbuffer");
 
         [JsName("createShader")]
-        public WebGlShader? CreateShader(uint type) => throw new NotImplementedException();
+        public WebGlShader? CreateShader(uint type) => Invoke<WebGlShader?>("createShader", type);
 
         [JsName("createTexture")]
-        public WebGlTexture CreateTexture() => throw new NotImplementedException();
+        public WebGlTexture CreateTexture() => Invoke<WebGlTexture>("createTexture");
 
         [JsName("deleteBuffer")]
-        public void DeleteBuffer(WebGlBuffer? buffer) => throw new NotImplementedException();
+        public void DeleteBuffer(WebGlBuffer? buffer) => InvokeVoid("deleteBuffer", buffer);
 
         [JsName("deleteFramebuffer")]
-        public void DeleteFramebuffer(WebGlFramebuffer? framebuffer) => throw new NotImplementedException();
+        public void DeleteFramebuffer(WebGlFramebuffer? framebuffer) => InvokeVoid("deleteFramebuffer", framebuffer);
 
         [JsName("deleteProgram")]
-        public void DeleteProgram(WebGlProgram? program) => throw new NotImplementedException();
+        public void DeleteProgram(WebGlProgram? program) => InvokeVoid("deleteProgram", program);
 
         [JsName("deleteRenderbuffer")]
-        public void DeleteRenderbuffer(WebGlRenderbuffer? renderbuffer) => throw new NotImplementedException();
+        public void DeleteRenderbuffer(WebGlRenderbuffer? renderbuffer) => InvokeVoid("deleteRenderbuffer", renderbuffer);
 
         [JsName("deleteShader")]
-        public void DeleteShader(WebGlShader? shader) => throw new NotImplementedException();
+        public void DeleteShader(WebGlShader? shader) => InvokeVoid("deleteShader", shader);
 
         [JsName("deleteTexture")]
-        public void DeleteTexture(WebGlTexture? texture) => throw new NotImplementedException();
+        public void DeleteTexture(WebGlTexture? texture) => InvokeVoid("deleteTexture", texture);
 
         [JsName("depthMask")]
-        public void DepthMask(bool flag) => throw new NotImplementedException();
+        public void DepthMask(bool flag) => InvokeVoid("depthMask", flag);
 
         [JsName("detachShader")]
-        public void DetachShader(WebGlProgram program, WebGlShader shader) => throw new NotImplementedException();
+        public void DetachShader(WebGlProgram program, WebGlShader shader) => InvokeVoid("detachShader", program, shader);
 
         [JsName("disable")]
-        public void Disable(uint cap) => throw new NotImplementedException();
+        public void Disable(uint cap) => InvokeVoid("disable", cap);
 
         [JsName("disableVertexAttribArray")]
-        public void DisableVertexAttribArray(uint index) => throw new NotImplementedException();
+        public void DisableVertexAttribArray(uint index) => InvokeVoid("disableVertexAttribArray", index);
 
         [JsName("drawArrays")]
-        public void DrawArrays(uint mode, int first, int count) => throw new NotImplementedException();
+        public void DrawArrays(uint mode, int first, int count) => InvokeVoid("drawArrays", mode, first, count);
 
         [JsName("drawElements")]
-        public void DrawElements(uint mode, int count, uint type, long offset) => throw new NotImplementedException();
+        public void DrawElements(uint mode, int count, uint type, long offset) => InvokeVoid("drawElements", mode, count, type, offset);
 
         [JsName("enable")]
-        public void Enable(uint cap) => throw new NotImplementedException();
+        public void Enable(uint cap) => InvokeVoid("enable", cap);
 
         [JsName("enableVertexAttribArray")]
-        public void EnableVertexAttribArray(uint index) => throw new NotImplementedException();
+        public void EnableVertexAttribArray(uint index) => InvokeVoid("enableVertexAttribArray", index);
 
         [JsName("finish")]
-        public void Finish() => throw new NotImplementedException();
+        public void Finish() => InvokeVoid("finish");
 
         [JsName("flush")]
-        public void Flush() => throw new NotImplementedException();
+        public void Flush() => InvokeVoid("flush");
 
         [JsName("framebufferRenderbuffer")]
-        public void FramebufferRenderbuffer(uint target, uint attachment, uint renderbuffertarget, WebGlRenderbuffer? renderbuffer) => throw new NotImplementedException();
+        public void FramebufferRenderbuffer(uint target, uint attachment, uint renderbuffertarget, WebGlRenderbuffer? renderbuffer) => InvokeVoid("framebufferRenderbuffer", target, attachment, renderbuffertarget, renderbuffer);
 
         [JsName("framebufferTexture2D")]
-        public void FramebufferTexture2D(uint target, uint attachment, uint textarget, WebGlTexture? texture, int level) => throw new NotImplementedException();
+        public void FramebufferTexture2D(uint target, uint attachment, uint textarget, WebGlTexture? texture, int level) => InvokeVoid("framebufferTexture2D", target, attachment, textarget, texture, level);
 
         [JsName("generateMipmap")]
-        public void GenerateMipmap(uint target) => throw new NotImplementedException();
+        public void GenerateMipmap(uint target) => InvokeVoid("generateMipmap", target);
 
         [JsName("getActiveAttrib")]
-        public WebGlActiveInfo? GetActiveAttrib(WebGlProgram program, uint index) => throw new NotImplementedException();
+        public WebGlActiveInfo? GetActiveAttrib(WebGlProgram program, uint index) => Invoke<WebGlActiveInfo?>("getActiveAttrib", program, index);
 
         [JsName("getActiveUniform")]
-        public WebGlActiveInfo? GetActiveUniform(WebGlProgram program, uint index) => throw new NotImplementedException();
+        public WebGlActiveInfo? GetActiveUniform(WebGlProgram program, uint index) => Invoke<WebGlActiveInfo?>("getActiveUniform", program, index);
 
         [JsName("getAttachedShaders")]
-        public IReadOnlyList<WebGlShader>? GetAttachedShaders(WebGlProgram program) => throw new NotImplementedException();
+        public IReadOnlyList<WebGlShader>? GetAttachedShaders(WebGlProgram program) => Invoke<IReadOnlyList<WebGlShader>?>("getAttachedShaders", program);
 
         [JsName("getAttribLocation")]
-        public int GetAttribLocation(WebGlProgram program, string name) => throw new NotImplementedException();
+        public int GetAttribLocation(WebGlProgram program, string name) => Invoke<int>("getAttribLocation", program, name);
 
         [JsName("getBufferParameter")]
-        public object GetBufferParameter(uint target, uint pname) => throw new NotImplementedException();
+        public object GetBufferParameter(uint target, uint pname) => Invoke<object>("getBufferParameter", target, pname);
 
         [JsName("getParameter")]
-        public object GetParameter(uint pname) => throw new NotImplementedException();
+        public object GetParameter(uint pname) => Invoke<object>("getParameter", pname);
 
         [JsName("getError")]
-        public uint GetError() => throw new NotImplementedException();
+        public uint GetError() => Invoke<uint>("getError");
 
         [JsName("getFramebufferAttachmentParameter")]
-        public object GetFramebufferAttachmentParameter(uint target, uint attachment, uint pname) => throw new NotImplementedException();
+        public object GetFramebufferAttachmentParameter(uint target, uint attachment, uint pname) => Invoke<object>("getFramebufferAttachmentParameter", target, attachment, pname);
 
         [JsName("getProgramParameter")]
-        public object GetProgramParameter(WebGlProgram program, uint pname) => throw new NotImplementedException();
+        public object GetProgramParameter(WebGlProgram program, uint pname) => Invoke<object>("getProgramParameter", program, pname);
 
         [JsName("getProgramInfoLog")]
-        public string? GetProgramInfoLog(WebGlProgram program) => throw new NotImplementedException();
+        public string? GetProgramInfoLog(WebGlProgram program) => Invoke<string?>("getProgramInfoLog", program);
 
         [JsName("getRenderbufferParameter")]
-        public object GetRenderbufferParameter(uint target, uint pname) => throw new NotImplementedException();
+        public object GetRenderbufferParameter(uint target, uint pname) => Invoke<object>("getRenderbufferParameter", target, pname);
 
         [JsName("getShaderParameter")]
-        public object GetShaderParameter(WebGlShader shader, uint pname) => throw new NotImplementedException();
+        public object GetShaderParameter(WebGlShader shader, uint pname) => Invoke<object>("getShaderParameter", shader, pname);
 
         [JsName("getShaderPrecisionFormat")]
-        public WebGlShaderPrecisionFormat? GetShaderPrecisionFormat(uint shadertype, uint precisiontype) => throw new NotImplementedException();
+        public WebGlShaderPrecisionFormat? GetShaderPrecisionFormat(uint shadertype, uint precisiontype) => Invoke<WebGlShaderPrecisionFormat?>("getShaderPrecisionFormat", shadertype, precisiontype);
 
         [JsName("getShaderInfoLog")]
-        public string? GetShaderInfoLog(WebGlShader shader) => throw new NotImplementedException();
+        public string? GetShaderInfoLog(WebGlShader shader) => Invoke<string?>("getShaderInfoLog", shader);
 
         [JsName("getShaderSource")]
-        public string? GetShaderSource(WebGlShader shader) => throw new NotImplementedException();
+        public string? GetShaderSource(WebGlShader shader) => Invoke<string?>("getShaderSource", shader);
 
         [JsName("getTexParameter")]
-        public object GetTexParameter(uint target, uint pname) => throw new NotImplementedException();
+        public object GetTexParameter(uint target, uint pname) => Invoke<object>("getTexParameter", target, pname);
 
         [JsName("getUniform")]
-        public object GetUniform(WebGlProgram program, WebGlUniformLocation location) => throw new NotImplementedException();
+        public object GetUniform(WebGlProgram program, WebGlUniformLocation location) => Invoke<object>("getUniform", program, location);
 
         [JsName("getUniformLocation")]
-        public WebGlUniformLocation? GetUniformLocation(WebGlProgram program, string name) => throw new NotImplementedException();
+        public WebGlUniformLocation? GetUniformLocation(WebGlProgram program, string name) => Invoke<WebGlUniformLocation?>("getUniformLocation", program, name);
 
         [JsName("getVertexAttrib")]
-        public object GetVertexAttrib(uint index, uint pname) => throw new NotImplementedException();
+        public object GetVertexAttrib(uint index, uint pname) => Invoke<object>("getVertexAttrib", index, pname);
 
         [JsName("getVertexAttribOffset")]
-        public long GetVertexAttribOffset(uint index, uint pname) => throw new NotImplementedException();
+        public long GetVertexAttribOffset(uint index, uint pname) => Invoke<long>("getVertexAttribOffset", index, pname);
 
         [JsName("hint")]
-        public void Hint(uint target, uint mode) => throw new NotImplementedException();
+        public void Hint(uint target, uint mode) => InvokeVoid("hint", target, mode);
 
         [JsName("isBuffer")]
-        public bool IsBuffer(WebGlBuffer? buffer) => throw new NotImplementedException();
+        public bool IsBuffer(WebGlBuffer? buffer) => Invoke<bool>("isBuffer", buffer);
 
         [JsName("isEnabled")]
-        public bool IsEnabled(uint cap) => throw new NotImplementedException();
+        public bool IsEnabled(uint cap) => Invoke<bool>("isEnabled", cap);
 
         [JsName("isFramebuffer")]
-        public bool IsFramebuffer(WebGlFramebuffer? framebuffer) => throw new NotImplementedException();
+        public bool IsFramebuffer(WebGlFramebuffer? framebuffer) => Invoke<bool>("isFramebuffer", framebuffer);
 
         [JsName("isProgram")]
-        public bool IsProgram(WebGlProgram? program) => throw new NotImplementedException();
+        public bool IsProgram(WebGlProgram? program) => Invoke<bool>("isProgram", program);
 
         [JsName("isRenderbuffer")]
-        public bool IsRenderbuffer(WebGlRenderbuffer? renderbuffer) => throw new NotImplementedException();
+        public bool IsRenderbuffer(WebGlRenderbuffer? renderbuffer) => Invoke<bool>("isRenderbuffer", renderbuffer);
 
         [JsName("isShader")]
-        public bool IsShader(WebGlShader? shader) => throw new NotImplementedException();
+        public bool IsShader(WebGlShader? shader) => Invoke<bool>("isShader", shader);
 
         [JsName("isTexture")]
-        public bool IsTexture(WebGlTexture? texture) => throw new NotImplementedException();
+        public bool IsTexture(WebGlTexture? texture) => Invoke<bool>("isTexture", texture);
 
         [JsName("linkProgram")]
-        public void LinkProgram(WebGlProgram program) => throw new NotImplementedException();
+        public void LinkProgram(WebGlProgram program) => InvokeVoid("linkProgram", program);
 
         [JsName("pixelStorei")]
-        public void PixelStorei(uint pname, int param) => throw new NotImplementedException();
+        public void PixelStorei(uint pname, int param) => InvokeVoid("pixelStorei", pname, param);
 
         [JsName("polygonOffset")]
-        public void PolygonOffset(float factor, float units) => throw new NotImplementedException();
+        public void PolygonOffset(float factor, float units) => InvokeVoid("polygonOffset", factor, units);
 
         [JsName("renderbufferStorage")]
-        public void RenderbufferStorage(uint target, uint internalformat, int width, int height) => throw new NotImplementedException();
+        public void RenderbufferStorage(uint target, uint internalformat, int width, int height) => InvokeVoid("renderbufferStorage", target, internalformat, width, height);
 
         [JsName("scissor")]
-        public void Scissor(int x, int y, int width, int height) => throw new NotImplementedException();
+        public void Scissor(int x, int y, int width, int height) => InvokeVoid("scissor", x, y, width, height);
 
         [JsName("shaderSource")]
-        public void ShaderSource(WebGlShader shader, string source) => throw new NotImplementedException();
+        public void ShaderSource(WebGlShader shader, string source) => InvokeVoid("shaderSource", shader, source);
 
         [JsName("stencilFuncSeparate")]
-        public void StencilFuncSeparate(uint face, uint func, int @ref, uint mask) => throw new NotImplementedException();
+        public void StencilFuncSeparate(uint face, uint func, int @ref, uint mask) => InvokeVoid("stencilFuncSeparate", face, func, @ref, mask);
 
         [JsName("stencilMask")]
-        public void StencilMask(uint mask) => throw new NotImplementedException();
+        public void StencilMask(uint mask) => InvokeVoid("stencilMask", mask);
 
         [JsName("stencilMaskSeparate")]
-        public void StencilMaskSeparate(uint face, uint mask) => throw new NotImplementedException();
+        public void StencilMaskSeparate(uint face, uint mask) => InvokeVoid("stencilMaskSeparate", face, mask);
 
         [JsName("stencilOp")]
-        public void StencilOp(uint fail, uint zfail, uint zpass) => throw new NotImplementedException();
+        public void StencilOp(uint fail, uint zfail, uint zpass) => InvokeVoid("stencilOp", fail, zfail, zpass);
 
         [JsName("stencilOpSeparate")]
-        public void StencilOpSeparate(uint face, uint fail, uint zfail, uint zpass) => throw new NotImplementedException();
+        public void StencilOpSeparate(uint face, uint fail, uint zfail, uint zpass) => InvokeVoid("stencilOpSeparate", face, fail, zfail, zpass);
 
         [JsName("texParameterf")]
-        public void TexParameterf(uint target, uint pname, float param) => throw new NotImplementedException();
+        public void TexParameterf(uint target, uint pname, float param) => InvokeVoid("texParameterf", target, pname, param);
 
         [JsName("texParameteri")]
-        public void TexParameteri(uint target, uint pname, int param) => throw new NotImplementedException();
+        public void TexParameteri(uint target, uint pname, int param) => InvokeVoid("texParameteri", target, pname, param);
 
         [JsName("uniform1f")]
-        public void Uniform1f(WebGlUniformLocation? location, float x) => throw new NotImplementedException();
+        public void Uniform1f(WebGlUniformLocation? location, float x) => InvokeVoid("uniform1f", location, x);
 
         [JsName("uniform2f")]
-        public void Uniform2f(WebGlUniformLocation? location, float x, float y) => throw new NotImplementedException();
+        public void Uniform2f(WebGlUniformLocation? location, float x, float y) => InvokeVoid("uniform2f", location, x, y);
 
         [JsName("uniform3f")]
-        public void Uniform3f(WebGlUniformLocation? location, float x, float y, float z) => throw new NotImplementedException();
+        public void Uniform3f(WebGlUniformLocation? location, float x, float y, float z) => InvokeVoid("uniform3f", location, x, y, z);
 
         [JsName("uniform4f")]
-        public void Uniform4f(WebGlUniformLocation? location, float x, float y, float z, float w) => throw new NotImplementedException();
+        public void Uniform4f(WebGlUniformLocation? location, float x, float y, float z, float w) => InvokeVoid("uniform4f", location, x, y, z, w);
 
         [JsName("uniform1i")]
-        public void Uniform1i(WebGlUniformLocation? location, int x) => throw new NotImplementedException();
+        public void Uniform1i(WebGlUniformLocation? location, int x) => InvokeVoid("uniform1i", location, x);
 
         [JsName("uniform2i")]
-        public void Uniform2i(WebGlUniformLocation? location, int x, int y) => throw new NotImplementedException();
+        public void Uniform2i(WebGlUniformLocation? location, int x, int y) => InvokeVoid("uniform2i", location, x, y);
 
         [JsName("uniform3i")]
-        public void Uniform3i(WebGlUniformLocation? location, int x, int y, int z) => throw new NotImplementedException();
+        public void Uniform3i(WebGlUniformLocation? location, int x, int y, int z) => InvokeVoid("uniform3i", location, x, y, z);
 
         [JsName("uniform4i")]
-        public void Uniform4i(WebGlUniformLocation? location, int x, int y, int z, int w) => throw new NotImplementedException();
+        public void Uniform4i(WebGlUniformLocation? location, int x, int y, int z, int w) => InvokeVoid("uniform4i", location, x, y, z, w);
 
         [JsName("useProgram")]
-        public void UseProgram(WebGlProgram? program) => throw new NotImplementedException();
+        public void UseProgram(WebGlProgram? program) => InvokeVoid("useProgram", program);
 
         [JsName("validateProgram")]
-        public void ValidateProgram(WebGlProgram program) => throw new NotImplementedException();
+        public void ValidateProgram(WebGlProgram program) => InvokeVoid("validateProgram", program);
 
         [JsName("vertexAttrib1f")]
-        public void VertexAttrib1f(uint index, float x) => throw new NotImplementedException();
+        public void VertexAttrib1f(uint index, float x) => InvokeVoid("vertexAttrib1f", index, x);
 
         [JsName("vertexAttrib2f")]
-        public void VertexAttrib2f(uint index, float x, float y) => throw new NotImplementedException();
+        public void VertexAttrib2f(uint index, float x, float y) => InvokeVoid("vertexAttrib2f", index, x, y);
 
         [JsName("vertexAttrib3f")]
-        public void VertexAttrib3f(uint index, float x, float y, float z) => throw new NotImplementedException();
+        public void VertexAttrib3f(uint index, float x, float y, float z) => InvokeVoid("vertexAttrib3f", index, x, y, z);
 
         [JsName("vertexAttrib4f")]
-        public void VertexAttrib4f(uint index, float x, float y, float z, float w) => throw new NotImplementedException();
+        public void VertexAttrib4f(uint index, float x, float y, float z, float w) => InvokeVoid("vertexAttrib4f", index, x, y, z, w);
 
         [JsName("vertexAttrib1fv")]
-        public void VertexAttrib1fv(uint index, object values) => throw new NotImplementedException();
+        public void VertexAttrib1fv(uint index, object values) => InvokeVoid("vertexAttrib1fv", index, values);
 
         [JsName("vertexAttrib2fv")]
-        public void VertexAttrib2fv(uint index, object values) => throw new NotImplementedException();
+        public void VertexAttrib2fv(uint index, object values) => InvokeVoid("vertexAttrib2fv", index, values);
 
         [JsName("vertexAttrib3fv")]
-        public void VertexAttrib3fv(uint index, object values) => throw new NotImplementedException();
+        public void VertexAttrib3fv(uint index, object values) => InvokeVoid("vertexAttrib3fv", index, values);
 
         [JsName("vertexAttrib4fv")]
-        public void VertexAttrib4fv(uint index, object values) => throw new NotImplementedException();
+        public void VertexAttrib4fv(uint index, object values) => InvokeVoid("vertexAttrib4fv", index, values);
 
         [JsName("vertexAttribPointer")]
-        public void VertexAttribPointer(uint index, int size, uint type, bool normalized, int stride, long offset) => throw new NotImplementedException();
+        public void VertexAttribPointer(uint index, int size, uint type, bool normalized, int stride, long offset) => InvokeVoid("vertexAttribPointer", index, size, type, normalized, stride, offset);
 
         [JsName("makeXRCompatible")]
-        public Task MakeXrCompatibleAsync() => throw new NotImplementedException();
+        public Task MakeXrCompatibleAsync() => InvokeVoidAsync("makeXRCompatible");
 
         [JsName("copyBufferSubData")]
-        public void CopyBufferSubData(uint readTarget, uint writeTarget, long readOffset, long writeOffset, long size) => throw new NotImplementedException();
+        public void CopyBufferSubData(uint readTarget, uint writeTarget, long readOffset, long writeOffset, long size) => InvokeVoid("copyBufferSubData", readTarget, writeTarget, readOffset, writeOffset, size);
 
         [JsName("getBufferSubData")]
-        public void GetBufferSubData(uint target, long srcByteOffset, byte[] dstBuffer, ulong dstOffset = 0, uint length = 0) => throw new NotImplementedException();
+        public void GetBufferSubData(uint target, long srcByteOffset, byte[] dstBuffer, ulong dstOffset = 0, uint length = 0) => InvokeVoid("getBufferSubData", target, srcByteOffset, dstBuffer, dstOffset, length);
 
         [JsName("blitFramebuffer")]
-        public void BlitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, uint mask, uint filter) => throw new NotImplementedException();
+        public void BlitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, uint mask, uint filter) => InvokeVoid("blitFramebuffer", srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 
         [JsName("framebufferTextureLayer")]
-        public void FramebufferTextureLayer(uint target, uint attachment, WebGlTexture? texture, int level, int layer) => throw new NotImplementedException();
+        public void FramebufferTextureLayer(uint target, uint attachment, WebGlTexture? texture, int level, int layer) => InvokeVoid("framebufferTextureLayer", target, attachment, texture, level, layer);
 
         [JsName("invalidateFramebuffer")]
-        public void InvalidateFramebuffer(uint target, IReadOnlyList<uint> attachments) => throw new NotImplementedException();
+        public void InvalidateFramebuffer(uint target, IReadOnlyList<uint> attachments) => InvokeVoid("invalidateFramebuffer", target, attachments);
 
         [JsName("invalidateSubFramebuffer")]
-        public void InvalidateSubFramebuffer(uint target, IReadOnlyList<uint> attachments, int x, int y, int width, int height) => throw new NotImplementedException();
+        public void InvalidateSubFramebuffer(uint target, IReadOnlyList<uint> attachments, int x, int y, int width, int height) => InvokeVoid("invalidateSubFramebuffer", target, attachments, x, y, width, height);
 
         [JsName("getInternalformatParameter")]
-        public object GetInternalformatParameter(uint target, uint internalformat, uint pname) => throw new NotImplementedException();
+        public object GetInternalformatParameter(uint target, uint internalformat, uint pname) => Invoke<object>("getInternalformatParameter", target, internalformat, pname);
 
         [JsName("renderbufferStorageMultisample")]
-        public void RenderbufferStorageMultisample(uint target, int samples, uint internalformat, int width, int height) => throw new NotImplementedException();
+        public void RenderbufferStorageMultisample(uint target, int samples, uint internalformat, int width, int height) => InvokeVoid("renderbufferStorageMultisample", target, samples, internalformat, width, height);
 
         [JsName("texStorage2D")]
-        public void TexStorage2D(uint target, int levels, uint internalformat, int width, int height) => throw new NotImplementedException();
+        public void TexStorage2D(uint target, int levels, uint internalformat, int width, int height) => InvokeVoid("texStorage2D", target, levels, internalformat, width, height);
 
         [JsName("texStorage3D")]
-        public void TexStorage3D(uint target, int levels, uint internalformat, int width, int height, int depth) => throw new NotImplementedException();
+        public void TexStorage3D(uint target, int levels, uint internalformat, int width, int height, int depth) => InvokeVoid("texStorage3D", target, levels, internalformat, width, height, depth);
 
         [JsName("texImage3D")]
-        public void TexImage3D(uint target, int level, int internalformat, int width, int height, int depth, int border, uint format, uint type, long pboOffset) => throw new NotImplementedException();
+        public void TexImage3D(uint target, int level, int internalformat, int width, int height, int depth, int border, uint format, uint type, long pboOffset) => InvokeVoid("texImage3D", target, level, internalformat, width, height, depth, border, format, type, pboOffset);
 
         [JsName("texImage3D")]
-        public void TexImage3D(uint target, int level, int internalformat, int width, int height, int depth, int border, uint format, uint type, object source) => throw new NotImplementedException();
+        public void TexImage3D(uint target, int level, int internalformat, int width, int height, int depth, int border, uint format, uint type, object source) => InvokeVoid("texImage3D", target, level, internalformat, width, height, depth, border, format, type, source);
 
         [JsName("texImage3D")]
-        public void TexImage3D(uint target, int level, int internalformat, int width, int height, int depth, int border, uint format, uint type, byte[]? srcData) => throw new NotImplementedException();
+        public void TexImage3D(uint target, int level, int internalformat, int width, int height, int depth, int border, uint format, uint type, byte[]? srcData) => InvokeVoid("texImage3D", target, level, internalformat, width, height, depth, border, format, type, srcData);
 
         [JsName("texImage3D")]
-        public void TexImage3D(uint target, int level, int internalformat, int width, int height, int depth, int border, uint format, uint type, byte[] srcData, ulong srcOffset) => throw new NotImplementedException();
+        public void TexImage3D(uint target, int level, int internalformat, int width, int height, int depth, int border, uint format, uint type, byte[] srcData, ulong srcOffset) => InvokeVoid("texImage3D", target, level, internalformat, width, height, depth, border, format, type, srcData, srcOffset);
 
         [JsName("texSubImage3D")]
-        public void TexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, uint type, long pboOffset) => throw new NotImplementedException();
+        public void TexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, uint type, long pboOffset) => InvokeVoid("texSubImage3D", target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pboOffset);
 
         [JsName("texSubImage3D")]
-        public void TexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, uint type, object source) => throw new NotImplementedException();
+        public void TexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, uint type, object source) => InvokeVoid("texSubImage3D", target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, source);
 
         [JsName("texSubImage3D")]
-        public void TexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, uint type, byte[]? srcData, ulong srcOffset = 0) => throw new NotImplementedException();
+        public void TexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, uint type, byte[]? srcData, ulong srcOffset = 0) => InvokeVoid("texSubImage3D", target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, srcData, srcOffset);
 
         [JsName("copyTexSubImage3D")]
-        public void CopyTexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int x, int y, int width, int height) => throw new NotImplementedException();
+        public void CopyTexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int x, int y, int width, int height) => InvokeVoid("copyTexSubImage3D", target, level, xoffset, yoffset, zoffset, x, y, width, height);
 
         [JsName("compressedTexImage3D")]
-        public void CompressedTexImage3D(uint target, int level, uint internalformat, int width, int height, int depth, int border, int imageSize, long offset) => throw new NotImplementedException();
+        public void CompressedTexImage3D(uint target, int level, uint internalformat, int width, int height, int depth, int border, int imageSize, long offset) => InvokeVoid("compressedTexImage3D", target, level, internalformat, width, height, depth, border, imageSize, offset);
 
         [JsName("compressedTexImage3D")]
-        public void CompressedTexImage3D(uint target, int level, uint internalformat, int width, int height, int depth, int border, byte[] srcData, ulong srcOffset = 0, uint srcLengthOverride = 0) => throw new NotImplementedException();
+        public void CompressedTexImage3D(uint target, int level, uint internalformat, int width, int height, int depth, int border, byte[] srcData, ulong srcOffset = 0, uint srcLengthOverride = 0) => InvokeVoid("compressedTexImage3D", target, level, internalformat, width, height, depth, border, srcData, srcOffset, srcLengthOverride);
 
         [JsName("compressedTexSubImage3D")]
-        public void CompressedTexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, int imageSize, long offset) => throw new NotImplementedException();
+        public void CompressedTexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, int imageSize, long offset) => InvokeVoid("compressedTexSubImage3D", target, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, offset);
 
         [JsName("compressedTexSubImage3D")]
-        public void CompressedTexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, byte[] srcData, ulong srcOffset = 0, uint srcLengthOverride = 0) => throw new NotImplementedException();
+        public void CompressedTexSubImage3D(uint target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, uint format, byte[] srcData, ulong srcOffset = 0, uint srcLengthOverride = 0) => InvokeVoid("compressedTexSubImage3D", target, level, xoffset, yoffset, zoffset, width, height, depth, format, srcData, srcOffset, srcLengthOverride);
 
         [JsName("getFragDataLocation")]
-        public int GetFragDataLocation(WebGlProgram program, string name) => throw new NotImplementedException();
+        public int GetFragDataLocation(WebGlProgram program, string name) => Invoke<int>("getFragDataLocation", program, name);
 
         [JsName("uniform1ui")]
-        public void Uniform1ui(WebGlUniformLocation? location, uint v0) => throw new NotImplementedException();
+        public void Uniform1ui(WebGlUniformLocation? location, uint v0) => InvokeVoid("uniform1ui", location, v0);
 
         [JsName("uniform2ui")]
-        public void Uniform2ui(WebGlUniformLocation? location, uint v0, uint v1) => throw new NotImplementedException();
+        public void Uniform2ui(WebGlUniformLocation? location, uint v0, uint v1) => InvokeVoid("uniform2ui", location, v0, v1);
 
         [JsName("uniform3ui")]
-        public void Uniform3ui(WebGlUniformLocation? location, uint v0, uint v1, uint v2) => throw new NotImplementedException();
+        public void Uniform3ui(WebGlUniformLocation? location, uint v0, uint v1, uint v2) => InvokeVoid("uniform3ui", location, v0, v1, v2);
 
         [JsName("uniform4ui")]
-        public void Uniform4ui(WebGlUniformLocation? location, uint v0, uint v1, uint v2, uint v3) => throw new NotImplementedException();
+        public void Uniform4ui(WebGlUniformLocation? location, uint v0, uint v1, uint v2, uint v3) => InvokeVoid("uniform4ui", location, v0, v1, v2, v3);
 
         [JsName("uniform1uiv")]
-        public void Uniform1uiv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform1uiv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform1uiv", location, data, srcOffset, srcLength);
 
         [JsName("uniform2uiv")]
-        public void Uniform2uiv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform2uiv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform2uiv", location, data, srcOffset, srcLength);
 
         [JsName("uniform3uiv")]
-        public void Uniform3uiv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform3uiv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform3uiv", location, data, srcOffset, srcLength);
 
         [JsName("uniform4uiv")]
-        public void Uniform4uiv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform4uiv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform4uiv", location, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix3x2fv")]
-        public void UniformMatrix3x2fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix3x2fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix3x2fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix4x2fv")]
-        public void UniformMatrix4x2fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix4x2fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix4x2fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix2x3fv")]
-        public void UniformMatrix2x3fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix2x3fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix2x3fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix4x3fv")]
-        public void UniformMatrix4x3fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix4x3fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix4x3fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix2x4fv")]
-        public void UniformMatrix2x4fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix2x4fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix2x4fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix3x4fv")]
-        public void UniformMatrix3x4fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix3x4fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix3x4fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("vertexAttribI4i")]
-        public void VertexAttribI4i(uint index, int x, int y, int z, int w) => throw new NotImplementedException();
+        public void VertexAttribI4i(uint index, int x, int y, int z, int w) => InvokeVoid("vertexAttribI4i", index, x, y, z, w);
 
         [JsName("vertexAttribI4iv")]
-        public void VertexAttribI4iv(uint index, object values) => throw new NotImplementedException();
+        public void VertexAttribI4iv(uint index, object values) => InvokeVoid("vertexAttribI4iv", index, values);
 
         [JsName("vertexAttribI4ui")]
-        public void VertexAttribI4ui(uint index, uint x, uint y, uint z, uint w) => throw new NotImplementedException();
+        public void VertexAttribI4ui(uint index, uint x, uint y, uint z, uint w) => InvokeVoid("vertexAttribI4ui", index, x, y, z, w);
 
         [JsName("vertexAttribI4uiv")]
-        public void VertexAttribI4uiv(uint index, object values) => throw new NotImplementedException();
+        public void VertexAttribI4uiv(uint index, object values) => InvokeVoid("vertexAttribI4uiv", index, values);
 
         [JsName("vertexAttribIPointer")]
-        public void VertexAttribIpointer(uint index, int size, uint type, int stride, long offset) => throw new NotImplementedException();
+        public void VertexAttribIpointer(uint index, int size, uint type, int stride, long offset) => InvokeVoid("vertexAttribIPointer", index, size, type, stride, offset);
 
         [JsName("vertexAttribDivisor")]
-        public void VertexAttribDivisor(uint index, uint divisor) => throw new NotImplementedException();
+        public void VertexAttribDivisor(uint index, uint divisor) => InvokeVoid("vertexAttribDivisor", index, divisor);
 
         [JsName("drawArraysInstanced")]
-        public void DrawArraysInstanced(uint mode, int first, int count, int instanceCount) => throw new NotImplementedException();
+        public void DrawArraysInstanced(uint mode, int first, int count, int instanceCount) => InvokeVoid("drawArraysInstanced", mode, first, count, instanceCount);
 
         [JsName("drawElementsInstanced")]
-        public void DrawElementsInstanced(uint mode, int count, uint type, long offset, int instanceCount) => throw new NotImplementedException();
+        public void DrawElementsInstanced(uint mode, int count, uint type, long offset, int instanceCount) => InvokeVoid("drawElementsInstanced", mode, count, type, offset, instanceCount);
 
         [JsName("drawRangeElements")]
-        public void DrawRangeElements(uint mode, uint start, uint end, int count, uint type, long offset) => throw new NotImplementedException();
+        public void DrawRangeElements(uint mode, uint start, uint end, int count, uint type, long offset) => InvokeVoid("drawRangeElements", mode, start, end, count, type, offset);
 
         [JsName("drawBuffers")]
-        public void DrawBuffers(IReadOnlyList<uint> buffers) => throw new NotImplementedException();
+        public void DrawBuffers(IReadOnlyList<uint> buffers) => InvokeVoid("drawBuffers", buffers);
 
         [JsName("clearBufferfv")]
-        public void ClearBufferfv(uint buffer, int drawbuffer, object values, ulong srcOffset = 0) => throw new NotImplementedException();
+        public void ClearBufferfv(uint buffer, int drawbuffer, object values, ulong srcOffset = 0) => InvokeVoid("clearBufferfv", buffer, drawbuffer, values, srcOffset);
 
         [JsName("clearBufferiv")]
-        public void ClearBufferiv(uint buffer, int drawbuffer, object values, ulong srcOffset = 0) => throw new NotImplementedException();
+        public void ClearBufferiv(uint buffer, int drawbuffer, object values, ulong srcOffset = 0) => InvokeVoid("clearBufferiv", buffer, drawbuffer, values, srcOffset);
 
         [JsName("clearBufferuiv")]
-        public void ClearBufferuiv(uint buffer, int drawbuffer, object values, ulong srcOffset = 0) => throw new NotImplementedException();
+        public void ClearBufferuiv(uint buffer, int drawbuffer, object values, ulong srcOffset = 0) => InvokeVoid("clearBufferuiv", buffer, drawbuffer, values, srcOffset);
 
         [JsName("clearBufferfi")]
-        public void ClearBufferfi(uint buffer, int drawbuffer, float depth, int stencil) => throw new NotImplementedException();
+        public void ClearBufferfi(uint buffer, int drawbuffer, float depth, int stencil) => InvokeVoid("clearBufferfi", buffer, drawbuffer, depth, stencil);
 
         [JsName("createQuery")]
-        public WebGlQuery CreateQuery() => throw new NotImplementedException();
+        public WebGlQuery CreateQuery() => Invoke<WebGlQuery>("createQuery");
 
         [JsName("deleteQuery")]
-        public void DeleteQuery(WebGlQuery? query) => throw new NotImplementedException();
+        public void DeleteQuery(WebGlQuery? query) => InvokeVoid("deleteQuery", query);
 
         [JsName("isQuery")]
-        public bool IsQuery(WebGlQuery? query) => throw new NotImplementedException();
+        public bool IsQuery(WebGlQuery? query) => Invoke<bool>("isQuery", query);
 
         [JsName("beginQuery")]
-        public void BeginQuery(uint target, WebGlQuery query) => throw new NotImplementedException();
+        public void BeginQuery(uint target, WebGlQuery query) => InvokeVoid("beginQuery", target, query);
 
         [JsName("endQuery")]
-        public void EndQuery(uint target) => throw new NotImplementedException();
+        public void EndQuery(uint target) => InvokeVoid("endQuery", target);
 
         [JsName("getQuery")]
-        public WebGlQuery? GetQuery(uint target, uint pname) => throw new NotImplementedException();
+        public WebGlQuery? GetQuery(uint target, uint pname) => Invoke<WebGlQuery?>("getQuery", target, pname);
 
         [JsName("getQueryParameter")]
-        public object GetQueryParameter(WebGlQuery query, uint pname) => throw new NotImplementedException();
+        public object GetQueryParameter(WebGlQuery query, uint pname) => Invoke<object>("getQueryParameter", query, pname);
 
         [JsName("createSampler")]
-        public WebGlSampler CreateSampler() => throw new NotImplementedException();
+        public WebGlSampler CreateSampler() => Invoke<WebGlSampler>("createSampler");
 
         [JsName("deleteSampler")]
-        public void DeleteSampler(WebGlSampler? sampler) => throw new NotImplementedException();
+        public void DeleteSampler(WebGlSampler? sampler) => InvokeVoid("deleteSampler", sampler);
 
         [JsName("isSampler")]
-        public bool IsSampler(WebGlSampler? sampler) => throw new NotImplementedException();
+        public bool IsSampler(WebGlSampler? sampler) => Invoke<bool>("isSampler", sampler);
 
         [JsName("bindSampler")]
-        public void BindSampler(uint unit, WebGlSampler? sampler) => throw new NotImplementedException();
+        public void BindSampler(uint unit, WebGlSampler? sampler) => InvokeVoid("bindSampler", unit, sampler);
 
         [JsName("samplerParameteri")]
-        public void SamplerParameteri(WebGlSampler sampler, uint pname, int param) => throw new NotImplementedException();
+        public void SamplerParameteri(WebGlSampler sampler, uint pname, int param) => InvokeVoid("samplerParameteri", sampler, pname, param);
 
         [JsName("samplerParameterf")]
-        public void SamplerParameterf(WebGlSampler sampler, uint pname, float param) => throw new NotImplementedException();
+        public void SamplerParameterf(WebGlSampler sampler, uint pname, float param) => InvokeVoid("samplerParameterf", sampler, pname, param);
 
         [JsName("getSamplerParameter")]
-        public object GetSamplerParameter(WebGlSampler sampler, uint pname) => throw new NotImplementedException();
+        public object GetSamplerParameter(WebGlSampler sampler, uint pname) => Invoke<object>("getSamplerParameter", sampler, pname);
 
         [JsName("fenceSync")]
-        public WebGlSync? FenceSync(uint condition, uint flags) => throw new NotImplementedException();
+        public WebGlSync? FenceSync(uint condition, uint flags) => Invoke<WebGlSync?>("fenceSync", condition, flags);
 
         [JsName("isSync")]
-        public bool IsSync(WebGlSync? sync) => throw new NotImplementedException();
+        public bool IsSync(WebGlSync? sync) => Invoke<bool>("isSync", sync);
 
         [JsName("deleteSync")]
-        public void DeleteSync(WebGlSync? sync) => throw new NotImplementedException();
+        public void DeleteSync(WebGlSync? sync) => InvokeVoid("deleteSync", sync);
 
         [JsName("clientWaitSync")]
-        public uint ClientWaitSync(WebGlSync sync, uint flags, ulong timeout) => throw new NotImplementedException();
+        public uint ClientWaitSync(WebGlSync sync, uint flags, ulong timeout) => Invoke<uint>("clientWaitSync", sync, flags, timeout);
 
         [JsName("waitSync")]
-        public void WaitSync(WebGlSync sync, uint flags, long timeout) => throw new NotImplementedException();
+        public void WaitSync(WebGlSync sync, uint flags, long timeout) => InvokeVoid("waitSync", sync, flags, timeout);
 
         [JsName("getSyncParameter")]
-        public object GetSyncParameter(WebGlSync sync, uint pname) => throw new NotImplementedException();
+        public object GetSyncParameter(WebGlSync sync, uint pname) => Invoke<object>("getSyncParameter", sync, pname);
 
         [JsName("createTransformFeedback")]
-        public WebGlTransformFeedback CreateTransformFeedback() => throw new NotImplementedException();
+        public WebGlTransformFeedback CreateTransformFeedback() => Invoke<WebGlTransformFeedback>("createTransformFeedback");
 
         [JsName("deleteTransformFeedback")]
-        public void DeleteTransformFeedback(WebGlTransformFeedback? tf) => throw new NotImplementedException();
+        public void DeleteTransformFeedback(WebGlTransformFeedback? tf) => InvokeVoid("deleteTransformFeedback", tf);
 
         [JsName("isTransformFeedback")]
-        public bool IsTransformFeedback(WebGlTransformFeedback? tf) => throw new NotImplementedException();
+        public bool IsTransformFeedback(WebGlTransformFeedback? tf) => Invoke<bool>("isTransformFeedback", tf);
 
         [JsName("bindTransformFeedback")]
-        public void BindTransformFeedback(uint target, WebGlTransformFeedback? tf) => throw new NotImplementedException();
+        public void BindTransformFeedback(uint target, WebGlTransformFeedback? tf) => InvokeVoid("bindTransformFeedback", target, tf);
 
         [JsName("beginTransformFeedback")]
-        public void BeginTransformFeedback(uint primitiveMode) => throw new NotImplementedException();
+        public void BeginTransformFeedback(uint primitiveMode) => InvokeVoid("beginTransformFeedback", primitiveMode);
 
         [JsName("endTransformFeedback")]
-        public void EndTransformFeedback() => throw new NotImplementedException();
+        public void EndTransformFeedback() => InvokeVoid("endTransformFeedback");
 
         [JsName("getTransformFeedbackVarying")]
-        public WebGlActiveInfo? GetTransformFeedbackVarying(WebGlProgram program, uint index) => throw new NotImplementedException();
+        public WebGlActiveInfo? GetTransformFeedbackVarying(WebGlProgram program, uint index) => Invoke<WebGlActiveInfo?>("getTransformFeedbackVarying", program, index);
 
         [JsName("pauseTransformFeedback")]
-        public void PauseTransformFeedback() => throw new NotImplementedException();
+        public void PauseTransformFeedback() => InvokeVoid("pauseTransformFeedback");
 
         [JsName("resumeTransformFeedback")]
-        public void ResumeTransformFeedback() => throw new NotImplementedException();
+        public void ResumeTransformFeedback() => InvokeVoid("resumeTransformFeedback");
 
         [JsName("bindBufferBase")]
-        public void BindBufferBase(uint target, uint index, WebGlBuffer? buffer) => throw new NotImplementedException();
+        public void BindBufferBase(uint target, uint index, WebGlBuffer? buffer) => InvokeVoid("bindBufferBase", target, index, buffer);
 
         [JsName("bindBufferRange")]
-        public void BindBufferRange(uint target, uint index, WebGlBuffer? buffer, long offset, long size) => throw new NotImplementedException();
+        public void BindBufferRange(uint target, uint index, WebGlBuffer? buffer, long offset, long size) => InvokeVoid("bindBufferRange", target, index, buffer, offset, size);
 
         [JsName("getIndexedParameter")]
-        public object GetIndexedParameter(uint target, uint index) => throw new NotImplementedException();
+        public object GetIndexedParameter(uint target, uint index) => Invoke<object>("getIndexedParameter", target, index);
 
         [JsName("getUniformIndices")]
-        public IReadOnlyList<uint>? GetUniformIndices(WebGlProgram program, IReadOnlyList<string> uniformNames) => throw new NotImplementedException();
+        public IReadOnlyList<uint>? GetUniformIndices(WebGlProgram program, IReadOnlyList<string> uniformNames) => Invoke<IReadOnlyList<uint>?>("getUniformIndices", program, uniformNames);
 
         [JsName("getActiveUniforms")]
-        public object GetActiveUniforms(WebGlProgram program, IReadOnlyList<uint> uniformIndices, uint pname) => throw new NotImplementedException();
+        public object GetActiveUniforms(WebGlProgram program, IReadOnlyList<uint> uniformIndices, uint pname) => Invoke<object>("getActiveUniforms", program, uniformIndices, pname);
 
         [JsName("getUniformBlockIndex")]
-        public uint GetUniformBlockIndex(WebGlProgram program, string uniformBlockName) => throw new NotImplementedException();
+        public uint GetUniformBlockIndex(WebGlProgram program, string uniformBlockName) => Invoke<uint>("getUniformBlockIndex", program, uniformBlockName);
 
         [JsName("getActiveUniformBlockParameter")]
-        public object GetActiveUniformBlockParameter(WebGlProgram program, uint uniformBlockIndex, uint pname) => throw new NotImplementedException();
+        public object GetActiveUniformBlockParameter(WebGlProgram program, uint uniformBlockIndex, uint pname) => Invoke<object>("getActiveUniformBlockParameter", program, uniformBlockIndex, pname);
 
         [JsName("getActiveUniformBlockName")]
-        public string? GetActiveUniformBlockName(WebGlProgram program, uint uniformBlockIndex) => throw new NotImplementedException();
+        public string? GetActiveUniformBlockName(WebGlProgram program, uint uniformBlockIndex) => Invoke<string?>("getActiveUniformBlockName", program, uniformBlockIndex);
 
         [JsName("createVertexArray")]
-        public WebGlVertexArrayObject CreateVertexArray() => throw new NotImplementedException();
+        public WebGlVertexArrayObject CreateVertexArray() => Invoke<WebGlVertexArrayObject>("createVertexArray");
 
         [JsName("deleteVertexArray")]
-        public void DeleteVertexArray(WebGlVertexArrayObject? vertexArray) => throw new NotImplementedException();
+        public void DeleteVertexArray(WebGlVertexArrayObject? vertexArray) => InvokeVoid("deleteVertexArray", vertexArray);
 
         [JsName("isVertexArray")]
-        public bool IsVertexArray(WebGlVertexArrayObject? vertexArray) => throw new NotImplementedException();
+        public bool IsVertexArray(WebGlVertexArrayObject? vertexArray) => Invoke<bool>("isVertexArray", vertexArray);
 
         [JsName("bindVertexArray")]
-        public void BindVertexArray(WebGlVertexArrayObject? array) => throw new NotImplementedException();
+        public void BindVertexArray(WebGlVertexArrayObject? array) => InvokeVoid("bindVertexArray", array);
 
         [JsName("bufferData")]
-        public void BufferData(uint target, long size, uint usage) => throw new NotImplementedException();
+        public void BufferData(uint target, long size, uint usage) => InvokeVoid("bufferData", target, size, usage);
 
         [JsName("bufferData")]
-        public void BufferData(uint target, object srcData, uint usage) => throw new NotImplementedException();
+        public void BufferData(uint target, object srcData, uint usage) => InvokeVoid("bufferData", target, srcData, usage);
 
         [JsName("bufferSubData")]
-        public void BufferSubData(uint target, long dstByteOffset, object srcData) => throw new NotImplementedException();
+        public void BufferSubData(uint target, long dstByteOffset, object srcData) => InvokeVoid("bufferSubData", target, dstByteOffset, srcData);
 
         [JsName("bufferData")]
-        public void BufferData(uint target, byte[] srcData, uint usage, ulong srcOffset, uint length = 0) => throw new NotImplementedException();
+        public void BufferData(uint target, byte[] srcData, uint usage, ulong srcOffset, uint length = 0) => InvokeVoid("bufferData", target, srcData, usage, srcOffset, length);
 
         [JsName("bufferSubData")]
-        public void BufferSubData(uint target, long dstByteOffset, byte[] srcData, ulong srcOffset, uint length = 0) => throw new NotImplementedException();
+        public void BufferSubData(uint target, long dstByteOffset, byte[] srcData, ulong srcOffset, uint length = 0) => InvokeVoid("bufferSubData", target, dstByteOffset, srcData, srcOffset, length);
 
         [JsName("texImage2D")]
-        public void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, byte[]? pixels) => throw new NotImplementedException();
+        public void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, byte[]? pixels) => InvokeVoid("texImage2D", target, level, internalformat, width, height, border, format, type, pixels);
 
         [JsName("texImage2D")]
-        public void TexImage2D(uint target, int level, int internalformat, uint format, uint type, object source) => throw new NotImplementedException();
+        public void TexImage2D(uint target, int level, int internalformat, uint format, uint type, object source) => InvokeVoid("texImage2D", target, level, internalformat, format, type, source);
 
         [JsName("texSubImage2D")]
-        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, byte[]? pixels) => throw new NotImplementedException();
+        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, byte[]? pixels) => InvokeVoid("texSubImage2D", target, level, xoffset, yoffset, width, height, format, type, pixels);
 
         [JsName("texSubImage2D")]
-        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, uint format, uint type, object source) => throw new NotImplementedException();
+        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, uint format, uint type, object source) => InvokeVoid("texSubImage2D", target, level, xoffset, yoffset, format, type, source);
 
         [JsName("texImage2D")]
-        public void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, long pboOffset) => throw new NotImplementedException();
+        public void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, long pboOffset) => InvokeVoid("texImage2D", target, level, internalformat, width, height, border, format, type, pboOffset);
 
         [JsName("texImage2D")]
-        public void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, object source) => throw new NotImplementedException();
+        public void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, object source) => InvokeVoid("texImage2D", target, level, internalformat, width, height, border, format, type, source);
 
         [JsName("texImage2D")]
-        public void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, byte[] srcData, ulong srcOffset) => throw new NotImplementedException();
+        public void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, byte[] srcData, ulong srcOffset) => InvokeVoid("texImage2D", target, level, internalformat, width, height, border, format, type, srcData, srcOffset);
 
         [JsName("texSubImage2D")]
-        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, long pboOffset) => throw new NotImplementedException();
+        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, long pboOffset) => InvokeVoid("texSubImage2D", target, level, xoffset, yoffset, width, height, format, type, pboOffset);
 
         [JsName("texSubImage2D")]
-        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, object source) => throw new NotImplementedException();
+        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, object source) => InvokeVoid("texSubImage2D", target, level, xoffset, yoffset, width, height, format, type, source);
 
         [JsName("texSubImage2D")]
-        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, byte[] srcData, ulong srcOffset) => throw new NotImplementedException();
+        public void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, byte[] srcData, ulong srcOffset) => InvokeVoid("texSubImage2D", target, level, xoffset, yoffset, width, height, format, type, srcData, srcOffset);
 
         [JsName("compressedTexImage2D")]
-        public void CompressedTexImage2D(uint target, int level, uint internalformat, int width, int height, int border, int imageSize, long offset) => throw new NotImplementedException();
+        public void CompressedTexImage2D(uint target, int level, uint internalformat, int width, int height, int border, int imageSize, long offset) => InvokeVoid("compressedTexImage2D", target, level, internalformat, width, height, border, imageSize, offset);
 
         [JsName("compressedTexImage2D")]
-        public void CompressedTexImage2D(uint target, int level, uint internalformat, int width, int height, int border, byte[] srcData, ulong srcOffset = 0, uint srcLengthOverride = 0) => throw new NotImplementedException();
+        public void CompressedTexImage2D(uint target, int level, uint internalformat, int width, int height, int border, byte[] srcData, ulong srcOffset = 0, uint srcLengthOverride = 0) => InvokeVoid("compressedTexImage2D", target, level, internalformat, width, height, border, srcData, srcOffset, srcLengthOverride);
 
         [JsName("compressedTexSubImage2D")]
-        public void CompressedTexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, int imageSize, long offset) => throw new NotImplementedException();
+        public void CompressedTexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, int imageSize, long offset) => InvokeVoid("compressedTexSubImage2D", target, level, xoffset, yoffset, width, height, format, imageSize, offset);
 
         [JsName("compressedTexSubImage2D")]
-        public void CompressedTexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, byte[] srcData, ulong srcOffset = 0, uint srcLengthOverride = 0) => throw new NotImplementedException();
+        public void CompressedTexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, byte[] srcData, ulong srcOffset = 0, uint srcLengthOverride = 0) => InvokeVoid("compressedTexSubImage2D", target, level, xoffset, yoffset, width, height, format, srcData, srcOffset, srcLengthOverride);
 
         [JsName("uniform1fv")]
-        public void Uniform1fv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform1fv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform1fv", location, data, srcOffset, srcLength);
 
         [JsName("uniform2fv")]
-        public void Uniform2fv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform2fv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform2fv", location, data, srcOffset, srcLength);
 
         [JsName("uniform3fv")]
-        public void Uniform3fv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform3fv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform3fv", location, data, srcOffset, srcLength);
 
         [JsName("uniform4fv")]
-        public void Uniform4fv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform4fv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform4fv", location, data, srcOffset, srcLength);
 
         [JsName("uniform1iv")]
-        public void Uniform1iv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform1iv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform1iv", location, data, srcOffset, srcLength);
 
         [JsName("uniform2iv")]
-        public void Uniform2iv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform2iv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform2iv", location, data, srcOffset, srcLength);
 
         [JsName("uniform3iv")]
-        public void Uniform3iv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform3iv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform3iv", location, data, srcOffset, srcLength);
 
         [JsName("uniform4iv")]
-        public void Uniform4iv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void Uniform4iv(WebGlUniformLocation? location, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniform4iv", location, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix2fv")]
-        public void UniformMatrix2fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix2fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix2fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix3fv")]
-        public void UniformMatrix3fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix3fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix3fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("uniformMatrix4fv")]
-        public void UniformMatrix4fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => throw new NotImplementedException();
+        public void UniformMatrix4fv(WebGlUniformLocation? location, bool transpose, object data, ulong srcOffset = 0, uint srcLength = 0) => InvokeVoid("uniformMatrix4fv", location, transpose, data, srcOffset, srcLength);
 
         [JsName("readPixels")]
-        public void ReadPixels(int x, int y, int width, int height, uint format, uint type, byte[]? dstData) => throw new NotImplementedException();
+        public void ReadPixels(int x, int y, int width, int height, uint format, uint type, byte[]? dstData) => InvokeVoid("readPixels", x, y, width, height, format, type, dstData);
 
         [JsName("readPixels")]
-        public void ReadPixels(int x, int y, int width, int height, uint format, uint type, long offset) => throw new NotImplementedException();
+        public void ReadPixels(int x, int y, int width, int height, uint format, uint type, long offset) => InvokeVoid("readPixels", x, y, width, height, format, type, offset);
 
         [JsName("readPixels")]
-        public void ReadPixels(int x, int y, int width, int height, uint format, uint type, byte[] dstData, ulong dstOffset) => throw new NotImplementedException();
+        public void ReadPixels(int x, int y, int width, int height, uint format, uint type, byte[] dstData, ulong dstOffset) => InvokeVoid("readPixels", x, y, width, height, format, type, dstData, dstOffset);
     }
 }

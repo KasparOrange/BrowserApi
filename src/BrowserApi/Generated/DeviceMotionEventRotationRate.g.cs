@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class DeviceMotionEventRotationRate
+    public partial class DeviceMotionEventRotationRate : JsObject
     {
         [JsName("alpha")]
-        public double? Alpha { get; }
+        public double? Alpha => GetProperty<double?>("alpha");
 
         [JsName("beta")]
-        public double? Beta { get; }
+        public double? Beta => GetProperty<double?>("beta");
 
         [JsName("gamma")]
-        public double? Gamma { get; }
+        public double? Gamma => GetProperty<double?>("gamma");
     }
 }

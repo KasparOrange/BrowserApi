@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class MediaCapabilities
+    public partial class MediaCapabilities : JsObject
     {
         [JsName("decodingInfo")]
-        public Task<MediaCapabilitiesDecodingInfo> DecodingInfoAsync(MediaDecodingConfiguration configuration) => throw new NotImplementedException();
+        public Task<MediaCapabilitiesDecodingInfo> DecodingInfoAsync(MediaDecodingConfiguration configuration) => InvokeAsync<MediaCapabilitiesDecodingInfo>("decodingInfo", configuration);
 
         [JsName("encodingInfo")]
-        public Task<MediaCapabilitiesEncodingInfo> EncodingInfoAsync(MediaEncodingConfiguration configuration) => throw new NotImplementedException();
+        public Task<MediaCapabilitiesEncodingInfo> EncodingInfoAsync(MediaEncodingConfiguration configuration) => InvokeAsync<MediaCapabilitiesEncodingInfo>("encodingInfo", configuration);
     }
 }

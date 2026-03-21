@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class ValueEvent : Event
     {
         [JsName("value")]
-        public object Value { get; }
+        public object Value => GetProperty<object>("value");
     }
 }

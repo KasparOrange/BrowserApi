@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class ViewTransition
+    public partial class ViewTransition : JsObject
     {
         [JsName("updateCallbackDone")]
-        public Task UpdateCallbackDone { get; }
+        public Task UpdateCallbackDone => GetProperty<Task>("updateCallbackDone");
 
         [JsName("ready")]
-        public Task Ready { get; }
+        public Task Ready => GetProperty<Task>("ready");
 
         [JsName("finished")]
-        public Task Finished { get; }
+        public Task Finished => GetProperty<Task>("finished");
 
         [JsName("types")]
-        public ViewTransitionTypeSet Types { get; }
+        public ViewTransitionTypeSet Types => GetProperty<ViewTransitionTypeSet>("types");
 
         [JsName("transitionRoot")]
-        public Element TransitionRoot { get; }
+        public Element TransitionRoot => GetProperty<Element>("transitionRoot");
 
         [JsName("skipTransition")]
-        public void SkipTransition() => throw new NotImplementedException();
+        public void SkipTransition() => InvokeVoid("skipTransition");
 
         [JsName("waitUntil")]
-        public void WaitUntil(Task<object> promise) => throw new NotImplementedException();
+        public void WaitUntil(Task<object> promise) => InvokeVoid("waitUntil", promise);
     }
 }

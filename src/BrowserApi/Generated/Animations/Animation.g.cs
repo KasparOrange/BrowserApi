@@ -35,75 +35,115 @@ namespace BrowserApi.Animations
     public partial class Animation : EventTarget
     {
         [JsName("id")]
-        public string Id { get; set; }
+        public string Id
+        {
+            get => GetProperty<string>("id");
+            set => SetProperty("id", value);
+        }
 
         [JsName("effect")]
-        public AnimationEffect? Effect { get; set; }
+        public AnimationEffect? Effect
+        {
+            get => GetProperty<AnimationEffect?>("effect");
+            set => SetProperty("effect", value);
+        }
 
         [JsName("timeline")]
-        public AnimationTimeline? Timeline { get; set; }
+        public AnimationTimeline? Timeline
+        {
+            get => GetProperty<AnimationTimeline?>("timeline");
+            set => SetProperty("timeline", value);
+        }
 
         [JsName("playbackRate")]
-        public double PlaybackRate { get; set; }
+        public double PlaybackRate
+        {
+            get => GetProperty<double>("playbackRate");
+            set => SetProperty("playbackRate", value);
+        }
 
         [JsName("playState")]
-        public AnimationPlayState PlayState { get; }
+        public AnimationPlayState PlayState => GetProperty<AnimationPlayState>("playState");
 
         [JsName("replaceState")]
-        public AnimationReplaceState ReplaceState { get; }
+        public AnimationReplaceState ReplaceState => GetProperty<AnimationReplaceState>("replaceState");
 
         [JsName("pending")]
-        public bool Pending { get; }
+        public bool Pending => GetProperty<bool>("pending");
 
         [JsName("ready")]
-        public Task<Animation> Ready { get; }
+        public Task<Animation> Ready => GetProperty<Task<Animation>>("ready");
 
         [JsName("finished")]
-        public Task<Animation> Finished { get; }
+        public Task<Animation> Finished => GetProperty<Task<Animation>>("finished");
 
         [JsName("onfinish")]
-        public object Onfinish { get; set; }
+        public object Onfinish
+        {
+            get => GetProperty<object>("onfinish");
+            set => SetProperty("onfinish", value);
+        }
 
         [JsName("oncancel")]
-        public object Oncancel { get; set; }
+        public object Oncancel
+        {
+            get => GetProperty<object>("oncancel");
+            set => SetProperty("oncancel", value);
+        }
 
         [JsName("onremove")]
-        public object Onremove { get; set; }
+        public object Onremove
+        {
+            get => GetProperty<object>("onremove");
+            set => SetProperty("onremove", value);
+        }
 
         [JsName("startTime")]
-        public object StartTime { get; set; }
+        public object StartTime
+        {
+            get => GetProperty<object>("startTime");
+            set => SetProperty("startTime", value);
+        }
 
         [JsName("currentTime")]
-        public object CurrentTime { get; set; }
+        public object CurrentTime
+        {
+            get => GetProperty<object>("currentTime");
+            set => SetProperty("currentTime", value);
+        }
 
         [JsName("trigger")]
-        public AnimationTrigger? Trigger { get; set; }
+        public AnimationTrigger? Trigger
+        {
+            get => GetProperty<AnimationTrigger?>("trigger");
+            set => SetProperty("trigger", value);
+        }
 
         [JsName("overallProgress")]
-        public double? OverallProgress { get; }
+        public double? OverallProgress => GetProperty<double?>("overallProgress");
 
         [JsName("cancel")]
-        public void Cancel() => throw new NotImplementedException();
+        public void Cancel() => InvokeVoid("cancel");
 
         [JsName("finish")]
-        public void Finish() => throw new NotImplementedException();
+        public void Finish() => InvokeVoid("finish");
 
         [JsName("play")]
-        public void Play() => throw new NotImplementedException();
+        public void Play() => InvokeVoid("play");
 
         [JsName("pause")]
-        public void Pause() => throw new NotImplementedException();
+        public void Pause() => InvokeVoid("pause");
 
         [JsName("updatePlaybackRate")]
-        public void UpdatePlaybackRate(double playbackRate) => throw new NotImplementedException();
+        public void UpdatePlaybackRate(double playbackRate) => InvokeVoid("updatePlaybackRate", playbackRate);
 
         [JsName("reverse")]
-        public void Reverse() => throw new NotImplementedException();
+        public void Reverse() => InvokeVoid("reverse");
 
         [JsName("persist")]
-        public void Persist() => throw new NotImplementedException();
+        public void Persist() => InvokeVoid("persist");
 
         [JsName("commitStyles")]
-        public void CommitStyles() => throw new NotImplementedException();
+        public void CommitStyles() => InvokeVoid("commitStyles");
     }
 }

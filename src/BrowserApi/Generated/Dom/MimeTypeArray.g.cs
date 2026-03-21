@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class MimeTypeArray
+    public partial class MimeTypeArray : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public MimeType? Item(uint index) => throw new NotImplementedException();
+        public MimeType? Item(uint index) => Invoke<MimeType?>("item", index);
 
         [JsName("namedItem")]
-        public MimeType? NamedItem(string name) => throw new NotImplementedException();
+        public MimeType? NamedItem(string name) => Invoke<MimeType?>("namedItem", name);
     }
 }

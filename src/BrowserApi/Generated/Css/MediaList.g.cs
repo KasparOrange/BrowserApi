@@ -32,21 +32,25 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class MediaList
+    public partial class MediaList : JsObject
     {
         [JsName("mediaText")]
-        public string MediaText { get; set; }
+        public string MediaText
+        {
+            get => GetProperty<string>("mediaText");
+            set => SetProperty("mediaText", value);
+        }
 
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public string? Item(uint index) => throw new NotImplementedException();
+        public string? Item(uint index) => Invoke<string?>("item", index);
 
         [JsName("appendMedium")]
-        public void AppendMedium(string medium) => throw new NotImplementedException();
+        public void AppendMedium(string medium) => InvokeVoid("appendMedium", medium);
 
         [JsName("deleteMedium")]
-        public void DeleteMedium(string medium) => throw new NotImplementedException();
+        public void DeleteMedium(string medium) => InvokeVoid("deleteMedium", medium);
     }
 }

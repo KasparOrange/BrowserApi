@@ -36,9 +36,17 @@ namespace BrowserApi.Dom
     public partial class HtmlUlistElement : HtmlElement
     {
         [JsName("compact")]
-        public bool Compact { get; set; }
+        public bool Compact
+        {
+            get => GetProperty<bool>("compact");
+            set => SetProperty("compact", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
     }
 }

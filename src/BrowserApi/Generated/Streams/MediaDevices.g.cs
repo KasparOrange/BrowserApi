@@ -35,33 +35,41 @@ namespace BrowserApi.Streams
     public partial class MediaDevices : EventTarget
     {
         [JsName("ondevicechange")]
-        public object Ondevicechange { get; set; }
+        public object Ondevicechange
+        {
+            get => GetProperty<object>("ondevicechange");
+            set => SetProperty("ondevicechange", value);
+        }
 
         [JsName("oncaptureaction")]
-        public object Oncaptureaction { get; set; }
+        public object Oncaptureaction
+        {
+            get => GetProperty<object>("oncaptureaction");
+            set => SetProperty("oncaptureaction", value);
+        }
 
         [JsName("enumerateDevices")]
-        public Task<IReadOnlyList<MediaDeviceInfo>> EnumerateDevicesAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<MediaDeviceInfo>> EnumerateDevicesAsync() => InvokeAsync<IReadOnlyList<MediaDeviceInfo>>("enumerateDevices");
 
         [JsName("selectAudioOutput")]
-        public Task<MediaDeviceInfo> SelectAudioOutputAsync(AudioOutputOptions? options = null) => throw new NotImplementedException();
+        public Task<MediaDeviceInfo> SelectAudioOutputAsync(AudioOutputOptions? options = null) => InvokeAsync<MediaDeviceInfo>("selectAudioOutput", options);
 
         [JsName("setCaptureHandleConfig")]
-        public void SetCaptureHandleConfig(CaptureHandleConfig? config = null) => throw new NotImplementedException();
+        public void SetCaptureHandleConfig(CaptureHandleConfig? config = null) => InvokeVoid("setCaptureHandleConfig", config);
 
         [JsName("setSupportedCaptureActions")]
-        public void SetSupportedCaptureActions(IReadOnlyList<string> actions) => throw new NotImplementedException();
+        public void SetSupportedCaptureActions(IReadOnlyList<string> actions) => InvokeVoid("setSupportedCaptureActions", actions);
 
         [JsName("getSupportedConstraints")]
-        public MediaTrackSupportedConstraints GetSupportedConstraints() => throw new NotImplementedException();
+        public MediaTrackSupportedConstraints GetSupportedConstraints() => Invoke<MediaTrackSupportedConstraints>("getSupportedConstraints");
 
         [JsName("getUserMedia")]
-        public Task<MediaStream> GetUserMediaAsync(MediaStreamConstraints? constraints = null) => throw new NotImplementedException();
+        public Task<MediaStream> GetUserMediaAsync(MediaStreamConstraints? constraints = null) => InvokeAsync<MediaStream>("getUserMedia", constraints);
 
         [JsName("getViewportMedia")]
-        public Task<MediaStream> GetViewportMediaAsync(DisplayMediaStreamOptions? options = null) => throw new NotImplementedException();
+        public Task<MediaStream> GetViewportMediaAsync(DisplayMediaStreamOptions? options = null) => InvokeAsync<MediaStream>("getViewportMedia", options);
 
         [JsName("getDisplayMedia")]
-        public Task<MediaStream> GetDisplayMediaAsync(DisplayMediaStreamOptions? options = null) => throw new NotImplementedException();
+        public Task<MediaStream> GetDisplayMediaAsync(DisplayMediaStreamOptions? options = null) => InvokeAsync<MediaStream>("getDisplayMedia", options);
     }
 }

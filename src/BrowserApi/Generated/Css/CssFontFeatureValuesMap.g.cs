@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSSFontFeatureValuesMap")]
-    public partial class CssFontFeatureValuesMap
+    public partial class CssFontFeatureValuesMap : JsObject
     {
         [JsName("set")]
-        public void Set(string featureValueName, object values) => throw new NotImplementedException();
+        public void Set(string featureValueName, object values) => InvokeVoid("set", featureValueName, values);
     }
 }

@@ -35,6 +35,6 @@ namespace BrowserApi.Dom
     public partial class SubmitEvent : Event
     {
         [JsName("submitter")]
-        public HtmlElement? Submitter { get; }
+        public HtmlElement? Submitter => GetProperty<HtmlElement?>("submitter");
     }
 }

@@ -35,6 +35,6 @@ namespace BrowserApi.Dom
     public partial class TrackEvent : Event
     {
         [JsName("track")]
-        public object Track { get; }
+        public object Track => GetProperty<object>("track");
     }
 }

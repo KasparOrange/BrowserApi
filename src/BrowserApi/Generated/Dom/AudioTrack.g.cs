@@ -32,24 +32,28 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class AudioTrack
+    public partial class AudioTrack : JsObject
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("kind")]
-        public string Kind { get; }
+        public string Kind => GetProperty<string>("kind");
 
         [JsName("label")]
-        public string Label { get; }
+        public string Label => GetProperty<string>("label");
 
         [JsName("language")]
-        public string Language { get; }
+        public string Language => GetProperty<string>("language");
 
         [JsName("enabled")]
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get => GetProperty<bool>("enabled");
+            set => SetProperty("enabled", value);
+        }
 
         [JsName("sourceBuffer")]
-        public SourceBuffer? SourceBuffer { get; }
+        public SourceBuffer? SourceBuffer => GetProperty<SourceBuffer?>("sourceBuffer");
     }
 }

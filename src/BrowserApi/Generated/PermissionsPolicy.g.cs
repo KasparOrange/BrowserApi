@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PermissionsPolicy
+    public partial class PermissionsPolicy : JsObject
     {
         [JsName("allowsFeature")]
-        public bool AllowsFeature(string feature, string? origin = null) => throw new NotImplementedException();
+        public bool AllowsFeature(string feature, string? origin = null) => Invoke<bool>("allowsFeature", feature, origin);
 
         [JsName("features")]
-        public IReadOnlyList<string> Features() => throw new NotImplementedException();
+        public IReadOnlyList<string> Features() => Invoke<IReadOnlyList<string>>("features");
 
         [JsName("allowedFeatures")]
-        public IReadOnlyList<string> AllowedFeatures() => throw new NotImplementedException();
+        public IReadOnlyList<string> AllowedFeatures() => Invoke<IReadOnlyList<string>>("allowedFeatures");
 
         [JsName("getAllowlistForFeature")]
-        public IReadOnlyList<string> GetAllowlistForFeature(string feature) => throw new NotImplementedException();
+        public IReadOnlyList<string> GetAllowlistForFeature(string feature) => Invoke<IReadOnlyList<string>>("getAllowlistForFeature", feature);
     }
 }

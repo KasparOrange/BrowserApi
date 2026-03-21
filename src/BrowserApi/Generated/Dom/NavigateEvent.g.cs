@@ -35,42 +35,42 @@ namespace BrowserApi.Dom
     public partial class NavigateEvent : Event
     {
         [JsName("navigationType")]
-        public NavigationType NavigationType { get; }
+        public NavigationType NavigationType => GetProperty<NavigationType>("navigationType");
 
         [JsName("destination")]
-        public NavigationDestination Destination { get; }
+        public NavigationDestination Destination => GetProperty<NavigationDestination>("destination");
 
         [JsName("canIntercept")]
-        public bool CanIntercept { get; }
+        public bool CanIntercept => GetProperty<bool>("canIntercept");
 
         [JsName("userInitiated")]
-        public bool UserInitiated { get; }
+        public bool UserInitiated => GetProperty<bool>("userInitiated");
 
         [JsName("hashChange")]
-        public bool HashChange { get; }
+        public bool HashChange => GetProperty<bool>("hashChange");
 
         [JsName("signal")]
-        public AbortSignal Signal { get; }
+        public AbortSignal Signal => GetProperty<AbortSignal>("signal");
 
         [JsName("formData")]
-        public FormData? FormData { get; }
+        public FormData? FormData => GetProperty<FormData?>("formData");
 
         [JsName("downloadRequest")]
-        public string? DownloadRequest { get; }
+        public string? DownloadRequest => GetProperty<string?>("downloadRequest");
 
         [JsName("info")]
-        public object Info { get; }
+        public object Info => GetProperty<object>("info");
 
         [JsName("hasUAVisualTransition")]
-        public bool HasUavisualTransition { get; }
+        public bool HasUavisualTransition => GetProperty<bool>("hasUAVisualTransition");
 
         [JsName("sourceElement")]
-        public Element? SourceElement { get; }
+        public Element? SourceElement => GetProperty<Element?>("sourceElement");
 
         [JsName("intercept")]
-        public void Intercept(NavigationInterceptOptions? options = null) => throw new NotImplementedException();
+        public void Intercept(NavigationInterceptOptions? options = null) => InvokeVoid("intercept", options);
 
         [JsName("scroll")]
-        public void Scroll() => throw new NotImplementedException();
+        public void Scroll() => InvokeVoid("scroll");
     }
 }

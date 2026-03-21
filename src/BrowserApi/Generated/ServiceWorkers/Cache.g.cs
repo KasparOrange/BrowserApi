@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.ServiceWorkers
 {
-    public partial class Cache
+    public partial class Cache : JsObject
     {
         [JsName("match")]
-        public Task<object> MatchAsync(object request, CacheQueryOptions? options = null) => throw new NotImplementedException();
+        public Task<object> MatchAsync(object request, CacheQueryOptions? options = null) => InvokeAsync<object>("match", request, options);
 
         [JsName("matchAll")]
-        public Task<IReadOnlyList<Response>> MatchAllAsync(object? request = null, CacheQueryOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<Response>> MatchAllAsync(object? request = null, CacheQueryOptions? options = null) => InvokeAsync<IReadOnlyList<Response>>("matchAll", request, options);
 
         [JsName("add")]
-        public Task AddAsync(object request) => throw new NotImplementedException();
+        public Task AddAsync(object request) => InvokeVoidAsync("add", request);
 
         [JsName("addAll")]
-        public Task AddAllAsync(IReadOnlyList<object> requests) => throw new NotImplementedException();
+        public Task AddAllAsync(IReadOnlyList<object> requests) => InvokeVoidAsync("addAll", requests);
 
         [JsName("put")]
-        public Task PutAsync(object request, Response response) => throw new NotImplementedException();
+        public Task PutAsync(object request, Response response) => InvokeVoidAsync("put", request, response);
 
         [JsName("delete")]
-        public Task<bool> DeleteAsync(object request, CacheQueryOptions? options = null) => throw new NotImplementedException();
+        public Task<bool> DeleteAsync(object request, CacheQueryOptions? options = null) => InvokeAsync<bool>("delete", request, options);
 
         [JsName("keys")]
-        public Task<IReadOnlyList<Request>> KeysAsync(object? request = null, CacheQueryOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<Request>> KeysAsync(object? request = null, CacheQueryOptions? options = null) => InvokeAsync<IReadOnlyList<Request>>("keys", request, options);
     }
 }

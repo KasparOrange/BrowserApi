@@ -32,42 +32,42 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class TextMetrics
+    public partial class TextMetrics : JsObject
     {
         [JsName("width")]
-        public double Width { get; }
+        public double Width => GetProperty<double>("width");
 
         [JsName("actualBoundingBoxLeft")]
-        public double ActualBoundingBoxLeft { get; }
+        public double ActualBoundingBoxLeft => GetProperty<double>("actualBoundingBoxLeft");
 
         [JsName("actualBoundingBoxRight")]
-        public double ActualBoundingBoxRight { get; }
+        public double ActualBoundingBoxRight => GetProperty<double>("actualBoundingBoxRight");
 
         [JsName("fontBoundingBoxAscent")]
-        public double FontBoundingBoxAscent { get; }
+        public double FontBoundingBoxAscent => GetProperty<double>("fontBoundingBoxAscent");
 
         [JsName("fontBoundingBoxDescent")]
-        public double FontBoundingBoxDescent { get; }
+        public double FontBoundingBoxDescent => GetProperty<double>("fontBoundingBoxDescent");
 
         [JsName("actualBoundingBoxAscent")]
-        public double ActualBoundingBoxAscent { get; }
+        public double ActualBoundingBoxAscent => GetProperty<double>("actualBoundingBoxAscent");
 
         [JsName("actualBoundingBoxDescent")]
-        public double ActualBoundingBoxDescent { get; }
+        public double ActualBoundingBoxDescent => GetProperty<double>("actualBoundingBoxDescent");
 
         [JsName("emHeightAscent")]
-        public double EmHeightAscent { get; }
+        public double EmHeightAscent => GetProperty<double>("emHeightAscent");
 
         [JsName("emHeightDescent")]
-        public double EmHeightDescent { get; }
+        public double EmHeightDescent => GetProperty<double>("emHeightDescent");
 
         [JsName("hangingBaseline")]
-        public double HangingBaseline { get; }
+        public double HangingBaseline => GetProperty<double>("hangingBaseline");
 
         [JsName("alphabeticBaseline")]
-        public double AlphabeticBaseline { get; }
+        public double AlphabeticBaseline => GetProperty<double>("alphabeticBaseline");
 
         [JsName("ideographicBaseline")]
-        public double IdeographicBaseline { get; }
+        public double IdeographicBaseline => GetProperty<double>("ideographicBaseline");
     }
 }

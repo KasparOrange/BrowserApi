@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssParserFunction : CssParserValue
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("args")]
-        public IReadOnlyList<IReadOnlyList<CssParserValue>> Args { get; }
+        public IReadOnlyList<IReadOnlyList<CssParserValue>> Args => GetProperty<IReadOnlyList<IReadOnlyList<CssParserValue>>>("args");
     }
 }

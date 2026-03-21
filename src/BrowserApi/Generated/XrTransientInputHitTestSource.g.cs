@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRTransientInputHitTestSource")]
-    public partial class XrTransientInputHitTestSource
+    public partial class XrTransientInputHitTestSource : JsObject
     {
         [JsName("cancel")]
-        public void Cancel() => throw new NotImplementedException();
+        public void Cancel() => InvokeVoid("cancel");
     }
 }

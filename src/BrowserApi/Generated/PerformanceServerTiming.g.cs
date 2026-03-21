@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PerformanceServerTiming
+    public partial class PerformanceServerTiming : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("duration")]
-        public double Duration { get; }
+        public double Duration => GetProperty<double>("duration");
 
         [JsName("description")]
-        public string Description { get; }
+        public string Description => GetProperty<string>("description");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

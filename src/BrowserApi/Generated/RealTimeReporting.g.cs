@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class RealTimeReporting
+    public partial class RealTimeReporting : JsObject
     {
         [JsName("contributeToHistogram")]
-        public void ContributeToHistogram(RealTimeContribution contribution) => throw new NotImplementedException();
+        public void ContributeToHistogram(RealTimeContribution contribution) => InvokeVoid("contributeToHistogram", contribution);
     }
 }

@@ -35,12 +35,20 @@ namespace BrowserApi
     public partial class AudioSession : EventTarget
     {
         [JsName("type")]
-        public AudioSessionType Type { get; set; }
+        public AudioSessionType Type
+        {
+            get => GetProperty<AudioSessionType>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("state")]
-        public AudioSessionState State { get; }
+        public AudioSessionState State => GetProperty<AudioSessionState>("state");
 
         [JsName("onstatechange")]
-        public object Onstatechange { get; set; }
+        public object Onstatechange
+        {
+            get => GetProperty<object>("onstatechange");
+            set => SetProperty("onstatechange", value);
+        }
     }
 }

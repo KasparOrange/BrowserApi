@@ -35,55 +35,79 @@ namespace BrowserApi.Media
     public partial class MediaRecorder : EventTarget
     {
         [JsName("stream")]
-        public MediaStream Stream { get; }
+        public MediaStream Stream => GetProperty<MediaStream>("stream");
 
         [JsName("mimeType")]
-        public string MimeType { get; }
+        public string MimeType => GetProperty<string>("mimeType");
 
         [JsName("state")]
-        public RecordingState State { get; }
+        public RecordingState State => GetProperty<RecordingState>("state");
 
         [JsName("onstart")]
-        public object Onstart { get; set; }
+        public object Onstart
+        {
+            get => GetProperty<object>("onstart");
+            set => SetProperty("onstart", value);
+        }
 
         [JsName("onstop")]
-        public object Onstop { get; set; }
+        public object Onstop
+        {
+            get => GetProperty<object>("onstop");
+            set => SetProperty("onstop", value);
+        }
 
         [JsName("ondataavailable")]
-        public object Ondataavailable { get; set; }
+        public object Ondataavailable
+        {
+            get => GetProperty<object>("ondataavailable");
+            set => SetProperty("ondataavailable", value);
+        }
 
         [JsName("onpause")]
-        public object Onpause { get; set; }
+        public object Onpause
+        {
+            get => GetProperty<object>("onpause");
+            set => SetProperty("onpause", value);
+        }
 
         [JsName("onresume")]
-        public object Onresume { get; set; }
+        public object Onresume
+        {
+            get => GetProperty<object>("onresume");
+            set => SetProperty("onresume", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("videoBitsPerSecond")]
-        public uint VideoBitsPerSecond { get; }
+        public uint VideoBitsPerSecond => GetProperty<uint>("videoBitsPerSecond");
 
         [JsName("audioBitsPerSecond")]
-        public uint AudioBitsPerSecond { get; }
+        public uint AudioBitsPerSecond => GetProperty<uint>("audioBitsPerSecond");
 
         [JsName("audioBitrateMode")]
-        public BitrateMode AudioBitrateMode { get; }
+        public BitrateMode AudioBitrateMode => GetProperty<BitrateMode>("audioBitrateMode");
 
         [JsName("start")]
-        public void Start(uint? timeslice = null) => throw new NotImplementedException();
+        public void Start(uint? timeslice = null) => InvokeVoid("start", timeslice);
 
         [JsName("stop")]
-        public void Stop() => throw new NotImplementedException();
+        public void Stop() => InvokeVoid("stop");
 
         [JsName("pause")]
-        public void Pause() => throw new NotImplementedException();
+        public void Pause() => InvokeVoid("pause");
 
         [JsName("resume")]
-        public void Resume() => throw new NotImplementedException();
+        public void Resume() => InvokeVoid("resume");
 
         [JsName("requestData")]
-        public void RequestData() => throw new NotImplementedException();
+        public void RequestData() => InvokeVoid("requestData");
 
         [JsName("isTypeSupported")]
         public static bool IsTypeSupported(string type) => throw new NotImplementedException();

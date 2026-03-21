@@ -35,27 +35,43 @@ namespace BrowserApi
     public partial class BatteryManager : EventTarget
     {
         [JsName("charging")]
-        public bool Charging { get; }
+        public bool Charging => GetProperty<bool>("charging");
 
         [JsName("chargingTime")]
-        public double ChargingTime { get; }
+        public double ChargingTime => GetProperty<double>("chargingTime");
 
         [JsName("dischargingTime")]
-        public double DischargingTime { get; }
+        public double DischargingTime => GetProperty<double>("dischargingTime");
 
         [JsName("level")]
-        public double Level { get; }
+        public double Level => GetProperty<double>("level");
 
         [JsName("onchargingchange")]
-        public object Onchargingchange { get; set; }
+        public object Onchargingchange
+        {
+            get => GetProperty<object>("onchargingchange");
+            set => SetProperty("onchargingchange", value);
+        }
 
         [JsName("onchargingtimechange")]
-        public object Onchargingtimechange { get; set; }
+        public object Onchargingtimechange
+        {
+            get => GetProperty<object>("onchargingtimechange");
+            set => SetProperty("onchargingtimechange", value);
+        }
 
         [JsName("ondischargingtimechange")]
-        public object Ondischargingtimechange { get; set; }
+        public object Ondischargingtimechange
+        {
+            get => GetProperty<object>("ondischargingtimechange");
+            set => SetProperty("ondischargingtimechange", value);
+        }
 
         [JsName("onlevelchange")]
-        public object Onlevelchange { get; set; }
+        public object Onlevelchange
+        {
+            get => GetProperty<object>("onlevelchange");
+            set => SetProperty("onlevelchange", value);
+        }
     }
 }

@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class PluginArray
+    public partial class PluginArray : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("refresh")]
-        public void Refresh() => throw new NotImplementedException();
+        public void Refresh() => InvokeVoid("refresh");
 
         [JsName("item")]
-        public Plugin? Item(uint index) => throw new NotImplementedException();
+        public Plugin? Item(uint index) => Invoke<Plugin?>("item", index);
 
         [JsName("namedItem")]
-        public Plugin? NamedItem(string name) => throw new NotImplementedException();
+        public Plugin? NamedItem(string name) => Invoke<Plugin?>("namedItem", name);
     }
 }

@@ -35,6 +35,10 @@ namespace BrowserApi
     public partial class CreateMonitor : EventTarget
     {
         [JsName("ondownloadprogress")]
-        public object Ondownloadprogress { get; set; }
+        public object Ondownloadprogress
+        {
+            get => GetProperty<object>("ondownloadprogress");
+            set => SetProperty("ondownloadprogress", value);
+        }
     }
 }

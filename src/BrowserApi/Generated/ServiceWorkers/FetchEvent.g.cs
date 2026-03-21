@@ -35,24 +35,24 @@ namespace BrowserApi.ServiceWorkers
     public partial class FetchEvent : ExtendableEvent
     {
         [JsName("request")]
-        public Request Request { get; }
+        public Request Request => GetProperty<Request>("request");
 
         [JsName("preloadResponse")]
-        public Task<object> PreloadResponse { get; }
+        public Task<object> PreloadResponse => GetProperty<Task<object>>("preloadResponse");
 
         [JsName("clientId")]
-        public string ClientId { get; }
+        public string ClientId => GetProperty<string>("clientId");
 
         [JsName("resultingClientId")]
-        public string ResultingClientId { get; }
+        public string ResultingClientId => GetProperty<string>("resultingClientId");
 
         [JsName("replacesClientId")]
-        public string ReplacesClientId { get; }
+        public string ReplacesClientId => GetProperty<string>("replacesClientId");
 
         [JsName("handled")]
-        public Task Handled { get; }
+        public Task Handled => GetProperty<Task>("handled");
 
         [JsName("respondWith")]
-        public void RespondWith(Task<Response> r) => throw new NotImplementedException();
+        public void RespondWith(Task<Response> r) => InvokeVoid("respondWith", r);
     }
 }

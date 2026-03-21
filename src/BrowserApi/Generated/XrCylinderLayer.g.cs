@@ -36,21 +36,45 @@ namespace BrowserApi
     public partial class XrCylinderLayer : XrCompositionLayer
     {
         [JsName("space")]
-        public XrSpace Space { get; set; }
+        public XrSpace Space
+        {
+            get => GetProperty<XrSpace>("space");
+            set => SetProperty("space", value);
+        }
 
         [JsName("transform")]
-        public XrRigidTransform Transform { get; set; }
+        public XrRigidTransform Transform
+        {
+            get => GetProperty<XrRigidTransform>("transform");
+            set => SetProperty("transform", value);
+        }
 
         [JsName("radius")]
-        public float Radius { get; set; }
+        public float Radius
+        {
+            get => GetProperty<float>("radius");
+            set => SetProperty("radius", value);
+        }
 
         [JsName("centralAngle")]
-        public float CentralAngle { get; set; }
+        public float CentralAngle
+        {
+            get => GetProperty<float>("centralAngle");
+            set => SetProperty("centralAngle", value);
+        }
 
         [JsName("aspectRatio")]
-        public float AspectRatio { get; set; }
+        public float AspectRatio
+        {
+            get => GetProperty<float>("aspectRatio");
+            set => SetProperty("aspectRatio", value);
+        }
 
         [JsName("onredraw")]
-        public object Onredraw { get; set; }
+        public object Onredraw
+        {
+            get => GetProperty<object>("onredraw");
+            set => SetProperty("onredraw", value);
+        }
     }
 }

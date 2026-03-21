@@ -32,12 +32,20 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class Highlight
+    public partial class Highlight : JsObject
     {
         [JsName("priority")]
-        public int Priority { get; set; }
+        public int Priority
+        {
+            get => GetProperty<int>("priority");
+            set => SetProperty("priority", value);
+        }
 
         [JsName("type")]
-        public HighlightType Type { get; set; }
+        public HighlightType Type
+        {
+            get => GetProperty<HighlightType>("type");
+            set => SetProperty("type", value);
+        }
     }
 }

@@ -35,18 +35,22 @@ namespace BrowserApi.ScreenApi
     public partial class ScreenOrientation : EventTarget
     {
         [JsName("type")]
-        public OrientationType Type { get; }
+        public OrientationType Type => GetProperty<OrientationType>("type");
 
         [JsName("angle")]
-        public ushort Angle { get; }
+        public ushort Angle => GetProperty<ushort>("angle");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("lock")]
-        public Task LockAsync(OrientationLockType orientation) => throw new NotImplementedException();
+        public Task LockAsync(OrientationLockType orientation) => InvokeVoidAsync("lock", orientation);
 
         [JsName("unlock")]
-        public void Unlock() => throw new NotImplementedException();
+        public void Unlock() => InvokeVoid("unlock");
     }
 }

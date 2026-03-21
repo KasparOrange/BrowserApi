@@ -36,15 +36,15 @@ namespace BrowserApi.Css
     public partial class CssFontPaletteValuesRule : CssRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("fontFamily")]
-        public string FontFamily { get; }
+        public string FontFamily => GetProperty<string>("fontFamily");
 
         [JsName("basePalette")]
-        public string BasePalette { get; }
+        public string BasePalette => GetProperty<string>("basePalette");
 
         [JsName("overrideColors")]
-        public string OverrideColors { get; }
+        public string OverrideColors => GetProperty<string>("overrideColors");
     }
 }

@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class FontData
+    public partial class FontData : JsObject
     {
         [JsName("postscriptName")]
-        public string PostscriptName { get; }
+        public string PostscriptName => GetProperty<string>("postscriptName");
 
         [JsName("fullName")]
-        public string FullName { get; }
+        public string FullName => GetProperty<string>("fullName");
 
         [JsName("family")]
-        public string Family { get; }
+        public string Family => GetProperty<string>("family");
 
         [JsName("style")]
-        public string Style { get; }
+        public string Style => GetProperty<string>("style");
 
         [JsName("blob")]
-        public Task<Blob> BlobAsync() => throw new NotImplementedException();
+        public Task<Blob> BlobAsync() => InvokeAsync<Blob>("blob");
     }
 }

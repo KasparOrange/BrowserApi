@@ -35,30 +35,30 @@ namespace BrowserApi
     public partial class LargestContentfulPaint : PerformanceEntry
     {
         [JsName("loadTime")]
-        public double LoadTime { get; }
+        public double LoadTime => GetProperty<double>("loadTime");
 
         [JsName("renderTime")]
-        public double RenderTime { get; }
+        public double RenderTime => GetProperty<double>("renderTime");
 
         [JsName("size")]
-        public uint Size { get; }
+        public uint Size => GetProperty<uint>("size");
 
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("element")]
-        public Element? Element { get; }
+        public Element? Element => GetProperty<Element?>("element");
 
         [JsName("paintTime")]
-        public double PaintTime { get; }
+        public double PaintTime => GetProperty<double>("paintTime");
 
         [JsName("presentationTime")]
-        public double? PresentationTime { get; }
+        public double? PresentationTime => GetProperty<double?>("presentationTime");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

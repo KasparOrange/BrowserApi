@@ -32,21 +32,37 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class MediaMetadata
+    public partial class MediaMetadata : JsObject
     {
         [JsName("title")]
-        public string Title { get; set; }
+        public string Title
+        {
+            get => GetProperty<string>("title");
+            set => SetProperty("title", value);
+        }
 
         [JsName("artist")]
-        public string Artist { get; set; }
+        public string Artist
+        {
+            get => GetProperty<string>("artist");
+            set => SetProperty("artist", value);
+        }
 
         [JsName("album")]
-        public string Album { get; set; }
+        public string Album
+        {
+            get => GetProperty<string>("album");
+            set => SetProperty("album", value);
+        }
 
         [JsName("artwork")]
-        public IReadOnlyList<object> Artwork { get; set; }
+        public IReadOnlyList<object> Artwork
+        {
+            get => GetProperty<IReadOnlyList<object>>("artwork");
+            set => SetProperty("artwork", value);
+        }
 
         [JsName("chapterInfo")]
-        public IReadOnlyList<ChapterInformation> ChapterInfo { get; }
+        public IReadOnlyList<ChapterInformation> ChapterInfo => GetProperty<IReadOnlyList<ChapterInformation>>("chapterInfo");
     }
 }

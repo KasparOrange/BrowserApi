@@ -35,48 +35,48 @@ namespace BrowserApi.NavigationApi
     public partial class PerformanceNavigationTiming : PerformanceResourceTiming
     {
         [JsName("unloadEventStart")]
-        public double UnloadEventStart { get; }
+        public double UnloadEventStart => GetProperty<double>("unloadEventStart");
 
         [JsName("unloadEventEnd")]
-        public double UnloadEventEnd { get; }
+        public double UnloadEventEnd => GetProperty<double>("unloadEventEnd");
 
         [JsName("domInteractive")]
-        public double DomInteractive { get; }
+        public double DomInteractive => GetProperty<double>("domInteractive");
 
         [JsName("domContentLoadedEventStart")]
-        public double DomContentLoadedEventStart { get; }
+        public double DomContentLoadedEventStart => GetProperty<double>("domContentLoadedEventStart");
 
         [JsName("domContentLoadedEventEnd")]
-        public double DomContentLoadedEventEnd { get; }
+        public double DomContentLoadedEventEnd => GetProperty<double>("domContentLoadedEventEnd");
 
         [JsName("domComplete")]
-        public double DomComplete { get; }
+        public double DomComplete => GetProperty<double>("domComplete");
 
         [JsName("loadEventStart")]
-        public double LoadEventStart { get; }
+        public double LoadEventStart => GetProperty<double>("loadEventStart");
 
         [JsName("loadEventEnd")]
-        public double LoadEventEnd { get; }
+        public double LoadEventEnd => GetProperty<double>("loadEventEnd");
 
         [JsName("type")]
-        public NavigationTimingType Type { get; }
+        public NavigationTimingType Type => GetProperty<NavigationTimingType>("type");
 
         [JsName("redirectCount")]
-        public ushort RedirectCount { get; }
+        public ushort RedirectCount => GetProperty<ushort>("redirectCount");
 
         [JsName("criticalCHRestart")]
-        public double CriticalChrestart { get; }
+        public double CriticalChrestart => GetProperty<double>("criticalCHRestart");
 
         [JsName("notRestoredReasons")]
-        public NotRestoredReasons? NotRestoredReasons { get; }
+        public NotRestoredReasons? NotRestoredReasons => GetProperty<NotRestoredReasons?>("notRestoredReasons");
 
         [JsName("confidence")]
-        public PerformanceTimingConfidence Confidence { get; }
+        public PerformanceTimingConfidence Confidence => GetProperty<PerformanceTimingConfidence>("confidence");
 
         [JsName("activationStart")]
-        public double ActivationStart { get; }
+        public double ActivationStart => GetProperty<double>("activationStart");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

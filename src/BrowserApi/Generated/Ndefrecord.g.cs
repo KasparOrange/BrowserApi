@@ -33,27 +33,27 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("NDEFRecord")]
-    public partial class Ndefrecord
+    public partial class Ndefrecord : JsObject
     {
         [JsName("recordType")]
-        public string RecordType { get; }
+        public string RecordType => GetProperty<string>("recordType");
 
         [JsName("mediaType")]
-        public string? MediaType { get; }
+        public string? MediaType => GetProperty<string?>("mediaType");
 
         [JsName("id")]
-        public string? Id { get; }
+        public string? Id => GetProperty<string?>("id");
 
         [JsName("data")]
-        public byte[]? Data { get; }
+        public byte[]? Data => GetProperty<byte[]?>("data");
 
         [JsName("encoding")]
-        public string? Encoding { get; }
+        public string? Encoding => GetProperty<string?>("encoding");
 
         [JsName("lang")]
-        public string? Lang { get; }
+        public string? Lang => GetProperty<string?>("lang");
 
         [JsName("toRecords")]
-        public IReadOnlyList<Ndefrecord>? ToRecords() => throw new NotImplementedException();
+        public IReadOnlyList<Ndefrecord>? ToRecords() => Invoke<IReadOnlyList<Ndefrecord>?>("toRecords");
     }
 }

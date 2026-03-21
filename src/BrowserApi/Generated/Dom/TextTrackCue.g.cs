@@ -35,24 +35,48 @@ namespace BrowserApi.Dom
     public partial class TextTrackCue : EventTarget
     {
         [JsName("track")]
-        public TextTrack? Track { get; }
+        public TextTrack? Track => GetProperty<TextTrack?>("track");
 
         [JsName("id")]
-        public string Id { get; set; }
+        public string Id
+        {
+            get => GetProperty<string>("id");
+            set => SetProperty("id", value);
+        }
 
         [JsName("startTime")]
-        public double StartTime { get; set; }
+        public double StartTime
+        {
+            get => GetProperty<double>("startTime");
+            set => SetProperty("startTime", value);
+        }
 
         [JsName("endTime")]
-        public double EndTime { get; set; }
+        public double EndTime
+        {
+            get => GetProperty<double>("endTime");
+            set => SetProperty("endTime", value);
+        }
 
         [JsName("pauseOnExit")]
-        public bool PauseOnExit { get; set; }
+        public bool PauseOnExit
+        {
+            get => GetProperty<bool>("pauseOnExit");
+            set => SetProperty("pauseOnExit", value);
+        }
 
         [JsName("onenter")]
-        public object Onenter { get; set; }
+        public object Onenter
+        {
+            get => GetProperty<object>("onenter");
+            set => SetProperty("onenter", value);
+        }
 
         [JsName("onexit")]
-        public object Onexit { get; set; }
+        public object Onexit
+        {
+            get => GetProperty<object>("onexit");
+            set => SetProperty("onexit", value);
+        }
     }
 }

@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class TestUtils
+    public partial class TestUtils : JsObject
     {
         [JsName("gc")]
-        public Task GcAsync() => throw new NotImplementedException();
+        public Task GcAsync() => InvokeVoidAsync("gc");
     }
 }

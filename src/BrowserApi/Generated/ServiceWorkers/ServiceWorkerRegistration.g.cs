@@ -35,57 +35,61 @@ namespace BrowserApi.ServiceWorkers
     public partial class ServiceWorkerRegistration : EventTarget
     {
         [JsName("installing")]
-        public ServiceWorker? Installing { get; }
+        public ServiceWorker? Installing => GetProperty<ServiceWorker?>("installing");
 
         [JsName("waiting")]
-        public ServiceWorker? Waiting { get; }
+        public ServiceWorker? Waiting => GetProperty<ServiceWorker?>("waiting");
 
         [JsName("active")]
-        public ServiceWorker? Active { get; }
+        public ServiceWorker? Active => GetProperty<ServiceWorker?>("active");
 
         [JsName("navigationPreload")]
-        public NavigationPreloadManager NavigationPreload { get; }
+        public NavigationPreloadManager NavigationPreload => GetProperty<NavigationPreloadManager>("navigationPreload");
 
         [JsName("scope")]
-        public string Scope { get; }
+        public string Scope => GetProperty<string>("scope");
 
         [JsName("updateViaCache")]
-        public ServiceWorkerUpdateViaCache UpdateViaCache { get; }
+        public ServiceWorkerUpdateViaCache UpdateViaCache => GetProperty<ServiceWorkerUpdateViaCache>("updateViaCache");
 
         [JsName("onupdatefound")]
-        public object Onupdatefound { get; set; }
+        public object Onupdatefound
+        {
+            get => GetProperty<object>("onupdatefound");
+            set => SetProperty("onupdatefound", value);
+        }
 
         [JsName("backgroundFetch")]
-        public BackgroundFetchManager BackgroundFetch { get; }
+        public BackgroundFetchManager BackgroundFetch => GetProperty<BackgroundFetchManager>("backgroundFetch");
 
         [JsName("sync")]
-        public SyncManager Sync { get; }
+        public SyncManager Sync => GetProperty<SyncManager>("sync");
 
         [JsName("index")]
-        public ContentIndex Index { get; }
+        public ContentIndex Index => GetProperty<ContentIndex>("index");
 
         [JsName("cookies")]
-        public CookieStoreManager Cookies { get; }
+        public CookieStoreManager Cookies => GetProperty<CookieStoreManager>("cookies");
 
         [JsName("periodicSync")]
-        public PeriodicSyncManager PeriodicSync { get; }
+        public PeriodicSyncManager PeriodicSync => GetProperty<PeriodicSyncManager>("periodicSync");
 
         [JsName("paymentManager")]
-        public PaymentManager PaymentManager { get; }
+        public PaymentManager PaymentManager => GetProperty<PaymentManager>("paymentManager");
 
         [JsName("pushManager")]
-        public PushManager PushManager { get; }
+        public PushManager PushManager => GetProperty<PushManager>("pushManager");
 
         [JsName("update")]
-        public Task<ServiceWorkerRegistration> UpdateAsync() => throw new NotImplementedException();
+        public Task<ServiceWorkerRegistration> UpdateAsync() => InvokeAsync<ServiceWorkerRegistration>("update");
 
         [JsName("unregister")]
-        public Task<bool> UnregisterAsync() => throw new NotImplementedException();
+        public Task<bool> UnregisterAsync() => InvokeAsync<bool>("unregister");
 
         [JsName("showNotification")]
-        public Task ShowNotificationAsync(string title, NotificationOptions? options = null) => throw new NotImplementedException();
+        public Task ShowNotificationAsync(string title, NotificationOptions? options = null) => InvokeVoidAsync("showNotification", title, options);
 
         [JsName("getNotifications")]
-        public Task<IReadOnlyList<Notification>> GetNotificationsAsync(GetNotificationOptions? filter = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<Notification>> GetNotificationsAsync(GetNotificationOptions? filter = null) => InvokeAsync<IReadOnlyList<Notification>>("getNotifications", filter);
     }
 }

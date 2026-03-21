@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class MediaDeviceInfo
+    public partial class MediaDeviceInfo : JsObject
     {
         [JsName("deviceId")]
-        public string DeviceId { get; }
+        public string DeviceId => GetProperty<string>("deviceId");
 
         [JsName("kind")]
-        public MediaDeviceKind Kind { get; }
+        public MediaDeviceKind Kind => GetProperty<MediaDeviceKind>("kind");
 
         [JsName("label")]
-        public string Label { get; }
+        public string Label => GetProperty<string>("label");
 
         [JsName("groupId")]
-        public string GroupId { get; }
+        public string GroupId => GetProperty<string>("groupId");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

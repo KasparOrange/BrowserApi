@@ -35,6 +35,6 @@ namespace BrowserApi.Animations
     public partial class SequenceEffect : GroupEffect
     {
         [JsName("clone")]
-        public SequenceEffect Clone() => throw new NotImplementedException();
+        public SequenceEffect Clone() => Invoke<SequenceEffect>("clone");
     }
 }

@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class XrLayerEvent : Event
     {
         [JsName("layer")]
-        public XrLayer Layer { get; }
+        public XrLayer Layer => GetProperty<XrLayer>("layer");
     }
 }

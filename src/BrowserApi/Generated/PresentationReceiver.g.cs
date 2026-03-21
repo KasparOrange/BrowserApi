@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PresentationReceiver
+    public partial class PresentationReceiver : JsObject
     {
         [JsName("connectionList")]
-        public Task<PresentationConnectionList> ConnectionList { get; }
+        public Task<PresentationConnectionList> ConnectionList => GetProperty<Task<PresentationConnectionList>>("connectionList");
     }
 }

@@ -33,20 +33,20 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("OES_vertex_array_object")]
-    public partial class OesVertexArrayObject
+    public partial class OesVertexArrayObject : JsObject
     {
         public const uint VertexArrayBindingOes = 0x85B5;
 
         [JsName("createVertexArrayOES")]
-        public WebGlVertexArrayObjectOes CreateVertexArrayOes() => throw new NotImplementedException();
+        public WebGlVertexArrayObjectOes CreateVertexArrayOes() => Invoke<WebGlVertexArrayObjectOes>("createVertexArrayOES");
 
         [JsName("deleteVertexArrayOES")]
-        public void DeleteVertexArrayOes(WebGlVertexArrayObjectOes? arrayObject) => throw new NotImplementedException();
+        public void DeleteVertexArrayOes(WebGlVertexArrayObjectOes? arrayObject) => InvokeVoid("deleteVertexArrayOES", arrayObject);
 
         [JsName("isVertexArrayOES")]
-        public bool IsVertexArrayOes(WebGlVertexArrayObjectOes? arrayObject) => throw new NotImplementedException();
+        public bool IsVertexArrayOes(WebGlVertexArrayObjectOes? arrayObject) => Invoke<bool>("isVertexArrayOES", arrayObject);
 
         [JsName("bindVertexArrayOES")]
-        public void BindVertexArrayOes(WebGlVertexArrayObjectOes? arrayObject) => throw new NotImplementedException();
+        public void BindVertexArrayOes(WebGlVertexArrayObjectOes? arrayObject) => InvokeVoid("bindVertexArrayOES", arrayObject);
     }
 }

@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class IntrinsicSizes
+    public partial class IntrinsicSizes : JsObject
     {
         [JsName("minContentSize")]
-        public double MinContentSize { get; }
+        public double MinContentSize => GetProperty<double>("minContentSize");
 
         [JsName("maxContentSize")]
-        public double MaxContentSize { get; }
+        public double MaxContentSize => GetProperty<double>("maxContentSize");
     }
 }

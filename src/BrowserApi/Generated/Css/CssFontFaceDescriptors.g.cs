@@ -36,66 +36,150 @@ namespace BrowserApi.Css
     public partial class CssFontFaceDescriptors : CssStyleDeclaration
     {
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("fontFamily")]
-        public string FontFamily { get; set; }
+        public string FontFamily
+        {
+            get => GetProperty<string>("fontFamily");
+            set => SetProperty("fontFamily", value);
+        }
 
         [JsName("fontStyle")]
-        public string FontStyle { get; set; }
+        public string FontStyle
+        {
+            get => GetProperty<string>("fontStyle");
+            set => SetProperty("fontStyle", value);
+        }
 
         [JsName("fontWeight")]
-        public string FontWeight { get; set; }
+        public string FontWeight
+        {
+            get => GetProperty<string>("fontWeight");
+            set => SetProperty("fontWeight", value);
+        }
 
         [JsName("fontStretch")]
-        public string FontStretch { get; set; }
+        public string FontStretch
+        {
+            get => GetProperty<string>("fontStretch");
+            set => SetProperty("fontStretch", value);
+        }
 
         [JsName("fontWidth")]
-        public string FontWidth { get; set; }
+        public string FontWidth
+        {
+            get => GetProperty<string>("fontWidth");
+            set => SetProperty("fontWidth", value);
+        }
 
         [JsName("fontSize")]
-        public string FontSize { get; set; }
+        public string FontSize
+        {
+            get => GetProperty<string>("fontSize");
+            set => SetProperty("fontSize", value);
+        }
 
         [JsName("sizeAdjust")]
-        public string SizeAdjust { get; set; }
+        public string SizeAdjust
+        {
+            get => GetProperty<string>("sizeAdjust");
+            set => SetProperty("sizeAdjust", value);
+        }
 
         [JsName("unicodeRange")]
-        public string UnicodeRange { get; set; }
+        public string UnicodeRange
+        {
+            get => GetProperty<string>("unicodeRange");
+            set => SetProperty("unicodeRange", value);
+        }
 
         [JsName("fontFeatureSettings")]
-        public string FontFeatureSettings { get; set; }
+        public string FontFeatureSettings
+        {
+            get => GetProperty<string>("fontFeatureSettings");
+            set => SetProperty("fontFeatureSettings", value);
+        }
 
         [JsName("fontVariationSettings")]
-        public string FontVariationSettings { get; set; }
+        public string FontVariationSettings
+        {
+            get => GetProperty<string>("fontVariationSettings");
+            set => SetProperty("fontVariationSettings", value);
+        }
 
         [JsName("fontNamedInstance")]
-        public string FontNamedInstance { get; set; }
+        public string FontNamedInstance
+        {
+            get => GetProperty<string>("fontNamedInstance");
+            set => SetProperty("fontNamedInstance", value);
+        }
 
         [JsName("fontDisplay")]
-        public string FontDisplay { get; set; }
+        public string FontDisplay
+        {
+            get => GetProperty<string>("fontDisplay");
+            set => SetProperty("fontDisplay", value);
+        }
 
         [JsName("fontLanguageOverride")]
-        public string FontLanguageOverride { get; set; }
+        public string FontLanguageOverride
+        {
+            get => GetProperty<string>("fontLanguageOverride");
+            set => SetProperty("fontLanguageOverride", value);
+        }
 
         [JsName("ascentOverride")]
-        public string AscentOverride { get; set; }
+        public string AscentOverride
+        {
+            get => GetProperty<string>("ascentOverride");
+            set => SetProperty("ascentOverride", value);
+        }
 
         [JsName("descentOverride")]
-        public string DescentOverride { get; set; }
+        public string DescentOverride
+        {
+            get => GetProperty<string>("descentOverride");
+            set => SetProperty("descentOverride", value);
+        }
 
         [JsName("lineGapOverride")]
-        public string LineGapOverride { get; set; }
+        public string LineGapOverride
+        {
+            get => GetProperty<string>("lineGapOverride");
+            set => SetProperty("lineGapOverride", value);
+        }
 
         [JsName("superscriptPositionOverride")]
-        public string SuperscriptPositionOverride { get; set; }
+        public string SuperscriptPositionOverride
+        {
+            get => GetProperty<string>("superscriptPositionOverride");
+            set => SetProperty("superscriptPositionOverride", value);
+        }
 
         [JsName("subscriptPositionOverride")]
-        public string SubscriptPositionOverride { get; set; }
+        public string SubscriptPositionOverride
+        {
+            get => GetProperty<string>("subscriptPositionOverride");
+            set => SetProperty("subscriptPositionOverride", value);
+        }
 
         [JsName("superscriptSizeOverride")]
-        public string SuperscriptSizeOverride { get; set; }
+        public string SuperscriptSizeOverride
+        {
+            get => GetProperty<string>("superscriptSizeOverride");
+            set => SetProperty("superscriptSizeOverride", value);
+        }
 
         [JsName("subscriptSizeOverride")]
-        public string SubscriptSizeOverride { get; set; }
+        public string SubscriptSizeOverride
+        {
+            get => GetProperty<string>("subscriptSizeOverride");
+            set => SetProperty("subscriptSizeOverride", value);
+        }
     }
 }

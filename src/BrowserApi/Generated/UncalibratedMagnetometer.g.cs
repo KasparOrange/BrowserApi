@@ -35,21 +35,21 @@ namespace BrowserApi
     public partial class UncalibratedMagnetometer : Sensor
     {
         [JsName("x")]
-        public double? X { get; }
+        public double? X => GetProperty<double?>("x");
 
         [JsName("y")]
-        public double? Y { get; }
+        public double? Y => GetProperty<double?>("y");
 
         [JsName("z")]
-        public double? Z { get; }
+        public double? Z => GetProperty<double?>("z");
 
         [JsName("xBias")]
-        public double? XBias { get; }
+        public double? XBias => GetProperty<double?>("xBias");
 
         [JsName("yBias")]
-        public double? YBias { get; }
+        public double? YBias => GetProperty<double?>("yBias");
 
         [JsName("zBias")]
-        public double? ZBias { get; }
+        public double? ZBias => GetProperty<double?>("zBias");
     }
 }

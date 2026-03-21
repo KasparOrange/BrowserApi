@@ -35,12 +35,12 @@ namespace BrowserApi
     public partial class Profiler : EventTarget
     {
         [JsName("sampleInterval")]
-        public double SampleInterval { get; }
+        public double SampleInterval => GetProperty<double>("sampleInterval");
 
         [JsName("stopped")]
-        public bool Stopped { get; }
+        public bool Stopped => GetProperty<bool>("stopped");
 
         [JsName("stop")]
-        public Task<ProfilerTrace> StopAsync() => throw new NotImplementedException();
+        public Task<ProfilerTrace> StopAsync() => InvokeAsync<ProfilerTrace>("stop");
     }
 }

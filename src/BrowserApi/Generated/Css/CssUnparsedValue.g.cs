@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssUnparsedValue : CssStyleValue
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
     }
 }

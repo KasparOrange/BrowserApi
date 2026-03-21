@@ -36,18 +36,22 @@ namespace BrowserApi.WebRtc
     public partial class RtcsctpTransport : EventTarget
     {
         [JsName("transport")]
-        public RtcdtlsTransport Transport { get; }
+        public RtcdtlsTransport Transport => GetProperty<RtcdtlsTransport>("transport");
 
         [JsName("state")]
-        public RtcsctpTransportState State { get; }
+        public RtcsctpTransportState State => GetProperty<RtcsctpTransportState>("state");
 
         [JsName("maxMessageSize")]
-        public double? MaxMessageSize { get; }
+        public double? MaxMessageSize => GetProperty<double?>("maxMessageSize");
 
         [JsName("maxChannels")]
-        public ushort? MaxChannels { get; }
+        public ushort? MaxChannels => GetProperty<ushort?>("maxChannels");
 
         [JsName("onstatechange")]
-        public object Onstatechange { get; set; }
+        public object Onstatechange
+        {
+            get => GetProperty<object>("onstatechange");
+            set => SetProperty("onstatechange", value);
+        }
     }
 }

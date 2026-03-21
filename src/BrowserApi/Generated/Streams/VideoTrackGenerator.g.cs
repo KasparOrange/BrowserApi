@@ -32,15 +32,19 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class VideoTrackGenerator
+    public partial class VideoTrackGenerator : JsObject
     {
         [JsName("writable")]
-        public WritableStream Writable { get; }
+        public WritableStream Writable => GetProperty<WritableStream>("writable");
 
         [JsName("muted")]
-        public bool Muted { get; set; }
+        public bool Muted
+        {
+            get => GetProperty<bool>("muted");
+            set => SetProperty("muted", value);
+        }
 
         [JsName("track")]
-        public MediaStreamTrack Track { get; }
+        public MediaStreamTrack Track => GetProperty<MediaStreamTrack>("track");
     }
 }

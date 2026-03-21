@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_blend_equation_advanced_coherent")]
-    public partial class WebglBlendEquationAdvancedCoherent
+    public partial class WebglBlendEquationAdvancedCoherent : JsObject
     {
         public const uint Multiply = 0x9294;
 

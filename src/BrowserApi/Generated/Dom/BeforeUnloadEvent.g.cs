@@ -35,6 +35,10 @@ namespace BrowserApi.Dom
     public partial class BeforeUnloadEvent : Event
     {
         [JsName("returnValue")]
-        public string ReturnValue { get; set; }
+        public string ReturnValue
+        {
+            get => GetProperty<string>("returnValue");
+            set => SetProperty("returnValue", value);
+        }
     }
 }

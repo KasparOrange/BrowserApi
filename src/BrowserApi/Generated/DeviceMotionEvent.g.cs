@@ -35,16 +35,16 @@ namespace BrowserApi
     public partial class DeviceMotionEvent : Event
     {
         [JsName("acceleration")]
-        public DeviceMotionEventAcceleration? Acceleration { get; }
+        public DeviceMotionEventAcceleration? Acceleration => GetProperty<DeviceMotionEventAcceleration?>("acceleration");
 
         [JsName("accelerationIncludingGravity")]
-        public DeviceMotionEventAcceleration? AccelerationIncludingGravity { get; }
+        public DeviceMotionEventAcceleration? AccelerationIncludingGravity => GetProperty<DeviceMotionEventAcceleration?>("accelerationIncludingGravity");
 
         [JsName("rotationRate")]
-        public DeviceMotionEventRotationRate? RotationRate { get; }
+        public DeviceMotionEventRotationRate? RotationRate => GetProperty<DeviceMotionEventRotationRate?>("rotationRate");
 
         [JsName("interval")]
-        public double Interval { get; }
+        public double Interval => GetProperty<double>("interval");
 
         [JsName("requestPermission")]
         public static Task<PermissionState> RequestPermissionAsync() => throw new NotImplementedException();

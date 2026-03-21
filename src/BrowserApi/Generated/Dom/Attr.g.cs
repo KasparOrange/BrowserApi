@@ -35,24 +35,28 @@ namespace BrowserApi.Dom
     public partial class Attr : Node
     {
         [JsName("namespaceURI")]
-        public string? NamespaceUri { get; }
+        public string? NamespaceUri => GetProperty<string?>("namespaceURI");
 
         [JsName("prefix")]
-        public string? Prefix { get; }
+        public string? Prefix => GetProperty<string?>("prefix");
 
         [JsName("localName")]
-        public string LocalName { get; }
+        public string LocalName => GetProperty<string>("localName");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("ownerElement")]
-        public Element? OwnerElement { get; }
+        public Element? OwnerElement => GetProperty<Element?>("ownerElement");
 
         [JsName("specified")]
-        public bool Specified { get; }
+        public bool Specified => GetProperty<bool>("specified");
     }
 }

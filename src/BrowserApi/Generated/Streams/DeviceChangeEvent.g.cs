@@ -35,9 +35,9 @@ namespace BrowserApi.Streams
     public partial class DeviceChangeEvent : Event
     {
         [JsName("devices")]
-        public IReadOnlyList<MediaDeviceInfo> Devices { get; }
+        public IReadOnlyList<MediaDeviceInfo> Devices => GetProperty<IReadOnlyList<MediaDeviceInfo>>("devices");
 
         [JsName("userInsertedDevices")]
-        public IReadOnlyList<MediaDeviceInfo> UserInsertedDevices { get; }
+        public IReadOnlyList<MediaDeviceInfo> UserInsertedDevices => GetProperty<IReadOnlyList<MediaDeviceInfo>>("userInsertedDevices");
     }
 }

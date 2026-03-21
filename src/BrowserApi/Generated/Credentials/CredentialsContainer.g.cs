@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Credentials
 {
-    public partial class CredentialsContainer
+    public partial class CredentialsContainer : JsObject
     {
         [JsName("get")]
-        public Task<Credential?> GetAsync(CredentialRequestOptions? options = null) => throw new NotImplementedException();
+        public Task<Credential?> GetAsync(CredentialRequestOptions? options = null) => InvokeAsync<Credential?>("get", options);
 
         [JsName("store")]
-        public Task StoreAsync(Credential credential) => throw new NotImplementedException();
+        public Task StoreAsync(Credential credential) => InvokeVoidAsync("store", credential);
 
         [JsName("create")]
-        public Task<Credential?> CreateAsync(CredentialCreationOptions? options = null) => throw new NotImplementedException();
+        public Task<Credential?> CreateAsync(CredentialCreationOptions? options = null) => InvokeAsync<Credential?>("create", options);
 
         [JsName("preventSilentAccess")]
-        public Task PreventSilentAccessAsync() => throw new NotImplementedException();
+        public Task PreventSilentAccessAsync() => InvokeVoidAsync("preventSilentAccess");
     }
 }

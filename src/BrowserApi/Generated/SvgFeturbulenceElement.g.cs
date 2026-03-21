@@ -48,36 +48,36 @@ namespace BrowserApi
         public const ushort SvgStitchtypeNostitch = 2;
 
         [JsName("baseFrequencyX")]
-        public SvgAnimatedNumber BaseFrequencyX { get; }
+        public SvgAnimatedNumber BaseFrequencyX => GetProperty<SvgAnimatedNumber>("baseFrequencyX");
 
         [JsName("baseFrequencyY")]
-        public SvgAnimatedNumber BaseFrequencyY { get; }
+        public SvgAnimatedNumber BaseFrequencyY => GetProperty<SvgAnimatedNumber>("baseFrequencyY");
 
         [JsName("numOctaves")]
-        public SvgAnimatedInteger NumOctaves { get; }
+        public SvgAnimatedInteger NumOctaves => GetProperty<SvgAnimatedInteger>("numOctaves");
 
         [JsName("seed")]
-        public SvgAnimatedNumber Seed { get; }
+        public SvgAnimatedNumber Seed => GetProperty<SvgAnimatedNumber>("seed");
 
         [JsName("stitchTiles")]
-        public SvgAnimatedEnumeration StitchTiles { get; }
+        public SvgAnimatedEnumeration StitchTiles => GetProperty<SvgAnimatedEnumeration>("stitchTiles");
 
         [JsName("type")]
-        public SvgAnimatedEnumeration Type { get; }
+        public SvgAnimatedEnumeration Type => GetProperty<SvgAnimatedEnumeration>("type");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
     }
 }

@@ -36,6 +36,10 @@ namespace BrowserApi.Css
     public partial class CssMatrixComponent : CssTransformComponent
     {
         [JsName("matrix")]
-        public DomMatrix Matrix { get; set; }
+        public DomMatrix Matrix
+        {
+            get => GetProperty<DomMatrix>("matrix");
+            set => SetProperty("matrix", value);
+        }
     }
 }

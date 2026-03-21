@@ -35,6 +35,6 @@ namespace BrowserApi.ServiceWorkers
     public partial class InstallEvent : ExtendableEvent
     {
         [JsName("addRoutes")]
-        public Task AddRoutesAsync(object rules) => throw new NotImplementedException();
+        public Task AddRoutesAsync(object rules) => InvokeVoidAsync("addRoutes", rules);
     }
 }

@@ -35,6 +35,6 @@ namespace BrowserApi.Dom
     public partial class PageTransitionEvent : Event
     {
         [JsName("persisted")]
-        public bool Persisted { get; }
+        public bool Persisted => GetProperty<bool>("persisted");
     }
 }

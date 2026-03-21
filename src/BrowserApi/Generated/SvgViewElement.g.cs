@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class SvgViewElement : SvgElement
     {
         [JsName("viewBox")]
-        public SvgAnimatedRect ViewBox { get; }
+        public SvgAnimatedRect ViewBox => GetProperty<SvgAnimatedRect>("viewBox");
 
         [JsName("preserveAspectRatio")]
-        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio { get; }
+        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio => GetProperty<SvgAnimatedPreserveAspectRatio>("preserveAspectRatio");
     }
 }

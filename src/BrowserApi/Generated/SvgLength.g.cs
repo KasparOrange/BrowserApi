@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGLength")]
-    public partial class SvgLength
+    public partial class SvgLength : JsObject
     {
         public const ushort SvgLengthtypeUnknown = 0;
 
@@ -58,21 +58,33 @@ namespace BrowserApi
         public const ushort SvgLengthtypePc = 10;
 
         [JsName("unitType")]
-        public ushort UnitType { get; }
+        public ushort UnitType => GetProperty<ushort>("unitType");
 
         [JsName("value")]
-        public float Value { get; set; }
+        public float Value
+        {
+            get => GetProperty<float>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("valueInSpecifiedUnits")]
-        public float ValueInSpecifiedUnits { get; set; }
+        public float ValueInSpecifiedUnits
+        {
+            get => GetProperty<float>("valueInSpecifiedUnits");
+            set => SetProperty("valueInSpecifiedUnits", value);
+        }
 
         [JsName("valueAsString")]
-        public string ValueAsString { get; set; }
+        public string ValueAsString
+        {
+            get => GetProperty<string>("valueAsString");
+            set => SetProperty("valueAsString", value);
+        }
 
         [JsName("newValueSpecifiedUnits")]
-        public void NewValueSpecifiedUnits(ushort unitType, float valueInSpecifiedUnits) => throw new NotImplementedException();
+        public void NewValueSpecifiedUnits(ushort unitType, float valueInSpecifiedUnits) => InvokeVoid("newValueSpecifiedUnits", unitType, valueInSpecifiedUnits);
 
         [JsName("convertToSpecifiedUnits")]
-        public void ConvertToSpecifiedUnits(ushort unitType) => throw new NotImplementedException();
+        public void ConvertToSpecifiedUnits(ushort unitType) => InvokeVoid("convertToSpecifiedUnits", unitType);
     }
 }

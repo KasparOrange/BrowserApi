@@ -48,24 +48,24 @@ namespace BrowserApi
         public const ushort SvgFecomponenttransferTypeGamma = 5;
 
         [JsName("type")]
-        public SvgAnimatedEnumeration Type { get; }
+        public SvgAnimatedEnumeration Type => GetProperty<SvgAnimatedEnumeration>("type");
 
         [JsName("tableValues")]
-        public SvgAnimatedNumberList TableValues { get; }
+        public SvgAnimatedNumberList TableValues => GetProperty<SvgAnimatedNumberList>("tableValues");
 
         [JsName("slope")]
-        public SvgAnimatedNumber Slope { get; }
+        public SvgAnimatedNumber Slope => GetProperty<SvgAnimatedNumber>("slope");
 
         [JsName("intercept")]
-        public SvgAnimatedNumber Intercept { get; }
+        public SvgAnimatedNumber Intercept => GetProperty<SvgAnimatedNumber>("intercept");
 
         [JsName("amplitude")]
-        public SvgAnimatedNumber Amplitude { get; }
+        public SvgAnimatedNumber Amplitude => GetProperty<SvgAnimatedNumber>("amplitude");
 
         [JsName("exponent")]
-        public SvgAnimatedNumber Exponent { get; }
+        public SvgAnimatedNumber Exponent => GetProperty<SvgAnimatedNumber>("exponent");
 
         [JsName("offset")]
-        public SvgAnimatedNumber Offset { get; }
+        public SvgAnimatedNumber Offset => GetProperty<SvgAnimatedNumber>("offset");
     }
 }

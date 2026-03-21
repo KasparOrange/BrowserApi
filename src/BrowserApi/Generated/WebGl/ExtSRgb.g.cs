@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_sRGB")]
-    public partial class ExtSRgb
+    public partial class ExtSRgb : JsObject
     {
         public const uint SrgbExt = 0x8C40;
 

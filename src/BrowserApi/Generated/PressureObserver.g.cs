@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PressureObserver
+    public partial class PressureObserver : JsObject
     {
         [JsName("knownSources")]
         public static IReadOnlyList<PressureSource> KnownSources { get; }
 
         [JsName("observe")]
-        public Task ObserveAsync(PressureSource source, PressureObserverOptions? options = null) => throw new NotImplementedException();
+        public Task ObserveAsync(PressureSource source, PressureObserverOptions? options = null) => InvokeVoidAsync("observe", source, options);
 
         [JsName("unobserve")]
-        public void Unobserve(PressureSource source) => throw new NotImplementedException();
+        public void Unobserve(PressureSource source) => InvokeVoid("unobserve", source);
 
         [JsName("disconnect")]
-        public void Disconnect() => throw new NotImplementedException();
+        public void Disconnect() => InvokeVoid("disconnect");
 
         [JsName("takeRecords")]
-        public IReadOnlyList<PressureRecord> TakeRecords() => throw new NotImplementedException();
+        public IReadOnlyList<PressureRecord> TakeRecords() => Invoke<IReadOnlyList<PressureRecord>>("takeRecords");
     }
 }

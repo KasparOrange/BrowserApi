@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class DataTransferItem
+    public partial class DataTransferItem : JsObject
     {
         [JsName("kind")]
-        public string Kind { get; }
+        public string Kind => GetProperty<string>("kind");
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("getAsString")]
-        public void GetAsString(FunctionStringCallback? callback) => throw new NotImplementedException();
+        public void GetAsString(FunctionStringCallback? callback) => InvokeVoid("getAsString", callback);
 
         [JsName("getAsFile")]
-        public WebFile? GetAsFile() => throw new NotImplementedException();
+        public WebFile? GetAsFile() => Invoke<WebFile?>("getAsFile");
 
         [JsName("webkitGetAsEntry")]
-        public FileSystemEntry? WebkitGetAsEntry() => throw new NotImplementedException();
+        public FileSystemEntry? WebkitGetAsEntry() => Invoke<FileSystemEntry?>("webkitGetAsEntry");
 
         [JsName("getAsFileSystemHandle")]
-        public Task<FileSystemHandle?> GetAsFileSystemHandleAsync() => throw new NotImplementedException();
+        public Task<FileSystemHandle?> GetAsFileSystemHandleAsync() => InvokeAsync<FileSystemHandle?>("getAsFileSystemHandle");
     }
 }

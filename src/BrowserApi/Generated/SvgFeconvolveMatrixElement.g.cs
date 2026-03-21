@@ -44,54 +44,54 @@ namespace BrowserApi
         public const ushort SvgEdgemodeNone = 3;
 
         [JsName("in1")]
-        public SvgAnimatedString In1 { get; }
+        public SvgAnimatedString In1 => GetProperty<SvgAnimatedString>("in1");
 
         [JsName("orderX")]
-        public SvgAnimatedInteger OrderX { get; }
+        public SvgAnimatedInteger OrderX => GetProperty<SvgAnimatedInteger>("orderX");
 
         [JsName("orderY")]
-        public SvgAnimatedInteger OrderY { get; }
+        public SvgAnimatedInteger OrderY => GetProperty<SvgAnimatedInteger>("orderY");
 
         [JsName("kernelMatrix")]
-        public SvgAnimatedNumberList KernelMatrix { get; }
+        public SvgAnimatedNumberList KernelMatrix => GetProperty<SvgAnimatedNumberList>("kernelMatrix");
 
         [JsName("divisor")]
-        public SvgAnimatedNumber Divisor { get; }
+        public SvgAnimatedNumber Divisor => GetProperty<SvgAnimatedNumber>("divisor");
 
         [JsName("bias")]
-        public SvgAnimatedNumber Bias { get; }
+        public SvgAnimatedNumber Bias => GetProperty<SvgAnimatedNumber>("bias");
 
         [JsName("targetX")]
-        public SvgAnimatedInteger TargetX { get; }
+        public SvgAnimatedInteger TargetX => GetProperty<SvgAnimatedInteger>("targetX");
 
         [JsName("targetY")]
-        public SvgAnimatedInteger TargetY { get; }
+        public SvgAnimatedInteger TargetY => GetProperty<SvgAnimatedInteger>("targetY");
 
         [JsName("edgeMode")]
-        public SvgAnimatedEnumeration EdgeMode { get; }
+        public SvgAnimatedEnumeration EdgeMode => GetProperty<SvgAnimatedEnumeration>("edgeMode");
 
         [JsName("kernelUnitLengthX")]
-        public SvgAnimatedNumber KernelUnitLengthX { get; }
+        public SvgAnimatedNumber KernelUnitLengthX => GetProperty<SvgAnimatedNumber>("kernelUnitLengthX");
 
         [JsName("kernelUnitLengthY")]
-        public SvgAnimatedNumber KernelUnitLengthY { get; }
+        public SvgAnimatedNumber KernelUnitLengthY => GetProperty<SvgAnimatedNumber>("kernelUnitLengthY");
 
         [JsName("preserveAlpha")]
-        public SvgAnimatedBoolean PreserveAlpha { get; }
+        public SvgAnimatedBoolean PreserveAlpha => GetProperty<SvgAnimatedBoolean>("preserveAlpha");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
     }
 }

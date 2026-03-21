@@ -35,12 +35,16 @@ namespace BrowserApi
     public partial class PermissionStatus : EventTarget
     {
         [JsName("state")]
-        public PermissionState State { get; }
+        public PermissionState State => GetProperty<PermissionState>("state");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
     }
 }

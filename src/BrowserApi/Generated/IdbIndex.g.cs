@@ -33,45 +33,49 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("IDBIndex")]
-    public partial class IdbIndex
+    public partial class IdbIndex : JsObject
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("objectStore")]
-        public IdbObjectStore ObjectStore { get; }
+        public IdbObjectStore ObjectStore => GetProperty<IdbObjectStore>("objectStore");
 
         [JsName("keyPath")]
-        public object KeyPath { get; }
+        public object KeyPath => GetProperty<object>("keyPath");
 
         [JsName("multiEntry")]
-        public bool MultiEntry { get; }
+        public bool MultiEntry => GetProperty<bool>("multiEntry");
 
         [JsName("unique")]
-        public bool Unique { get; }
+        public bool Unique => GetProperty<bool>("unique");
 
         [JsName("get")]
-        public IdbRequest Get(object query) => throw new NotImplementedException();
+        public IdbRequest Get(object query) => Invoke<IdbRequest>("get", query);
 
         [JsName("getKey")]
-        public IdbRequest GetKey(object query) => throw new NotImplementedException();
+        public IdbRequest GetKey(object query) => Invoke<IdbRequest>("getKey", query);
 
         [JsName("getAll")]
-        public IdbRequest GetAll(object? queryOrOptions = null, uint? count = null) => throw new NotImplementedException();
+        public IdbRequest GetAll(object? queryOrOptions = null, uint? count = null) => Invoke<IdbRequest>("getAll", queryOrOptions, count);
 
         [JsName("getAllKeys")]
-        public IdbRequest GetAllKeys(object? queryOrOptions = null, uint? count = null) => throw new NotImplementedException();
+        public IdbRequest GetAllKeys(object? queryOrOptions = null, uint? count = null) => Invoke<IdbRequest>("getAllKeys", queryOrOptions, count);
 
         [JsName("getAllRecords")]
-        public IdbRequest GetAllRecords(IdbGetAllOptions? options = null) => throw new NotImplementedException();
+        public IdbRequest GetAllRecords(IdbGetAllOptions? options = null) => Invoke<IdbRequest>("getAllRecords", options);
 
         [JsName("count")]
-        public IdbRequest Count(object? query = null) => throw new NotImplementedException();
+        public IdbRequest Count(object? query = null) => Invoke<IdbRequest>("count", query);
 
         [JsName("openCursor")]
-        public IdbRequest OpenCursor(object? query = null, IdbCursorDirection? direction = null) => throw new NotImplementedException();
+        public IdbRequest OpenCursor(object? query = null, IdbCursorDirection? direction = null) => Invoke<IdbRequest>("openCursor", query, direction);
 
         [JsName("openKeyCursor")]
-        public IdbRequest OpenKeyCursor(object? query = null, IdbCursorDirection? direction = null) => throw new NotImplementedException();
+        public IdbRequest OpenKeyCursor(object? query = null, IdbCursorDirection? direction = null) => Invoke<IdbRequest>("openKeyCursor", query, direction);
     }
 }

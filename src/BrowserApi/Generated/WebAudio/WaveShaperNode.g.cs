@@ -35,9 +35,17 @@ namespace BrowserApi.WebAudio
     public partial class WaveShaperNode : AudioNode
     {
         [JsName("curve")]
-        public float[]? Curve { get; set; }
+        public float[]? Curve
+        {
+            get => GetProperty<float[]?>("curve");
+            set => SetProperty("curve", value);
+        }
 
         [JsName("oversample")]
-        public OverSampleType Oversample { get; set; }
+        public OverSampleType Oversample
+        {
+            get => GetProperty<OverSampleType>("oversample");
+            set => SetProperty("oversample", value);
+        }
     }
 }

@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Events
 {
-    public partial class EventCounts
+    public partial class EventCounts : JsObject
     {
     }
 }

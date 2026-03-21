@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class InputDeviceCapabilities
+    public partial class InputDeviceCapabilities : JsObject
     {
         [JsName("firesTouchEvents")]
-        public bool FiresTouchEvents { get; }
+        public bool FiresTouchEvents => GetProperty<bool>("firesTouchEvents");
 
         [JsName("pointerMovementScrolls")]
-        public bool PointerMovementScrolls { get; }
+        public bool PointerMovementScrolls => GetProperty<bool>("pointerMovementScrolls");
     }
 }

@@ -36,78 +36,86 @@ namespace BrowserApi.WebGpu
     public partial class GpuDevice : EventTarget
     {
         [JsName("features")]
-        public GpuSupportedFeatures Features { get; }
+        public GpuSupportedFeatures Features => GetProperty<GpuSupportedFeatures>("features");
 
         [JsName("limits")]
-        public GpuSupportedLimits Limits { get; }
+        public GpuSupportedLimits Limits => GetProperty<GpuSupportedLimits>("limits");
 
         [JsName("adapterInfo")]
-        public GpuAdapterInfo AdapterInfo { get; }
+        public GpuAdapterInfo AdapterInfo => GetProperty<GpuAdapterInfo>("adapterInfo");
 
         [JsName("queue")]
-        public GpuQueue Queue { get; }
+        public GpuQueue Queue => GetProperty<GpuQueue>("queue");
 
         [JsName("lost")]
-        public Task<GpuDeviceLostInfo> Lost { get; }
+        public Task<GpuDeviceLostInfo> Lost => GetProperty<Task<GpuDeviceLostInfo>>("lost");
 
         [JsName("onuncapturederror")]
-        public object Onuncapturederror { get; set; }
+        public object Onuncapturederror
+        {
+            get => GetProperty<object>("onuncapturederror");
+            set => SetProperty("onuncapturederror", value);
+        }
 
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
 
         [JsName("createBuffer")]
-        public GpuBuffer CreateBuffer(GpuBufferDescriptor descriptor) => throw new NotImplementedException();
+        public GpuBuffer CreateBuffer(GpuBufferDescriptor descriptor) => Invoke<GpuBuffer>("createBuffer", descriptor);
 
         [JsName("createTexture")]
-        public GpuTexture CreateTexture(GpuTextureDescriptor descriptor) => throw new NotImplementedException();
+        public GpuTexture CreateTexture(GpuTextureDescriptor descriptor) => Invoke<GpuTexture>("createTexture", descriptor);
 
         [JsName("createSampler")]
-        public GpuSampler CreateSampler(GpuSamplerDescriptor? descriptor = null) => throw new NotImplementedException();
+        public GpuSampler CreateSampler(GpuSamplerDescriptor? descriptor = null) => Invoke<GpuSampler>("createSampler", descriptor);
 
         [JsName("importExternalTexture")]
-        public GpuExternalTexture ImportExternalTexture(GpuExternalTextureDescriptor descriptor) => throw new NotImplementedException();
+        public GpuExternalTexture ImportExternalTexture(GpuExternalTextureDescriptor descriptor) => Invoke<GpuExternalTexture>("importExternalTexture", descriptor);
 
         [JsName("createBindGroupLayout")]
-        public GpuBindGroupLayout CreateBindGroupLayout(GpuBindGroupLayoutDescriptor descriptor) => throw new NotImplementedException();
+        public GpuBindGroupLayout CreateBindGroupLayout(GpuBindGroupLayoutDescriptor descriptor) => Invoke<GpuBindGroupLayout>("createBindGroupLayout", descriptor);
 
         [JsName("createPipelineLayout")]
-        public GpuPipelineLayout CreatePipelineLayout(GpuPipelineLayoutDescriptor descriptor) => throw new NotImplementedException();
+        public GpuPipelineLayout CreatePipelineLayout(GpuPipelineLayoutDescriptor descriptor) => Invoke<GpuPipelineLayout>("createPipelineLayout", descriptor);
 
         [JsName("createBindGroup")]
-        public GpuBindGroup CreateBindGroup(GpuBindGroupDescriptor descriptor) => throw new NotImplementedException();
+        public GpuBindGroup CreateBindGroup(GpuBindGroupDescriptor descriptor) => Invoke<GpuBindGroup>("createBindGroup", descriptor);
 
         [JsName("createShaderModule")]
-        public GpuShaderModule CreateShaderModule(GpuShaderModuleDescriptor descriptor) => throw new NotImplementedException();
+        public GpuShaderModule CreateShaderModule(GpuShaderModuleDescriptor descriptor) => Invoke<GpuShaderModule>("createShaderModule", descriptor);
 
         [JsName("createComputePipeline")]
-        public GpuComputePipeline CreateComputePipeline(GpuComputePipelineDescriptor descriptor) => throw new NotImplementedException();
+        public GpuComputePipeline CreateComputePipeline(GpuComputePipelineDescriptor descriptor) => Invoke<GpuComputePipeline>("createComputePipeline", descriptor);
 
         [JsName("createRenderPipeline")]
-        public GpuRenderPipeline CreateRenderPipeline(GpuRenderPipelineDescriptor descriptor) => throw new NotImplementedException();
+        public GpuRenderPipeline CreateRenderPipeline(GpuRenderPipelineDescriptor descriptor) => Invoke<GpuRenderPipeline>("createRenderPipeline", descriptor);
 
         [JsName("createComputePipelineAsync")]
-        public Task<GpuComputePipeline> CreateComputePipelineAsync(GpuComputePipelineDescriptor descriptor) => throw new NotImplementedException();
+        public Task<GpuComputePipeline> CreateComputePipelineAsync(GpuComputePipelineDescriptor descriptor) => InvokeAsync<GpuComputePipeline>("createComputePipelineAsync", descriptor);
 
         [JsName("createRenderPipelineAsync")]
-        public Task<GpuRenderPipeline> CreateRenderPipelineAsync(GpuRenderPipelineDescriptor descriptor) => throw new NotImplementedException();
+        public Task<GpuRenderPipeline> CreateRenderPipelineAsync(GpuRenderPipelineDescriptor descriptor) => InvokeAsync<GpuRenderPipeline>("createRenderPipelineAsync", descriptor);
 
         [JsName("createCommandEncoder")]
-        public GpuCommandEncoder CreateCommandEncoder(GpuCommandEncoderDescriptor? descriptor = null) => throw new NotImplementedException();
+        public GpuCommandEncoder CreateCommandEncoder(GpuCommandEncoderDescriptor? descriptor = null) => Invoke<GpuCommandEncoder>("createCommandEncoder", descriptor);
 
         [JsName("createRenderBundleEncoder")]
-        public GpuRenderBundleEncoder CreateRenderBundleEncoder(GpuRenderBundleEncoderDescriptor descriptor) => throw new NotImplementedException();
+        public GpuRenderBundleEncoder CreateRenderBundleEncoder(GpuRenderBundleEncoderDescriptor descriptor) => Invoke<GpuRenderBundleEncoder>("createRenderBundleEncoder", descriptor);
 
         [JsName("createQuerySet")]
-        public GpuQuerySet CreateQuerySet(GpuQuerySetDescriptor descriptor) => throw new NotImplementedException();
+        public GpuQuerySet CreateQuerySet(GpuQuerySetDescriptor descriptor) => Invoke<GpuQuerySet>("createQuerySet", descriptor);
 
         [JsName("pushErrorScope")]
-        public void PushErrorScope(GpuErrorFilter filter) => throw new NotImplementedException();
+        public void PushErrorScope(GpuErrorFilter filter) => InvokeVoid("pushErrorScope", filter);
 
         [JsName("popErrorScope")]
-        public Task<GpuError?> PopErrorScopeAsync() => throw new NotImplementedException();
+        public Task<GpuError?> PopErrorScopeAsync() => InvokeAsync<GpuError?>("popErrorScope");
     }
 }

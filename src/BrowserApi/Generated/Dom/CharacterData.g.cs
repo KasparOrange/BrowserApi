@@ -35,42 +35,46 @@ namespace BrowserApi.Dom
     public partial class CharacterData : Node
     {
         [JsName("data")]
-        public string Data { get; set; }
+        public string Data
+        {
+            get => GetProperty<string>("data");
+            set => SetProperty("data", value);
+        }
 
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("previousElementSibling")]
-        public Element? PreviousElementSibling { get; }
+        public Element? PreviousElementSibling => GetProperty<Element?>("previousElementSibling");
 
         [JsName("nextElementSibling")]
-        public Element? NextElementSibling { get; }
+        public Element? NextElementSibling => GetProperty<Element?>("nextElementSibling");
 
         [JsName("substringData")]
-        public string SubstringData(uint offset, uint count) => throw new NotImplementedException();
+        public string SubstringData(uint offset, uint count) => Invoke<string>("substringData", offset, count);
 
         [JsName("appendData")]
-        public void AppendData(string data) => throw new NotImplementedException();
+        public void AppendData(string data) => InvokeVoid("appendData", data);
 
         [JsName("insertData")]
-        public void InsertData(uint offset, string data) => throw new NotImplementedException();
+        public void InsertData(uint offset, string data) => InvokeVoid("insertData", offset, data);
 
         [JsName("deleteData")]
-        public void DeleteData(uint offset, uint count) => throw new NotImplementedException();
+        public void DeleteData(uint offset, uint count) => InvokeVoid("deleteData", offset, count);
 
         [JsName("replaceData")]
-        public void ReplaceData(uint offset, uint count, string data) => throw new NotImplementedException();
+        public void ReplaceData(uint offset, uint count, string data) => InvokeVoid("replaceData", offset, count, data);
 
         [JsName("before")]
-        public void Before(params object[] nodes) => throw new NotImplementedException();
+        public void Before(params object[] nodes) => InvokeVoid("before", nodes);
 
         [JsName("after")]
-        public void After(params object[] nodes) => throw new NotImplementedException();
+        public void After(params object[] nodes) => InvokeVoid("after", nodes);
 
         [JsName("replaceWith")]
-        public void ReplaceWith(params object[] nodes) => throw new NotImplementedException();
+        public void ReplaceWith(params object[] nodes) => InvokeVoid("replaceWith", nodes);
 
         [JsName("remove")]
-        public void Remove() => throw new NotImplementedException();
+        public void Remove() => InvokeVoid("remove");
     }
 }

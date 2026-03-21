@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.PerformanceApi
 {
-    public partial class PerformanceObserverEntryList
+    public partial class PerformanceObserverEntryList : JsObject
     {
         [JsName("getEntries")]
-        public IReadOnlyList<PerformanceEntry> GetEntries() => throw new NotImplementedException();
+        public IReadOnlyList<PerformanceEntry> GetEntries() => Invoke<IReadOnlyList<PerformanceEntry>>("getEntries");
 
         [JsName("getEntriesByType")]
-        public IReadOnlyList<PerformanceEntry> GetEntriesByType(string type) => throw new NotImplementedException();
+        public IReadOnlyList<PerformanceEntry> GetEntriesByType(string type) => Invoke<IReadOnlyList<PerformanceEntry>>("getEntriesByType", type);
 
         [JsName("getEntriesByName")]
-        public IReadOnlyList<PerformanceEntry> GetEntriesByName(string name, string? type = null) => throw new NotImplementedException();
+        public IReadOnlyList<PerformanceEntry> GetEntriesByName(string name, string? type = null) => Invoke<IReadOnlyList<PerformanceEntry>>("getEntriesByName", name, type);
     }
 }

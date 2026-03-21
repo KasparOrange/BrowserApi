@@ -33,18 +33,18 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRRigidTransform")]
-    public partial class XrRigidTransform
+    public partial class XrRigidTransform : JsObject
     {
         [JsName("position")]
-        public DomPointReadOnly Position { get; }
+        public DomPointReadOnly Position => GetProperty<DomPointReadOnly>("position");
 
         [JsName("orientation")]
-        public DomPointReadOnly Orientation { get; }
+        public DomPointReadOnly Orientation => GetProperty<DomPointReadOnly>("orientation");
 
         [JsName("matrix")]
-        public float[] Matrix { get; }
+        public float[] Matrix => GetProperty<float[]>("matrix");
 
         [JsName("inverse")]
-        public XrRigidTransform Inverse { get; }
+        public XrRigidTransform Inverse => GetProperty<XrRigidTransform>("inverse");
     }
 }

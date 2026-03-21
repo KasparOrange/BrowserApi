@@ -35,6 +35,6 @@ namespace BrowserApi.Events
     public partial class ClipboardEvent : Event
     {
         [JsName("clipboardData")]
-        public DataTransfer? ClipboardData { get; }
+        public DataTransfer? ClipboardData => GetProperty<DataTransfer?>("clipboardData");
     }
 }

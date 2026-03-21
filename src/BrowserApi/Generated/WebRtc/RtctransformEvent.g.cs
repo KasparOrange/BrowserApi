@@ -36,6 +36,6 @@ namespace BrowserApi.WebRtc
     public partial class RtctransformEvent : Event
     {
         [JsName("transformer")]
-        public RtcrtpScriptTransformer Transformer { get; }
+        public RtcrtpScriptTransformer Transformer => GetProperty<RtcrtpScriptTransformer>("transformer");
     }
 }

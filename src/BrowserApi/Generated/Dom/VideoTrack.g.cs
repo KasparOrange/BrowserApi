@@ -32,24 +32,28 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class VideoTrack
+    public partial class VideoTrack : JsObject
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("kind")]
-        public string Kind { get; }
+        public string Kind => GetProperty<string>("kind");
 
         [JsName("label")]
-        public string Label { get; }
+        public string Label => GetProperty<string>("label");
 
         [JsName("language")]
-        public string Language { get; }
+        public string Language => GetProperty<string>("language");
 
         [JsName("selected")]
-        public bool Selected { get; set; }
+        public bool Selected
+        {
+            get => GetProperty<bool>("selected");
+            set => SetProperty("selected", value);
+        }
 
         [JsName("sourceBuffer")]
-        public SourceBuffer? SourceBuffer { get; }
+        public SourceBuffer? SourceBuffer => GetProperty<SourceBuffer?>("sourceBuffer");
     }
 }

@@ -32,30 +32,30 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class GamepadPose
+    public partial class GamepadPose : JsObject
     {
         [JsName("hasOrientation")]
-        public bool HasOrientation { get; }
+        public bool HasOrientation => GetProperty<bool>("hasOrientation");
 
         [JsName("hasPosition")]
-        public bool HasPosition { get; }
+        public bool HasPosition => GetProperty<bool>("hasPosition");
 
         [JsName("position")]
-        public float[]? Position { get; }
+        public float[]? Position => GetProperty<float[]?>("position");
 
         [JsName("linearVelocity")]
-        public float[]? LinearVelocity { get; }
+        public float[]? LinearVelocity => GetProperty<float[]?>("linearVelocity");
 
         [JsName("linearAcceleration")]
-        public float[]? LinearAcceleration { get; }
+        public float[]? LinearAcceleration => GetProperty<float[]?>("linearAcceleration");
 
         [JsName("orientation")]
-        public float[]? Orientation { get; }
+        public float[]? Orientation => GetProperty<float[]?>("orientation");
 
         [JsName("angularVelocity")]
-        public float[]? AngularVelocity { get; }
+        public float[]? AngularVelocity => GetProperty<float[]?>("angularVelocity");
 
         [JsName("angularAcceleration")]
-        public float[]? AngularAcceleration { get; }
+        public float[]? AngularAcceleration => GetProperty<float[]?>("angularAcceleration");
     }
 }

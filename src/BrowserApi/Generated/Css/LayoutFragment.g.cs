@@ -32,24 +32,32 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class LayoutFragment
+    public partial class LayoutFragment : JsObject
     {
         [JsName("inlineSize")]
-        public double InlineSize { get; }
+        public double InlineSize => GetProperty<double>("inlineSize");
 
         [JsName("blockSize")]
-        public double BlockSize { get; }
+        public double BlockSize => GetProperty<double>("blockSize");
 
         [JsName("inlineOffset")]
-        public double InlineOffset { get; set; }
+        public double InlineOffset
+        {
+            get => GetProperty<double>("inlineOffset");
+            set => SetProperty("inlineOffset", value);
+        }
 
         [JsName("blockOffset")]
-        public double BlockOffset { get; set; }
+        public double BlockOffset
+        {
+            get => GetProperty<double>("blockOffset");
+            set => SetProperty("blockOffset", value);
+        }
 
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
 
         [JsName("breakToken")]
-        public ChildBreakToken? BreakToken { get; }
+        public ChildBreakToken? BreakToken => GetProperty<ChildBreakToken?>("breakToken");
     }
 }

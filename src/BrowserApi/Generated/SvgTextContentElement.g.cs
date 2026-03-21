@@ -42,36 +42,36 @@ namespace BrowserApi
         public const ushort LengthadjustSpacingandglYphs = 2;
 
         [JsName("textLength")]
-        public SvgAnimatedLength TextLength { get; }
+        public SvgAnimatedLength TextLength => GetProperty<SvgAnimatedLength>("textLength");
 
         [JsName("lengthAdjust")]
-        public SvgAnimatedEnumeration LengthAdjust { get; }
+        public SvgAnimatedEnumeration LengthAdjust => GetProperty<SvgAnimatedEnumeration>("lengthAdjust");
 
         [JsName("getNumberOfChars")]
-        public int GetNumberOfChars() => throw new NotImplementedException();
+        public int GetNumberOfChars() => Invoke<int>("getNumberOfChars");
 
         [JsName("getComputedTextLength")]
-        public float GetComputedTextLength() => throw new NotImplementedException();
+        public float GetComputedTextLength() => Invoke<float>("getComputedTextLength");
 
         [JsName("getSubStringLength")]
-        public float GetSubStringLength(uint charnum, uint nchars) => throw new NotImplementedException();
+        public float GetSubStringLength(uint charnum, uint nchars) => Invoke<float>("getSubStringLength", charnum, nchars);
 
         [JsName("getStartPositionOfChar")]
-        public DomPoint GetStartPositionOfChar(uint charnum) => throw new NotImplementedException();
+        public DomPoint GetStartPositionOfChar(uint charnum) => Invoke<DomPoint>("getStartPositionOfChar", charnum);
 
         [JsName("getEndPositionOfChar")]
-        public DomPoint GetEndPositionOfChar(uint charnum) => throw new NotImplementedException();
+        public DomPoint GetEndPositionOfChar(uint charnum) => Invoke<DomPoint>("getEndPositionOfChar", charnum);
 
         [JsName("getExtentOfChar")]
-        public DomRect GetExtentOfChar(uint charnum) => throw new NotImplementedException();
+        public DomRect GetExtentOfChar(uint charnum) => Invoke<DomRect>("getExtentOfChar", charnum);
 
         [JsName("getRotationOfChar")]
-        public float GetRotationOfChar(uint charnum) => throw new NotImplementedException();
+        public float GetRotationOfChar(uint charnum) => Invoke<float>("getRotationOfChar", charnum);
 
         [JsName("getCharNumAtPosition")]
-        public int GetCharNumAtPosition(DomPointInit? point = null) => throw new NotImplementedException();
+        public int GetCharNumAtPosition(DomPointInit? point = null) => Invoke<int>("getCharNumAtPosition", point);
 
         [JsName("selectSubString")]
-        public void SelectSubString(uint charnum, uint nchars) => throw new NotImplementedException();
+        public void SelectSubString(uint charnum, uint nchars) => InvokeVoid("selectSubString", charnum, nchars);
     }
 }

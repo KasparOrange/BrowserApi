@@ -36,189 +36,369 @@ namespace BrowserApi.Dom
     public partial class HtmlInputElement : HtmlElement
     {
         [JsName("accept")]
-        public string Accept { get; set; }
+        public string Accept
+        {
+            get => GetProperty<string>("accept");
+            set => SetProperty("accept", value);
+        }
 
         [JsName("alpha")]
-        public bool Alpha { get; set; }
+        public bool Alpha
+        {
+            get => GetProperty<bool>("alpha");
+            set => SetProperty("alpha", value);
+        }
 
         [JsName("alt")]
-        public string Alt { get; set; }
+        public string Alt
+        {
+            get => GetProperty<string>("alt");
+            set => SetProperty("alt", value);
+        }
 
         [JsName("autocomplete")]
-        public string Autocomplete { get; set; }
+        public string Autocomplete
+        {
+            get => GetProperty<string>("autocomplete");
+            set => SetProperty("autocomplete", value);
+        }
 
         [JsName("defaultChecked")]
-        public bool DefaultChecked { get; set; }
+        public bool DefaultChecked
+        {
+            get => GetProperty<bool>("defaultChecked");
+            set => SetProperty("defaultChecked", value);
+        }
 
         [JsName("checked")]
-        public bool Checked { get; set; }
+        public bool Checked
+        {
+            get => GetProperty<bool>("checked");
+            set => SetProperty("checked", value);
+        }
 
         [JsName("colorSpace")]
-        public string ColorSpace { get; set; }
+        public string ColorSpace
+        {
+            get => GetProperty<string>("colorSpace");
+            set => SetProperty("colorSpace", value);
+        }
 
         [JsName("dirName")]
-        public string DirName { get; set; }
+        public string DirName
+        {
+            get => GetProperty<string>("dirName");
+            set => SetProperty("dirName", value);
+        }
 
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
 
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("files")]
-        public FileList? Files { get; set; }
+        public FileList? Files
+        {
+            get => GetProperty<FileList?>("files");
+            set => SetProperty("files", value);
+        }
 
         [JsName("formAction")]
-        public string FormAction { get; set; }
+        public string FormAction
+        {
+            get => GetProperty<string>("formAction");
+            set => SetProperty("formAction", value);
+        }
 
         [JsName("formEnctype")]
-        public string FormEnctype { get; set; }
+        public string FormEnctype
+        {
+            get => GetProperty<string>("formEnctype");
+            set => SetProperty("formEnctype", value);
+        }
 
         [JsName("formMethod")]
-        public string FormMethod { get; set; }
+        public string FormMethod
+        {
+            get => GetProperty<string>("formMethod");
+            set => SetProperty("formMethod", value);
+        }
 
         [JsName("formNoValidate")]
-        public bool FormNoValidate { get; set; }
+        public bool FormNoValidate
+        {
+            get => GetProperty<bool>("formNoValidate");
+            set => SetProperty("formNoValidate", value);
+        }
 
         [JsName("formTarget")]
-        public string FormTarget { get; set; }
+        public string FormTarget
+        {
+            get => GetProperty<string>("formTarget");
+            set => SetProperty("formTarget", value);
+        }
 
         [JsName("height")]
-        public uint Height { get; set; }
+        public uint Height
+        {
+            get => GetProperty<uint>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("indeterminate")]
-        public bool Indeterminate { get; set; }
+        public bool Indeterminate
+        {
+            get => GetProperty<bool>("indeterminate");
+            set => SetProperty("indeterminate", value);
+        }
 
         [JsName("list")]
-        public HtmlDataListElement? List { get; }
+        public HtmlDataListElement? List => GetProperty<HtmlDataListElement?>("list");
 
         [JsName("max")]
-        public string Max { get; set; }
+        public string Max
+        {
+            get => GetProperty<string>("max");
+            set => SetProperty("max", value);
+        }
 
         [JsName("maxLength")]
-        public int MaxLength { get; set; }
+        public int MaxLength
+        {
+            get => GetProperty<int>("maxLength");
+            set => SetProperty("maxLength", value);
+        }
 
         [JsName("min")]
-        public string Min { get; set; }
+        public string Min
+        {
+            get => GetProperty<string>("min");
+            set => SetProperty("min", value);
+        }
 
         [JsName("minLength")]
-        public int MinLength { get; set; }
+        public int MinLength
+        {
+            get => GetProperty<int>("minLength");
+            set => SetProperty("minLength", value);
+        }
 
         [JsName("multiple")]
-        public bool Multiple { get; set; }
+        public bool Multiple
+        {
+            get => GetProperty<bool>("multiple");
+            set => SetProperty("multiple", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("pattern")]
-        public string Pattern { get; set; }
+        public string Pattern
+        {
+            get => GetProperty<string>("pattern");
+            set => SetProperty("pattern", value);
+        }
 
         [JsName("placeholder")]
-        public string Placeholder { get; set; }
+        public string Placeholder
+        {
+            get => GetProperty<string>("placeholder");
+            set => SetProperty("placeholder", value);
+        }
 
         [JsName("readOnly")]
-        public bool ReadOnly { get; set; }
+        public bool ReadOnly
+        {
+            get => GetProperty<bool>("readOnly");
+            set => SetProperty("readOnly", value);
+        }
 
         [JsName("required")]
-        public bool Required { get; set; }
+        public bool Required
+        {
+            get => GetProperty<bool>("required");
+            set => SetProperty("required", value);
+        }
 
         [JsName("size")]
-        public uint Size { get; set; }
+        public uint Size
+        {
+            get => GetProperty<uint>("size");
+            set => SetProperty("size", value);
+        }
 
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("step")]
-        public string Step { get; set; }
+        public string Step
+        {
+            get => GetProperty<string>("step");
+            set => SetProperty("step", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("defaultValue")]
-        public string DefaultValue { get; set; }
+        public string DefaultValue
+        {
+            get => GetProperty<string>("defaultValue");
+            set => SetProperty("defaultValue", value);
+        }
 
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("valueAsDate")]
-        public object ValueAsDate { get; set; }
+        public object ValueAsDate
+        {
+            get => GetProperty<object>("valueAsDate");
+            set => SetProperty("valueAsDate", value);
+        }
 
         [JsName("valueAsNumber")]
-        public double ValueAsNumber { get; set; }
+        public double ValueAsNumber
+        {
+            get => GetProperty<double>("valueAsNumber");
+            set => SetProperty("valueAsNumber", value);
+        }
 
         [JsName("width")]
-        public uint Width { get; set; }
+        public uint Width
+        {
+            get => GetProperty<uint>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("willValidate")]
-        public bool WillValidate { get; }
+        public bool WillValidate => GetProperty<bool>("willValidate");
 
         [JsName("validity")]
-        public ValidityState Validity { get; }
+        public ValidityState Validity => GetProperty<ValidityState>("validity");
 
         [JsName("validationMessage")]
-        public string ValidationMessage { get; }
+        public string ValidationMessage => GetProperty<string>("validationMessage");
 
         [JsName("labels")]
-        public NodeList? Labels { get; }
+        public NodeList? Labels => GetProperty<NodeList?>("labels");
 
         [JsName("selectionStart")]
-        public uint? SelectionStart { get; set; }
+        public uint? SelectionStart
+        {
+            get => GetProperty<uint?>("selectionStart");
+            set => SetProperty("selectionStart", value);
+        }
 
         [JsName("selectionEnd")]
-        public uint? SelectionEnd { get; set; }
+        public uint? SelectionEnd
+        {
+            get => GetProperty<uint?>("selectionEnd");
+            set => SetProperty("selectionEnd", value);
+        }
 
         [JsName("selectionDirection")]
-        public string? SelectionDirection { get; set; }
+        public string? SelectionDirection
+        {
+            get => GetProperty<string?>("selectionDirection");
+            set => SetProperty("selectionDirection", value);
+        }
 
         [JsName("webkitdirectory")]
-        public bool Webkitdirectory { get; set; }
+        public bool Webkitdirectory
+        {
+            get => GetProperty<bool>("webkitdirectory");
+            set => SetProperty("webkitdirectory", value);
+        }
 
         [JsName("webkitEntries")]
-        public IReadOnlyList<FileSystemEntry> WebkitEntries { get; }
+        public IReadOnlyList<FileSystemEntry> WebkitEntries => GetProperty<IReadOnlyList<FileSystemEntry>>("webkitEntries");
 
         [JsName("capture")]
-        public string Capture { get; set; }
+        public string Capture
+        {
+            get => GetProperty<string>("capture");
+            set => SetProperty("capture", value);
+        }
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("useMap")]
-        public string UseMap { get; set; }
+        public string UseMap
+        {
+            get => GetProperty<string>("useMap");
+            set => SetProperty("useMap", value);
+        }
 
         [JsName("popoverTargetElement")]
-        public Element? PopoverTargetElement { get; set; }
+        public Element? PopoverTargetElement
+        {
+            get => GetProperty<Element?>("popoverTargetElement");
+            set => SetProperty("popoverTargetElement", value);
+        }
 
         [JsName("popoverTargetAction")]
-        public string PopoverTargetAction { get; set; }
+        public string PopoverTargetAction
+        {
+            get => GetProperty<string>("popoverTargetAction");
+            set => SetProperty("popoverTargetAction", value);
+        }
 
         [JsName("stepUp")]
-        public void StepUp(int n = 1) => throw new NotImplementedException();
+        public void StepUp(int n = 1) => InvokeVoid("stepUp", n);
 
         [JsName("stepDown")]
-        public void StepDown(int n = 1) => throw new NotImplementedException();
+        public void StepDown(int n = 1) => InvokeVoid("stepDown", n);
 
         [JsName("checkValidity")]
-        public bool CheckValidity() => throw new NotImplementedException();
+        public bool CheckValidity() => Invoke<bool>("checkValidity");
 
         [JsName("reportValidity")]
-        public bool ReportValidity() => throw new NotImplementedException();
+        public bool ReportValidity() => Invoke<bool>("reportValidity");
 
         [JsName("setCustomValidity")]
-        public void SetCustomValidity(string error) => throw new NotImplementedException();
+        public void SetCustomValidity(string error) => InvokeVoid("setCustomValidity", error);
 
         [JsName("select")]
-        public void Select() => throw new NotImplementedException();
+        public void Select() => InvokeVoid("select");
 
         [JsName("setRangeText")]
-        public void SetRangeText(string replacement) => throw new NotImplementedException();
+        public void SetRangeText(string replacement) => InvokeVoid("setRangeText", replacement);
 
         [JsName("setRangeText")]
-        public void SetRangeText(string replacement, uint start, uint end, SelectionMode? selectionMode = null) => throw new NotImplementedException();
+        public void SetRangeText(string replacement, uint start, uint end, SelectionMode? selectionMode = null) => InvokeVoid("setRangeText", replacement, start, end, selectionMode);
 
         [JsName("setSelectionRange")]
-        public void SetSelectionRange(uint start, uint end, string? direction = null) => throw new NotImplementedException();
+        public void SetSelectionRange(uint start, uint end, string? direction = null) => InvokeVoid("setSelectionRange", start, end, direction);
 
         [JsName("showPicker")]
-        public void ShowPicker() => throw new NotImplementedException();
+        public void ShowPicker() => InvokeVoid("showPicker");
     }
 }

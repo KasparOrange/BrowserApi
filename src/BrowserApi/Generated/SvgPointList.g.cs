@@ -33,33 +33,33 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGPointList")]
-    public partial class SvgPointList
+    public partial class SvgPointList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("numberOfItems")]
-        public uint NumberOfItems { get; }
+        public uint NumberOfItems => GetProperty<uint>("numberOfItems");
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
 
         [JsName("initialize")]
-        public DomPoint Initialize(DomPoint newItem) => throw new NotImplementedException();
+        public DomPoint Initialize(DomPoint newItem) => Invoke<DomPoint>("initialize", newItem);
 
         [JsName("getItem")]
-        public DomPoint GetItem(uint index) => throw new NotImplementedException();
+        public DomPoint GetItem(uint index) => Invoke<DomPoint>("getItem", index);
 
         [JsName("insertItemBefore")]
-        public DomPoint InsertItemBefore(DomPoint newItem, uint index) => throw new NotImplementedException();
+        public DomPoint InsertItemBefore(DomPoint newItem, uint index) => Invoke<DomPoint>("insertItemBefore", newItem, index);
 
         [JsName("replaceItem")]
-        public DomPoint ReplaceItem(DomPoint newItem, uint index) => throw new NotImplementedException();
+        public DomPoint ReplaceItem(DomPoint newItem, uint index) => Invoke<DomPoint>("replaceItem", newItem, index);
 
         [JsName("removeItem")]
-        public DomPoint RemoveItem(uint index) => throw new NotImplementedException();
+        public DomPoint RemoveItem(uint index) => Invoke<DomPoint>("removeItem", index);
 
         [JsName("appendItem")]
-        public DomPoint AppendItem(DomPoint newItem) => throw new NotImplementedException();
+        public DomPoint AppendItem(DomPoint newItem) => Invoke<DomPoint>("appendItem", newItem);
     }
 }

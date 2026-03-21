@@ -35,15 +35,23 @@ namespace BrowserApi
     public partial class WebTransportSendStream : WritableStream
     {
         [JsName("sendGroup")]
-        public WebTransportSendGroup? SendGroup { get; set; }
+        public WebTransportSendGroup? SendGroup
+        {
+            get => GetProperty<WebTransportSendGroup?>("sendGroup");
+            set => SetProperty("sendGroup", value);
+        }
 
         [JsName("sendOrder")]
-        public long SendOrder { get; set; }
+        public long SendOrder
+        {
+            get => GetProperty<long>("sendOrder");
+            set => SetProperty("sendOrder", value);
+        }
 
         [JsName("getStats")]
-        public Task<WebTransportSendStreamStats> GetStatsAsync() => throw new NotImplementedException();
+        public Task<WebTransportSendStreamStats> GetStatsAsync() => InvokeAsync<WebTransportSendStreamStats>("getStats");
 
         [JsName("getWriter")]
-        public WebTransportWriter GetWriter() => throw new NotImplementedException();
+        public WebTransportWriter GetWriter() => Invoke<WebTransportWriter>("getWriter");
     }
 }

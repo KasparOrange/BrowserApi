@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class OfflineAudioCompletionEvent : Event
     {
         [JsName("renderedBuffer")]
-        public AudioBuffer RenderedBuffer { get; }
+        public AudioBuffer RenderedBuffer => GetProperty<AudioBuffer>("renderedBuffer");
     }
 }

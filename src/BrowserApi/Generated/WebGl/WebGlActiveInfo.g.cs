@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WebGLActiveInfo")]
-    public partial class WebGlActiveInfo
+    public partial class WebGlActiveInfo : JsObject
     {
         [JsName("size")]
-        public int Size { get; }
+        public int Size => GetProperty<int>("size");
 
         [JsName("type")]
-        public uint Type { get; }
+        public uint Type => GetProperty<uint>("type");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
     }
 }

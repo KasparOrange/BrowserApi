@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Module
+    public partial class Module : JsObject
     {
         [JsName("exports")]
         public static IReadOnlyList<ModuleExportDescriptor> Exports(Module moduleObject) => throw new NotImplementedException();

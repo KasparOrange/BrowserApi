@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Exception
+    public partial class Exception : JsObject
     {
         [JsName("stack")]
-        public object Stack { get; }
+        public object Stack => GetProperty<object>("stack");
 
         [JsName("getArg")]
-        public object GetArg(Tag exceptionTag, uint index) => throw new NotImplementedException();
+        public object GetArg(Tag exceptionTag, uint index) => Invoke<object>("getArg", exceptionTag, index);
 
         [JsName("is")]
-        public bool Is(Tag exceptionTag) => throw new NotImplementedException();
+        public bool Is(Tag exceptionTag) => Invoke<bool>("is", exceptionTag);
     }
 }

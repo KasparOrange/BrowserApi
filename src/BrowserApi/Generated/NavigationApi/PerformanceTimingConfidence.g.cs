@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.NavigationApi
 {
-    public partial class PerformanceTimingConfidence
+    public partial class PerformanceTimingConfidence : JsObject
     {
         [JsName("randomizedTriggerRate")]
-        public double RandomizedTriggerRate { get; }
+        public double RandomizedTriggerRate => GetProperty<double>("randomizedTriggerRate");
 
         [JsName("value")]
-        public PerformanceTimingConfidenceValue Value { get; }
+        public PerformanceTimingConfidenceValue Value => GetProperty<PerformanceTimingConfidenceValue>("value");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

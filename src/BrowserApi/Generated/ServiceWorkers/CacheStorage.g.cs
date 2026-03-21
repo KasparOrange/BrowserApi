@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.ServiceWorkers
 {
-    public partial class CacheStorage
+    public partial class CacheStorage : JsObject
     {
         [JsName("match")]
-        public Task<object> MatchAsync(object request, MultiCacheQueryOptions? options = null) => throw new NotImplementedException();
+        public Task<object> MatchAsync(object request, MultiCacheQueryOptions? options = null) => InvokeAsync<object>("match", request, options);
 
         [JsName("has")]
-        public Task<bool> HasAsync(string cacheName) => throw new NotImplementedException();
+        public Task<bool> HasAsync(string cacheName) => InvokeAsync<bool>("has", cacheName);
 
         [JsName("open")]
-        public Task<Cache> OpenAsync(string cacheName) => throw new NotImplementedException();
+        public Task<Cache> OpenAsync(string cacheName) => InvokeAsync<Cache>("open", cacheName);
 
         [JsName("delete")]
-        public Task<bool> DeleteAsync(string cacheName) => throw new NotImplementedException();
+        public Task<bool> DeleteAsync(string cacheName) => InvokeAsync<bool>("delete", cacheName);
 
         [JsName("keys")]
-        public Task<IReadOnlyList<string>> KeysAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<string>> KeysAsync() => InvokeAsync<IReadOnlyList<string>>("keys");
     }
 }

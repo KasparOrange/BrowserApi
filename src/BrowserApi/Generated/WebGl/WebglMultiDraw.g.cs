@@ -33,18 +33,18 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_multi_draw")]
-    public partial class WebglMultiDraw
+    public partial class WebglMultiDraw : JsObject
     {
         [JsName("multiDrawArraysWEBGL")]
-        public void MultiDrawArraysWebgl(uint mode, object firstsList, ulong firstsOffset, object countsList, ulong countsOffset, int drawcount) => throw new NotImplementedException();
+        public void MultiDrawArraysWebgl(uint mode, object firstsList, ulong firstsOffset, object countsList, ulong countsOffset, int drawcount) => InvokeVoid("multiDrawArraysWEBGL", mode, firstsList, firstsOffset, countsList, countsOffset, drawcount);
 
         [JsName("multiDrawElementsWEBGL")]
-        public void MultiDrawElementsWebgl(uint mode, object countsList, ulong countsOffset, uint type, object offsetsList, ulong offsetsOffset, int drawcount) => throw new NotImplementedException();
+        public void MultiDrawElementsWebgl(uint mode, object countsList, ulong countsOffset, uint type, object offsetsList, ulong offsetsOffset, int drawcount) => InvokeVoid("multiDrawElementsWEBGL", mode, countsList, countsOffset, type, offsetsList, offsetsOffset, drawcount);
 
         [JsName("multiDrawArraysInstancedWEBGL")]
-        public void MultiDrawArraysInstancedWebgl(uint mode, object firstsList, ulong firstsOffset, object countsList, ulong countsOffset, object instanceCountsList, ulong instanceCountsOffset, int drawcount) => throw new NotImplementedException();
+        public void MultiDrawArraysInstancedWebgl(uint mode, object firstsList, ulong firstsOffset, object countsList, ulong countsOffset, object instanceCountsList, ulong instanceCountsOffset, int drawcount) => InvokeVoid("multiDrawArraysInstancedWEBGL", mode, firstsList, firstsOffset, countsList, countsOffset, instanceCountsList, instanceCountsOffset, drawcount);
 
         [JsName("multiDrawElementsInstancedWEBGL")]
-        public void MultiDrawElementsInstancedWebgl(uint mode, object countsList, ulong countsOffset, uint type, object offsetsList, ulong offsetsOffset, object instanceCountsList, ulong instanceCountsOffset, int drawcount) => throw new NotImplementedException();
+        public void MultiDrawElementsInstancedWebgl(uint mode, object countsList, ulong countsOffset, uint type, object offsetsList, ulong offsetsOffset, object instanceCountsList, ulong instanceCountsOffset, int drawcount) => InvokeVoid("multiDrawElementsInstancedWEBGL", mode, countsList, countsOffset, type, offsetsList, offsetsOffset, instanceCountsList, instanceCountsOffset, drawcount);
     }
 }

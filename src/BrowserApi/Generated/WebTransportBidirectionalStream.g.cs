@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class WebTransportBidirectionalStream
+    public partial class WebTransportBidirectionalStream : JsObject
     {
         [JsName("readable")]
-        public WebTransportReceiveStream Readable { get; }
+        public WebTransportReceiveStream Readable => GetProperty<WebTransportReceiveStream>("readable");
 
         [JsName("writable")]
-        public WebTransportSendStream Writable { get; }
+        public WebTransportSendStream Writable => GetProperty<WebTransportSendStream>("writable");
     }
 }

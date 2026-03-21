@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class MediaKeys
+    public partial class MediaKeys : JsObject
     {
         [JsName("createSession")]
-        public MediaKeySession CreateSession(MediaKeySessionType? sessionType = null) => throw new NotImplementedException();
+        public MediaKeySession CreateSession(MediaKeySessionType? sessionType = null) => Invoke<MediaKeySession>("createSession", sessionType);
 
         [JsName("getStatusForPolicy")]
-        public Task<MediaKeyStatus> GetStatusForPolicyAsync(MediaKeysPolicy? policy = null) => throw new NotImplementedException();
+        public Task<MediaKeyStatus> GetStatusForPolicyAsync(MediaKeysPolicy? policy = null) => InvokeAsync<MediaKeyStatus>("getStatusForPolicy", policy);
 
         [JsName("setServerCertificate")]
-        public Task<bool> SetServerCertificateAsync(byte[] serverCertificate) => throw new NotImplementedException();
+        public Task<bool> SetServerCertificateAsync(byte[] serverCertificate) => InvokeAsync<bool>("setServerCertificate", serverCertificate);
     }
 }

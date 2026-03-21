@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class WorkletGroupEffect
+    public partial class WorkletGroupEffect : JsObject
     {
         [JsName("getChildren")]
-        public IReadOnlyList<WorkletAnimationEffect> GetChildren() => throw new NotImplementedException();
+        public IReadOnlyList<WorkletAnimationEffect> GetChildren() => Invoke<IReadOnlyList<WorkletAnimationEffect>>("getChildren");
     }
 }

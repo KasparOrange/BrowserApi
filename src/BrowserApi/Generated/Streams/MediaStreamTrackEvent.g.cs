@@ -35,6 +35,6 @@ namespace BrowserApi.Streams
     public partial class MediaStreamTrackEvent : Event
     {
         [JsName("track")]
-        public MediaStreamTrack Track { get; }
+        public MediaStreamTrack Track => GetProperty<MediaStreamTrack>("track");
     }
 }

@@ -41,45 +41,69 @@ namespace BrowserApi.FileApi
         public const ushort Done = 2;
 
         [JsName("readyState")]
-        public ushort ReadyState { get; }
+        public ushort ReadyState => GetProperty<ushort>("readyState");
 
         [JsName("result")]
-        public object Result { get; }
+        public object Result => GetProperty<object>("result");
 
         [JsName("error")]
-        public DomException? Error { get; }
+        public DomException? Error => GetProperty<DomException?>("error");
 
         [JsName("onloadstart")]
-        public object Onloadstart { get; set; }
+        public object Onloadstart
+        {
+            get => GetProperty<object>("onloadstart");
+            set => SetProperty("onloadstart", value);
+        }
 
         [JsName("onprogress")]
-        public object Onprogress { get; set; }
+        public object Onprogress
+        {
+            get => GetProperty<object>("onprogress");
+            set => SetProperty("onprogress", value);
+        }
 
         [JsName("onload")]
-        public object Onload { get; set; }
+        public object Onload
+        {
+            get => GetProperty<object>("onload");
+            set => SetProperty("onload", value);
+        }
 
         [JsName("onabort")]
-        public object Onabort { get; set; }
+        public object Onabort
+        {
+            get => GetProperty<object>("onabort");
+            set => SetProperty("onabort", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onloadend")]
-        public object Onloadend { get; set; }
+        public object Onloadend
+        {
+            get => GetProperty<object>("onloadend");
+            set => SetProperty("onloadend", value);
+        }
 
         [JsName("readAsArrayBuffer")]
-        public void ReadAsArrayBuffer(Blob blob) => throw new NotImplementedException();
+        public void ReadAsArrayBuffer(Blob blob) => InvokeVoid("readAsArrayBuffer", blob);
 
         [JsName("readAsBinaryString")]
-        public void ReadAsBinaryString(Blob blob) => throw new NotImplementedException();
+        public void ReadAsBinaryString(Blob blob) => InvokeVoid("readAsBinaryString", blob);
 
         [JsName("readAsText")]
-        public void ReadAsText(Blob blob, string? encoding = null) => throw new NotImplementedException();
+        public void ReadAsText(Blob blob, string? encoding = null) => InvokeVoid("readAsText", blob, encoding);
 
         [JsName("readAsDataURL")]
-        public void ReadAsDataUrl(Blob blob) => throw new NotImplementedException();
+        public void ReadAsDataUrl(Blob blob) => InvokeVoid("readAsDataURL", blob);
 
         [JsName("abort")]
-        public void Abort() => throw new NotImplementedException();
+        public void Abort() => InvokeVoid("abort");
     }
 }

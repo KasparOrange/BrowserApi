@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssApplyBlockRule : CssGroupingRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("getArguments")]
-        public IReadOnlyList<string> GetArguments() => throw new NotImplementedException();
+        public IReadOnlyList<string> GetArguments() => Invoke<IReadOnlyList<string>>("getArguments");
     }
 }

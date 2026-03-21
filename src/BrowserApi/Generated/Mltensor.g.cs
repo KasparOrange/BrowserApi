@@ -33,24 +33,24 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("MLTensor")]
-    public partial class Mltensor
+    public partial class Mltensor : JsObject
     {
         [JsName("dataType")]
-        public MloperandDataType DataType { get; }
+        public MloperandDataType DataType => GetProperty<MloperandDataType>("dataType");
 
         [JsName("shape")]
-        public IReadOnlyList<uint> Shape { get; }
+        public IReadOnlyList<uint> Shape => GetProperty<IReadOnlyList<uint>>("shape");
 
         [JsName("readable")]
-        public bool Readable { get; }
+        public bool Readable => GetProperty<bool>("readable");
 
         [JsName("writable")]
-        public bool Writable { get; }
+        public bool Writable => GetProperty<bool>("writable");
 
         [JsName("constant")]
-        public bool Constant { get; }
+        public bool Constant => GetProperty<bool>("constant");
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

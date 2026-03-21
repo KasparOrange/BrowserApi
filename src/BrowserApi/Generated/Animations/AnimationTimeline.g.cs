@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Animations
 {
-    public partial class AnimationTimeline
+    public partial class AnimationTimeline : JsObject
     {
         [JsName("currentTime")]
-        public object CurrentTime { get; }
+        public object CurrentTime => GetProperty<object>("currentTime");
 
         [JsName("duration")]
-        public object Duration { get; }
+        public object Duration => GetProperty<object>("duration");
 
         [JsName("play")]
-        public Animation Play(AnimationEffect? effect = null) => throw new NotImplementedException();
+        public Animation Play(AnimationEffect? effect = null) => Invoke<Animation>("play", effect);
     }
 }

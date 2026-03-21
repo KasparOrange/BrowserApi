@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class GeolocationPositionError
+    public partial class GeolocationPositionError : JsObject
     {
         public const ushort PermissionDenied = 1;
 
@@ -41,9 +41,9 @@ namespace BrowserApi
         public const ushort Timeout = 3;
 
         [JsName("code")]
-        public ushort Code { get; }
+        public ushort Code => GetProperty<ushort>("code");
 
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
     }
 }

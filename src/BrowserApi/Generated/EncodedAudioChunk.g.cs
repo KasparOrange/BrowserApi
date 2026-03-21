@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class EncodedAudioChunk
+    public partial class EncodedAudioChunk : JsObject
     {
         [JsName("type")]
-        public EncodedAudioChunkType Type { get; }
+        public EncodedAudioChunkType Type => GetProperty<EncodedAudioChunkType>("type");
 
         [JsName("timestamp")]
-        public long Timestamp { get; }
+        public long Timestamp => GetProperty<long>("timestamp");
 
         [JsName("duration")]
-        public ulong? Duration { get; }
+        public ulong? Duration => GetProperty<ulong?>("duration");
 
         [JsName("byteLength")]
-        public uint ByteLength { get; }
+        public uint ByteLength => GetProperty<uint>("byteLength");
 
         [JsName("copyTo")]
-        public void CopyTo(object destination) => throw new NotImplementedException();
+        public void CopyTo(object destination) => InvokeVoid("copyTo", destination);
     }
 }

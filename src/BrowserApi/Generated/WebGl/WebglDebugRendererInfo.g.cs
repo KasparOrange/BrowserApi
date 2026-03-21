@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_debug_renderer_info")]
-    public partial class WebglDebugRendererInfo
+    public partial class WebglDebugRendererInfo : JsObject
     {
         public const uint UnmaskedVendorWebgl = 0x9245;
 

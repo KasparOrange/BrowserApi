@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.WebAudio
 {
-    public partial class AudioParamMap
+    public partial class AudioParamMap : JsObject
     {
     }
 }

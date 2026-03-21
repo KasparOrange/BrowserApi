@@ -35,39 +35,43 @@ namespace BrowserApi.Fetch
     public partial class BackgroundFetchRegistration : EventTarget
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("uploadTotal")]
-        public ulong UploadTotal { get; }
+        public ulong UploadTotal => GetProperty<ulong>("uploadTotal");
 
         [JsName("uploaded")]
-        public ulong Uploaded { get; }
+        public ulong Uploaded => GetProperty<ulong>("uploaded");
 
         [JsName("downloadTotal")]
-        public ulong DownloadTotal { get; }
+        public ulong DownloadTotal => GetProperty<ulong>("downloadTotal");
 
         [JsName("downloaded")]
-        public ulong Downloaded { get; }
+        public ulong Downloaded => GetProperty<ulong>("downloaded");
 
         [JsName("result")]
-        public BackgroundFetchResult Result { get; }
+        public BackgroundFetchResult Result => GetProperty<BackgroundFetchResult>("result");
 
         [JsName("failureReason")]
-        public BackgroundFetchFailureReason FailureReason { get; }
+        public BackgroundFetchFailureReason FailureReason => GetProperty<BackgroundFetchFailureReason>("failureReason");
 
         [JsName("recordsAvailable")]
-        public bool RecordsAvailable { get; }
+        public bool RecordsAvailable => GetProperty<bool>("recordsAvailable");
 
         [JsName("onprogress")]
-        public object Onprogress { get; set; }
+        public object Onprogress
+        {
+            get => GetProperty<object>("onprogress");
+            set => SetProperty("onprogress", value);
+        }
 
         [JsName("abort")]
-        public Task<bool> AbortAsync() => throw new NotImplementedException();
+        public Task<bool> AbortAsync() => InvokeAsync<bool>("abort");
 
         [JsName("match")]
-        public Task<BackgroundFetchRecord> MatchAsync(object request, CacheQueryOptions? options = null) => throw new NotImplementedException();
+        public Task<BackgroundFetchRecord> MatchAsync(object request, CacheQueryOptions? options = null) => InvokeAsync<BackgroundFetchRecord>("match", request, options);
 
         [JsName("matchAll")]
-        public Task<IReadOnlyList<BackgroundFetchRecord>> MatchAllAsync(object? request = null, CacheQueryOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<BackgroundFetchRecord>> MatchAllAsync(object? request = null, CacheQueryOptions? options = null) => InvokeAsync<IReadOnlyList<BackgroundFetchRecord>>("matchAll", request, options);
     }
 }

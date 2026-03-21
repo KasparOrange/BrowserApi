@@ -36,39 +36,63 @@ namespace BrowserApi.Dom
     public partial class HtmlGeolocationElement : HtmlElement
     {
         [JsName("position")]
-        public GeolocationPosition? Position { get; }
+        public GeolocationPosition? Position => GetProperty<GeolocationPosition?>("position");
 
         [JsName("error")]
-        public GeolocationPositionError? Error { get; }
+        public GeolocationPositionError? Error => GetProperty<GeolocationPositionError?>("error");
 
         [JsName("autolocate")]
-        public bool Autolocate { get; set; }
+        public bool Autolocate
+        {
+            get => GetProperty<bool>("autolocate");
+            set => SetProperty("autolocate", value);
+        }
 
         [JsName("watch")]
-        public bool Watch { get; set; }
+        public bool Watch
+        {
+            get => GetProperty<bool>("watch");
+            set => SetProperty("watch", value);
+        }
 
         [JsName("onlocation")]
-        public object Onlocation { get; set; }
+        public object Onlocation
+        {
+            get => GetProperty<object>("onlocation");
+            set => SetProperty("onlocation", value);
+        }
 
         [JsName("isValid")]
-        public bool IsValid { get; }
+        public bool IsValid => GetProperty<bool>("isValid");
 
         [JsName("invalidReason")]
-        public ActivationBlockersMixinBlockerReason InvalidReason { get; }
+        public ActivationBlockersMixinBlockerReason InvalidReason => GetProperty<ActivationBlockersMixinBlockerReason>("invalidReason");
 
         [JsName("onvalidationstatuschange")]
-        public object Onvalidationstatuschange { get; set; }
+        public object Onvalidationstatuschange
+        {
+            get => GetProperty<object>("onvalidationstatuschange");
+            set => SetProperty("onvalidationstatuschange", value);
+        }
 
         [JsName("initialPermissionStatus")]
-        public PermissionState InitialPermissionStatus { get; }
+        public PermissionState InitialPermissionStatus => GetProperty<PermissionState>("initialPermissionStatus");
 
         [JsName("permissionStatus")]
-        public PermissionState PermissionStatus { get; }
+        public PermissionState PermissionStatus => GetProperty<PermissionState>("permissionStatus");
 
         [JsName("onpromptaction")]
-        public object Onpromptaction { get; set; }
+        public object Onpromptaction
+        {
+            get => GetProperty<object>("onpromptaction");
+            set => SetProperty("onpromptaction", value);
+        }
 
         [JsName("onpromptdismiss")]
-        public object Onpromptdismiss { get; set; }
+        public object Onpromptdismiss
+        {
+            get => GetProperty<object>("onpromptdismiss");
+            set => SetProperty("onpromptdismiss", value);
+        }
     }
 }

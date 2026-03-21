@@ -32,34 +32,34 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Fetch
 {
-    public partial class Response
+    public partial class Response : JsObject
     {
         [JsName("type")]
-        public ResponseType Type { get; }
+        public ResponseType Type => GetProperty<ResponseType>("type");
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("redirected")]
-        public bool Redirected { get; }
+        public bool Redirected => GetProperty<bool>("redirected");
 
         [JsName("status")]
-        public ushort Status { get; }
+        public ushort Status => GetProperty<ushort>("status");
 
         [JsName("ok")]
-        public bool Ok { get; }
+        public bool Ok => GetProperty<bool>("ok");
 
         [JsName("statusText")]
-        public string StatusText { get; }
+        public string StatusText => GetProperty<string>("statusText");
 
         [JsName("headers")]
-        public Headers Headers { get; }
+        public Headers Headers => GetProperty<Headers>("headers");
 
         [JsName("body")]
-        public ReadableStream? Body { get; }
+        public ReadableStream? Body => GetProperty<ReadableStream?>("body");
 
         [JsName("bodyUsed")]
-        public bool BodyUsed { get; }
+        public bool BodyUsed => GetProperty<bool>("bodyUsed");
 
         [JsName("error")]
         public static Response Error() => throw new NotImplementedException();
@@ -71,24 +71,24 @@ namespace BrowserApi.Fetch
         public static Response Json(object data, ResponseInit? init = null) => throw new NotImplementedException();
 
         [JsName("clone")]
-        public Response Clone() => throw new NotImplementedException();
+        public Response Clone() => Invoke<Response>("clone");
 
         [JsName("arrayBuffer")]
-        public Task<byte[]> ArrayBufferAsync() => throw new NotImplementedException();
+        public Task<byte[]> ArrayBufferAsync() => InvokeAsync<byte[]>("arrayBuffer");
 
         [JsName("blob")]
-        public Task<Blob> BlobAsync() => throw new NotImplementedException();
+        public Task<Blob> BlobAsync() => InvokeAsync<Blob>("blob");
 
         [JsName("bytes")]
-        public Task<byte[]> BytesAsync() => throw new NotImplementedException();
+        public Task<byte[]> BytesAsync() => InvokeAsync<byte[]>("bytes");
 
         [JsName("formData")]
-        public Task<FormData> FormDataAsync() => throw new NotImplementedException();
+        public Task<FormData> FormDataAsync() => InvokeAsync<FormData>("formData");
 
         [JsName("json")]
-        public Task<object> JsonAsync() => throw new NotImplementedException();
+        public Task<object> JsonAsync() => InvokeAsync<object>("json");
 
         [JsName("text")]
-        public Task<string> TextAsync() => throw new NotImplementedException();
+        public Task<string> TextAsync() => InvokeAsync<string>("text");
     }
 }

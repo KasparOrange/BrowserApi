@@ -35,6 +35,6 @@ namespace BrowserApi.Payments
     public partial class CanMakePaymentEvent : ExtendableEvent
     {
         [JsName("respondWith")]
-        public void RespondWith(Task<bool> canMakePaymentResponse) => throw new NotImplementedException();
+        public void RespondWith(Task<bool> canMakePaymentResponse) => InvokeVoid("respondWith", canMakePaymentResponse);
     }
 }

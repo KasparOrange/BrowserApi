@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGPreserveAspectRatio")]
-    public partial class SvgPreserveAspectRatio
+    public partial class SvgPreserveAspectRatio : JsObject
     {
         public const ushort SvgPreserveaspectratioUnknown = 0;
 
@@ -64,9 +64,17 @@ namespace BrowserApi
         public const ushort SvgMeetorsliceSlice = 2;
 
         [JsName("align")]
-        public ushort Align { get; set; }
+        public ushort Align
+        {
+            get => GetProperty<ushort>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("meetOrSlice")]
-        public ushort MeetOrSlice { get; set; }
+        public ushort MeetOrSlice
+        {
+            get => GetProperty<ushort>("meetOrSlice");
+            set => SetProperty("meetOrSlice", value);
+        }
     }
 }

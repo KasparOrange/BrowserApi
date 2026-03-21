@@ -32,18 +32,22 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ImageTrack
+    public partial class ImageTrack : JsObject
     {
         [JsName("animated")]
-        public bool Animated { get; }
+        public bool Animated => GetProperty<bool>("animated");
 
         [JsName("frameCount")]
-        public uint FrameCount { get; }
+        public uint FrameCount => GetProperty<uint>("frameCount");
 
         [JsName("repetitionCount")]
-        public float RepetitionCount { get; }
+        public float RepetitionCount => GetProperty<float>("repetitionCount");
 
         [JsName("selected")]
-        public bool Selected { get; set; }
+        public bool Selected
+        {
+            get => GetProperty<bool>("selected");
+            set => SetProperty("selected", value);
+        }
     }
 }

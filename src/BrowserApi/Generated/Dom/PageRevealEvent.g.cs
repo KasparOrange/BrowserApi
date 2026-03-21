@@ -35,6 +35,6 @@ namespace BrowserApi.Dom
     public partial class PageRevealEvent : Event
     {
         [JsName("viewTransition")]
-        public ViewTransition? ViewTransition { get; }
+        public ViewTransition? ViewTransition => GetProperty<ViewTransition?>("viewTransition");
     }
 }

@@ -36,18 +36,38 @@ namespace BrowserApi.Dom
     public partial class HtmlMetaElement : HtmlElement
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("httpEquiv")]
-        public string HttpEquiv { get; set; }
+        public string HttpEquiv
+        {
+            get => GetProperty<string>("httpEquiv");
+            set => SetProperty("httpEquiv", value);
+        }
 
         [JsName("content")]
-        public string Content { get; set; }
+        public string Content
+        {
+            get => GetProperty<string>("content");
+            set => SetProperty("content", value);
+        }
 
         [JsName("media")]
-        public string Media { get; set; }
+        public string Media
+        {
+            get => GetProperty<string>("media");
+            set => SetProperty("media", value);
+        }
 
         [JsName("scheme")]
-        public string Scheme { get; set; }
+        public string Scheme
+        {
+            get => GetProperty<string>("scheme");
+            set => SetProperty("scheme", value);
+        }
     }
 }

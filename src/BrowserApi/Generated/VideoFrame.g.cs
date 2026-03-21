@@ -32,57 +32,57 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class VideoFrame
+    public partial class VideoFrame : JsObject
     {
         [JsName("format")]
-        public VideoPixelFormat? Format { get; }
+        public VideoPixelFormat? Format => GetProperty<VideoPixelFormat?>("format");
 
         [JsName("codedWidth")]
-        public uint CodedWidth { get; }
+        public uint CodedWidth => GetProperty<uint>("codedWidth");
 
         [JsName("codedHeight")]
-        public uint CodedHeight { get; }
+        public uint CodedHeight => GetProperty<uint>("codedHeight");
 
         [JsName("codedRect")]
-        public DomRectReadOnly? CodedRect { get; }
+        public DomRectReadOnly? CodedRect => GetProperty<DomRectReadOnly?>("codedRect");
 
         [JsName("visibleRect")]
-        public DomRectReadOnly? VisibleRect { get; }
+        public DomRectReadOnly? VisibleRect => GetProperty<DomRectReadOnly?>("visibleRect");
 
         [JsName("rotation")]
-        public double Rotation { get; }
+        public double Rotation => GetProperty<double>("rotation");
 
         [JsName("flip")]
-        public bool Flip { get; }
+        public bool Flip => GetProperty<bool>("flip");
 
         [JsName("displayWidth")]
-        public uint DisplayWidth { get; }
+        public uint DisplayWidth => GetProperty<uint>("displayWidth");
 
         [JsName("displayHeight")]
-        public uint DisplayHeight { get; }
+        public uint DisplayHeight => GetProperty<uint>("displayHeight");
 
         [JsName("duration")]
-        public ulong? Duration { get; }
+        public ulong? Duration => GetProperty<ulong?>("duration");
 
         [JsName("timestamp")]
-        public long Timestamp { get; }
+        public long Timestamp => GetProperty<long>("timestamp");
 
         [JsName("colorSpace")]
-        public VideoColorSpace ColorSpace { get; }
+        public VideoColorSpace ColorSpace => GetProperty<VideoColorSpace>("colorSpace");
 
         [JsName("metadata")]
-        public VideoFrameMetadata Metadata() => throw new NotImplementedException();
+        public VideoFrameMetadata Metadata() => Invoke<VideoFrameMetadata>("metadata");
 
         [JsName("allocationSize")]
-        public uint AllocationSize(VideoFrameCopyToOptions? options = null) => throw new NotImplementedException();
+        public uint AllocationSize(VideoFrameCopyToOptions? options = null) => Invoke<uint>("allocationSize", options);
 
         [JsName("copyTo")]
-        public Task<IReadOnlyList<PlaneLayout>> CopyToAsync(object destination, VideoFrameCopyToOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<PlaneLayout>> CopyToAsync(object destination, VideoFrameCopyToOptions? options = null) => InvokeAsync<IReadOnlyList<PlaneLayout>>("copyTo", destination, options);
 
         [JsName("clone")]
-        public VideoFrame Clone() => throw new NotImplementedException();
+        public VideoFrame Clone() => Invoke<VideoFrame>("clone");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
     }
 }

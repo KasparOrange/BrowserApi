@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("USBIsochronousOutTransferResult")]
-    public partial class UsbIsochronousOutTransferResult
+    public partial class UsbIsochronousOutTransferResult : JsObject
     {
         [JsName("packets")]
-        public IReadOnlyList<UsbIsochronousOutTransferPacket> Packets { get; }
+        public IReadOnlyList<UsbIsochronousOutTransferPacket> Packets => GetProperty<IReadOnlyList<UsbIsochronousOutTransferPacket>>("packets");
     }
 }

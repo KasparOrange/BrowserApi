@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("DOMParser")]
-    public partial class DomParser
+    public partial class DomParser : JsObject
     {
         [JsName("parseFromString")]
-        public Document ParseFromString(object @string, DomParserSupportedType type) => throw new NotImplementedException();
+        public Document ParseFromString(object @string, DomParserSupportedType type) => Invoke<Document>("parseFromString", @string, type);
     }
 }

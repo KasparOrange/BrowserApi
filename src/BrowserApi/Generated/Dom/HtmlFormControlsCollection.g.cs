@@ -36,6 +36,6 @@ namespace BrowserApi.Dom
     public partial class HtmlFormControlsCollection : HtmlCollection
     {
         [JsName("namedItem")]
-        public object NamedItem(string name) => throw new NotImplementedException();
+        public object NamedItem(string name) => Invoke<object>("namedItem", name);
     }
 }

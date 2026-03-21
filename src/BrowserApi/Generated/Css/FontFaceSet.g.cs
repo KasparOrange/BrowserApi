@@ -35,33 +35,45 @@ namespace BrowserApi.Css
     public partial class FontFaceSet : EventTarget
     {
         [JsName("onloading")]
-        public object Onloading { get; set; }
+        public object Onloading
+        {
+            get => GetProperty<object>("onloading");
+            set => SetProperty("onloading", value);
+        }
 
         [JsName("onloadingdone")]
-        public object Onloadingdone { get; set; }
+        public object Onloadingdone
+        {
+            get => GetProperty<object>("onloadingdone");
+            set => SetProperty("onloadingdone", value);
+        }
 
         [JsName("onloadingerror")]
-        public object Onloadingerror { get; set; }
+        public object Onloadingerror
+        {
+            get => GetProperty<object>("onloadingerror");
+            set => SetProperty("onloadingerror", value);
+        }
 
         [JsName("ready")]
-        public Task<FontFaceSet> Ready { get; }
+        public Task<FontFaceSet> Ready => GetProperty<Task<FontFaceSet>>("ready");
 
         [JsName("status")]
-        public FontFaceSetLoadStatus Status { get; }
+        public FontFaceSetLoadStatus Status => GetProperty<FontFaceSetLoadStatus>("status");
 
         [JsName("add")]
-        public FontFaceSet Add(FontFace font) => throw new NotImplementedException();
+        public FontFaceSet Add(FontFace font) => Invoke<FontFaceSet>("add", font);
 
         [JsName("delete")]
-        public bool Delete(FontFace font) => throw new NotImplementedException();
+        public bool Delete(FontFace font) => Invoke<bool>("delete", font);
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
 
         [JsName("load")]
-        public Task<IReadOnlyList<FontFace>> LoadAsync(string font, string text = " ") => throw new NotImplementedException();
+        public Task<IReadOnlyList<FontFace>> LoadAsync(string font, string text = " ") => InvokeAsync<IReadOnlyList<FontFace>>("load", font, text);
 
         [JsName("check")]
-        public bool Check(string font, string text = " ") => throw new NotImplementedException();
+        public bool Check(string font, string text = " ") => Invoke<bool>("check", font, text);
     }
 }

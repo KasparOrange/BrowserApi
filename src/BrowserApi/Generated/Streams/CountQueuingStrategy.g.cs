@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class CountQueuingStrategy
+    public partial class CountQueuingStrategy : JsObject
     {
         [JsName("highWaterMark")]
-        public double HighWaterMark { get; }
+        public double HighWaterMark => GetProperty<double>("highWaterMark");
 
         [JsName("size")]
-        public Function Size { get; }
+        public Function Size => GetProperty<Function>("size");
     }
 }

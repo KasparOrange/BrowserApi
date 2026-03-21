@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class NodeFilter
+    public partial class NodeFilter : JsObject
     {
         public const ushort FilterAccept = 1;
 
@@ -67,6 +67,6 @@ namespace BrowserApi.Dom
         public const uint ShowNotation = 0x800;
 
         [JsName("acceptNode")]
-        public ushort AcceptNode(Node node) => throw new NotImplementedException();
+        public ushort AcceptNode(Node node) => Invoke<ushort>("acceptNode", node);
     }
 }

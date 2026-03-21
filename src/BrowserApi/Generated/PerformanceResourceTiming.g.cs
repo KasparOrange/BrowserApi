@@ -35,93 +35,93 @@ namespace BrowserApi
     public partial class PerformanceResourceTiming : PerformanceEntry
     {
         [JsName("initiatorType")]
-        public string InitiatorType { get; }
+        public string InitiatorType => GetProperty<string>("initiatorType");
 
         [JsName("deliveryType")]
-        public string DeliveryType { get; }
+        public string DeliveryType => GetProperty<string>("deliveryType");
 
         [JsName("nextHopProtocol")]
-        public string NextHopProtocol { get; }
+        public string NextHopProtocol => GetProperty<string>("nextHopProtocol");
 
         [JsName("workerStart")]
-        public double WorkerStart { get; }
+        public double WorkerStart => GetProperty<double>("workerStart");
 
         [JsName("redirectStart")]
-        public double RedirectStart { get; }
+        public double RedirectStart => GetProperty<double>("redirectStart");
 
         [JsName("redirectEnd")]
-        public double RedirectEnd { get; }
+        public double RedirectEnd => GetProperty<double>("redirectEnd");
 
         [JsName("fetchStart")]
-        public double FetchStart { get; }
+        public double FetchStart => GetProperty<double>("fetchStart");
 
         [JsName("domainLookupStart")]
-        public double DomainLookupStart { get; }
+        public double DomainLookupStart => GetProperty<double>("domainLookupStart");
 
         [JsName("domainLookupEnd")]
-        public double DomainLookupEnd { get; }
+        public double DomainLookupEnd => GetProperty<double>("domainLookupEnd");
 
         [JsName("connectStart")]
-        public double ConnectStart { get; }
+        public double ConnectStart => GetProperty<double>("connectStart");
 
         [JsName("connectEnd")]
-        public double ConnectEnd { get; }
+        public double ConnectEnd => GetProperty<double>("connectEnd");
 
         [JsName("secureConnectionStart")]
-        public double SecureConnectionStart { get; }
+        public double SecureConnectionStart => GetProperty<double>("secureConnectionStart");
 
         [JsName("requestStart")]
-        public double RequestStart { get; }
+        public double RequestStart => GetProperty<double>("requestStart");
 
         [JsName("finalResponseHeadersStart")]
-        public double FinalResponseHeadersStart { get; }
+        public double FinalResponseHeadersStart => GetProperty<double>("finalResponseHeadersStart");
 
         [JsName("firstInterimResponseStart")]
-        public double FirstInterimResponseStart { get; }
+        public double FirstInterimResponseStart => GetProperty<double>("firstInterimResponseStart");
 
         [JsName("responseStart")]
-        public double ResponseStart { get; }
+        public double ResponseStart => GetProperty<double>("responseStart");
 
         [JsName("responseEnd")]
-        public double ResponseEnd { get; }
+        public double ResponseEnd => GetProperty<double>("responseEnd");
 
         [JsName("workerRouterEvaluationStart")]
-        public double WorkerRouterEvaluationStart { get; }
+        public double WorkerRouterEvaluationStart => GetProperty<double>("workerRouterEvaluationStart");
 
         [JsName("workerCacheLookupStart")]
-        public double WorkerCacheLookupStart { get; }
+        public double WorkerCacheLookupStart => GetProperty<double>("workerCacheLookupStart");
 
         [JsName("workerMatchedRouterSource")]
-        public string WorkerMatchedRouterSource { get; }
+        public string WorkerMatchedRouterSource => GetProperty<string>("workerMatchedRouterSource");
 
         [JsName("workerFinalRouterSource")]
-        public string WorkerFinalRouterSource { get; }
+        public string WorkerFinalRouterSource => GetProperty<string>("workerFinalRouterSource");
 
         [JsName("transferSize")]
-        public ulong TransferSize { get; }
+        public ulong TransferSize => GetProperty<ulong>("transferSize");
 
         [JsName("encodedBodySize")]
-        public ulong EncodedBodySize { get; }
+        public ulong EncodedBodySize => GetProperty<ulong>("encodedBodySize");
 
         [JsName("decodedBodySize")]
-        public ulong DecodedBodySize { get; }
+        public ulong DecodedBodySize => GetProperty<ulong>("decodedBodySize");
 
         [JsName("responseStatus")]
-        public ushort ResponseStatus { get; }
+        public ushort ResponseStatus => GetProperty<ushort>("responseStatus");
 
         [JsName("renderBlockingStatus")]
-        public RenderBlockingStatusType RenderBlockingStatus { get; }
+        public RenderBlockingStatusType RenderBlockingStatus => GetProperty<RenderBlockingStatusType>("renderBlockingStatus");
 
         [JsName("contentType")]
-        public string ContentType { get; }
+        public string ContentType => GetProperty<string>("contentType");
 
         [JsName("contentEncoding")]
-        public string ContentEncoding { get; }
+        public string ContentEncoding => GetProperty<string>("contentEncoding");
 
         [JsName("serverTiming")]
-        public IReadOnlyList<PerformanceServerTiming> ServerTiming { get; }
+        public IReadOnlyList<PerformanceServerTiming> ServerTiming => GetProperty<IReadOnlyList<PerformanceServerTiming>>("serverTiming");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

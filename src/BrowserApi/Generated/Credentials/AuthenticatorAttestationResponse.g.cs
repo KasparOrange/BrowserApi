@@ -35,18 +35,18 @@ namespace BrowserApi.Credentials
     public partial class AuthenticatorAttestationResponse : AuthenticatorResponse
     {
         [JsName("attestationObject")]
-        public byte[] AttestationObject { get; }
+        public byte[] AttestationObject => GetProperty<byte[]>("attestationObject");
 
         [JsName("getTransports")]
-        public IReadOnlyList<string> GetTransports() => throw new NotImplementedException();
+        public IReadOnlyList<string> GetTransports() => Invoke<IReadOnlyList<string>>("getTransports");
 
         [JsName("getAuthenticatorData")]
-        public byte[] GetAuthenticatorData() => throw new NotImplementedException();
+        public byte[] GetAuthenticatorData() => Invoke<byte[]>("getAuthenticatorData");
 
         [JsName("getPublicKey")]
-        public byte[]? GetPublicKey() => throw new NotImplementedException();
+        public byte[]? GetPublicKey() => Invoke<byte[]?>("getPublicKey");
 
         [JsName("getPublicKeyAlgorithm")]
-        public int GetPublicKeyAlgorithm() => throw new NotImplementedException();
+        public int GetPublicKeyAlgorithm() => Invoke<int>("getPublicKeyAlgorithm");
     }
 }

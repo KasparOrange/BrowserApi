@@ -32,42 +32,42 @@ using BrowserApi.WebSockets;
 
 namespace BrowserApi.WebStorage
 {
-    public partial class SharedStorage
+    public partial class SharedStorage : JsObject
     {
         [JsName("worklet")]
-        public SharedStorageWorklet Worklet { get; }
+        public SharedStorageWorklet Worklet => GetProperty<SharedStorageWorklet>("worklet");
 
         [JsName("get")]
-        public Task<string> GetAsync(string key) => throw new NotImplementedException();
+        public Task<string> GetAsync(string key) => InvokeAsync<string>("get", key);
 
         [JsName("set")]
-        public Task<object> SetAsync(string key, string value, SharedStorageSetMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> SetAsync(string key, string value, SharedStorageSetMethodOptions? options = null) => InvokeAsync<object>("set", key, value, options);
 
         [JsName("append")]
-        public Task<object> AppendAsync(string key, string value, SharedStorageModifierMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> AppendAsync(string key, string value, SharedStorageModifierMethodOptions? options = null) => InvokeAsync<object>("append", key, value, options);
 
         [JsName("delete")]
-        public Task<object> DeleteAsync(string key, SharedStorageModifierMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> DeleteAsync(string key, SharedStorageModifierMethodOptions? options = null) => InvokeAsync<object>("delete", key, options);
 
         [JsName("clear")]
-        public Task<object> ClearAsync(SharedStorageModifierMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> ClearAsync(SharedStorageModifierMethodOptions? options = null) => InvokeAsync<object>("clear", options);
 
         [JsName("batchUpdate")]
-        public Task<object> BatchUpdateAsync(IReadOnlyList<SharedStorageModifierMethod> methods, SharedStorageModifierMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> BatchUpdateAsync(IReadOnlyList<SharedStorageModifierMethod> methods, SharedStorageModifierMethodOptions? options = null) => InvokeAsync<object>("batchUpdate", methods, options);
 
         [JsName("selectURL")]
-        public Task<object> SelectUrlAsync(string name, IReadOnlyList<SharedStorageUrlWithMetadata> urls, SharedStorageRunOperationMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> SelectUrlAsync(string name, IReadOnlyList<SharedStorageUrlWithMetadata> urls, SharedStorageRunOperationMethodOptions? options = null) => InvokeAsync<object>("selectURL", name, urls, options);
 
         [JsName("run")]
-        public Task<object> RunAsync(string name, SharedStorageRunOperationMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> RunAsync(string name, SharedStorageRunOperationMethodOptions? options = null) => InvokeAsync<object>("run", name, options);
 
         [JsName("createWorklet")]
-        public Task<SharedStorageWorklet> CreateWorkletAsync(string moduleUrl, SharedStorageWorkletOptions? options = null) => throw new NotImplementedException();
+        public Task<SharedStorageWorklet> CreateWorkletAsync(string moduleUrl, SharedStorageWorkletOptions? options = null) => InvokeAsync<SharedStorageWorklet>("createWorklet", moduleUrl, options);
 
         [JsName("length")]
-        public Task<uint> LengthAsync() => throw new NotImplementedException();
+        public Task<uint> LengthAsync() => InvokeAsync<uint>("length");
 
         [JsName("remainingBudget")]
-        public Task<double> RemainingBudgetAsync() => throw new NotImplementedException();
+        public Task<double> RemainingBudgetAsync() => InvokeAsync<double>("remainingBudget");
     }
 }

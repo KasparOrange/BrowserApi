@@ -36,18 +36,18 @@ namespace BrowserApi
     public partial class XrVisibilityMaskChangeEvent : Event
     {
         [JsName("session")]
-        public XrSession Session { get; }
+        public XrSession Session => GetProperty<XrSession>("session");
 
         [JsName("eye")]
-        public XrEye Eye { get; }
+        public XrEye Eye => GetProperty<XrEye>("eye");
 
         [JsName("index")]
-        public uint Index { get; }
+        public uint Index => GetProperty<uint>("index");
 
         [JsName("vertices")]
-        public float[] Vertices { get; }
+        public float[] Vertices => GetProperty<float[]>("vertices");
 
         [JsName("indices")]
-        public uint[] Indices { get; }
+        public uint[] Indices => GetProperty<uint[]>("indices");
     }
 }

@@ -36,12 +36,12 @@ namespace BrowserApi.Css
     public partial class CssParserAtRule : CssParserRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("prelude")]
-        public IReadOnlyList<CssParserValue> Prelude { get; }
+        public IReadOnlyList<CssParserValue> Prelude => GetProperty<IReadOnlyList<CssParserValue>>("prelude");
 
         [JsName("body")]
-        public IReadOnlyList<CssParserRule>? Body { get; }
+        public IReadOnlyList<CssParserRule>? Body => GetProperty<IReadOnlyList<CssParserRule>?>("body");
     }
 }

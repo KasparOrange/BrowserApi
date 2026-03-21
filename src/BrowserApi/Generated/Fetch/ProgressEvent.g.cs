@@ -35,12 +35,12 @@ namespace BrowserApi.Fetch
     public partial class ProgressEvent : Event
     {
         [JsName("lengthComputable")]
-        public bool LengthComputable { get; }
+        public bool LengthComputable => GetProperty<bool>("lengthComputable");
 
         [JsName("loaded")]
-        public double Loaded { get; }
+        public double Loaded => GetProperty<double>("loaded");
 
         [JsName("total")]
-        public double Total { get; }
+        public double Total => GetProperty<double>("total");
     }
 }

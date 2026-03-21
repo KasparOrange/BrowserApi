@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class FontFacePalette
+    public partial class FontFacePalette : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("usableWithLightBackground")]
-        public bool UsableWithLightBackground { get; }
+        public bool UsableWithLightBackground => GetProperty<bool>("usableWithLightBackground");
 
         [JsName("usableWithDarkBackground")]
-        public bool UsableWithDarkBackground { get; }
+        public bool UsableWithDarkBackground => GetProperty<bool>("usableWithDarkBackground");
     }
 }

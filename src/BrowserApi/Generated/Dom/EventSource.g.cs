@@ -41,24 +41,36 @@ namespace BrowserApi.Dom
         public const ushort Closed = 2;
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("withCredentials")]
-        public bool WithCredentials { get; }
+        public bool WithCredentials => GetProperty<bool>("withCredentials");
 
         [JsName("readyState")]
-        public ushort ReadyState { get; }
+        public ushort ReadyState => GetProperty<ushort>("readyState");
 
         [JsName("onopen")]
-        public object Onopen { get; set; }
+        public object Onopen
+        {
+            get => GetProperty<object>("onopen");
+            set => SetProperty("onopen", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
     }
 }

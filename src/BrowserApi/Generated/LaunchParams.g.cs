@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class LaunchParams
+    public partial class LaunchParams : JsObject
     {
         [JsName("targetURL")]
-        public string? TargetUrl { get; }
+        public string? TargetUrl => GetProperty<string?>("targetURL");
 
         [JsName("files")]
-        public IReadOnlyList<FileSystemHandle> Files { get; }
+        public IReadOnlyList<FileSystemHandle> Files => GetProperty<IReadOnlyList<FileSystemHandle>>("files");
     }
 }

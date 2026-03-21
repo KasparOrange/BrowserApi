@@ -32,30 +32,30 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class NodeIterator
+    public partial class NodeIterator : JsObject
     {
         [JsName("root")]
-        public Node Root { get; }
+        public Node Root => GetProperty<Node>("root");
 
         [JsName("referenceNode")]
-        public Node ReferenceNode { get; }
+        public Node ReferenceNode => GetProperty<Node>("referenceNode");
 
         [JsName("pointerBeforeReferenceNode")]
-        public bool PointerBeforeReferenceNode { get; }
+        public bool PointerBeforeReferenceNode => GetProperty<bool>("pointerBeforeReferenceNode");
 
         [JsName("whatToShow")]
-        public uint WhatToShow { get; }
+        public uint WhatToShow => GetProperty<uint>("whatToShow");
 
         [JsName("filter")]
-        public NodeFilter? Filter { get; }
+        public NodeFilter? Filter => GetProperty<NodeFilter?>("filter");
 
         [JsName("nextNode")]
-        public Node? NextNode() => throw new NotImplementedException();
+        public Node? NextNode() => Invoke<Node?>("nextNode");
 
         [JsName("previousNode")]
-        public Node? PreviousNode() => throw new NotImplementedException();
+        public Node? PreviousNode() => Invoke<Node?>("previousNode");
 
         [JsName("detach")]
-        public void Detach() => throw new NotImplementedException();
+        public void Detach() => InvokeVoid("detach");
     }
 }

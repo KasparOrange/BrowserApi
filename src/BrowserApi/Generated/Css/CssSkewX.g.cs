@@ -36,6 +36,10 @@ namespace BrowserApi.Css
     public partial class CssSkewX : CssTransformComponent
     {
         [JsName("ax")]
-        public CssNumericValue Ax { get; set; }
+        public CssNumericValue Ax
+        {
+            get => GetProperty<CssNumericValue>("ax");
+            set => SetProperty("ax", value);
+        }
     }
 }

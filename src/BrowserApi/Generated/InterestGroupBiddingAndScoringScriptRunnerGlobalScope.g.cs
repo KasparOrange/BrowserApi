@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class InterestGroupBiddingAndScoringScriptRunnerGlobalScope : InterestGroupScriptRunnerGlobalScope
     {
         [JsName("forDebuggingOnly")]
-        public ForDebuggingOnly ForDebuggingOnly { get; }
+        public ForDebuggingOnly ForDebuggingOnly => GetProperty<ForDebuggingOnly>("forDebuggingOnly");
 
         [JsName("realTimeReporting")]
-        public RealTimeReporting RealTimeReporting { get; }
+        public RealTimeReporting RealTimeReporting => GetProperty<RealTimeReporting>("realTimeReporting");
     }
 }

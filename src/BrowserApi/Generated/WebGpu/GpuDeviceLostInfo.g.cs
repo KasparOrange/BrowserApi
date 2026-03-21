@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUDeviceLostInfo")]
-    public partial class GpuDeviceLostInfo
+    public partial class GpuDeviceLostInfo : JsObject
     {
         [JsName("reason")]
-        public GpuDeviceLostReason Reason { get; }
+        public GpuDeviceLostReason Reason => GetProperty<GpuDeviceLostReason>("reason");
 
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
     }
 }

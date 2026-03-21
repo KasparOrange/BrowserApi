@@ -35,57 +35,93 @@ namespace BrowserApi.Media
     public partial class SourceBuffer : EventTarget
     {
         [JsName("mode")]
-        public AppendMode Mode { get; set; }
+        public AppendMode Mode
+        {
+            get => GetProperty<AppendMode>("mode");
+            set => SetProperty("mode", value);
+        }
 
         [JsName("updating")]
-        public bool Updating { get; }
+        public bool Updating => GetProperty<bool>("updating");
 
         [JsName("buffered")]
-        public TimeRanges Buffered { get; }
+        public TimeRanges Buffered => GetProperty<TimeRanges>("buffered");
 
         [JsName("timestampOffset")]
-        public double TimestampOffset { get; set; }
+        public double TimestampOffset
+        {
+            get => GetProperty<double>("timestampOffset");
+            set => SetProperty("timestampOffset", value);
+        }
 
         [JsName("audioTracks")]
-        public AudioTrackList AudioTracks { get; }
+        public AudioTrackList AudioTracks => GetProperty<AudioTrackList>("audioTracks");
 
         [JsName("videoTracks")]
-        public VideoTrackList VideoTracks { get; }
+        public VideoTrackList VideoTracks => GetProperty<VideoTrackList>("videoTracks");
 
         [JsName("textTracks")]
-        public TextTrackList TextTracks { get; }
+        public TextTrackList TextTracks => GetProperty<TextTrackList>("textTracks");
 
         [JsName("appendWindowStart")]
-        public double AppendWindowStart { get; set; }
+        public double AppendWindowStart
+        {
+            get => GetProperty<double>("appendWindowStart");
+            set => SetProperty("appendWindowStart", value);
+        }
 
         [JsName("appendWindowEnd")]
-        public double AppendWindowEnd { get; set; }
+        public double AppendWindowEnd
+        {
+            get => GetProperty<double>("appendWindowEnd");
+            set => SetProperty("appendWindowEnd", value);
+        }
 
         [JsName("onupdatestart")]
-        public object Onupdatestart { get; set; }
+        public object Onupdatestart
+        {
+            get => GetProperty<object>("onupdatestart");
+            set => SetProperty("onupdatestart", value);
+        }
 
         [JsName("onupdate")]
-        public object Onupdate { get; set; }
+        public object Onupdate
+        {
+            get => GetProperty<object>("onupdate");
+            set => SetProperty("onupdate", value);
+        }
 
         [JsName("onupdateend")]
-        public object Onupdateend { get; set; }
+        public object Onupdateend
+        {
+            get => GetProperty<object>("onupdateend");
+            set => SetProperty("onupdateend", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onabort")]
-        public object Onabort { get; set; }
+        public object Onabort
+        {
+            get => GetProperty<object>("onabort");
+            set => SetProperty("onabort", value);
+        }
 
         [JsName("appendBuffer")]
-        public void AppendBuffer(byte[] data) => throw new NotImplementedException();
+        public void AppendBuffer(byte[] data) => InvokeVoid("appendBuffer", data);
 
         [JsName("abort")]
-        public void Abort() => throw new NotImplementedException();
+        public void Abort() => InvokeVoid("abort");
 
         [JsName("changeType")]
-        public void ChangeType(string type) => throw new NotImplementedException();
+        public void ChangeType(string type) => InvokeVoid("changeType", type);
 
         [JsName("remove")]
-        public void Remove(double start, double end) => throw new NotImplementedException();
+        public void Remove(double start, double end) => InvokeVoid("remove", start, end);
     }
 }

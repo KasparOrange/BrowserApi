@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Memory
+    public partial class Memory : JsObject
     {
         [JsName("buffer")]
-        public byte[] Buffer { get; }
+        public byte[] Buffer => GetProperty<byte[]>("buffer");
 
         [JsName("grow")]
-        public object Grow(object delta) => throw new NotImplementedException();
+        public object Grow(object delta) => Invoke<object>("grow", delta);
 
         [JsName("toFixedLengthBuffer")]
-        public byte[] ToFixedLengthBuffer() => throw new NotImplementedException();
+        public byte[] ToFixedLengthBuffer() => Invoke<byte[]>("toFixedLengthBuffer");
 
         [JsName("toResizableBuffer")]
-        public byte[] ToResizableBuffer() => throw new NotImplementedException();
+        public byte[] ToResizableBuffer() => Invoke<byte[]>("toResizableBuffer");
     }
 }

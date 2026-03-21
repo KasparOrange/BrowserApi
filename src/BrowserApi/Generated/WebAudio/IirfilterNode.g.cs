@@ -36,6 +36,6 @@ namespace BrowserApi.WebAudio
     public partial class IirfilterNode : AudioNode
     {
         [JsName("getFrequencyResponse")]
-        public void GetFrequencyResponse(float[] frequencyHz, float[] magResponse, float[] phaseResponse) => throw new NotImplementedException();
+        public void GetFrequencyResponse(float[] frequencyHz, float[] magResponse, float[] phaseResponse) => InvokeVoid("getFrequencyResponse", frequencyHz, magResponse, phaseResponse);
     }
 }

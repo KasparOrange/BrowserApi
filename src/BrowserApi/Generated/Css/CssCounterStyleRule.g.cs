@@ -36,36 +36,80 @@ namespace BrowserApi.Css
     public partial class CssCounterStyleRule : CssRule
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("system")]
-        public string System { get; set; }
+        public string System
+        {
+            get => GetProperty<string>("system");
+            set => SetProperty("system", value);
+        }
 
         [JsName("symbols")]
-        public string Symbols { get; set; }
+        public string Symbols
+        {
+            get => GetProperty<string>("symbols");
+            set => SetProperty("symbols", value);
+        }
 
         [JsName("additiveSymbols")]
-        public string AdditiveSymbols { get; set; }
+        public string AdditiveSymbols
+        {
+            get => GetProperty<string>("additiveSymbols");
+            set => SetProperty("additiveSymbols", value);
+        }
 
         [JsName("negative")]
-        public string Negative { get; set; }
+        public string Negative
+        {
+            get => GetProperty<string>("negative");
+            set => SetProperty("negative", value);
+        }
 
         [JsName("prefix")]
-        public string Prefix { get; set; }
+        public string Prefix
+        {
+            get => GetProperty<string>("prefix");
+            set => SetProperty("prefix", value);
+        }
 
         [JsName("suffix")]
-        public string Suffix { get; set; }
+        public string Suffix
+        {
+            get => GetProperty<string>("suffix");
+            set => SetProperty("suffix", value);
+        }
 
         [JsName("range")]
-        public string Range { get; set; }
+        public string Range
+        {
+            get => GetProperty<string>("range");
+            set => SetProperty("range", value);
+        }
 
         [JsName("pad")]
-        public string Pad { get; set; }
+        public string Pad
+        {
+            get => GetProperty<string>("pad");
+            set => SetProperty("pad", value);
+        }
 
         [JsName("speakAs")]
-        public string SpeakAs { get; set; }
+        public string SpeakAs
+        {
+            get => GetProperty<string>("speakAs");
+            set => SetProperty("speakAs", value);
+        }
 
         [JsName("fallback")]
-        public string Fallback { get; set; }
+        public string Fallback
+        {
+            get => GetProperty<string>("fallback");
+            set => SetProperty("fallback", value);
+        }
     }
 }

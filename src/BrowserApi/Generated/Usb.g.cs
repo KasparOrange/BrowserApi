@@ -36,15 +36,23 @@ namespace BrowserApi
     public partial class Usb : EventTarget
     {
         [JsName("onconnect")]
-        public object Onconnect { get; set; }
+        public object Onconnect
+        {
+            get => GetProperty<object>("onconnect");
+            set => SetProperty("onconnect", value);
+        }
 
         [JsName("ondisconnect")]
-        public object Ondisconnect { get; set; }
+        public object Ondisconnect
+        {
+            get => GetProperty<object>("ondisconnect");
+            set => SetProperty("ondisconnect", value);
+        }
 
         [JsName("getDevices")]
-        public Task<IReadOnlyList<UsbDevice>> GetDevicesAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<UsbDevice>> GetDevicesAsync() => InvokeAsync<IReadOnlyList<UsbDevice>>("getDevices");
 
         [JsName("requestDevice")]
-        public Task<UsbDevice> RequestDeviceAsync(UsbDeviceRequestOptions options) => throw new NotImplementedException();
+        public Task<UsbDevice> RequestDeviceAsync(UsbDeviceRequestOptions options) => InvokeAsync<UsbDevice>("requestDevice", options);
     }
 }

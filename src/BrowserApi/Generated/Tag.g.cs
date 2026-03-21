@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Tag
+    public partial class Tag : JsObject
     {
     }
 }

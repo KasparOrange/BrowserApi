@@ -35,9 +35,9 @@ namespace BrowserApi.WebStorage
     public partial class SharedStorageWorklet : Worklet
     {
         [JsName("selectURL")]
-        public Task<object> SelectUrlAsync(string name, IReadOnlyList<SharedStorageUrlWithMetadata> urls, SharedStorageRunOperationMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> SelectUrlAsync(string name, IReadOnlyList<SharedStorageUrlWithMetadata> urls, SharedStorageRunOperationMethodOptions? options = null) => InvokeAsync<object>("selectURL", name, urls, options);
 
         [JsName("run")]
-        public Task<object> RunAsync(string name, SharedStorageRunOperationMethodOptions? options = null) => throw new NotImplementedException();
+        public Task<object> RunAsync(string name, SharedStorageRunOperationMethodOptions? options = null) => InvokeAsync<object>("run", name, options);
     }
 }

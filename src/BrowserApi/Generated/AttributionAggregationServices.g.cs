@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class AttributionAggregationServices
+    public partial class AttributionAggregationServices : JsObject
     {
     }
 }

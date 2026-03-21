@@ -36,24 +36,48 @@ namespace BrowserApi.Dom
     public partial class HtmlMeterElement : HtmlElement
     {
         [JsName("value")]
-        public double Value { get; set; }
+        public double Value
+        {
+            get => GetProperty<double>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("min")]
-        public double Min { get; set; }
+        public double Min
+        {
+            get => GetProperty<double>("min");
+            set => SetProperty("min", value);
+        }
 
         [JsName("max")]
-        public double Max { get; set; }
+        public double Max
+        {
+            get => GetProperty<double>("max");
+            set => SetProperty("max", value);
+        }
 
         [JsName("low")]
-        public double Low { get; set; }
+        public double Low
+        {
+            get => GetProperty<double>("low");
+            set => SetProperty("low", value);
+        }
 
         [JsName("high")]
-        public double High { get; set; }
+        public double High
+        {
+            get => GetProperty<double>("high");
+            set => SetProperty("high", value);
+        }
 
         [JsName("optimum")]
-        public double Optimum { get; set; }
+        public double Optimum
+        {
+            get => GetProperty<double>("optimum");
+            set => SetProperty("optimum", value);
+        }
 
         [JsName("labels")]
-        public NodeList Labels { get; }
+        public NodeList Labels => GetProperty<NodeList>("labels");
     }
 }

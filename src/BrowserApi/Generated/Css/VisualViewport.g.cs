@@ -35,33 +35,45 @@ namespace BrowserApi.Css
     public partial class VisualViewport : EventTarget
     {
         [JsName("offsetLeft")]
-        public double OffsetLeft { get; }
+        public double OffsetLeft => GetProperty<double>("offsetLeft");
 
         [JsName("offsetTop")]
-        public double OffsetTop { get; }
+        public double OffsetTop => GetProperty<double>("offsetTop");
 
         [JsName("pageLeft")]
-        public double PageLeft { get; }
+        public double PageLeft => GetProperty<double>("pageLeft");
 
         [JsName("pageTop")]
-        public double PageTop { get; }
+        public double PageTop => GetProperty<double>("pageTop");
 
         [JsName("width")]
-        public double Width { get; }
+        public double Width => GetProperty<double>("width");
 
         [JsName("height")]
-        public double Height { get; }
+        public double Height => GetProperty<double>("height");
 
         [JsName("scale")]
-        public double Scale { get; }
+        public double Scale => GetProperty<double>("scale");
 
         [JsName("onresize")]
-        public object Onresize { get; set; }
+        public object Onresize
+        {
+            get => GetProperty<object>("onresize");
+            set => SetProperty("onresize", value);
+        }
 
         [JsName("onscroll")]
-        public object Onscroll { get; set; }
+        public object Onscroll
+        {
+            get => GetProperty<object>("onscroll");
+            set => SetProperty("onscroll", value);
+        }
 
         [JsName("onscrollend")]
-        public object Onscrollend { get; set; }
+        public object Onscrollend
+        {
+            get => GetProperty<object>("onscrollend");
+            set => SetProperty("onscrollend", value);
+        }
     }
 }

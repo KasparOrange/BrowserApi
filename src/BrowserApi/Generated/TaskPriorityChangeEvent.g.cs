@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class TaskPriorityChangeEvent : Event
     {
         [JsName("previousPriority")]
-        public TaskPriority PreviousPriority { get; }
+        public TaskPriority PreviousPriority => GetProperty<TaskPriority>("previousPriority");
     }
 }

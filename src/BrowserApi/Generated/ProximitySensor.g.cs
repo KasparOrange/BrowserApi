@@ -35,12 +35,12 @@ namespace BrowserApi
     public partial class ProximitySensor : Sensor
     {
         [JsName("distance")]
-        public double? Distance { get; }
+        public double? Distance => GetProperty<double?>("distance");
 
         [JsName("max")]
-        public double? Max { get; }
+        public double? Max => GetProperty<double?>("max");
 
         [JsName("near")]
-        public bool? Near { get; }
+        public bool? Near => GetProperty<bool?>("near");
     }
 }

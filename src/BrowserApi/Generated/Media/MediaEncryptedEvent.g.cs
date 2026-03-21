@@ -35,9 +35,9 @@ namespace BrowserApi.Media
     public partial class MediaEncryptedEvent : Event
     {
         [JsName("initDataType")]
-        public string InitDataType { get; }
+        public string InitDataType => GetProperty<string>("initDataType");
 
         [JsName("initData")]
-        public byte[]? InitData { get; }
+        public byte[]? InitData => GetProperty<byte[]?>("initData");
     }
 }

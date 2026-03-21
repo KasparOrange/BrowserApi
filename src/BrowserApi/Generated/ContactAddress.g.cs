@@ -32,39 +32,39 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ContactAddress
+    public partial class ContactAddress : JsObject
     {
         [JsName("city")]
-        public string City { get; }
+        public string City => GetProperty<string>("city");
 
         [JsName("country")]
-        public string Country { get; }
+        public string Country => GetProperty<string>("country");
 
         [JsName("dependentLocality")]
-        public string DependentLocality { get; }
+        public string DependentLocality => GetProperty<string>("dependentLocality");
 
         [JsName("organization")]
-        public string Organization { get; }
+        public string Organization => GetProperty<string>("organization");
 
         [JsName("phone")]
-        public string Phone { get; }
+        public string Phone => GetProperty<string>("phone");
 
         [JsName("postalCode")]
-        public string PostalCode { get; }
+        public string PostalCode => GetProperty<string>("postalCode");
 
         [JsName("recipient")]
-        public string Recipient { get; }
+        public string Recipient => GetProperty<string>("recipient");
 
         [JsName("region")]
-        public string Region { get; }
+        public string Region => GetProperty<string>("region");
 
         [JsName("sortingCode")]
-        public string SortingCode { get; }
+        public string SortingCode => GetProperty<string>("sortingCode");
 
         [JsName("addressLine")]
-        public IReadOnlyList<string> AddressLine { get; }
+        public IReadOnlyList<string> AddressLine => GetProperty<IReadOnlyList<string>>("addressLine");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

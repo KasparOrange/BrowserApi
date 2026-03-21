@@ -35,6 +35,6 @@ namespace BrowserApi.Streams
     public partial class InputDeviceInfo : MediaDeviceInfo
     {
         [JsName("getCapabilities")]
-        public MediaTrackCapabilities GetCapabilities() => throw new NotImplementedException();
+        public MediaTrackCapabilities GetCapabilities() => Invoke<MediaTrackCapabilities>("getCapabilities");
     }
 }

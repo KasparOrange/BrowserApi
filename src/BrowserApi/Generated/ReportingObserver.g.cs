@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ReportingObserver
+    public partial class ReportingObserver : JsObject
     {
         [JsName("observe")]
-        public void Observe() => throw new NotImplementedException();
+        public void Observe() => InvokeVoid("observe");
 
         [JsName("disconnect")]
-        public void Disconnect() => throw new NotImplementedException();
+        public void Disconnect() => InvokeVoid("disconnect");
 
         [JsName("takeRecords")]
-        public IReadOnlyList<Report> TakeRecords() => throw new NotImplementedException();
+        public IReadOnlyList<Report> TakeRecords() => Invoke<IReadOnlyList<Report>>("takeRecords");
     }
 }

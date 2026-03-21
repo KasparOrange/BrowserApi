@@ -32,31 +32,31 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Rewriter
+    public partial class Rewriter : JsObject
     {
         [JsName("sharedContext")]
-        public string SharedContext { get; }
+        public string SharedContext => GetProperty<string>("sharedContext");
 
         [JsName("tone")]
-        public RewriterTone Tone { get; }
+        public RewriterTone Tone => GetProperty<RewriterTone>("tone");
 
         [JsName("format")]
-        public RewriterFormat Format { get; }
+        public RewriterFormat Format => GetProperty<RewriterFormat>("format");
 
         [JsName("length")]
-        public RewriterLength Length { get; }
+        public RewriterLength Length => GetProperty<RewriterLength>("length");
 
         [JsName("expectedInputLanguages")]
-        public IReadOnlyList<string>? ExpectedInputLanguages { get; }
+        public IReadOnlyList<string>? ExpectedInputLanguages => GetProperty<IReadOnlyList<string>?>("expectedInputLanguages");
 
         [JsName("expectedContextLanguages")]
-        public IReadOnlyList<string>? ExpectedContextLanguages { get; }
+        public IReadOnlyList<string>? ExpectedContextLanguages => GetProperty<IReadOnlyList<string>?>("expectedContextLanguages");
 
         [JsName("outputLanguage")]
-        public string? OutputLanguage { get; }
+        public string? OutputLanguage => GetProperty<string?>("outputLanguage");
 
         [JsName("inputQuota")]
-        public double InputQuota { get; }
+        public double InputQuota => GetProperty<double>("inputQuota");
 
         [JsName("create")]
         public static Task<Rewriter> CreateAsync(RewriterCreateOptions? options = null) => throw new NotImplementedException();
@@ -65,15 +65,15 @@ namespace BrowserApi
         public static Task<Availability> AvailabilityAsync(RewriterCreateCoreOptions? options = null) => throw new NotImplementedException();
 
         [JsName("rewrite")]
-        public Task<string> RewriteAsync(string input, RewriterRewriteOptions? options = null) => throw new NotImplementedException();
+        public Task<string> RewriteAsync(string input, RewriterRewriteOptions? options = null) => InvokeAsync<string>("rewrite", input, options);
 
         [JsName("rewriteStreaming")]
-        public ReadableStream RewriteStreaming(string input, RewriterRewriteOptions? options = null) => throw new NotImplementedException();
+        public ReadableStream RewriteStreaming(string input, RewriterRewriteOptions? options = null) => Invoke<ReadableStream>("rewriteStreaming", input, options);
 
         [JsName("measureInputUsage")]
-        public Task<double> MeasureInputUsageAsync(string input, RewriterRewriteOptions? options = null) => throw new NotImplementedException();
+        public Task<double> MeasureInputUsageAsync(string input, RewriterRewriteOptions? options = null) => InvokeAsync<double>("measureInputUsage", input, options);
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

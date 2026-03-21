@@ -35,22 +35,22 @@ namespace BrowserApi.Credentials
     public partial class PublicKeyCredential : Credential
     {
         [JsName("rawId")]
-        public byte[] RawId { get; }
+        public byte[] RawId => GetProperty<byte[]>("rawId");
 
         [JsName("response")]
-        public AuthenticatorResponse Response { get; }
+        public AuthenticatorResponse Response => GetProperty<AuthenticatorResponse>("response");
 
         [JsName("authenticatorAttachment")]
-        public string? AuthenticatorAttachment { get; }
+        public string? AuthenticatorAttachment => GetProperty<string?>("authenticatorAttachment");
 
         [JsName("getClientExtensionResults")]
-        public AuthenticationExtensionsClientOutputs GetClientExtensionResults() => throw new NotImplementedException();
+        public AuthenticationExtensionsClientOutputs GetClientExtensionResults() => Invoke<AuthenticationExtensionsClientOutputs>("getClientExtensionResults");
 
         [JsName("isConditionalMediationAvailable")]
         public static Task<bool> IsConditionalMediationAvailableAsync() => throw new NotImplementedException();
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
 
         [JsName("isUserVerifyingPlatformAuthenticatorAvailable")]
         public static Task<bool> IsUserVerifyingPlatformAuthenticatorAvailableAsync() => throw new NotImplementedException();

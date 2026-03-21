@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_texture_filter_anisotropic")]
-    public partial class ExtTextureFilterAnisotropic
+    public partial class ExtTextureFilterAnisotropic : JsObject
     {
         public const uint TextureMaxAnisotropyExt = 0x84FE;
 

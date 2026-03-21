@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class PromiseRejectionEvent : Event
     {
         [JsName("promise")]
-        public object Promise { get; }
+        public object Promise => GetProperty<object>("promise");
 
         [JsName("reason")]
-        public object Reason { get; }
+        public object Reason => GetProperty<object>("reason");
     }
 }

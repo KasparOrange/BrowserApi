@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class RdfTriple
+    public partial class RdfTriple : JsObject
     {
         [JsName("subject")]
-        public string Subject { get; }
+        public string Subject => GetProperty<string>("subject");
 
         [JsName("predicate")]
-        public string Predicate { get; }
+        public string Predicate => GetProperty<string>("predicate");
 
         [JsName("object")]
-        public object Object { get; }
+        public object Object => GetProperty<object>("object");
     }
 }

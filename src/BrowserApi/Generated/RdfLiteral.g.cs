@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class RdfLiteral
+    public partial class RdfLiteral : JsObject
     {
         [JsName("value")]
-        public string Value { get; }
+        public string Value => GetProperty<string>("value");
 
         [JsName("datatype")]
-        public string Datatype { get; }
+        public string Datatype => GetProperty<string>("datatype");
 
         [JsName("language")]
-        public string? Language { get; }
+        public string? Language => GetProperty<string?>("language");
     }
 }

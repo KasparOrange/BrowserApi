@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class MediaKeySystemAccess
+    public partial class MediaKeySystemAccess : JsObject
     {
         [JsName("keySystem")]
-        public string KeySystem { get; }
+        public string KeySystem => GetProperty<string>("keySystem");
 
         [JsName("getConfiguration")]
-        public MediaKeySystemConfiguration GetConfiguration() => throw new NotImplementedException();
+        public MediaKeySystemConfiguration GetConfiguration() => Invoke<MediaKeySystemConfiguration>("getConfiguration");
 
         [JsName("createMediaKeys")]
-        public Task<MediaKeys> CreateMediaKeysAsync() => throw new NotImplementedException();
+        public Task<MediaKeys> CreateMediaKeysAsync() => InvokeAsync<MediaKeys>("createMediaKeys");
     }
 }

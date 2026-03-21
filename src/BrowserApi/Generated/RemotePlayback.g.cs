@@ -35,24 +35,36 @@ namespace BrowserApi
     public partial class RemotePlayback : EventTarget
     {
         [JsName("state")]
-        public RemotePlaybackState State { get; }
+        public RemotePlaybackState State => GetProperty<RemotePlaybackState>("state");
 
         [JsName("onconnecting")]
-        public object Onconnecting { get; set; }
+        public object Onconnecting
+        {
+            get => GetProperty<object>("onconnecting");
+            set => SetProperty("onconnecting", value);
+        }
 
         [JsName("onconnect")]
-        public object Onconnect { get; set; }
+        public object Onconnect
+        {
+            get => GetProperty<object>("onconnect");
+            set => SetProperty("onconnect", value);
+        }
 
         [JsName("ondisconnect")]
-        public object Ondisconnect { get; set; }
+        public object Ondisconnect
+        {
+            get => GetProperty<object>("ondisconnect");
+            set => SetProperty("ondisconnect", value);
+        }
 
         [JsName("watchAvailability")]
-        public Task<int> WatchAvailabilityAsync(RemotePlaybackAvailabilityCallback callback) => throw new NotImplementedException();
+        public Task<int> WatchAvailabilityAsync(RemotePlaybackAvailabilityCallback callback) => InvokeAsync<int>("watchAvailability", callback);
 
         [JsName("cancelWatchAvailability")]
-        public Task CancelWatchAvailabilityAsync(int? id = null) => throw new NotImplementedException();
+        public Task CancelWatchAvailabilityAsync(int? id = null) => InvokeVoidAsync("cancelWatchAvailability", id);
 
         [JsName("prompt")]
-        public Task PromptAsync() => throw new NotImplementedException();
+        public Task PromptAsync() => InvokeVoidAsync("prompt");
     }
 }

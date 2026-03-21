@@ -36,9 +36,9 @@ namespace BrowserApi.WebRtc
     public partial class RtcpeerConnectionIceEvent : Event
     {
         [JsName("candidate")]
-        public RtciceCandidate? Candidate { get; }
+        public RtciceCandidate? Candidate => GetProperty<RtciceCandidate?>("candidate");
 
         [JsName("url")]
-        public string? Url { get; }
+        public string? Url => GetProperty<string?>("url");
     }
 }

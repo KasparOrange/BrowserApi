@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class SvgFedistantLightElement : SvgElement
     {
         [JsName("azimuth")]
-        public SvgAnimatedNumber Azimuth { get; }
+        public SvgAnimatedNumber Azimuth => GetProperty<SvgAnimatedNumber>("azimuth");
 
         [JsName("elevation")]
-        public SvgAnimatedNumber Elevation { get; }
+        public SvgAnimatedNumber Elevation => GetProperty<SvgAnimatedNumber>("elevation");
     }
 }

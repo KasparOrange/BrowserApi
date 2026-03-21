@@ -35,18 +35,26 @@ namespace BrowserApi.Dom
     public partial class CloseWatcher : EventTarget
     {
         [JsName("oncancel")]
-        public object Oncancel { get; set; }
+        public object Oncancel
+        {
+            get => GetProperty<object>("oncancel");
+            set => SetProperty("oncancel", value);
+        }
 
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("requestClose")]
-        public void RequestClose() => throw new NotImplementedException();
+        public void RequestClose() => InvokeVoid("requestClose");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

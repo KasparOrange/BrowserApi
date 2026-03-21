@@ -33,21 +33,21 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("BluetoothLEScanFilter")]
-    public partial class BluetoothLescanFilter
+    public partial class BluetoothLescanFilter : JsObject
     {
         [JsName("name")]
-        public string? Name { get; }
+        public string? Name => GetProperty<string?>("name");
 
         [JsName("namePrefix")]
-        public string? NamePrefix { get; }
+        public string? NamePrefix => GetProperty<string?>("namePrefix");
 
         [JsName("services")]
-        public IReadOnlyList<string> Services { get; }
+        public IReadOnlyList<string> Services => GetProperty<IReadOnlyList<string>>("services");
 
         [JsName("manufacturerData")]
-        public BluetoothManufacturerDataFilter ManufacturerData { get; }
+        public BluetoothManufacturerDataFilter ManufacturerData => GetProperty<BluetoothManufacturerDataFilter>("manufacturerData");
 
         [JsName("serviceData")]
-        public BluetoothServiceDataFilter ServiceData { get; }
+        public BluetoothServiceDataFilter ServiceData => GetProperty<BluetoothServiceDataFilter>("serviceData");
     }
 }

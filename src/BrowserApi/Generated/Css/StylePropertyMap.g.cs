@@ -35,15 +35,15 @@ namespace BrowserApi.Css
     public partial class StylePropertyMap : StylePropertyMapReadOnly
     {
         [JsName("set")]
-        public void Set(string property, params object[] values) => throw new NotImplementedException();
+        public void Set(string property, params object[] values) => InvokeVoid("set", property, values);
 
         [JsName("append")]
-        public void Append(string property, params object[] values) => throw new NotImplementedException();
+        public void Append(string property, params object[] values) => InvokeVoid("append", property, values);
 
         [JsName("delete")]
-        public void Delete(string property) => throw new NotImplementedException();
+        public void Delete(string property) => InvokeVoid("delete", property);
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
     }
 }

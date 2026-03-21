@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Encoding
 {
-    public partial class TextDecoder
+    public partial class TextDecoder : JsObject
     {
         [JsName("encoding")]
-        public string Encoding { get; }
+        public string Encoding => GetProperty<string>("encoding");
 
         [JsName("fatal")]
-        public bool Fatal { get; }
+        public bool Fatal => GetProperty<bool>("fatal");
 
         [JsName("ignoreBOM")]
-        public bool IgnoreBom { get; }
+        public bool IgnoreBom => GetProperty<bool>("ignoreBOM");
 
         [JsName("decode")]
-        public string Decode(object? input = null, TextDecodeOptions? options = null) => throw new NotImplementedException();
+        public string Decode(object? input = null, TextDecodeOptions? options = null) => Invoke<string>("decode", input, options);
     }
 }

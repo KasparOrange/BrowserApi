@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class LayoutEdges
+    public partial class LayoutEdges : JsObject
     {
         [JsName("inlineStart")]
-        public double InlineStart { get; }
+        public double InlineStart => GetProperty<double>("inlineStart");
 
         [JsName("inlineEnd")]
-        public double InlineEnd { get; }
+        public double InlineEnd => GetProperty<double>("inlineEnd");
 
         [JsName("blockStart")]
-        public double BlockStart { get; }
+        public double BlockStart => GetProperty<double>("blockStart");
 
         [JsName("blockEnd")]
-        public double BlockEnd { get; }
+        public double BlockEnd => GetProperty<double>("blockEnd");
 
         [JsName("inline")]
-        public double Inline { get; }
+        public double Inline => GetProperty<double>("inline");
 
         [JsName("block")]
-        public double Block { get; }
+        public double Block => GetProperty<double>("block");
     }
 }

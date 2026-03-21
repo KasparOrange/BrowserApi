@@ -36,9 +36,17 @@ namespace BrowserApi.Dom
     public partial class HtmlModElement : HtmlElement
     {
         [JsName("cite")]
-        public string Cite { get; set; }
+        public string Cite
+        {
+            get => GetProperty<string>("cite");
+            set => SetProperty("cite", value);
+        }
 
         [JsName("dateTime")]
-        public string DateTime { get; set; }
+        public string DateTime
+        {
+            get => GetProperty<string>("dateTime");
+            set => SetProperty("dateTime", value);
+        }
     }
 }

@@ -36,12 +36,12 @@ namespace BrowserApi
     public partial class XrWebGlDepthInformation : XrDepthInformation
     {
         [JsName("texture")]
-        public WebGlTexture Texture { get; }
+        public WebGlTexture Texture => GetProperty<WebGlTexture>("texture");
 
         [JsName("textureType")]
-        public XrTextureType TextureType { get; }
+        public XrTextureType TextureType => GetProperty<XrTextureType>("textureType");
 
         [JsName("imageIndex")]
-        public uint? ImageIndex { get; }
+        public uint? ImageIndex => GetProperty<uint?>("imageIndex");
     }
 }

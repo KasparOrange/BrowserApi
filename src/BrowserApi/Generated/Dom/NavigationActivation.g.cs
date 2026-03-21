@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class NavigationActivation
+    public partial class NavigationActivation : JsObject
     {
         [JsName("from")]
-        public NavigationHistoryEntry? From { get; }
+        public NavigationHistoryEntry? From => GetProperty<NavigationHistoryEntry?>("from");
 
         [JsName("entry")]
-        public NavigationHistoryEntry Entry { get; }
+        public NavigationHistoryEntry Entry => GetProperty<NavigationHistoryEntry>("entry");
 
         [JsName("navigationType")]
-        public NavigationType NavigationType { get; }
+        public NavigationType NavigationType => GetProperty<NavigationType>("navigationType");
     }
 }

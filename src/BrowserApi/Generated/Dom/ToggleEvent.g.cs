@@ -35,12 +35,12 @@ namespace BrowserApi.Dom
     public partial class ToggleEvent : Event
     {
         [JsName("oldState")]
-        public string OldState { get; }
+        public string OldState => GetProperty<string>("oldState");
 
         [JsName("newState")]
-        public string NewState { get; }
+        public string NewState => GetProperty<string>("newState");
 
         [JsName("source")]
-        public Element? Source { get; }
+        public Element? Source => GetProperty<Element?>("source");
     }
 }

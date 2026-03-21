@@ -35,12 +35,20 @@ namespace BrowserApi.Media
     public partial class ManagedMediaSource : MediaSource
     {
         [JsName("streaming")]
-        public bool Streaming { get; }
+        public bool Streaming => GetProperty<bool>("streaming");
 
         [JsName("onstartstreaming")]
-        public object Onstartstreaming { get; set; }
+        public object Onstartstreaming
+        {
+            get => GetProperty<object>("onstartstreaming");
+            set => SetProperty("onstartstreaming", value);
+        }
 
         [JsName("onendstreaming")]
-        public object Onendstreaming { get; set; }
+        public object Onendstreaming
+        {
+            get => GetProperty<object>("onendstreaming");
+            set => SetProperty("onendstreaming", value);
+        }
     }
 }

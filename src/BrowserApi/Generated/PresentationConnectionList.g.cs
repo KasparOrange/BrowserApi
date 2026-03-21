@@ -35,9 +35,13 @@ namespace BrowserApi
     public partial class PresentationConnectionList : EventTarget
     {
         [JsName("connections")]
-        public IReadOnlyList<PresentationConnection> Connections { get; }
+        public IReadOnlyList<PresentationConnection> Connections => GetProperty<IReadOnlyList<PresentationConnection>>("connections");
 
         [JsName("onconnectionavailable")]
-        public object Onconnectionavailable { get; set; }
+        public object Onconnectionavailable
+        {
+            get => GetProperty<object>("onconnectionavailable");
+            set => SetProperty("onconnectionavailable", value);
+        }
     }
 }

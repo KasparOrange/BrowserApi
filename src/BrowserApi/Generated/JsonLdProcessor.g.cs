@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class JsonLdProcessor
+    public partial class JsonLdProcessor : JsObject
     {
         [JsName("compact")]
         public static Task<IReadOnlyDictionary<string, object>> CompactAsync(object input, object? context = null, JsonLdOptions? options = null) => throw new NotImplementedException();

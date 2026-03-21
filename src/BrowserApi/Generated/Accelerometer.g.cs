@@ -35,12 +35,12 @@ namespace BrowserApi
     public partial class Accelerometer : Sensor
     {
         [JsName("x")]
-        public double? X { get; }
+        public double? X => GetProperty<double?>("x");
 
         [JsName("y")]
-        public double? Y { get; }
+        public double? Y => GetProperty<double?>("y");
 
         [JsName("z")]
-        public double? Z { get; }
+        public double? Z => GetProperty<double?>("z");
     }
 }

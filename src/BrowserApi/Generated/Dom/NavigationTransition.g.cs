@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class NavigationTransition
+    public partial class NavigationTransition : JsObject
     {
         [JsName("navigationType")]
-        public NavigationType NavigationType { get; }
+        public NavigationType NavigationType => GetProperty<NavigationType>("navigationType");
 
         [JsName("from")]
-        public NavigationHistoryEntry From { get; }
+        public NavigationHistoryEntry From => GetProperty<NavigationHistoryEntry>("from");
 
         [JsName("to")]
-        public NavigationDestination To { get; }
+        public NavigationDestination To => GetProperty<NavigationDestination>("to");
 
         [JsName("committed")]
-        public Task Committed { get; }
+        public Task Committed => GetProperty<Task>("committed");
 
         [JsName("finished")]
-        public Task Finished { get; }
+        public Task Finished => GetProperty<Task>("finished");
     }
 }

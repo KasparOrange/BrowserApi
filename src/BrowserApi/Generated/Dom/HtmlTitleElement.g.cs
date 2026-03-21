@@ -36,6 +36,10 @@ namespace BrowserApi.Dom
     public partial class HtmlTitleElement : HtmlElement
     {
         [JsName("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get => GetProperty<string>("text");
+            set => SetProperty("text", value);
+        }
     }
 }

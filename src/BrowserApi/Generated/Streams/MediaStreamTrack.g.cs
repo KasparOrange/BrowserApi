@@ -35,69 +35,97 @@ namespace BrowserApi.Streams
     public partial class MediaStreamTrack : EventTarget
     {
         [JsName("kind")]
-        public string Kind { get; }
+        public string Kind => GetProperty<string>("kind");
 
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("label")]
-        public string Label { get; }
+        public string Label => GetProperty<string>("label");
 
         [JsName("enabled")]
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get => GetProperty<bool>("enabled");
+            set => SetProperty("enabled", value);
+        }
 
         [JsName("muted")]
-        public bool Muted { get; }
+        public bool Muted => GetProperty<bool>("muted");
 
         [JsName("onmute")]
-        public object Onmute { get; set; }
+        public object Onmute
+        {
+            get => GetProperty<object>("onmute");
+            set => SetProperty("onmute", value);
+        }
 
         [JsName("onunmute")]
-        public object Onunmute { get; set; }
+        public object Onunmute
+        {
+            get => GetProperty<object>("onunmute");
+            set => SetProperty("onunmute", value);
+        }
 
         [JsName("readyState")]
-        public MediaStreamTrackState ReadyState { get; }
+        public MediaStreamTrackState ReadyState => GetProperty<MediaStreamTrackState>("readyState");
 
         [JsName("onended")]
-        public object Onended { get; set; }
+        public object Onended
+        {
+            get => GetProperty<object>("onended");
+            set => SetProperty("onended", value);
+        }
 
         [JsName("oncapturehandlechange")]
-        public object Oncapturehandlechange { get; set; }
+        public object Oncapturehandlechange
+        {
+            get => GetProperty<object>("oncapturehandlechange");
+            set => SetProperty("oncapturehandlechange", value);
+        }
 
         [JsName("contentHint")]
-        public string ContentHint { get; set; }
+        public string ContentHint
+        {
+            get => GetProperty<string>("contentHint");
+            set => SetProperty("contentHint", value);
+        }
 
         [JsName("isolated")]
-        public bool Isolated { get; }
+        public bool Isolated => GetProperty<bool>("isolated");
 
         [JsName("onisolationchange")]
-        public object Onisolationchange { get; set; }
+        public object Onisolationchange
+        {
+            get => GetProperty<object>("onisolationchange");
+            set => SetProperty("onisolationchange", value);
+        }
 
         [JsName("clone")]
-        public MediaStreamTrack Clone() => throw new NotImplementedException();
+        public MediaStreamTrack Clone() => Invoke<MediaStreamTrack>("clone");
 
         [JsName("stop")]
-        public void Stop() => throw new NotImplementedException();
+        public void Stop() => InvokeVoid("stop");
 
         [JsName("getCapabilities")]
-        public MediaTrackCapabilities GetCapabilities() => throw new NotImplementedException();
+        public MediaTrackCapabilities GetCapabilities() => Invoke<MediaTrackCapabilities>("getCapabilities");
 
         [JsName("getConstraints")]
-        public MediaTrackConstraints GetConstraints() => throw new NotImplementedException();
+        public MediaTrackConstraints GetConstraints() => Invoke<MediaTrackConstraints>("getConstraints");
 
         [JsName("getSettings")]
-        public MediaTrackSettings GetSettings() => throw new NotImplementedException();
+        public MediaTrackSettings GetSettings() => Invoke<MediaTrackSettings>("getSettings");
 
         [JsName("applyConstraints")]
-        public Task ApplyConstraintsAsync(MediaTrackConstraints? constraints = null) => throw new NotImplementedException();
+        public Task ApplyConstraintsAsync(MediaTrackConstraints? constraints = null) => InvokeVoidAsync("applyConstraints", constraints);
 
         [JsName("getCaptureHandle")]
-        public CaptureHandle? GetCaptureHandle() => throw new NotImplementedException();
+        public CaptureHandle? GetCaptureHandle() => Invoke<CaptureHandle?>("getCaptureHandle");
 
         [JsName("getSupportedCaptureActions")]
-        public IReadOnlyList<string> GetSupportedCaptureActions() => throw new NotImplementedException();
+        public IReadOnlyList<string> GetSupportedCaptureActions() => Invoke<IReadOnlyList<string>>("getSupportedCaptureActions");
 
         [JsName("sendCaptureAction")]
-        public Task SendCaptureActionAsync(CaptureAction action) => throw new NotImplementedException();
+        public Task SendCaptureActionAsync(CaptureAction action) => InvokeVoidAsync("sendCaptureAction", action);
     }
 }

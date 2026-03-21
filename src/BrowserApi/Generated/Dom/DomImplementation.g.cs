@@ -33,18 +33,18 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("DOMImplementation")]
-    public partial class DomImplementation
+    public partial class DomImplementation : JsObject
     {
         [JsName("createDocumentType")]
-        public DocumentType CreateDocumentType(string name, string publicId, string systemId) => throw new NotImplementedException();
+        public DocumentType CreateDocumentType(string name, string publicId, string systemId) => Invoke<DocumentType>("createDocumentType", name, publicId, systemId);
 
         [JsName("createDocument")]
-        public XmlDocument CreateDocument(string? @namespace, string qualifiedName, DocumentType? doctype = null) => throw new NotImplementedException();
+        public XmlDocument CreateDocument(string? @namespace, string qualifiedName, DocumentType? doctype = null) => Invoke<XmlDocument>("createDocument", @namespace, qualifiedName, doctype);
 
         [JsName("createHTMLDocument")]
-        public Document CreateHtmlDocument(string? title = null) => throw new NotImplementedException();
+        public Document CreateHtmlDocument(string? title = null) => Invoke<Document>("createHTMLDocument", title);
 
         [JsName("hasFeature")]
-        public bool HasFeature() => throw new NotImplementedException();
+        public bool HasFeature() => Invoke<bool>("hasFeature");
     }
 }

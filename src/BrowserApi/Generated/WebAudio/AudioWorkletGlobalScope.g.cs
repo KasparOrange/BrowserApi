@@ -35,21 +35,21 @@ namespace BrowserApi.WebAudio
     public partial class AudioWorkletGlobalScope : WorkletGlobalScope
     {
         [JsName("currentFrame")]
-        public ulong CurrentFrame { get; }
+        public ulong CurrentFrame => GetProperty<ulong>("currentFrame");
 
         [JsName("currentTime")]
-        public double CurrentTime { get; }
+        public double CurrentTime => GetProperty<double>("currentTime");
 
         [JsName("sampleRate")]
-        public float SampleRate { get; }
+        public float SampleRate => GetProperty<float>("sampleRate");
 
         [JsName("renderQuantumSize")]
-        public uint RenderQuantumSize { get; }
+        public uint RenderQuantumSize => GetProperty<uint>("renderQuantumSize");
 
         [JsName("port")]
-        public MessagePort Port { get; }
+        public MessagePort Port => GetProperty<MessagePort>("port");
 
         [JsName("registerProcessor")]
-        public void RegisterProcessor(string name, AudioWorkletProcessorConstructor processorCtor) => throw new NotImplementedException();
+        public void RegisterProcessor(string name, AudioWorkletProcessorConstructor processorCtor) => InvokeVoid("registerProcessor", name, processorCtor);
     }
 }

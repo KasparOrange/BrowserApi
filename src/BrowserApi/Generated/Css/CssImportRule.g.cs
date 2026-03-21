@@ -36,18 +36,18 @@ namespace BrowserApi.Css
     public partial class CssImportRule : CssRule
     {
         [JsName("href")]
-        public string Href { get; }
+        public string Href => GetProperty<string>("href");
 
         [JsName("media")]
-        public MediaList Media { get; }
+        public MediaList Media => GetProperty<MediaList>("media");
 
         [JsName("styleSheet")]
-        public CssStyleSheet? StyleSheet { get; }
+        public CssStyleSheet? StyleSheet => GetProperty<CssStyleSheet?>("styleSheet");
 
         [JsName("layerName")]
-        public string? LayerName { get; }
+        public string? LayerName => GetProperty<string?>("layerName");
 
         [JsName("supportsText")]
-        public string? SupportsText { get; }
+        public string? SupportsText => GetProperty<string?>("supportsText");
     }
 }

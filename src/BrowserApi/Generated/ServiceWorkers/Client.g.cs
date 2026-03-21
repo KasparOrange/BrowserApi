@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.ServiceWorkers
 {
-    public partial class Client
+    public partial class Client : JsObject
     {
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("frameType")]
-        public FrameType FrameType { get; }
+        public FrameType FrameType => GetProperty<FrameType>("frameType");
 
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("type")]
-        public ClientType Type { get; }
+        public ClientType Type => GetProperty<ClientType>("type");
 
         [JsName("lifecycleState")]
-        public ClientLifecycleState LifecycleState { get; }
+        public ClientLifecycleState LifecycleState => GetProperty<ClientLifecycleState>("lifecycleState");
 
         [JsName("postMessage")]
-        public void PostMessage(object message, IReadOnlyList<object> transfer) => throw new NotImplementedException();
+        public void PostMessage(object message, IReadOnlyList<object> transfer) => InvokeVoid("postMessage", message, transfer);
 
         [JsName("postMessage")]
-        public void PostMessage(object message, object? options = null) => throw new NotImplementedException();
+        public void PostMessage(object message, object? options = null) => InvokeVoid("postMessage", message, options);
     }
 }

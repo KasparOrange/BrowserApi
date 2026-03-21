@@ -36,69 +36,101 @@ namespace BrowserApi.WebRtc
     public partial class RtcdataChannel : EventTarget
     {
         [JsName("label")]
-        public string Label { get; }
+        public string Label => GetProperty<string>("label");
 
         [JsName("ordered")]
-        public bool Ordered { get; }
+        public bool Ordered => GetProperty<bool>("ordered");
 
         [JsName("maxPacketLifeTime")]
-        public ushort? MaxPacketLifeTime { get; }
+        public ushort? MaxPacketLifeTime => GetProperty<ushort?>("maxPacketLifeTime");
 
         [JsName("maxRetransmits")]
-        public ushort? MaxRetransmits { get; }
+        public ushort? MaxRetransmits => GetProperty<ushort?>("maxRetransmits");
 
         [JsName("protocol")]
-        public string Protocol { get; }
+        public string Protocol => GetProperty<string>("protocol");
 
         [JsName("negotiated")]
-        public bool Negotiated { get; }
+        public bool Negotiated => GetProperty<bool>("negotiated");
 
         [JsName("id")]
-        public ushort? Id { get; }
+        public ushort? Id => GetProperty<ushort?>("id");
 
         [JsName("readyState")]
-        public RtcdataChannelState ReadyState { get; }
+        public RtcdataChannelState ReadyState => GetProperty<RtcdataChannelState>("readyState");
 
         [JsName("bufferedAmount")]
-        public uint BufferedAmount { get; }
+        public uint BufferedAmount => GetProperty<uint>("bufferedAmount");
 
         [JsName("bufferedAmountLowThreshold")]
-        public uint BufferedAmountLowThreshold { get; set; }
+        public uint BufferedAmountLowThreshold
+        {
+            get => GetProperty<uint>("bufferedAmountLowThreshold");
+            set => SetProperty("bufferedAmountLowThreshold", value);
+        }
 
         [JsName("onopen")]
-        public object Onopen { get; set; }
+        public object Onopen
+        {
+            get => GetProperty<object>("onopen");
+            set => SetProperty("onopen", value);
+        }
 
         [JsName("onbufferedamountlow")]
-        public object Onbufferedamountlow { get; set; }
+        public object Onbufferedamountlow
+        {
+            get => GetProperty<object>("onbufferedamountlow");
+            set => SetProperty("onbufferedamountlow", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onclosing")]
-        public object Onclosing { get; set; }
+        public object Onclosing
+        {
+            get => GetProperty<object>("onclosing");
+            set => SetProperty("onclosing", value);
+        }
 
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("binaryType")]
-        public BinaryType BinaryType { get; set; }
+        public BinaryType BinaryType
+        {
+            get => GetProperty<BinaryType>("binaryType");
+            set => SetProperty("binaryType", value);
+        }
 
         [JsName("priority")]
-        public RtcpriorityType Priority { get; }
+        public RtcpriorityType Priority => GetProperty<RtcpriorityType>("priority");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("send")]
-        public void Send(string data) => throw new NotImplementedException();
+        public void Send(string data) => InvokeVoid("send", data);
 
         [JsName("send")]
-        public void Send(Blob data) => throw new NotImplementedException();
+        public void Send(Blob data) => InvokeVoid("send", data);
 
         [JsName("send")]
-        public void Send(byte[] data) => throw new NotImplementedException();
+        public void Send(byte[] data) => InvokeVoid("send", data);
     }
 }

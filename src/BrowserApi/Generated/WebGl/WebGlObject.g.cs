@@ -33,9 +33,13 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WebGLObject")]
-    public partial class WebGlObject
+    public partial class WebGlObject : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
     }
 }

@@ -35,39 +35,39 @@ namespace BrowserApi
     public partial class SecurityPolicyViolationEvent : Event
     {
         [JsName("documentURI")]
-        public string DocumentUri { get; }
+        public string DocumentUri => GetProperty<string>("documentURI");
 
         [JsName("referrer")]
-        public string Referrer { get; }
+        public string Referrer => GetProperty<string>("referrer");
 
         [JsName("blockedURI")]
-        public string BlockedUri { get; }
+        public string BlockedUri => GetProperty<string>("blockedURI");
 
         [JsName("effectiveDirective")]
-        public string EffectiveDirective { get; }
+        public string EffectiveDirective => GetProperty<string>("effectiveDirective");
 
         [JsName("violatedDirective")]
-        public string ViolatedDirective { get; }
+        public string ViolatedDirective => GetProperty<string>("violatedDirective");
 
         [JsName("originalPolicy")]
-        public string OriginalPolicy { get; }
+        public string OriginalPolicy => GetProperty<string>("originalPolicy");
 
         [JsName("sourceFile")]
-        public string SourceFile { get; }
+        public string SourceFile => GetProperty<string>("sourceFile");
 
         [JsName("sample")]
-        public string Sample { get; }
+        public string Sample => GetProperty<string>("sample");
 
         [JsName("disposition")]
-        public SecurityPolicyViolationEventDisposition Disposition { get; }
+        public SecurityPolicyViolationEventDisposition Disposition => GetProperty<SecurityPolicyViolationEventDisposition>("disposition");
 
         [JsName("statusCode")]
-        public ushort StatusCode { get; }
+        public ushort StatusCode => GetProperty<ushort>("statusCode");
 
         [JsName("lineNumber")]
-        public uint LineNumber { get; }
+        public uint LineNumber => GetProperty<uint>("lineNumber");
 
         [JsName("columnNumber")]
-        public uint ColumnNumber { get; }
+        public uint ColumnNumber => GetProperty<uint>("columnNumber");
     }
 }

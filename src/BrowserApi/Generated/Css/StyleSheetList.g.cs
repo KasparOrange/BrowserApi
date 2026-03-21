@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class StyleSheetList
+    public partial class StyleSheetList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public CssStyleSheet? Item(uint index) => throw new NotImplementedException();
+        public CssStyleSheet? Item(uint index) => Invoke<CssStyleSheet?>("item", index);
     }
 }

@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssSupportsConditionRule : CssGroupingRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
     }
 }

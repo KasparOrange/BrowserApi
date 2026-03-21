@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUTextureUsage")]
-    public partial class GpuTextureUsage
+    public partial class GpuTextureUsage : JsObject
     {
         public const uint CopySrc = 0x01;
 

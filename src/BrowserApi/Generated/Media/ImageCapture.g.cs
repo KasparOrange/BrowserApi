@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class ImageCapture
+    public partial class ImageCapture : JsObject
     {
         [JsName("track")]
-        public MediaStreamTrack Track { get; }
+        public MediaStreamTrack Track => GetProperty<MediaStreamTrack>("track");
 
         [JsName("takePhoto")]
-        public Task<Blob> TakePhotoAsync(PhotoSettings? photoSettings = null) => throw new NotImplementedException();
+        public Task<Blob> TakePhotoAsync(PhotoSettings? photoSettings = null) => InvokeAsync<Blob>("takePhoto", photoSettings);
 
         [JsName("getPhotoCapabilities")]
-        public Task<PhotoCapabilities> GetPhotoCapabilitiesAsync() => throw new NotImplementedException();
+        public Task<PhotoCapabilities> GetPhotoCapabilitiesAsync() => InvokeAsync<PhotoCapabilities>("getPhotoCapabilities");
 
         [JsName("getPhotoSettings")]
-        public Task<PhotoSettings> GetPhotoSettingsAsync() => throw new NotImplementedException();
+        public Task<PhotoSettings> GetPhotoSettingsAsync() => InvokeAsync<PhotoSettings>("getPhotoSettings");
 
         [JsName("grabFrame")]
-        public Task<ImageBitmap> GrabFrameAsync() => throw new NotImplementedException();
+        public Task<ImageBitmap> GrabFrameAsync() => InvokeAsync<ImageBitmap>("grabFrame");
     }
 }

@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_frag_depth")]
-    public partial class ExtFragDepth
+    public partial class ExtFragDepth : JsObject
     {
     }
 }

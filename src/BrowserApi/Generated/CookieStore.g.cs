@@ -35,30 +35,34 @@ namespace BrowserApi
     public partial class CookieStore : EventTarget
     {
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("get")]
-        public Task<CookieListItem?> GetAsync(string name) => throw new NotImplementedException();
+        public Task<CookieListItem?> GetAsync(string name) => InvokeAsync<CookieListItem?>("get", name);
 
         [JsName("get")]
-        public Task<CookieListItem?> GetAsync(CookieStoreGetOptions? options = null) => throw new NotImplementedException();
+        public Task<CookieListItem?> GetAsync(CookieStoreGetOptions? options = null) => InvokeAsync<CookieListItem?>("get", options);
 
         [JsName("getAll")]
-        public Task<IReadOnlyList<CookieListItem>> GetAllAsync(string name) => throw new NotImplementedException();
+        public Task<IReadOnlyList<CookieListItem>> GetAllAsync(string name) => InvokeAsync<IReadOnlyList<CookieListItem>>("getAll", name);
 
         [JsName("getAll")]
-        public Task<IReadOnlyList<CookieListItem>> GetAllAsync(CookieStoreGetOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<CookieListItem>> GetAllAsync(CookieStoreGetOptions? options = null) => InvokeAsync<IReadOnlyList<CookieListItem>>("getAll", options);
 
         [JsName("set")]
-        public Task SetAsync(string name, string value) => throw new NotImplementedException();
+        public Task SetAsync(string name, string value) => InvokeVoidAsync("set", name, value);
 
         [JsName("set")]
-        public Task SetAsync(CookieInit options) => throw new NotImplementedException();
+        public Task SetAsync(CookieInit options) => InvokeVoidAsync("set", options);
 
         [JsName("delete")]
-        public Task DeleteAsync(string name) => throw new NotImplementedException();
+        public Task DeleteAsync(string name) => InvokeVoidAsync("delete", name);
 
         [JsName("delete")]
-        public Task DeleteAsync(CookieStoreDeleteOptions options) => throw new NotImplementedException();
+        public Task DeleteAsync(CookieStoreDeleteOptions options) => InvokeVoidAsync("delete", options);
     }
 }

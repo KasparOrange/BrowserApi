@@ -36,12 +36,12 @@ namespace BrowserApi.WebRtc
     public partial class SframeEncrypterStream : EventTarget
     {
         [JsName("readable")]
-        public ReadableStream Readable { get; }
+        public ReadableStream Readable => GetProperty<ReadableStream>("readable");
 
         [JsName("writable")]
-        public WritableStream Writable { get; }
+        public WritableStream Writable => GetProperty<WritableStream>("writable");
 
         [JsName("setEncryptionKey")]
-        public Task SetEncryptionKeyAsync(CryptoKey key, object keyId) => throw new NotImplementedException();
+        public Task SetEncryptionKeyAsync(CryptoKey key, object keyId) => InvokeVoidAsync("setEncryptionKey", key, keyId);
     }
 }

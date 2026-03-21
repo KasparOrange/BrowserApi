@@ -35,24 +35,24 @@ namespace BrowserApi.Dom
     public partial class Text : CharacterData
     {
         [JsName("wholeText")]
-        public string WholeText { get; }
+        public string WholeText => GetProperty<string>("wholeText");
 
         [JsName("assignedSlot")]
-        public HtmlSlotElement? AssignedSlot { get; }
+        public HtmlSlotElement? AssignedSlot => GetProperty<HtmlSlotElement?>("assignedSlot");
 
         [JsName("splitText")]
-        public Text SplitText(uint offset) => throw new NotImplementedException();
+        public Text SplitText(uint offset) => Invoke<Text>("splitText", offset);
 
         [JsName("getBoxQuads")]
-        public IReadOnlyList<DomQuad> GetBoxQuads(BoxQuadOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<DomQuad> GetBoxQuads(BoxQuadOptions? options = null) => Invoke<IReadOnlyList<DomQuad>>("getBoxQuads", options);
 
         [JsName("convertQuadFromNode")]
-        public DomQuad ConvertQuadFromNode(DomQuadInit quad, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomQuad ConvertQuadFromNode(DomQuadInit quad, object from, ConvertCoordinateOptions? options = null) => Invoke<DomQuad>("convertQuadFromNode", quad, from, options);
 
         [JsName("convertRectFromNode")]
-        public DomQuad ConvertRectFromNode(DomRectReadOnly rect, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomQuad ConvertRectFromNode(DomRectReadOnly rect, object from, ConvertCoordinateOptions? options = null) => Invoke<DomQuad>("convertRectFromNode", rect, from, options);
 
         [JsName("convertPointFromNode")]
-        public DomPoint ConvertPointFromNode(DomPointInit point, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomPoint ConvertPointFromNode(DomPointInit point, object from, ConvertCoordinateOptions? options = null) => Invoke<DomPoint>("convertPointFromNode", point, from, options);
     }
 }

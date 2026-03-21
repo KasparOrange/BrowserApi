@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class TimeRanges
+    public partial class TimeRanges : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("start")]
-        public double Start(uint index) => throw new NotImplementedException();
+        public double Start(uint index) => Invoke<double>("start", index);
 
         [JsName("end")]
-        public double End(uint index) => throw new NotImplementedException();
+        public double End(uint index) => Invoke<double>("end", index);
     }
 }

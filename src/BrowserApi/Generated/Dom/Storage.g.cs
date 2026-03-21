@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Storage
+    public partial class Storage : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("key")]
-        public string? Key(uint index) => throw new NotImplementedException();
+        public string? Key(uint index) => Invoke<string?>("key", index);
 
         [JsName("getItem")]
-        public string? GetItem(string key) => throw new NotImplementedException();
+        public string? GetItem(string key) => Invoke<string?>("getItem", key);
 
         [JsName("setItem")]
-        public void SetItem(string key, string value) => throw new NotImplementedException();
+        public void SetItem(string key, string value) => InvokeVoid("setItem", key, value);
 
         [JsName("removeItem")]
-        public void RemoveItem(string key) => throw new NotImplementedException();
+        public void RemoveItem(string key) => InvokeVoid("removeItem", key);
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
     }
 }

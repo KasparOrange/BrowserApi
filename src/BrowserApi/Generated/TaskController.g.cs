@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class TaskController : AbortController
     {
         [JsName("setPriority")]
-        public void SetPriority(TaskPriority priority) => throw new NotImplementedException();
+        public void SetPriority(TaskPriority priority) => InvokeVoid("setPriority", priority);
     }
 }

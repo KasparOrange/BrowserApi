@@ -36,120 +36,276 @@ namespace BrowserApi.Css
     public partial class CssPositionTryDescriptors : CssStyleDeclaration
     {
         [JsName("margin")]
-        public string Margin { get; set; }
+        public string Margin
+        {
+            get => GetProperty<string>("margin");
+            set => SetProperty("margin", value);
+        }
 
         [JsName("marginTop")]
-        public string MarginTop { get; set; }
+        public string MarginTop
+        {
+            get => GetProperty<string>("marginTop");
+            set => SetProperty("marginTop", value);
+        }
 
         [JsName("marginRight")]
-        public string MarginRight { get; set; }
+        public string MarginRight
+        {
+            get => GetProperty<string>("marginRight");
+            set => SetProperty("marginRight", value);
+        }
 
         [JsName("marginBottom")]
-        public string MarginBottom { get; set; }
+        public string MarginBottom
+        {
+            get => GetProperty<string>("marginBottom");
+            set => SetProperty("marginBottom", value);
+        }
 
         [JsName("marginLeft")]
-        public string MarginLeft { get; set; }
+        public string MarginLeft
+        {
+            get => GetProperty<string>("marginLeft");
+            set => SetProperty("marginLeft", value);
+        }
 
         [JsName("marginBlock")]
-        public string MarginBlock { get; set; }
+        public string MarginBlock
+        {
+            get => GetProperty<string>("marginBlock");
+            set => SetProperty("marginBlock", value);
+        }
 
         [JsName("marginBlockStart")]
-        public string MarginBlockStart { get; set; }
+        public string MarginBlockStart
+        {
+            get => GetProperty<string>("marginBlockStart");
+            set => SetProperty("marginBlockStart", value);
+        }
 
         [JsName("marginBlockEnd")]
-        public string MarginBlockEnd { get; set; }
+        public string MarginBlockEnd
+        {
+            get => GetProperty<string>("marginBlockEnd");
+            set => SetProperty("marginBlockEnd", value);
+        }
 
         [JsName("marginInline")]
-        public string MarginInline { get; set; }
+        public string MarginInline
+        {
+            get => GetProperty<string>("marginInline");
+            set => SetProperty("marginInline", value);
+        }
 
         [JsName("marginInlineStart")]
-        public string MarginInlineStart { get; set; }
+        public string MarginInlineStart
+        {
+            get => GetProperty<string>("marginInlineStart");
+            set => SetProperty("marginInlineStart", value);
+        }
 
         [JsName("marginInlineEnd")]
-        public string MarginInlineEnd { get; set; }
+        public string MarginInlineEnd
+        {
+            get => GetProperty<string>("marginInlineEnd");
+            set => SetProperty("marginInlineEnd", value);
+        }
 
         [JsName("inset")]
-        public string Inset { get; set; }
+        public string Inset
+        {
+            get => GetProperty<string>("inset");
+            set => SetProperty("inset", value);
+        }
 
         [JsName("insetBlock")]
-        public string InsetBlock { get; set; }
+        public string InsetBlock
+        {
+            get => GetProperty<string>("insetBlock");
+            set => SetProperty("insetBlock", value);
+        }
 
         [JsName("insetBlockStart")]
-        public string InsetBlockStart { get; set; }
+        public string InsetBlockStart
+        {
+            get => GetProperty<string>("insetBlockStart");
+            set => SetProperty("insetBlockStart", value);
+        }
 
         [JsName("insetBlockEnd")]
-        public string InsetBlockEnd { get; set; }
+        public string InsetBlockEnd
+        {
+            get => GetProperty<string>("insetBlockEnd");
+            set => SetProperty("insetBlockEnd", value);
+        }
 
         [JsName("insetInline")]
-        public string InsetInline { get; set; }
+        public string InsetInline
+        {
+            get => GetProperty<string>("insetInline");
+            set => SetProperty("insetInline", value);
+        }
 
         [JsName("insetInlineStart")]
-        public string InsetInlineStart { get; set; }
+        public string InsetInlineStart
+        {
+            get => GetProperty<string>("insetInlineStart");
+            set => SetProperty("insetInlineStart", value);
+        }
 
         [JsName("insetInlineEnd")]
-        public string InsetInlineEnd { get; set; }
+        public string InsetInlineEnd
+        {
+            get => GetProperty<string>("insetInlineEnd");
+            set => SetProperty("insetInlineEnd", value);
+        }
 
         [JsName("top")]
-        public string Top { get; set; }
+        public string Top
+        {
+            get => GetProperty<string>("top");
+            set => SetProperty("top", value);
+        }
 
         [JsName("left")]
-        public string Left { get; set; }
+        public string Left
+        {
+            get => GetProperty<string>("left");
+            set => SetProperty("left", value);
+        }
 
         [JsName("right")]
-        public string Right { get; set; }
+        public string Right
+        {
+            get => GetProperty<string>("right");
+            set => SetProperty("right", value);
+        }
 
         [JsName("bottom")]
-        public string Bottom { get; set; }
+        public string Bottom
+        {
+            get => GetProperty<string>("bottom");
+            set => SetProperty("bottom", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("minWidth")]
-        public string MinWidth { get; set; }
+        public string MinWidth
+        {
+            get => GetProperty<string>("minWidth");
+            set => SetProperty("minWidth", value);
+        }
 
         [JsName("maxWidth")]
-        public string MaxWidth { get; set; }
+        public string MaxWidth
+        {
+            get => GetProperty<string>("maxWidth");
+            set => SetProperty("maxWidth", value);
+        }
 
         [JsName("height")]
-        public string Height { get; set; }
+        public string Height
+        {
+            get => GetProperty<string>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("minHeight")]
-        public string MinHeight { get; set; }
+        public string MinHeight
+        {
+            get => GetProperty<string>("minHeight");
+            set => SetProperty("minHeight", value);
+        }
 
         [JsName("maxHeight")]
-        public string MaxHeight { get; set; }
+        public string MaxHeight
+        {
+            get => GetProperty<string>("maxHeight");
+            set => SetProperty("maxHeight", value);
+        }
 
         [JsName("blockSize")]
-        public string BlockSize { get; set; }
+        public string BlockSize
+        {
+            get => GetProperty<string>("blockSize");
+            set => SetProperty("blockSize", value);
+        }
 
         [JsName("minBlockSize")]
-        public string MinBlockSize { get; set; }
+        public string MinBlockSize
+        {
+            get => GetProperty<string>("minBlockSize");
+            set => SetProperty("minBlockSize", value);
+        }
 
         [JsName("maxBlockSize")]
-        public string MaxBlockSize { get; set; }
+        public string MaxBlockSize
+        {
+            get => GetProperty<string>("maxBlockSize");
+            set => SetProperty("maxBlockSize", value);
+        }
 
         [JsName("inlineSize")]
-        public string InlineSize { get; set; }
+        public string InlineSize
+        {
+            get => GetProperty<string>("inlineSize");
+            set => SetProperty("inlineSize", value);
+        }
 
         [JsName("minInlineSize")]
-        public string MinInlineSize { get; set; }
+        public string MinInlineSize
+        {
+            get => GetProperty<string>("minInlineSize");
+            set => SetProperty("minInlineSize", value);
+        }
 
         [JsName("maxInlineSize")]
-        public string MaxInlineSize { get; set; }
+        public string MaxInlineSize
+        {
+            get => GetProperty<string>("maxInlineSize");
+            set => SetProperty("maxInlineSize", value);
+        }
 
         [JsName("placeSelf")]
-        public string PlaceSelf { get; set; }
+        public string PlaceSelf
+        {
+            get => GetProperty<string>("placeSelf");
+            set => SetProperty("placeSelf", value);
+        }
 
         [JsName("alignSelf")]
-        public string AlignSelf { get; set; }
+        public string AlignSelf
+        {
+            get => GetProperty<string>("alignSelf");
+            set => SetProperty("alignSelf", value);
+        }
 
         [JsName("justifySelf")]
-        public string JustifySelf { get; set; }
+        public string JustifySelf
+        {
+            get => GetProperty<string>("justifySelf");
+            set => SetProperty("justifySelf", value);
+        }
 
         [JsName("positionAnchor")]
-        public string PositionAnchor { get; set; }
+        public string PositionAnchor
+        {
+            get => GetProperty<string>("positionAnchor");
+            set => SetProperty("positionAnchor", value);
+        }
 
         [JsName("positionArea")]
-        public string PositionArea { get; set; }
+        public string PositionArea
+        {
+            get => GetProperty<string>("positionArea");
+            set => SetProperty("positionArea", value);
+        }
     }
 }

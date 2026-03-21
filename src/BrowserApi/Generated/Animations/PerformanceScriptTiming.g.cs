@@ -35,48 +35,48 @@ namespace BrowserApi.Animations
     public partial class PerformanceScriptTiming : PerformanceEntry
     {
         [JsName("startTime")]
-        public double StartTime { get; }
+        public double StartTime => GetProperty<double>("startTime");
 
         [JsName("duration")]
-        public double Duration { get; }
+        public double Duration => GetProperty<double>("duration");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("entryType")]
-        public string EntryType { get; }
+        public string EntryType => GetProperty<string>("entryType");
 
         [JsName("invokerType")]
-        public ScriptInvokerType InvokerType { get; }
+        public ScriptInvokerType InvokerType => GetProperty<ScriptInvokerType>("invokerType");
 
         [JsName("invoker")]
-        public string Invoker { get; }
+        public string Invoker => GetProperty<string>("invoker");
 
         [JsName("executionStart")]
-        public double ExecutionStart { get; }
+        public double ExecutionStart => GetProperty<double>("executionStart");
 
         [JsName("sourceURL")]
-        public string SourceUrl { get; }
+        public string SourceUrl => GetProperty<string>("sourceURL");
 
         [JsName("sourceFunctionName")]
-        public string SourceFunctionName { get; }
+        public string SourceFunctionName => GetProperty<string>("sourceFunctionName");
 
         [JsName("sourceCharPosition")]
-        public long SourceCharPosition { get; }
+        public long SourceCharPosition => GetProperty<long>("sourceCharPosition");
 
         [JsName("pauseDuration")]
-        public double PauseDuration { get; }
+        public double PauseDuration => GetProperty<double>("pauseDuration");
 
         [JsName("forcedStyleAndLayoutDuration")]
-        public double ForcedStyleAndLayoutDuration { get; }
+        public double ForcedStyleAndLayoutDuration => GetProperty<double>("forcedStyleAndLayoutDuration");
 
         [JsName("window")]
-        public Window? Window { get; }
+        public Window? Window => GetProperty<Window?>("window");
 
         [JsName("windowAttribution")]
-        public ScriptWindowAttribution WindowAttribution { get; }
+        public ScriptWindowAttribution WindowAttribution => GetProperty<ScriptWindowAttribution>("windowAttribution");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

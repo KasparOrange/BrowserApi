@@ -33,33 +33,41 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCRtpReceiver")]
-    public partial class RtcrtpReceiver
+    public partial class RtcrtpReceiver : JsObject
     {
         [JsName("track")]
-        public MediaStreamTrack Track { get; }
+        public MediaStreamTrack Track => GetProperty<MediaStreamTrack>("track");
 
         [JsName("transport")]
-        public RtcdtlsTransport? Transport { get; }
+        public RtcdtlsTransport? Transport => GetProperty<RtcdtlsTransport?>("transport");
 
         [JsName("jitterBufferTarget")]
-        public double? JitterBufferTarget { get; set; }
+        public double? JitterBufferTarget
+        {
+            get => GetProperty<double?>("jitterBufferTarget");
+            set => SetProperty("jitterBufferTarget", value);
+        }
 
         [JsName("transform")]
-        public object Transform { get; set; }
+        public object Transform
+        {
+            get => GetProperty<object>("transform");
+            set => SetProperty("transform", value);
+        }
 
         [JsName("getCapabilities")]
         public static RtcrtpCapabilities? GetCapabilities(string kind) => throw new NotImplementedException();
 
         [JsName("getParameters")]
-        public RtcrtpReceiveParameters GetParameters() => throw new NotImplementedException();
+        public RtcrtpReceiveParameters GetParameters() => Invoke<RtcrtpReceiveParameters>("getParameters");
 
         [JsName("getContributingSources")]
-        public IReadOnlyList<RtcrtpContributingSource> GetContributingSources() => throw new NotImplementedException();
+        public IReadOnlyList<RtcrtpContributingSource> GetContributingSources() => Invoke<IReadOnlyList<RtcrtpContributingSource>>("getContributingSources");
 
         [JsName("getSynchronizationSources")]
-        public IReadOnlyList<RtcrtpSynchronizationSource> GetSynchronizationSources() => throw new NotImplementedException();
+        public IReadOnlyList<RtcrtpSynchronizationSource> GetSynchronizationSources() => Invoke<IReadOnlyList<RtcrtpSynchronizationSource>>("getSynchronizationSources");
 
         [JsName("getStats")]
-        public Task<RtcstatsReport> GetStatsAsync() => throw new NotImplementedException();
+        public Task<RtcstatsReport> GetStatsAsync() => InvokeAsync<RtcstatsReport>("getStats");
     }
 }

@@ -36,24 +36,48 @@ namespace BrowserApi.Dom
     public partial class HtmlEmbedElement : HtmlElement
     {
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public string Height { get; set; }
+        public string Height
+        {
+            get => GetProperty<string>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("getSVGDocument")]
-        public Document? GetSvgDocument() => throw new NotImplementedException();
+        public Document? GetSvgDocument() => Invoke<Document?>("getSVGDocument");
     }
 }

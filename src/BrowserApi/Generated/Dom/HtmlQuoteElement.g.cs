@@ -36,6 +36,10 @@ namespace BrowserApi.Dom
     public partial class HtmlQuoteElement : HtmlElement
     {
         [JsName("cite")]
-        public string Cite { get; set; }
+        public string Cite
+        {
+            get => GetProperty<string>("cite");
+            set => SetProperty("cite", value);
+        }
     }
 }

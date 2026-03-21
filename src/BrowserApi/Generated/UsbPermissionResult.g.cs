@@ -36,6 +36,10 @@ namespace BrowserApi
     public partial class UsbPermissionResult : PermissionStatus
     {
         [JsName("devices")]
-        public IReadOnlyList<UsbDevice> Devices { get; set; }
+        public IReadOnlyList<UsbDevice> Devices
+        {
+            get => GetProperty<IReadOnlyList<UsbDevice>>("devices");
+            set => SetProperty("devices", value);
+        }
     }
 }

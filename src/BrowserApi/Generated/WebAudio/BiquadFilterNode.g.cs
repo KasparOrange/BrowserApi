@@ -35,20 +35,25 @@ namespace BrowserApi.WebAudio
     public partial class BiquadFilterNode : AudioNode
     {
         [JsName("type")]
-        public BiquadFilterType Type { get; set; }
+        public BiquadFilterType Type
+        {
+            get => GetProperty<BiquadFilterType>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("frequency")]
-        public AudioParam Frequency { get; }
+        public AudioParam Frequency => GetProperty<AudioParam>("frequency");
 
         [JsName("detune")]
-        public AudioParam Detune { get; }
+        public AudioParam Detune => GetProperty<AudioParam>("detune");
 
-        public AudioParam Q { get; }
+        [JsName("Q")]
+        public AudioParam Q => GetProperty<AudioParam>("Q");
 
         [JsName("gain")]
-        public AudioParam Gain { get; }
+        public AudioParam Gain => GetProperty<AudioParam>("gain");
 
         [JsName("getFrequencyResponse")]
-        public void GetFrequencyResponse(float[] frequencyHz, float[] magResponse, float[] phaseResponse) => throw new NotImplementedException();
+        public void GetFrequencyResponse(float[] frequencyHz, float[] magResponse, float[] phaseResponse) => InvokeVoid("getFrequencyResponse", frequencyHz, magResponse, phaseResponse);
     }
 }

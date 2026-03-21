@@ -5,7 +5,7 @@ namespace BrowserApi.Generator.Tests.Emit;
 
 public class ClassEmitterTests {
     [Fact]
-    public void Emits_class_with_property() {
+    public void Emits_class_with_readonly_property_delegation() {
         var csClass = new CSharpClass {
             Name = "Request",
             Namespace = "BrowserApi.Fetch",
@@ -20,7 +20,7 @@ public class ClassEmitterTests {
         Assert.Contains("namespace BrowserApi.Fetch", output);
         Assert.Contains("public partial class Request", output);
         Assert.Contains("[JsName(\"method\")]", output);
-        Assert.Contains("public string Method { get; }", output);
+        Assert.Contains("public string Method => GetProperty<string>(\"method\");", output);
     }
 
     [Fact]
@@ -39,17 +39,37 @@ public class ClassEmitterTests {
     }
 
     [Fact]
-    public void Emits_method() {
+    public void Emits_void_method_with_InvokeVoid() {
         var csClass = new CSharpClass {
-            Name = "Console",
-            Namespace = "BrowserApi.Console",
+            Name = "Node",
+            Namespace = "BrowserApi.Dom",
             Methods = [
                 new CSharpMethod {
-                    Name = "Log",
+                    Name = "Normalize",
                     ReturnType = "void",
-                    JsName = "log",
+                    JsName = "normalize"
+                }
+            ]
+        };
+
+        var output = ClassEmitter.Emit(csClass);
+
+        Assert.Contains("[JsName(\"normalize\")]", output);
+        Assert.Contains("public void Normalize() => InvokeVoid(\"normalize\");", output);
+    }
+
+    [Fact]
+    public void Emits_value_returning_method_with_Invoke() {
+        var csClass = new CSharpClass {
+            Name = "Node",
+            Namespace = "BrowserApi.Dom",
+            Methods = [
+                new CSharpMethod {
+                    Name = "AppendChild",
+                    ReturnType = "Node",
+                    JsName = "appendChild",
                     Parameters = [
-                        new CSharpParameter { Name = "data", CSharpType = "params object[]", IsParams = true }
+                        new CSharpParameter { Name = "node", CSharpType = "Node" }
                     ]
                 }
             ]
@@ -57,12 +77,34 @@ public class ClassEmitterTests {
 
         var output = ClassEmitter.Emit(csClass);
 
-        Assert.Contains("[JsName(\"log\")]", output);
-        Assert.Contains("public void Log(params object[] data) => throw new NotImplementedException();", output);
+        Assert.Contains("public Node AppendChild(Node node) => Invoke<Node>(\"appendChild\", node);", output);
     }
 
     [Fact]
-    public void Emits_async_method() {
+    public void Emits_async_void_method_with_InvokeVoidAsync() {
+        var csClass = new CSharpClass {
+            Name = "Element",
+            Namespace = "BrowserApi.Dom",
+            Methods = [
+                new CSharpMethod {
+                    Name = "ScrollIntoViewAsync",
+                    ReturnType = "Task",
+                    IsAsync = true,
+                    JsName = "scrollIntoView",
+                    Parameters = [
+                        new CSharpParameter { Name = "arg", CSharpType = "object?", IsOptional = true, DefaultValue = "null" }
+                    ]
+                }
+            ]
+        };
+
+        var output = ClassEmitter.Emit(csClass);
+
+        Assert.Contains("public Task ScrollIntoViewAsync(object? arg = null) => InvokeVoidAsync(\"scrollIntoView\", arg);", output);
+    }
+
+    [Fact]
+    public void Emits_async_returning_method_with_InvokeAsync() {
         var csClass = new CSharpClass {
             Name = "Body",
             Namespace = "BrowserApi.Fetch",
@@ -70,18 +112,19 @@ public class ClassEmitterTests {
                 new CSharpMethod {
                     Name = "TextAsync",
                     ReturnType = "Task<string>",
-                    IsAsync = true
+                    IsAsync = true,
+                    JsName = "text"
                 }
             ]
         };
 
         var output = ClassEmitter.Emit(csClass);
 
-        Assert.Contains("public Task<string> TextAsync() => throw new NotImplementedException();", output);
+        Assert.Contains("public Task<string> TextAsync() => InvokeAsync<string>(\"text\");", output);
     }
 
     [Fact]
-    public void Emits_static_property() {
+    public void Emits_static_property_as_auto_property() {
         var csClass = new CSharpClass {
             Name = "Foo",
             Namespace = "BrowserApi",
@@ -92,6 +135,20 @@ public class ClassEmitterTests {
 
         var output = ClassEmitter.Emit(csClass);
         Assert.Contains("public static uint Count { get; set; }", output);
+    }
+
+    [Fact]
+    public void Emits_static_method_as_stub() {
+        var csClass = new CSharpClass {
+            Name = "Foo",
+            Namespace = "BrowserApi",
+            Methods = [
+                new CSharpMethod { Name = "Create", ReturnType = "Foo", IsStatic = true, JsName = "create" }
+            ]
+        };
+
+        var output = ClassEmitter.Emit(csClass);
+        Assert.Contains("public static Foo Create() => throw new NotImplementedException();", output);
     }
 
     [Fact]
@@ -110,21 +167,42 @@ public class ClassEmitterTests {
         };
 
         var output = ClassEmitter.Emit(csClass);
-        // Constructors are not emitted in generated code — they'll be added by the interop layer
         Assert.DoesNotContain("public Request(", output);
     }
 
     [Fact]
-    public void Emits_read_write_property() {
+    public void Emits_read_write_property_with_delegation() {
         var csClass = new CSharpClass {
             Name = "Element",
             Namespace = "BrowserApi.Dom",
             Properties = [
-                new CSharpProperty { Name = "ClassName", CSharpType = "string", IsReadOnly = false }
+                new CSharpProperty { Name = "ClassName", CSharpType = "string", IsReadOnly = false, JsName = "className" }
             ]
         };
 
         var output = ClassEmitter.Emit(csClass);
-        Assert.Contains("public string ClassName { get; set; }", output);
+        Assert.Contains("get => GetProperty<string>(\"className\");", output);
+        Assert.Contains("set => SetProperty(\"className\", value);", output);
+    }
+
+    [Fact]
+    public void Emits_method_with_params_array() {
+        var csClass = new CSharpClass {
+            Name = "Console",
+            Namespace = "BrowserApi.Console",
+            Methods = [
+                new CSharpMethod {
+                    Name = "Log",
+                    ReturnType = "void",
+                    JsName = "log",
+                    Parameters = [
+                        new CSharpParameter { Name = "data", CSharpType = "params object[]", IsParams = true }
+                    ]
+                }
+            ]
+        };
+
+        var output = ClassEmitter.Emit(csClass);
+        Assert.Contains("public void Log(params object[] data) => InvokeVoid(\"log\", data);", output);
     }
 }

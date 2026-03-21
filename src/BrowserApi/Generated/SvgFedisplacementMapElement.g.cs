@@ -46,33 +46,33 @@ namespace BrowserApi
         public const ushort SvgChannelA = 4;
 
         [JsName("in1")]
-        public SvgAnimatedString In1 { get; }
+        public SvgAnimatedString In1 => GetProperty<SvgAnimatedString>("in1");
 
         [JsName("in2")]
-        public SvgAnimatedString In2 { get; }
+        public SvgAnimatedString In2 => GetProperty<SvgAnimatedString>("in2");
 
         [JsName("scale")]
-        public SvgAnimatedNumber Scale { get; }
+        public SvgAnimatedNumber Scale => GetProperty<SvgAnimatedNumber>("scale");
 
         [JsName("xChannelSelector")]
-        public SvgAnimatedEnumeration XChannelSelector { get; }
+        public SvgAnimatedEnumeration XChannelSelector => GetProperty<SvgAnimatedEnumeration>("xChannelSelector");
 
         [JsName("yChannelSelector")]
-        public SvgAnimatedEnumeration YChannelSelector { get; }
+        public SvgAnimatedEnumeration YChannelSelector => GetProperty<SvgAnimatedEnumeration>("yChannelSelector");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
     }
 }

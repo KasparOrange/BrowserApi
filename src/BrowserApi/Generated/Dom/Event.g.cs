@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Event
+    public partial class Event : JsObject
     {
         public const ushort None = 0;
 
@@ -43,57 +43,65 @@ namespace BrowserApi.Dom
         public const ushort BubblingPhase = 3;
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("target")]
-        public EventTarget? Target { get; }
+        public EventTarget? Target => GetProperty<EventTarget?>("target");
 
         [JsName("srcElement")]
-        public EventTarget? SrcElement { get; }
+        public EventTarget? SrcElement => GetProperty<EventTarget?>("srcElement");
 
         [JsName("currentTarget")]
-        public EventTarget? CurrentTarget { get; }
+        public EventTarget? CurrentTarget => GetProperty<EventTarget?>("currentTarget");
 
         [JsName("eventPhase")]
-        public ushort EventPhase { get; }
+        public ushort EventPhase => GetProperty<ushort>("eventPhase");
 
         [JsName("cancelBubble")]
-        public bool CancelBubble { get; set; }
+        public bool CancelBubble
+        {
+            get => GetProperty<bool>("cancelBubble");
+            set => SetProperty("cancelBubble", value);
+        }
 
         [JsName("bubbles")]
-        public bool Bubbles { get; }
+        public bool Bubbles => GetProperty<bool>("bubbles");
 
         [JsName("cancelable")]
-        public bool Cancelable { get; }
+        public bool Cancelable => GetProperty<bool>("cancelable");
 
         [JsName("returnValue")]
-        public bool ReturnValue { get; set; }
+        public bool ReturnValue
+        {
+            get => GetProperty<bool>("returnValue");
+            set => SetProperty("returnValue", value);
+        }
 
         [JsName("defaultPrevented")]
-        public bool DefaultPrevented { get; }
+        public bool DefaultPrevented => GetProperty<bool>("defaultPrevented");
 
         [JsName("composed")]
-        public bool Composed { get; }
+        public bool Composed => GetProperty<bool>("composed");
 
         [JsName("isTrusted")]
-        public bool IsTrusted { get; }
+        public bool IsTrusted => GetProperty<bool>("isTrusted");
 
         [JsName("timeStamp")]
-        public double TimeStamp { get; }
+        public double TimeStamp => GetProperty<double>("timeStamp");
 
         [JsName("composedPath")]
-        public IReadOnlyList<EventTarget> ComposedPath() => throw new NotImplementedException();
+        public IReadOnlyList<EventTarget> ComposedPath() => Invoke<IReadOnlyList<EventTarget>>("composedPath");
 
         [JsName("stopPropagation")]
-        public void StopPropagation() => throw new NotImplementedException();
+        public void StopPropagation() => InvokeVoid("stopPropagation");
 
         [JsName("stopImmediatePropagation")]
-        public void StopImmediatePropagation() => throw new NotImplementedException();
+        public void StopImmediatePropagation() => InvokeVoid("stopImmediatePropagation");
 
         [JsName("preventDefault")]
-        public void PreventDefault() => throw new NotImplementedException();
+        public void PreventDefault() => InvokeVoid("preventDefault");
 
         [JsName("initEvent")]
-        public void InitEvent(string type, bool bubbles = false, bool cancelable = false) => throw new NotImplementedException();
+        public void InitEvent(string type, bool bubbles = false, bool cancelable = false) => InvokeVoid("initEvent", type, bubbles, cancelable);
     }
 }

@@ -36,21 +36,21 @@ namespace BrowserApi.WebRtc
     public partial class Rtcerror : DomException
     {
         [JsName("errorDetail")]
-        public RtcerrorDetailType ErrorDetail { get; }
+        public RtcerrorDetailType ErrorDetail => GetProperty<RtcerrorDetailType>("errorDetail");
 
         [JsName("sdpLineNumber")]
-        public int? SdpLineNumber { get; }
+        public int? SdpLineNumber => GetProperty<int?>("sdpLineNumber");
 
         [JsName("sctpCauseCode")]
-        public int? SctpCauseCode { get; }
+        public int? SctpCauseCode => GetProperty<int?>("sctpCauseCode");
 
         [JsName("receivedAlert")]
-        public uint? ReceivedAlert { get; }
+        public uint? ReceivedAlert => GetProperty<uint?>("receivedAlert");
 
         [JsName("sentAlert")]
-        public uint? SentAlert { get; }
+        public uint? SentAlert => GetProperty<uint?>("sentAlert");
 
         [JsName("httpRequestStatusCode")]
-        public int? HttpRequestStatusCode { get; }
+        public int? HttpRequestStatusCode => GetProperty<int?>("httpRequestStatusCode");
     }
 }

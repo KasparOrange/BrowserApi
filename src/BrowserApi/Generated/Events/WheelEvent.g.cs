@@ -41,15 +41,15 @@ namespace BrowserApi.Events
         public const uint DomDeltaPage = 0x02;
 
         [JsName("deltaX")]
-        public double DeltaX { get; }
+        public double DeltaX => GetProperty<double>("deltaX");
 
         [JsName("deltaY")]
-        public double DeltaY { get; }
+        public double DeltaY => GetProperty<double>("deltaY");
 
         [JsName("deltaZ")]
-        public double DeltaZ { get; }
+        public double DeltaZ => GetProperty<double>("deltaZ");
 
         [JsName("deltaMode")]
-        public uint DeltaMode { get; }
+        public uint DeltaMode => GetProperty<uint>("deltaMode");
     }
 }

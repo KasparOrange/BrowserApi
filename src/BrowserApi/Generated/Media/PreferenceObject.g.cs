@@ -35,21 +35,25 @@ namespace BrowserApi.Media
     public partial class PreferenceObject : EventTarget
     {
         [JsName("override")]
-        public string? Override { get; }
+        public string? Override => GetProperty<string?>("override");
 
         [JsName("value")]
-        public string Value { get; }
+        public string Value => GetProperty<string>("value");
 
         [JsName("validValues")]
-        public IReadOnlyList<string> ValidValues { get; }
+        public IReadOnlyList<string> ValidValues => GetProperty<IReadOnlyList<string>>("validValues");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("clearOverride")]
-        public void ClearOverride() => throw new NotImplementedException();
+        public void ClearOverride() => InvokeVoid("clearOverride");
 
         [JsName("requestOverride")]
-        public Task RequestOverrideAsync(string? value) => throw new NotImplementedException();
+        public Task RequestOverrideAsync(string? value) => InvokeVoidAsync("requestOverride", value);
     }
 }

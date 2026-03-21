@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("ML")]
-    public partial class Ml
+    public partial class Ml : JsObject
     {
         [JsName("createContext")]
-        public Task<Mlcontext> CreateContextAsync(MlcontextOptions? options = null) => throw new NotImplementedException();
+        public Task<Mlcontext> CreateContextAsync(MlcontextOptions? options = null) => InvokeAsync<Mlcontext>("createContext", options);
 
         [JsName("createContext")]
-        public Task<Mlcontext> CreateContextAsync(GpuDevice gpuDevice) => throw new NotImplementedException();
+        public Task<Mlcontext> CreateContextAsync(GpuDevice gpuDevice) => InvokeAsync<Mlcontext>("createContext", gpuDevice);
     }
 }

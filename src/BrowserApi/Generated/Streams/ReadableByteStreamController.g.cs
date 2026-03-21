@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class ReadableByteStreamController
+    public partial class ReadableByteStreamController : JsObject
     {
         [JsName("byobRequest")]
-        public ReadableStreamByobrequest? ByobRequest { get; }
+        public ReadableStreamByobrequest? ByobRequest => GetProperty<ReadableStreamByobrequest?>("byobRequest");
 
         [JsName("desiredSize")]
-        public double? DesiredSize { get; }
+        public double? DesiredSize => GetProperty<double?>("desiredSize");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("enqueue")]
-        public void Enqueue(byte[] chunk) => throw new NotImplementedException();
+        public void Enqueue(byte[] chunk) => InvokeVoid("enqueue", chunk);
 
         [JsName("error")]
-        public void Error(object? e = null) => throw new NotImplementedException();
+        public void Error(object? e = null) => InvokeVoid("error", e);
     }
 }

@@ -35,9 +35,9 @@ namespace BrowserApi.Events
     public partial class TextEvent : Uievent
     {
         [JsName("data")]
-        public string Data { get; }
+        public string Data => GetProperty<string>("data");
 
         [JsName("initTextEvent")]
-        public void InitTextEvent(string type, bool bubbles = false, bool cancelable = false, Window? view = null, string data = "undefined") => throw new NotImplementedException();
+        public void InitTextEvent(string type, bool bubbles = false, bool cancelable = false, Window? view = null, string data = "undefined") => InvokeVoid("initTextEvent", type, bubbles, cancelable, view, data);
     }
 }

@@ -33,9 +33,13 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUExternalTexture")]
-    public partial class GpuExternalTexture
+    public partial class GpuExternalTexture : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
     }
 }

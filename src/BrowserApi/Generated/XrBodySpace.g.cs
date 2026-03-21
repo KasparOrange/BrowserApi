@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class XrBodySpace : XrSpace
     {
         [JsName("jointName")]
-        public XrBodyJoint JointName { get; }
+        public XrBodyJoint JointName => GetProperty<XrBodyJoint>("jointName");
     }
 }

@@ -36,33 +36,33 @@ namespace BrowserApi
     public partial class XrWebGlSubImage : XrSubImage
     {
         [JsName("colorTexture")]
-        public WebGlTexture ColorTexture { get; }
+        public WebGlTexture ColorTexture => GetProperty<WebGlTexture>("colorTexture");
 
         [JsName("depthStencilTexture")]
-        public WebGlTexture? DepthStencilTexture { get; }
+        public WebGlTexture? DepthStencilTexture => GetProperty<WebGlTexture?>("depthStencilTexture");
 
         [JsName("motionVectorTexture")]
-        public WebGlTexture? MotionVectorTexture { get; }
+        public WebGlTexture? MotionVectorTexture => GetProperty<WebGlTexture?>("motionVectorTexture");
 
         [JsName("imageIndex")]
-        public uint? ImageIndex { get; }
+        public uint? ImageIndex => GetProperty<uint?>("imageIndex");
 
         [JsName("colorTextureWidth")]
-        public uint ColorTextureWidth { get; }
+        public uint ColorTextureWidth => GetProperty<uint>("colorTextureWidth");
 
         [JsName("colorTextureHeight")]
-        public uint ColorTextureHeight { get; }
+        public uint ColorTextureHeight => GetProperty<uint>("colorTextureHeight");
 
         [JsName("depthStencilTextureWidth")]
-        public uint? DepthStencilTextureWidth { get; }
+        public uint? DepthStencilTextureWidth => GetProperty<uint?>("depthStencilTextureWidth");
 
         [JsName("depthStencilTextureHeight")]
-        public uint? DepthStencilTextureHeight { get; }
+        public uint? DepthStencilTextureHeight => GetProperty<uint?>("depthStencilTextureHeight");
 
         [JsName("motionVectorTextureWidth")]
-        public uint? MotionVectorTextureWidth { get; }
+        public uint? MotionVectorTextureWidth => GetProperty<uint?>("motionVectorTextureWidth");
 
         [JsName("motionVectorTextureHeight")]
-        public uint? MotionVectorTextureHeight { get; }
+        public uint? MotionVectorTextureHeight => GetProperty<uint?>("motionVectorTextureHeight");
     }
 }

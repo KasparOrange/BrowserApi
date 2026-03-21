@@ -33,30 +33,30 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRInputSource")]
-    public partial class XrInputSource
+    public partial class XrInputSource : JsObject
     {
         [JsName("handedness")]
-        public XrHandedness Handedness { get; }
+        public XrHandedness Handedness => GetProperty<XrHandedness>("handedness");
 
         [JsName("targetRayMode")]
-        public XrTargetRayMode TargetRayMode { get; }
+        public XrTargetRayMode TargetRayMode => GetProperty<XrTargetRayMode>("targetRayMode");
 
         [JsName("targetRaySpace")]
-        public XrSpace TargetRaySpace { get; }
+        public XrSpace TargetRaySpace => GetProperty<XrSpace>("targetRaySpace");
 
         [JsName("gripSpace")]
-        public XrSpace? GripSpace { get; }
+        public XrSpace? GripSpace => GetProperty<XrSpace?>("gripSpace");
 
         [JsName("profiles")]
-        public IReadOnlyList<string> Profiles { get; }
+        public IReadOnlyList<string> Profiles => GetProperty<IReadOnlyList<string>>("profiles");
 
         [JsName("skipRendering")]
-        public bool SkipRendering { get; }
+        public bool SkipRendering => GetProperty<bool>("skipRendering");
 
         [JsName("gamepad")]
-        public Gamepad? Gamepad { get; }
+        public Gamepad? Gamepad => GetProperty<Gamepad?>("gamepad");
 
         [JsName("hand")]
-        public XrHand? Hand { get; }
+        public XrHand? Hand => GetProperty<XrHand?>("hand");
     }
 }

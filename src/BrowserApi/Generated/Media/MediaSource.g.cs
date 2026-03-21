@@ -35,46 +35,62 @@ namespace BrowserApi.Media
     public partial class MediaSource : EventTarget
     {
         [JsName("handle")]
-        public MediaSourceHandle Handle { get; }
+        public MediaSourceHandle Handle => GetProperty<MediaSourceHandle>("handle");
 
         [JsName("sourceBuffers")]
-        public SourceBufferList SourceBuffers { get; }
+        public SourceBufferList SourceBuffers => GetProperty<SourceBufferList>("sourceBuffers");
 
         [JsName("activeSourceBuffers")]
-        public SourceBufferList ActiveSourceBuffers { get; }
+        public SourceBufferList ActiveSourceBuffers => GetProperty<SourceBufferList>("activeSourceBuffers");
 
         [JsName("readyState")]
-        public ReadyState ReadyState { get; }
+        public ReadyState ReadyState => GetProperty<ReadyState>("readyState");
 
         [JsName("duration")]
-        public double Duration { get; set; }
+        public double Duration
+        {
+            get => GetProperty<double>("duration");
+            set => SetProperty("duration", value);
+        }
 
         [JsName("onsourceopen")]
-        public object Onsourceopen { get; set; }
+        public object Onsourceopen
+        {
+            get => GetProperty<object>("onsourceopen");
+            set => SetProperty("onsourceopen", value);
+        }
 
         [JsName("onsourceended")]
-        public object Onsourceended { get; set; }
+        public object Onsourceended
+        {
+            get => GetProperty<object>("onsourceended");
+            set => SetProperty("onsourceended", value);
+        }
 
         [JsName("onsourceclose")]
-        public object Onsourceclose { get; set; }
+        public object Onsourceclose
+        {
+            get => GetProperty<object>("onsourceclose");
+            set => SetProperty("onsourceclose", value);
+        }
 
         [JsName("canConstructInDedicatedWorker")]
         public static bool CanConstructInDedicatedWorker { get; }
 
         [JsName("addSourceBuffer")]
-        public SourceBuffer AddSourceBuffer(string type) => throw new NotImplementedException();
+        public SourceBuffer AddSourceBuffer(string type) => Invoke<SourceBuffer>("addSourceBuffer", type);
 
         [JsName("removeSourceBuffer")]
-        public void RemoveSourceBuffer(SourceBuffer sourceBuffer) => throw new NotImplementedException();
+        public void RemoveSourceBuffer(SourceBuffer sourceBuffer) => InvokeVoid("removeSourceBuffer", sourceBuffer);
 
         [JsName("endOfStream")]
-        public void EndOfStream(EndOfStreamError? error = null) => throw new NotImplementedException();
+        public void EndOfStream(EndOfStreamError? error = null) => InvokeVoid("endOfStream", error);
 
         [JsName("setLiveSeekableRange")]
-        public void SetLiveSeekableRange(double start, double end) => throw new NotImplementedException();
+        public void SetLiveSeekableRange(double start, double end) => InvokeVoid("setLiveSeekableRange", start, end);
 
         [JsName("clearLiveSeekableRange")]
-        public void ClearLiveSeekableRange() => throw new NotImplementedException();
+        public void ClearLiveSeekableRange() => InvokeVoid("clearLiveSeekableRange");
 
         [JsName("isTypeSupported")]
         public static bool IsTypeSupported(string type) => throw new NotImplementedException();

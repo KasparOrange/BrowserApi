@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class HandwritingDrawing
+    public partial class HandwritingDrawing : JsObject
     {
         [JsName("addStroke")]
-        public void AddStroke(HandwritingStroke stroke) => throw new NotImplementedException();
+        public void AddStroke(HandwritingStroke stroke) => InvokeVoid("addStroke", stroke);
 
         [JsName("removeStroke")]
-        public void RemoveStroke(HandwritingStroke stroke) => throw new NotImplementedException();
+        public void RemoveStroke(HandwritingStroke stroke) => InvokeVoid("removeStroke", stroke);
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
 
         [JsName("getStrokes")]
-        public IReadOnlyList<HandwritingStroke> GetStrokes() => throw new NotImplementedException();
+        public IReadOnlyList<HandwritingStroke> GetStrokes() => Invoke<IReadOnlyList<HandwritingStroke>>("getStrokes");
 
         [JsName("getPrediction")]
-        public Task<IReadOnlyList<HandwritingPrediction>> GetPredictionAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<HandwritingPrediction>> GetPredictionAsync() => InvokeAsync<IReadOnlyList<HandwritingPrediction>>("getPrediction");
     }
 }

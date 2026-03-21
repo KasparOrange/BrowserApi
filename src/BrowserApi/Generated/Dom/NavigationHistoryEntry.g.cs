@@ -35,24 +35,28 @@ namespace BrowserApi.Dom
     public partial class NavigationHistoryEntry : EventTarget
     {
         [JsName("url")]
-        public string? Url { get; }
+        public string? Url => GetProperty<string?>("url");
 
         [JsName("key")]
-        public string Key { get; }
+        public string Key => GetProperty<string>("key");
 
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("index")]
-        public long Index { get; }
+        public long Index => GetProperty<long>("index");
 
         [JsName("sameDocument")]
-        public bool SameDocument { get; }
+        public bool SameDocument => GetProperty<bool>("sameDocument");
 
         [JsName("ondispose")]
-        public object Ondispose { get; set; }
+        public object Ondispose
+        {
+            get => GetProperty<object>("ondispose");
+            set => SetProperty("ondispose", value);
+        }
 
         [JsName("getState")]
-        public object GetState() => throw new NotImplementedException();
+        public object GetState() => Invoke<object>("getState");
     }
 }

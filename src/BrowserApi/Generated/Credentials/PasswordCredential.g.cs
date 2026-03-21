@@ -35,12 +35,12 @@ namespace BrowserApi.Credentials
     public partial class PasswordCredential : Credential
     {
         [JsName("password")]
-        public string Password { get; }
+        public string Password => GetProperty<string>("password");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("iconURL")]
-        public string IconUrl { get; }
+        public string IconUrl => GetProperty<string>("iconURL");
     }
 }

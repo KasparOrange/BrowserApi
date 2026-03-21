@@ -36,18 +36,18 @@ namespace BrowserApi
     public partial class SvgTextPositioningElement : SvgTextContentElement
     {
         [JsName("x")]
-        public SvgAnimatedLengthList X { get; }
+        public SvgAnimatedLengthList X => GetProperty<SvgAnimatedLengthList>("x");
 
         [JsName("y")]
-        public SvgAnimatedLengthList Y { get; }
+        public SvgAnimatedLengthList Y => GetProperty<SvgAnimatedLengthList>("y");
 
         [JsName("dx")]
-        public SvgAnimatedLengthList Dx { get; }
+        public SvgAnimatedLengthList Dx => GetProperty<SvgAnimatedLengthList>("dx");
 
         [JsName("dy")]
-        public SvgAnimatedLengthList Dy { get; }
+        public SvgAnimatedLengthList Dy => GetProperty<SvgAnimatedLengthList>("dy");
 
         [JsName("rotate")]
-        public SvgAnimatedNumberList Rotate { get; }
+        public SvgAnimatedNumberList Rotate => GetProperty<SvgAnimatedNumberList>("rotate");
     }
 }

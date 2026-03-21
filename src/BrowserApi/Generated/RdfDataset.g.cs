@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class RdfDataset
+    public partial class RdfDataset : JsObject
     {
         [JsName("defaultGraph")]
-        public RdfGraph DefaultGraph { get; }
+        public RdfGraph DefaultGraph => GetProperty<RdfGraph>("defaultGraph");
 
         [JsName("add")]
-        public void Add(string graphName, RdfGraph graph) => throw new NotImplementedException();
+        public void Add(string graphName, RdfGraph graph) => InvokeVoid("add", graphName, graph);
     }
 }

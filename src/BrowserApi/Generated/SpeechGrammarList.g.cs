@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class SpeechGrammarList
+    public partial class SpeechGrammarList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public SpeechGrammar Item(uint index) => throw new NotImplementedException();
+        public SpeechGrammar Item(uint index) => Invoke<SpeechGrammar>("item", index);
 
         [JsName("addFromURI")]
-        public void AddFromUri(string src, float weight = 1.0f) => throw new NotImplementedException();
+        public void AddFromUri(string src, float weight = 1.0f) => InvokeVoid("addFromURI", src, weight);
 
         [JsName("addFromString")]
-        public void AddFromString(string @string, float weight = 1.0f) => throw new NotImplementedException();
+        public void AddFromString(string @string, float weight = 1.0f) => InvokeVoid("addFromString", @string, weight);
     }
 }

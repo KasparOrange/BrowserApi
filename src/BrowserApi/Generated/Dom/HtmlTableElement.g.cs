@@ -36,72 +36,120 @@ namespace BrowserApi.Dom
     public partial class HtmlTableElement : HtmlElement
     {
         [JsName("caption")]
-        public HtmlTableCaptionElement? Caption { get; set; }
+        public HtmlTableCaptionElement? Caption
+        {
+            get => GetProperty<HtmlTableCaptionElement?>("caption");
+            set => SetProperty("caption", value);
+        }
 
         [JsName("tHead")]
-        public HtmlTableSectionElement? THead { get; set; }
+        public HtmlTableSectionElement? THead
+        {
+            get => GetProperty<HtmlTableSectionElement?>("tHead");
+            set => SetProperty("tHead", value);
+        }
 
         [JsName("tFoot")]
-        public HtmlTableSectionElement? TFoot { get; set; }
+        public HtmlTableSectionElement? TFoot
+        {
+            get => GetProperty<HtmlTableSectionElement?>("tFoot");
+            set => SetProperty("tFoot", value);
+        }
 
         [JsName("tBodies")]
-        public HtmlCollection TBodies { get; }
+        public HtmlCollection TBodies => GetProperty<HtmlCollection>("tBodies");
 
         [JsName("rows")]
-        public HtmlCollection Rows { get; }
+        public HtmlCollection Rows => GetProperty<HtmlCollection>("rows");
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("border")]
-        public string Border { get; set; }
+        public string Border
+        {
+            get => GetProperty<string>("border");
+            set => SetProperty("border", value);
+        }
 
         [JsName("frame")]
-        public string Frame { get; set; }
+        public string Frame
+        {
+            get => GetProperty<string>("frame");
+            set => SetProperty("frame", value);
+        }
 
         [JsName("rules")]
-        public string Rules { get; set; }
+        public string Rules
+        {
+            get => GetProperty<string>("rules");
+            set => SetProperty("rules", value);
+        }
 
         [JsName("summary")]
-        public string Summary { get; set; }
+        public string Summary
+        {
+            get => GetProperty<string>("summary");
+            set => SetProperty("summary", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("bgColor")]
-        public string BgColor { get; set; }
+        public string BgColor
+        {
+            get => GetProperty<string>("bgColor");
+            set => SetProperty("bgColor", value);
+        }
 
         [JsName("cellPadding")]
-        public string CellPadding { get; set; }
+        public string CellPadding
+        {
+            get => GetProperty<string>("cellPadding");
+            set => SetProperty("cellPadding", value);
+        }
 
         [JsName("cellSpacing")]
-        public string CellSpacing { get; set; }
+        public string CellSpacing
+        {
+            get => GetProperty<string>("cellSpacing");
+            set => SetProperty("cellSpacing", value);
+        }
 
         [JsName("createCaption")]
-        public HtmlTableCaptionElement CreateCaption() => throw new NotImplementedException();
+        public HtmlTableCaptionElement CreateCaption() => Invoke<HtmlTableCaptionElement>("createCaption");
 
         [JsName("deleteCaption")]
-        public void DeleteCaption() => throw new NotImplementedException();
+        public void DeleteCaption() => InvokeVoid("deleteCaption");
 
         [JsName("createTHead")]
-        public HtmlTableSectionElement CreateThead() => throw new NotImplementedException();
+        public HtmlTableSectionElement CreateThead() => Invoke<HtmlTableSectionElement>("createTHead");
 
         [JsName("deleteTHead")]
-        public void DeleteThead() => throw new NotImplementedException();
+        public void DeleteThead() => InvokeVoid("deleteTHead");
 
         [JsName("createTFoot")]
-        public HtmlTableSectionElement CreateTfoot() => throw new NotImplementedException();
+        public HtmlTableSectionElement CreateTfoot() => Invoke<HtmlTableSectionElement>("createTFoot");
 
         [JsName("deleteTFoot")]
-        public void DeleteTfoot() => throw new NotImplementedException();
+        public void DeleteTfoot() => InvokeVoid("deleteTFoot");
 
         [JsName("createTBody")]
-        public HtmlTableSectionElement CreateTbody() => throw new NotImplementedException();
+        public HtmlTableSectionElement CreateTbody() => Invoke<HtmlTableSectionElement>("createTBody");
 
         [JsName("insertRow")]
-        public HtmlTableRowElement InsertRow(int index = -1) => throw new NotImplementedException();
+        public HtmlTableRowElement InsertRow(int index = -1) => Invoke<HtmlTableRowElement>("insertRow", index);
 
         [JsName("deleteRow")]
-        public void DeleteRow(int index) => throw new NotImplementedException();
+        public void DeleteRow(int index) => InvokeVoid("deleteRow", index);
     }
 }

@@ -32,12 +32,16 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Presentation
+    public partial class Presentation : JsObject
     {
         [JsName("defaultRequest")]
-        public PresentationRequest? DefaultRequest { get; set; }
+        public PresentationRequest? DefaultRequest
+        {
+            get => GetProperty<PresentationRequest?>("defaultRequest");
+            set => SetProperty("defaultRequest", value);
+        }
 
         [JsName("receiver")]
-        public PresentationReceiver? Receiver { get; }
+        public PresentationReceiver? Receiver => GetProperty<PresentationReceiver?>("receiver");
     }
 }

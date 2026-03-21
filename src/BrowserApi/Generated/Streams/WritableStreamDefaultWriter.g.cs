@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class WritableStreamDefaultWriter
+    public partial class WritableStreamDefaultWriter : JsObject
     {
         [JsName("closed")]
-        public Task Closed { get; }
+        public Task Closed => GetProperty<Task>("closed");
 
         [JsName("desiredSize")]
-        public double? DesiredSize { get; }
+        public double? DesiredSize => GetProperty<double?>("desiredSize");
 
         [JsName("ready")]
-        public Task Ready { get; }
+        public Task Ready => GetProperty<Task>("ready");
 
         [JsName("abort")]
-        public Task AbortAsync(object? reason = null) => throw new NotImplementedException();
+        public Task AbortAsync(object? reason = null) => InvokeVoidAsync("abort", reason);
 
         [JsName("close")]
-        public Task CloseAsync() => throw new NotImplementedException();
+        public Task CloseAsync() => InvokeVoidAsync("close");
 
         [JsName("releaseLock")]
-        public void ReleaseLock() => throw new NotImplementedException();
+        public void ReleaseLock() => InvokeVoid("releaseLock");
 
         [JsName("write")]
-        public Task WriteAsync(object? chunk = null) => throw new NotImplementedException();
+        public Task WriteAsync(object? chunk = null) => InvokeVoidAsync("write", chunk);
     }
 }

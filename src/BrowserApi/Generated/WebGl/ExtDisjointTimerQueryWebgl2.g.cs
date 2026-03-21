@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_disjoint_timer_query_webgl2")]
-    public partial class ExtDisjointTimerQueryWebgl2
+    public partial class ExtDisjointTimerQueryWebgl2 : JsObject
     {
         public const uint QueryCounterBitsExt = 0x8864;
 
@@ -44,6 +44,6 @@ namespace BrowserApi.WebGl
         public const uint GpuDisjointExt = 0x8FBB;
 
         [JsName("queryCounterEXT")]
-        public void QueryCounterExt(WebGlQuery query, uint target) => throw new NotImplementedException();
+        public void QueryCounterExt(WebGlQuery query, uint target) => InvokeVoid("queryCounterEXT", query, target);
     }
 }

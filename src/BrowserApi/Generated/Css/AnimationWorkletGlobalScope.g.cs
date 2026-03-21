@@ -35,6 +35,6 @@ namespace BrowserApi.Css
     public partial class AnimationWorkletGlobalScope : WorkletGlobalScope
     {
         [JsName("registerAnimator")]
-        public void RegisterAnimator(string name, AnimatorInstanceConstructor animatorCtor) => throw new NotImplementedException();
+        public void RegisterAnimator(string name, AnimatorInstanceConstructor animatorCtor) => InvokeVoid("registerAnimator", name, animatorCtor);
     }
 }

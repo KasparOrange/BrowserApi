@@ -36,12 +36,24 @@ namespace BrowserApi.Css
     public partial class CssTranslate : CssTransformComponent
     {
         [JsName("x")]
-        public CssNumericValue X { get; set; }
+        public CssNumericValue X
+        {
+            get => GetProperty<CssNumericValue>("x");
+            set => SetProperty("x", value);
+        }
 
         [JsName("y")]
-        public CssNumericValue Y { get; set; }
+        public CssNumericValue Y
+        {
+            get => GetProperty<CssNumericValue>("y");
+            set => SetProperty("y", value);
+        }
 
         [JsName("z")]
-        public CssNumericValue Z { get; set; }
+        public CssNumericValue Z
+        {
+            get => GetProperty<CssNumericValue>("z");
+            set => SetProperty("z", value);
+        }
     }
 }

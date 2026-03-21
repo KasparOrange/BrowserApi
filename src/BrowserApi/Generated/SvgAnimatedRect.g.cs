@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGAnimatedRect")]
-    public partial class SvgAnimatedRect
+    public partial class SvgAnimatedRect : JsObject
     {
         [JsName("baseVal")]
-        public DomRect BaseVal { get; }
+        public DomRect BaseVal => GetProperty<DomRect>("baseVal");
 
         [JsName("animVal")]
-        public DomRectReadOnly AnimVal { get; }
+        public DomRectReadOnly AnimVal => GetProperty<DomRectReadOnly>("animVal");
     }
 }

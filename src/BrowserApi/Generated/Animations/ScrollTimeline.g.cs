@@ -35,9 +35,9 @@ namespace BrowserApi.Animations
     public partial class ScrollTimeline : AnimationTimeline
     {
         [JsName("source")]
-        public Element? Source { get; }
+        public Element? Source => GetProperty<Element?>("source");
 
         [JsName("axis")]
-        public ScrollAxis Axis { get; }
+        public ScrollAxis Axis => GetProperty<ScrollAxis>("axis");
     }
 }

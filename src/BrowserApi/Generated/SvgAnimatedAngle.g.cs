@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGAnimatedAngle")]
-    public partial class SvgAnimatedAngle
+    public partial class SvgAnimatedAngle : JsObject
     {
         [JsName("baseVal")]
-        public SvgAngle BaseVal { get; }
+        public SvgAngle BaseVal => GetProperty<SvgAngle>("baseVal");
 
         [JsName("animVal")]
-        public SvgAngle AnimVal { get; }
+        public SvgAngle AnimVal => GetProperty<SvgAngle>("animVal");
     }
 }

@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_float_blend")]
-    public partial class ExtFloatBlend
+    public partial class ExtFloatBlend : JsObject
     {
     }
 }

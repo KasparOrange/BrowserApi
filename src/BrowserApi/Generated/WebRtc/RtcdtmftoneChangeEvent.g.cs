@@ -36,6 +36,6 @@ namespace BrowserApi.WebRtc
     public partial class RtcdtmftoneChangeEvent : Event
     {
         [JsName("tone")]
-        public string Tone { get; }
+        public string Tone => GetProperty<string>("tone");
     }
 }

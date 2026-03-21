@@ -33,15 +33,19 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCEncodedVideoFrame")]
-    public partial class RtcencodedVideoFrame
+    public partial class RtcencodedVideoFrame : JsObject
     {
         [JsName("type")]
-        public EncodedVideoChunkType Type { get; }
+        public EncodedVideoChunkType Type => GetProperty<EncodedVideoChunkType>("type");
 
         [JsName("data")]
-        public byte[] Data { get; set; }
+        public byte[] Data
+        {
+            get => GetProperty<byte[]>("data");
+            set => SetProperty("data", value);
+        }
 
         [JsName("getMetadata")]
-        public RtcencodedVideoFrameMetadata GetMetadata() => throw new NotImplementedException();
+        public RtcencodedVideoFrameMetadata GetMetadata() => Invoke<RtcencodedVideoFrameMetadata>("getMetadata");
     }
 }

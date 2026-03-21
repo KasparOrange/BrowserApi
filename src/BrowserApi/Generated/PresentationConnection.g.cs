@@ -35,42 +35,62 @@ namespace BrowserApi
     public partial class PresentationConnection : EventTarget
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("state")]
-        public PresentationConnectionState State { get; }
+        public PresentationConnectionState State => GetProperty<PresentationConnectionState>("state");
 
         [JsName("onconnect")]
-        public object Onconnect { get; set; }
+        public object Onconnect
+        {
+            get => GetProperty<object>("onconnect");
+            set => SetProperty("onconnect", value);
+        }
 
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("onterminate")]
-        public object Onterminate { get; set; }
+        public object Onterminate
+        {
+            get => GetProperty<object>("onterminate");
+            set => SetProperty("onterminate", value);
+        }
 
         [JsName("binaryType")]
-        public BinaryType BinaryType { get; set; }
+        public BinaryType BinaryType
+        {
+            get => GetProperty<BinaryType>("binaryType");
+            set => SetProperty("binaryType", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("terminate")]
-        public void Terminate() => throw new NotImplementedException();
+        public void Terminate() => InvokeVoid("terminate");
 
         [JsName("send")]
-        public void Send(string message) => throw new NotImplementedException();
+        public void Send(string message) => InvokeVoid("send", message);
 
         [JsName("send")]
-        public void Send(Blob data) => throw new NotImplementedException();
+        public void Send(Blob data) => InvokeVoid("send", data);
 
         [JsName("send")]
-        public void Send(byte[] data) => throw new NotImplementedException();
+        public void Send(byte[] data) => InvokeVoid("send", data);
     }
 }

@@ -35,9 +35,9 @@ namespace BrowserApi.Media
     public partial class BlobEvent : Event
     {
         [JsName("data")]
-        public Blob Data { get; }
+        public Blob Data => GetProperty<Blob>("data");
 
         [JsName("timecode")]
-        public double Timecode { get; }
+        public double Timecode => GetProperty<double>("timecode");
     }
 }

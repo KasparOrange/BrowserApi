@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class WebTransportError : DomException
     {
         [JsName("source")]
-        public WebTransportErrorSource Source { get; }
+        public WebTransportErrorSource Source => GetProperty<WebTransportErrorSource>("source");
 
         [JsName("streamErrorCode")]
-        public uint? StreamErrorCode { get; }
+        public uint? StreamErrorCode => GetProperty<uint?>("streamErrorCode");
     }
 }

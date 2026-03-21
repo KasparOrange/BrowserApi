@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class ReadableStreamDefaultReader
+    public partial class ReadableStreamDefaultReader : JsObject
     {
         [JsName("closed")]
-        public Task Closed { get; }
+        public Task Closed => GetProperty<Task>("closed");
 
         [JsName("read")]
-        public Task<ReadableStreamReadResult> ReadAsync() => throw new NotImplementedException();
+        public Task<ReadableStreamReadResult> ReadAsync() => InvokeAsync<ReadableStreamReadResult>("read");
 
         [JsName("releaseLock")]
-        public void ReleaseLock() => throw new NotImplementedException();
+        public void ReleaseLock() => InvokeVoid("releaseLock");
 
         [JsName("cancel")]
-        public Task CancelAsync(object? reason = null) => throw new NotImplementedException();
+        public Task CancelAsync(object? reason = null) => InvokeVoidAsync("cancel", reason);
     }
 }

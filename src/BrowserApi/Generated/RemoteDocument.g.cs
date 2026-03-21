@@ -32,21 +32,25 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class RemoteDocument
+    public partial class RemoteDocument : JsObject
     {
         [JsName("contentType")]
-        public string ContentType { get; }
+        public string ContentType => GetProperty<string>("contentType");
 
         [JsName("contextUrl")]
-        public string ContextUrl { get; }
+        public string ContextUrl => GetProperty<string>("contextUrl");
 
         [JsName("document")]
-        public object Document { get; set; }
+        public object Document
+        {
+            get => GetProperty<object>("document");
+            set => SetProperty("document", value);
+        }
 
         [JsName("documentUrl")]
-        public string DocumentUrl { get; }
+        public string DocumentUrl => GetProperty<string>("documentUrl");
 
         [JsName("profile")]
-        public string Profile { get; }
+        public string Profile => GetProperty<string>("profile");
     }
 }

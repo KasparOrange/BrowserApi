@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class ImageBitmapRenderingContext
+    public partial class ImageBitmapRenderingContext : JsObject
     {
         [JsName("canvas")]
-        public object Canvas { get; }
+        public object Canvas => GetProperty<object>("canvas");
 
         [JsName("transferFromImageBitmap")]
-        public void TransferFromImageBitmap(ImageBitmap? bitmap) => throw new NotImplementedException();
+        public void TransferFromImageBitmap(ImageBitmap? bitmap) => InvokeVoid("transferFromImageBitmap", bitmap);
     }
 }

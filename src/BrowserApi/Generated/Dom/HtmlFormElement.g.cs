@@ -36,57 +36,97 @@ namespace BrowserApi.Dom
     public partial class HtmlFormElement : HtmlElement
     {
         [JsName("acceptCharset")]
-        public string AcceptCharset { get; set; }
+        public string AcceptCharset
+        {
+            get => GetProperty<string>("acceptCharset");
+            set => SetProperty("acceptCharset", value);
+        }
 
         [JsName("action")]
-        public string Action { get; set; }
+        public string Action
+        {
+            get => GetProperty<string>("action");
+            set => SetProperty("action", value);
+        }
 
         [JsName("autocomplete")]
-        public string Autocomplete { get; set; }
+        public string Autocomplete
+        {
+            get => GetProperty<string>("autocomplete");
+            set => SetProperty("autocomplete", value);
+        }
 
         [JsName("enctype")]
-        public string Enctype { get; set; }
+        public string Enctype
+        {
+            get => GetProperty<string>("enctype");
+            set => SetProperty("enctype", value);
+        }
 
         [JsName("encoding")]
-        public string Encoding { get; set; }
+        public string Encoding
+        {
+            get => GetProperty<string>("encoding");
+            set => SetProperty("encoding", value);
+        }
 
         [JsName("method")]
-        public string Method { get; set; }
+        public string Method
+        {
+            get => GetProperty<string>("method");
+            set => SetProperty("method", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("noValidate")]
-        public bool NoValidate { get; set; }
+        public bool NoValidate
+        {
+            get => GetProperty<bool>("noValidate");
+            set => SetProperty("noValidate", value);
+        }
 
         [JsName("target")]
-        public string Target { get; set; }
+        public string Target
+        {
+            get => GetProperty<string>("target");
+            set => SetProperty("target", value);
+        }
 
         [JsName("rel")]
-        public string Rel { get; set; }
+        public string Rel
+        {
+            get => GetProperty<string>("rel");
+            set => SetProperty("rel", value);
+        }
 
         [JsName("relList")]
-        public DomTokenList RelList { get; }
+        public DomTokenList RelList => GetProperty<DomTokenList>("relList");
 
         [JsName("elements")]
-        public HtmlFormControlsCollection Elements { get; }
+        public HtmlFormControlsCollection Elements => GetProperty<HtmlFormControlsCollection>("elements");
 
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("submit")]
-        public void Submit() => throw new NotImplementedException();
+        public void Submit() => InvokeVoid("submit");
 
         [JsName("requestSubmit")]
-        public void RequestSubmit(HtmlElement? submitter = null) => throw new NotImplementedException();
+        public void RequestSubmit(HtmlElement? submitter = null) => InvokeVoid("requestSubmit", submitter);
 
         [JsName("reset")]
-        public void Reset() => throw new NotImplementedException();
+        public void Reset() => InvokeVoid("reset");
 
         [JsName("checkValidity")]
-        public bool CheckValidity() => throw new NotImplementedException();
+        public bool CheckValidity() => Invoke<bool>("checkValidity");
 
         [JsName("reportValidity")]
-        public bool ReportValidity() => throw new NotImplementedException();
+        public bool ReportValidity() => Invoke<bool>("reportValidity");
     }
 }

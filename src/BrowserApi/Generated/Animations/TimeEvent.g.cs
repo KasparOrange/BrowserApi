@@ -35,12 +35,12 @@ namespace BrowserApi.Animations
     public partial class TimeEvent : Event
     {
         [JsName("view")]
-        public object View { get; }
+        public object View => GetProperty<object>("view");
 
         [JsName("detail")]
-        public int Detail { get; }
+        public int Detail => GetProperty<int>("detail");
 
         [JsName("initTimeEvent")]
-        public void InitTimeEvent(string typeArg, Window? viewArg = null, int detailArg = 0) => throw new NotImplementedException();
+        public void InitTimeEvent(string typeArg, Window? viewArg = null, int detailArg = 0) => InvokeVoid("initTimeEvent", typeArg, viewArg, detailArg);
     }
 }

@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRMeshSet")]
-    public partial class XrMeshSet
+    public partial class XrMeshSet : JsObject
     {
     }
 }

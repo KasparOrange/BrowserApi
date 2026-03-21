@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class XrReferenceSpaceEvent : Event
     {
         [JsName("referenceSpace")]
-        public XrReferenceSpace ReferenceSpace { get; }
+        public XrReferenceSpace ReferenceSpace => GetProperty<XrReferenceSpace>("referenceSpace");
 
         [JsName("transform")]
-        public XrRigidTransform? Transform { get; }
+        public XrRigidTransform? Transform => GetProperty<XrRigidTransform?>("transform");
     }
 }

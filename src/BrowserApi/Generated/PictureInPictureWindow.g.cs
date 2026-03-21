@@ -35,12 +35,16 @@ namespace BrowserApi
     public partial class PictureInPictureWindow : EventTarget
     {
         [JsName("width")]
-        public int Width { get; }
+        public int Width => GetProperty<int>("width");
 
         [JsName("height")]
-        public int Height { get; }
+        public int Height => GetProperty<int>("height");
 
         [JsName("onresize")]
-        public object Onresize { get; set; }
+        public object Onresize
+        {
+            get => GetProperty<object>("onresize");
+            set => SetProperty("onresize", value);
+        }
     }
 }

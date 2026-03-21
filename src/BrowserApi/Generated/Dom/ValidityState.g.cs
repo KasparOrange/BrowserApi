@@ -32,39 +32,39 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class ValidityState
+    public partial class ValidityState : JsObject
     {
         [JsName("valueMissing")]
-        public bool ValueMissing { get; }
+        public bool ValueMissing => GetProperty<bool>("valueMissing");
 
         [JsName("typeMismatch")]
-        public bool TypeMismatch { get; }
+        public bool TypeMismatch => GetProperty<bool>("typeMismatch");
 
         [JsName("patternMismatch")]
-        public bool PatternMismatch { get; }
+        public bool PatternMismatch => GetProperty<bool>("patternMismatch");
 
         [JsName("tooLong")]
-        public bool TooLong { get; }
+        public bool TooLong => GetProperty<bool>("tooLong");
 
         [JsName("tooShort")]
-        public bool TooShort { get; }
+        public bool TooShort => GetProperty<bool>("tooShort");
 
         [JsName("rangeUnderflow")]
-        public bool RangeUnderflow { get; }
+        public bool RangeUnderflow => GetProperty<bool>("rangeUnderflow");
 
         [JsName("rangeOverflow")]
-        public bool RangeOverflow { get; }
+        public bool RangeOverflow => GetProperty<bool>("rangeOverflow");
 
         [JsName("stepMismatch")]
-        public bool StepMismatch { get; }
+        public bool StepMismatch => GetProperty<bool>("stepMismatch");
 
         [JsName("badInput")]
-        public bool BadInput { get; }
+        public bool BadInput => GetProperty<bool>("badInput");
 
         [JsName("customError")]
-        public bool CustomError { get; }
+        public bool CustomError => GetProperty<bool>("customError");
 
         [JsName("valid")]
-        public bool Valid { get; }
+        public bool Valid => GetProperty<bool>("valid");
     }
 }

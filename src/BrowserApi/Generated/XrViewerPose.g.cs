@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class XrViewerPose : XrPose
     {
         [JsName("views")]
-        public IReadOnlyList<XrView> Views { get; }
+        public IReadOnlyList<XrView> Views => GetProperty<IReadOnlyList<XrView>>("views");
     }
 }

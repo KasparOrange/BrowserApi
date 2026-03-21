@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class SensorErrorEvent : Event
     {
         [JsName("error")]
-        public DomException Error { get; }
+        public DomException Error => GetProperty<DomException>("error");
     }
 }

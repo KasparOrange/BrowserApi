@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class TextFormat
+    public partial class TextFormat : JsObject
     {
         [JsName("rangeStart")]
-        public uint RangeStart { get; }
+        public uint RangeStart => GetProperty<uint>("rangeStart");
 
         [JsName("rangeEnd")]
-        public uint RangeEnd { get; }
+        public uint RangeEnd => GetProperty<uint>("rangeEnd");
 
         [JsName("underlineStyle")]
-        public UnderlineStyle UnderlineStyle { get; }
+        public UnderlineStyle UnderlineStyle => GetProperty<UnderlineStyle>("underlineStyle");
 
         [JsName("underlineThickness")]
-        public UnderlineThickness UnderlineThickness { get; }
+        public UnderlineThickness UnderlineThickness => GetProperty<UnderlineThickness>("underlineThickness");
     }
 }

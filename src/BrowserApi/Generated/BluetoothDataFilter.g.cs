@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class BluetoothDataFilter
+    public partial class BluetoothDataFilter : JsObject
     {
         [JsName("dataPrefix")]
-        public byte[] DataPrefix { get; }
+        public byte[] DataPrefix => GetProperty<byte[]>("dataPrefix");
 
         [JsName("mask")]
-        public byte[] Mask { get; }
+        public byte[] Mask => GetProperty<byte[]>("mask");
     }
 }

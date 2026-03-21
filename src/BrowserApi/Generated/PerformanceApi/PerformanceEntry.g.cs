@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.PerformanceApi
 {
-    public partial class PerformanceEntry
+    public partial class PerformanceEntry : JsObject
     {
         [JsName("id")]
-        public ulong Id { get; }
+        public ulong Id => GetProperty<ulong>("id");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("entryType")]
-        public string EntryType { get; }
+        public string EntryType => GetProperty<string>("entryType");
 
         [JsName("startTime")]
-        public double StartTime { get; }
+        public double StartTime => GetProperty<double>("startTime");
 
         [JsName("duration")]
-        public double Duration { get; }
+        public double Duration => GetProperty<double>("duration");
 
         [JsName("navigationId")]
-        public ulong NavigationId { get; }
+        public ulong NavigationId => GetProperty<ulong>("navigationId");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

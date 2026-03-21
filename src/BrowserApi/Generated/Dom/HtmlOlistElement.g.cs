@@ -36,15 +36,31 @@ namespace BrowserApi.Dom
     public partial class HtmlOlistElement : HtmlElement
     {
         [JsName("reversed")]
-        public bool Reversed { get; set; }
+        public bool Reversed
+        {
+            get => GetProperty<bool>("reversed");
+            set => SetProperty("reversed", value);
+        }
 
         [JsName("start")]
-        public int Start { get; set; }
+        public int Start
+        {
+            get => GetProperty<int>("start");
+            set => SetProperty("start", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("compact")]
-        public bool Compact { get; set; }
+        public bool Compact
+        {
+            get => GetProperty<bool>("compact");
+            set => SetProperty("compact", value);
+        }
     }
 }

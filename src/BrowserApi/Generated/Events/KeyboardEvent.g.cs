@@ -43,42 +43,42 @@ namespace BrowserApi.Events
         public const uint DomKeyLocationNumpad = 0x03;
 
         [JsName("key")]
-        public string Key { get; }
+        public string Key => GetProperty<string>("key");
 
         [JsName("code")]
-        public string Code { get; }
+        public string Code => GetProperty<string>("code");
 
         [JsName("location")]
-        public uint Location { get; }
+        public uint Location => GetProperty<uint>("location");
 
         [JsName("ctrlKey")]
-        public bool CtrlKey { get; }
+        public bool CtrlKey => GetProperty<bool>("ctrlKey");
 
         [JsName("shiftKey")]
-        public bool ShiftKey { get; }
+        public bool ShiftKey => GetProperty<bool>("shiftKey");
 
         [JsName("altKey")]
-        public bool AltKey { get; }
+        public bool AltKey => GetProperty<bool>("altKey");
 
         [JsName("metaKey")]
-        public bool MetaKey { get; }
+        public bool MetaKey => GetProperty<bool>("metaKey");
 
         [JsName("repeat")]
-        public bool Repeat { get; }
+        public bool Repeat => GetProperty<bool>("repeat");
 
         [JsName("isComposing")]
-        public bool IsComposing { get; }
+        public bool IsComposing => GetProperty<bool>("isComposing");
 
         [JsName("charCode")]
-        public uint CharCode { get; }
+        public uint CharCode => GetProperty<uint>("charCode");
 
         [JsName("keyCode")]
-        public uint KeyCode { get; }
+        public uint KeyCode => GetProperty<uint>("keyCode");
 
         [JsName("getModifierState")]
-        public bool GetModifierState(string keyArg) => throw new NotImplementedException();
+        public bool GetModifierState(string keyArg) => Invoke<bool>("getModifierState", keyArg);
 
         [JsName("initKeyboardEvent")]
-        public void InitKeyboardEvent(string typeArg, bool bubblesArg = false, bool cancelableArg = false, Window? viewArg = null, string keyArg = "", uint locationArg = 0, bool ctrlKey = false, bool altKey = false, bool shiftKey = false, bool metaKey = false) => throw new NotImplementedException();
+        public void InitKeyboardEvent(string typeArg, bool bubblesArg = false, bool cancelableArg = false, Window? viewArg = null, string keyArg = "", uint locationArg = 0, bool ctrlKey = false, bool altKey = false, bool shiftKey = false, bool metaKey = false) => InvokeVoid("initKeyboardEvent", typeArg, bubblesArg, cancelableArg, viewArg, keyArg, locationArg, ctrlKey, altKey, shiftKey, metaKey);
     }
 }

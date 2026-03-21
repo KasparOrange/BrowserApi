@@ -36,6 +36,10 @@ namespace BrowserApi.Css
     public partial class CssStyleProperties : CssStyleDeclaration
     {
         [JsName("cssFloat")]
-        public string CssFloat { get; set; }
+        public string CssFloat
+        {
+            get => GetProperty<string>("cssFloat");
+            set => SetProperty("cssFloat", value);
+        }
     }
 }

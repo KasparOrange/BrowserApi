@@ -46,27 +46,27 @@ namespace BrowserApi
         public const ushort SvgFecolormatrixTypeLuminancetoalpha = 4;
 
         [JsName("in1")]
-        public SvgAnimatedString In1 { get; }
+        public SvgAnimatedString In1 => GetProperty<SvgAnimatedString>("in1");
 
         [JsName("type")]
-        public SvgAnimatedEnumeration Type { get; }
+        public SvgAnimatedEnumeration Type => GetProperty<SvgAnimatedEnumeration>("type");
 
         [JsName("values")]
-        public SvgAnimatedNumberList Values { get; }
+        public SvgAnimatedNumberList Values => GetProperty<SvgAnimatedNumberList>("values");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
     }
 }

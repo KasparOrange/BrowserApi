@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class PushEvent : ExtendableEvent
     {
         [JsName("data")]
-        public PushMessageData? Data { get; }
+        public PushMessageData? Data => GetProperty<PushMessageData?>("data");
 
         [JsName("notification")]
-        public Notification? Notification { get; }
+        public Notification? Notification => GetProperty<Notification?>("notification");
     }
 }

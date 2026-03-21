@@ -36,18 +36,18 @@ namespace BrowserApi.WebRtc
     public partial class RtcpeerConnectionIceErrorEvent : Event
     {
         [JsName("address")]
-        public string? Address { get; }
+        public string? Address => GetProperty<string?>("address");
 
         [JsName("port")]
-        public ushort? Port { get; }
+        public ushort? Port => GetProperty<ushort?>("port");
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("errorCode")]
-        public ushort ErrorCode { get; }
+        public ushort ErrorCode => GetProperty<ushort>("errorCode");
 
         [JsName("errorText")]
-        public string ErrorText { get; }
+        public string ErrorText => GetProperty<string>("errorText");
     }
 }

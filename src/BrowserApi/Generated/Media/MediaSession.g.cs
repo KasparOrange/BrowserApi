@@ -32,27 +32,35 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class MediaSession
+    public partial class MediaSession : JsObject
     {
         [JsName("metadata")]
-        public MediaMetadata? Metadata { get; set; }
+        public MediaMetadata? Metadata
+        {
+            get => GetProperty<MediaMetadata?>("metadata");
+            set => SetProperty("metadata", value);
+        }
 
         [JsName("playbackState")]
-        public MediaSessionPlaybackState PlaybackState { get; set; }
+        public MediaSessionPlaybackState PlaybackState
+        {
+            get => GetProperty<MediaSessionPlaybackState>("playbackState");
+            set => SetProperty("playbackState", value);
+        }
 
         [JsName("setActionHandler")]
-        public void SetActionHandler(MediaSessionAction action, MediaSessionActionHandler? handler) => throw new NotImplementedException();
+        public void SetActionHandler(MediaSessionAction action, MediaSessionActionHandler? handler) => InvokeVoid("setActionHandler", action, handler);
 
         [JsName("setPositionState")]
-        public void SetPositionState(MediaPositionState? state = null) => throw new NotImplementedException();
+        public void SetPositionState(MediaPositionState? state = null) => InvokeVoid("setPositionState", state);
 
         [JsName("setMicrophoneActive")]
-        public Task SetMicrophoneActiveAsync(bool active) => throw new NotImplementedException();
+        public Task SetMicrophoneActiveAsync(bool active) => InvokeVoidAsync("setMicrophoneActive", active);
 
         [JsName("setCameraActive")]
-        public Task SetCameraActiveAsync(bool active) => throw new NotImplementedException();
+        public Task SetCameraActiveAsync(bool active) => InvokeVoidAsync("setCameraActive", active);
 
         [JsName("setScreenshareActive")]
-        public Task SetScreenshareActiveAsync(bool active) => throw new NotImplementedException();
+        public Task SetScreenshareActiveAsync(bool active) => InvokeVoidAsync("setScreenshareActive", active);
     }
 }

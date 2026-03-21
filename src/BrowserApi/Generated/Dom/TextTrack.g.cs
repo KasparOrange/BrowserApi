@@ -35,39 +35,47 @@ namespace BrowserApi.Dom
     public partial class TextTrack : EventTarget
     {
         [JsName("kind")]
-        public TextTrackKind Kind { get; }
+        public TextTrackKind Kind => GetProperty<TextTrackKind>("kind");
 
         [JsName("label")]
-        public string Label { get; }
+        public string Label => GetProperty<string>("label");
 
         [JsName("language")]
-        public string Language { get; }
+        public string Language => GetProperty<string>("language");
 
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("inBandMetadataTrackDispatchType")]
-        public string InBandMetadataTrackDispatchType { get; }
+        public string InBandMetadataTrackDispatchType => GetProperty<string>("inBandMetadataTrackDispatchType");
 
         [JsName("mode")]
-        public TextTrackMode Mode { get; set; }
+        public TextTrackMode Mode
+        {
+            get => GetProperty<TextTrackMode>("mode");
+            set => SetProperty("mode", value);
+        }
 
         [JsName("cues")]
-        public TextTrackCueList? Cues { get; }
+        public TextTrackCueList? Cues => GetProperty<TextTrackCueList?>("cues");
 
         [JsName("activeCues")]
-        public TextTrackCueList? ActiveCues { get; }
+        public TextTrackCueList? ActiveCues => GetProperty<TextTrackCueList?>("activeCues");
 
         [JsName("oncuechange")]
-        public object Oncuechange { get; set; }
+        public object Oncuechange
+        {
+            get => GetProperty<object>("oncuechange");
+            set => SetProperty("oncuechange", value);
+        }
 
         [JsName("sourceBuffer")]
-        public SourceBuffer? SourceBuffer { get; }
+        public SourceBuffer? SourceBuffer => GetProperty<SourceBuffer?>("sourceBuffer");
 
         [JsName("addCue")]
-        public void AddCue(TextTrackCue cue) => throw new NotImplementedException();
+        public void AddCue(TextTrackCue cue) => InvokeVoid("addCue", cue);
 
         [JsName("removeCue")]
-        public void RemoveCue(TextTrackCue cue) => throw new NotImplementedException();
+        public void RemoveCue(TextTrackCue cue) => InvokeVoid("removeCue", cue);
     }
 }

@@ -32,282 +32,282 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Navigator
+    public partial class Navigator : JsObject
     {
         [JsName("attribution")]
-        public Attribution Attribution { get; }
+        public Attribution Attribution => GetProperty<Attribution>("attribution");
 
         [JsName("audioSession")]
-        public AudioSession AudioSession { get; }
+        public AudioSession AudioSession => GetProperty<AudioSession>("audioSession");
 
         [JsName("clipboard")]
-        public Clipboard Clipboard { get; }
+        public Clipboard Clipboard => GetProperty<Clipboard>("clipboard");
 
         [JsName("contacts")]
-        public ContactsManager Contacts { get; }
+        public ContactsManager Contacts => GetProperty<ContactsManager>("contacts");
 
         [JsName("credentials")]
-        public CredentialsContainer Credentials { get; }
+        public CredentialsContainer Credentials => GetProperty<CredentialsContainer>("credentials");
 
         [JsName("devicePosture")]
-        public DevicePosture DevicePosture { get; }
+        public DevicePosture DevicePosture => GetProperty<DevicePosture>("devicePosture");
 
         [JsName("epubReadingSystem")]
-        public EpubReadingSystem EpubReadingSystem { get; }
+        public EpubReadingSystem EpubReadingSystem => GetProperty<EpubReadingSystem>("epubReadingSystem");
 
         [JsName("geolocation")]
-        public Geolocation Geolocation { get; }
+        public Geolocation Geolocation => GetProperty<Geolocation>("geolocation");
 
         [JsName("userActivation")]
-        public UserActivation UserActivation { get; }
+        public UserActivation UserActivation => GetProperty<UserActivation>("userActivation");
 
         [JsName("ink")]
-        public Ink Ink { get; }
+        public Ink Ink => GetProperty<Ink>("ink");
 
         [JsName("scheduling")]
-        public Scheduling Scheduling { get; }
+        public Scheduling Scheduling => GetProperty<Scheduling>("scheduling");
 
         [JsName("keyboard")]
-        public Keyboard Keyboard { get; }
+        public Keyboard Keyboard => GetProperty<Keyboard>("keyboard");
 
         [JsName("login")]
-        public NavigatorLogin Login { get; }
+        public NavigatorLogin Login => GetProperty<NavigatorLogin>("login");
 
         [JsName("managed")]
-        public NavigatorManagedData Managed { get; }
+        public NavigatorManagedData Managed => GetProperty<NavigatorManagedData>("managed");
 
         [JsName("mediaCapabilities")]
-        public MediaCapabilities MediaCapabilities { get; }
+        public MediaCapabilities MediaCapabilities => GetProperty<MediaCapabilities>("mediaCapabilities");
 
         [JsName("mediaDevices")]
-        public MediaDevices MediaDevices { get; }
+        public MediaDevices MediaDevices => GetProperty<MediaDevices>("mediaDevices");
 
         [JsName("preferences")]
-        public PreferenceManager Preferences { get; }
+        public PreferenceManager Preferences => GetProperty<PreferenceManager>("preferences");
 
         [JsName("mediaSession")]
-        public MediaSession MediaSession { get; }
+        public MediaSession MediaSession => GetProperty<MediaSession>("mediaSession");
 
         [JsName("permissions")]
-        public Permissions Permissions { get; }
+        public Permissions Permissions => GetProperty<Permissions>("permissions");
 
         [JsName("maxTouchPoints")]
-        public int MaxTouchPoints { get; }
+        public int MaxTouchPoints => GetProperty<int>("maxTouchPoints");
 
         [JsName("presentation")]
-        public Presentation Presentation { get; }
+        public Presentation Presentation => GetProperty<Presentation>("presentation");
 
         [JsName("wakeLock")]
-        public WakeLock WakeLock { get; }
+        public WakeLock WakeLock => GetProperty<WakeLock>("wakeLock");
 
         [JsName("serial")]
-        public Serial Serial { get; }
+        public Serial Serial => GetProperty<Serial>("serial");
 
         [JsName("serviceWorker")]
-        public ServiceWorkerContainer ServiceWorker { get; }
+        public ServiceWorkerContainer ServiceWorker => GetProperty<ServiceWorkerContainer>("serviceWorker");
 
         [JsName("deprecatedRunAdAuctionEnforcesKAnonymity")]
-        public bool DeprecatedRunAdAuctionEnforcesKanonymity { get; }
+        public bool DeprecatedRunAdAuctionEnforcesKanonymity => GetProperty<bool>("deprecatedRunAdAuctionEnforcesKAnonymity");
 
         [JsName("protectedAudience")]
-        public ProtectedAudience ProtectedAudience { get; }
+        public ProtectedAudience ProtectedAudience => GetProperty<ProtectedAudience>("protectedAudience");
 
         [JsName("virtualKeyboard")]
-        public VirtualKeyboard VirtualKeyboard { get; }
+        public VirtualKeyboard VirtualKeyboard => GetProperty<VirtualKeyboard>("virtualKeyboard");
 
         [JsName("bluetooth")]
-        public Bluetooth Bluetooth { get; }
+        public Bluetooth Bluetooth => GetProperty<Bluetooth>("bluetooth");
 
         [JsName("hid")]
-        public Hid Hid { get; }
+        public Hid Hid => GetProperty<Hid>("hid");
 
         [JsName("modelContext")]
-        public ModelContext ModelContext { get; }
+        public ModelContext ModelContext => GetProperty<ModelContext>("modelContext");
 
         [JsName("usb")]
-        public Usb Usb { get; }
+        public Usb Usb => GetProperty<Usb>("usb");
 
         [JsName("xr")]
-        public XrSystem Xr { get; }
+        public XrSystem Xr => GetProperty<XrSystem>("xr");
 
         [JsName("windowControlsOverlay")]
-        public WindowControlsOverlay WindowControlsOverlay { get; }
+        public WindowControlsOverlay WindowControlsOverlay => GetProperty<WindowControlsOverlay>("windowControlsOverlay");
 
         [JsName("deviceMemory")]
-        public double DeviceMemory { get; }
+        public double DeviceMemory => GetProperty<double>("deviceMemory");
 
         [JsName("globalPrivacyControl")]
-        public bool GlobalPrivacyControl { get; }
+        public bool GlobalPrivacyControl => GetProperty<bool>("globalPrivacyControl");
 
         [JsName("appCodeName")]
-        public string AppCodeName { get; }
+        public string AppCodeName => GetProperty<string>("appCodeName");
 
         [JsName("appName")]
-        public string AppName { get; }
+        public string AppName => GetProperty<string>("appName");
 
         [JsName("appVersion")]
-        public string AppVersion { get; }
+        public string AppVersion => GetProperty<string>("appVersion");
 
         [JsName("platform")]
-        public string Platform { get; }
+        public string Platform => GetProperty<string>("platform");
 
         [JsName("product")]
-        public string Product { get; }
+        public string Product => GetProperty<string>("product");
 
         [JsName("productSub")]
-        public string ProductSub { get; }
+        public string ProductSub => GetProperty<string>("productSub");
 
         [JsName("userAgent")]
-        public string UserAgent { get; }
+        public string UserAgent => GetProperty<string>("userAgent");
 
         [JsName("vendor")]
-        public string Vendor { get; }
+        public string Vendor => GetProperty<string>("vendor");
 
         [JsName("vendorSub")]
-        public string VendorSub { get; }
+        public string VendorSub => GetProperty<string>("vendorSub");
 
         [JsName("oscpu")]
-        public string Oscpu { get; }
+        public string Oscpu => GetProperty<string>("oscpu");
 
         [JsName("language")]
-        public string Language { get; }
+        public string Language => GetProperty<string>("language");
 
         [JsName("languages")]
-        public IReadOnlyList<string> Languages { get; }
+        public IReadOnlyList<string> Languages => GetProperty<IReadOnlyList<string>>("languages");
 
         [JsName("onLine")]
-        public bool OnLine { get; }
+        public bool OnLine => GetProperty<bool>("onLine");
 
         [JsName("cookieEnabled")]
-        public bool CookieEnabled { get; }
+        public bool CookieEnabled => GetProperty<bool>("cookieEnabled");
 
         [JsName("plugins")]
-        public PluginArray Plugins { get; }
+        public PluginArray Plugins => GetProperty<PluginArray>("plugins");
 
         [JsName("mimeTypes")]
-        public MimeTypeArray MimeTypes { get; }
+        public MimeTypeArray MimeTypes => GetProperty<MimeTypeArray>("mimeTypes");
 
         [JsName("pdfViewerEnabled")]
-        public bool PdfViewerEnabled { get; }
+        public bool PdfViewerEnabled => GetProperty<bool>("pdfViewerEnabled");
 
         [JsName("hardwareConcurrency")]
-        public ulong HardwareConcurrency { get; }
+        public ulong HardwareConcurrency => GetProperty<ulong>("hardwareConcurrency");
 
         [JsName("connection")]
-        public NetworkInformation Connection { get; }
+        public NetworkInformation Connection => GetProperty<NetworkInformation>("connection");
 
         [JsName("storageBuckets")]
-        public StorageBucketManager StorageBuckets { get; }
+        public StorageBucketManager StorageBuckets => GetProperty<StorageBucketManager>("storageBuckets");
 
         [JsName("storage")]
-        public StorageManager Storage { get; }
+        public StorageManager Storage => GetProperty<StorageManager>("storage");
 
         [JsName("userAgentData")]
-        public NavigatorUadata UserAgentData { get; }
+        public NavigatorUadata UserAgentData => GetProperty<NavigatorUadata>("userAgentData");
 
         [JsName("locks")]
-        public LockManager Locks { get; }
+        public LockManager Locks => GetProperty<LockManager>("locks");
 
         [JsName("webdriver")]
-        public bool Webdriver { get; }
+        public bool Webdriver => GetProperty<bool>("webdriver");
 
         [JsName("gpu")]
-        public Gpu Gpu { get; }
+        public Gpu Gpu => GetProperty<Gpu>("gpu");
 
         [JsName("ml")]
-        public Ml Ml { get; }
+        public Ml Ml => GetProperty<Ml>("ml");
 
         [JsName("getAutoplayPolicy")]
-        public AutoplayPolicy GetAutoplayPolicy(AutoplayPolicyMediaType type) => throw new NotImplementedException();
+        public AutoplayPolicy GetAutoplayPolicy(AutoplayPolicyMediaType type) => Invoke<AutoplayPolicy>("getAutoplayPolicy", type);
 
         [JsName("getAutoplayPolicy")]
-        public AutoplayPolicy GetAutoplayPolicy(HtmlMediaElement element) => throw new NotImplementedException();
+        public AutoplayPolicy GetAutoplayPolicy(HtmlMediaElement element) => Invoke<AutoplayPolicy>("getAutoplayPolicy", element);
 
         [JsName("getAutoplayPolicy")]
-        public AutoplayPolicy GetAutoplayPolicy(AudioContext context) => throw new NotImplementedException();
+        public AutoplayPolicy GetAutoplayPolicy(AudioContext context) => Invoke<AutoplayPolicy>("getAutoplayPolicy", context);
 
         [JsName("getBattery")]
-        public Task<BatteryManager> GetBatteryAsync() => throw new NotImplementedException();
+        public Task<BatteryManager> GetBatteryAsync() => InvokeAsync<BatteryManager>("getBattery");
 
         [JsName("sendBeacon")]
-        public bool SendBeacon(string url, object? data = null) => throw new NotImplementedException();
+        public bool SendBeacon(string url, object? data = null) => Invoke<bool>("sendBeacon", url, data);
 
         [JsName("requestMediaKeySystemAccess")]
-        public Task<MediaKeySystemAccess> RequestMediaKeySystemAccessAsync(string keySystem, IReadOnlyList<MediaKeySystemConfiguration> supportedConfigurations) => throw new NotImplementedException();
+        public Task<MediaKeySystemAccess> RequestMediaKeySystemAccessAsync(string keySystem, IReadOnlyList<MediaKeySystemConfiguration> supportedConfigurations) => InvokeAsync<MediaKeySystemAccess>("requestMediaKeySystemAccess", keySystem, supportedConfigurations);
 
         [JsName("deprecatedReplaceInURN")]
-        public Task DeprecatedReplaceInUrnAsync(object urnOrConfig, IReadOnlyDictionary<string, string> replacements) => throw new NotImplementedException();
+        public Task DeprecatedReplaceInUrnAsync(object urnOrConfig, IReadOnlyDictionary<string, string> replacements) => InvokeVoidAsync("deprecatedReplaceInURN", urnOrConfig, replacements);
 
         [JsName("deprecatedURNtoURL")]
-        public Task<string> DeprecatedUrntoUrlAsync(object urnOrConfig, bool sendReports = false) => throw new NotImplementedException();
+        public Task<string> DeprecatedUrntoUrlAsync(object urnOrConfig, bool sendReports = false) => InvokeAsync<string>("deprecatedURNtoURL", urnOrConfig, sendReports);
 
         [JsName("adAuctionComponents")]
-        public IReadOnlyList<string> AdAuctionComponents(ushort numAdComponents) => throw new NotImplementedException();
+        public IReadOnlyList<string> AdAuctionComponents(ushort numAdComponents) => Invoke<IReadOnlyList<string>>("adAuctionComponents", numAdComponents);
 
         [JsName("getGamepads")]
-        public IReadOnlyList<Gamepad> GetGamepads() => throw new NotImplementedException();
+        public IReadOnlyList<Gamepad> GetGamepads() => Invoke<IReadOnlyList<Gamepad>>("getGamepads");
 
         [JsName("getInstalledRelatedApps")]
-        public Task<IReadOnlyList<RelatedApplication>> GetInstalledRelatedAppsAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<RelatedApplication>> GetInstalledRelatedAppsAsync() => InvokeAsync<IReadOnlyList<RelatedApplication>>("getInstalledRelatedApps");
 
         [JsName("queryHandwritingRecognizer")]
-        public Task<HandwritingRecognizerQueryResult?> QueryHandwritingRecognizerAsync(HandwritingModelConstraint constraint) => throw new NotImplementedException();
+        public Task<HandwritingRecognizerQueryResult?> QueryHandwritingRecognizerAsync(HandwritingModelConstraint constraint) => InvokeAsync<HandwritingRecognizerQueryResult?>("queryHandwritingRecognizer", constraint);
 
         [JsName("createHandwritingRecognizer")]
-        public Task<HandwritingRecognizer> CreateHandwritingRecognizerAsync(HandwritingModelConstraint constraint) => throw new NotImplementedException();
+        public Task<HandwritingRecognizer> CreateHandwritingRecognizerAsync(HandwritingModelConstraint constraint) => InvokeAsync<HandwritingRecognizer>("createHandwritingRecognizer", constraint);
 
         [JsName("joinAdInterestGroup")]
-        public Task JoinAdInterestGroupAsync(AuctionAdInterestGroup group) => throw new NotImplementedException();
+        public Task JoinAdInterestGroupAsync(AuctionAdInterestGroup group) => InvokeVoidAsync("joinAdInterestGroup", group);
 
         [JsName("leaveAdInterestGroup")]
-        public Task LeaveAdInterestGroupAsync(AuctionAdInterestGroupKey? group = null) => throw new NotImplementedException();
+        public Task LeaveAdInterestGroupAsync(AuctionAdInterestGroupKey? group = null) => InvokeVoidAsync("leaveAdInterestGroup", group);
 
         [JsName("clearOriginJoinedAdInterestGroups")]
-        public Task ClearOriginJoinedAdInterestGroupsAsync(string owner, IReadOnlyList<string>? interestGroupsToKeep = null) => throw new NotImplementedException();
+        public Task ClearOriginJoinedAdInterestGroupsAsync(string owner, IReadOnlyList<string>? interestGroupsToKeep = null) => InvokeVoidAsync("clearOriginJoinedAdInterestGroups", owner, interestGroupsToKeep);
 
         [JsName("runAdAuction")]
-        public Task<object?> RunAdAuctionAsync(AuctionAdConfig config) => throw new NotImplementedException();
+        public Task<object?> RunAdAuctionAsync(AuctionAdConfig config) => InvokeAsync<object?>("runAdAuction", config);
 
         [JsName("canLoadAdAuctionFencedFrame")]
-        public bool CanLoadAdAuctionFencedFrame() => throw new NotImplementedException();
+        public bool CanLoadAdAuctionFencedFrame() => Invoke<bool>("canLoadAdAuctionFencedFrame");
 
         [JsName("getInterestGroupAdAuctionData")]
-        public Task<AdAuctionData> GetInterestGroupAdAuctionDataAsync(AdAuctionDataConfig? config = null) => throw new NotImplementedException();
+        public Task<AdAuctionData> GetInterestGroupAdAuctionDataAsync(AdAuctionDataConfig? config = null) => InvokeAsync<AdAuctionData>("getInterestGroupAdAuctionData", config);
 
         [JsName("createAuctionNonce")]
-        public Task<string> CreateAuctionNonceAsync() => throw new NotImplementedException();
+        public Task<string> CreateAuctionNonceAsync() => InvokeAsync<string>("createAuctionNonce");
 
         [JsName("updateAdInterestGroups")]
-        public void UpdateAdInterestGroups() => throw new NotImplementedException();
+        public void UpdateAdInterestGroups() => InvokeVoid("updateAdInterestGroups");
 
         [JsName("vibrate")]
-        public bool Vibrate(uint[] pattern) => throw new NotImplementedException();
+        public bool Vibrate(uint[] pattern) => Invoke<bool>("vibrate", pattern);
 
         [JsName("share")]
-        public Task ShareAsync(ShareData? data = null) => throw new NotImplementedException();
+        public Task ShareAsync(ShareData? data = null) => InvokeVoidAsync("share", data);
 
         [JsName("canShare")]
-        public bool CanShare(ShareData? data = null) => throw new NotImplementedException();
+        public bool CanShare(ShareData? data = null) => Invoke<bool>("canShare", data);
 
         [JsName("requestMIDIAccess")]
-        public Task<MidiAccess> RequestMidiAccessAsync(MidiOptions? options = null) => throw new NotImplementedException();
+        public Task<MidiAccess> RequestMidiAccessAsync(MidiOptions? options = null) => InvokeAsync<MidiAccess>("requestMIDIAccess", options);
 
         [JsName("setAppBadge")]
-        public Task SetAppBadgeAsync(ulong? contents = null) => throw new NotImplementedException();
+        public Task SetAppBadgeAsync(ulong? contents = null) => InvokeVoidAsync("setAppBadge", contents);
 
         [JsName("clearAppBadge")]
-        public Task ClearAppBadgeAsync() => throw new NotImplementedException();
+        public Task ClearAppBadgeAsync() => InvokeVoidAsync("clearAppBadge");
 
         [JsName("taintEnabled")]
-        public bool TaintEnabled() => throw new NotImplementedException();
+        public bool TaintEnabled() => Invoke<bool>("taintEnabled");
 
         [JsName("registerProtocolHandler")]
-        public void RegisterProtocolHandler(string scheme, string url) => throw new NotImplementedException();
+        public void RegisterProtocolHandler(string scheme, string url) => InvokeVoid("registerProtocolHandler", scheme, url);
 
         [JsName("unregisterProtocolHandler")]
-        public void UnregisterProtocolHandler(string scheme, string url) => throw new NotImplementedException();
+        public void UnregisterProtocolHandler(string scheme, string url) => InvokeVoid("unregisterProtocolHandler", scheme, url);
 
         [JsName("javaEnabled")]
-        public bool JavaEnabled() => throw new NotImplementedException();
+        public bool JavaEnabled() => Invoke<bool>("javaEnabled");
     }
 }

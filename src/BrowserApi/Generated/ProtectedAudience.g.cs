@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ProtectedAudience
+    public partial class ProtectedAudience : JsObject
     {
         [JsName("queryFeatureSupport")]
-        public object QueryFeatureSupport(string feature) => throw new NotImplementedException();
+        public object QueryFeatureSupport(string feature) => Invoke<object>("queryFeatureSupport", feature);
     }
 }

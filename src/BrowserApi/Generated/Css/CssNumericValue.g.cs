@@ -36,34 +36,34 @@ namespace BrowserApi.Css
     public partial class CssNumericValue : CssStyleValue
     {
         [JsName("add")]
-        public CssNumericValue Add(params object[] values) => throw new NotImplementedException();
+        public CssNumericValue Add(params object[] values) => Invoke<CssNumericValue>("add", values);
 
         [JsName("sub")]
-        public CssNumericValue Sub(params object[] values) => throw new NotImplementedException();
+        public CssNumericValue Sub(params object[] values) => Invoke<CssNumericValue>("sub", values);
 
         [JsName("mul")]
-        public CssNumericValue Mul(params object[] values) => throw new NotImplementedException();
+        public CssNumericValue Mul(params object[] values) => Invoke<CssNumericValue>("mul", values);
 
         [JsName("div")]
-        public CssNumericValue Div(params object[] values) => throw new NotImplementedException();
+        public CssNumericValue Div(params object[] values) => Invoke<CssNumericValue>("div", values);
 
         [JsName("min")]
-        public CssNumericValue Min(params object[] values) => throw new NotImplementedException();
+        public CssNumericValue Min(params object[] values) => Invoke<CssNumericValue>("min", values);
 
         [JsName("max")]
-        public CssNumericValue Max(params object[] values) => throw new NotImplementedException();
+        public CssNumericValue Max(params object[] values) => Invoke<CssNumericValue>("max", values);
 
         [JsName("equals")]
-        public bool Equals(params object[] value) => throw new NotImplementedException();
+        public bool Equals(params object[] value) => Invoke<bool>("equals", value);
 
         [JsName("to")]
-        public CssUnitValue To(string unit) => throw new NotImplementedException();
+        public CssUnitValue To(string unit) => Invoke<CssUnitValue>("to", unit);
 
         [JsName("toSum")]
-        public CssMathSum ToSum(params object[] units) => throw new NotImplementedException();
+        public CssMathSum ToSum(params object[] units) => Invoke<CssMathSum>("toSum", units);
 
         [JsName("type")]
-        public CssNumericType Type() => throw new NotImplementedException();
+        public CssNumericType Type() => Invoke<CssNumericType>("type");
 
         [JsName("parse")]
         public static CssNumericValue Parse(string cssText) => throw new NotImplementedException();

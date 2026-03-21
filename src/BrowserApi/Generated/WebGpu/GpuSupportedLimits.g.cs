@@ -33,111 +33,111 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUSupportedLimits")]
-    public partial class GpuSupportedLimits
+    public partial class GpuSupportedLimits : JsObject
     {
         [JsName("maxTextureDimension1D")]
-        public uint MaxTextureDimension1D { get; }
+        public uint MaxTextureDimension1D => GetProperty<uint>("maxTextureDimension1D");
 
         [JsName("maxTextureDimension2D")]
-        public uint MaxTextureDimension2D { get; }
+        public uint MaxTextureDimension2D => GetProperty<uint>("maxTextureDimension2D");
 
         [JsName("maxTextureDimension3D")]
-        public uint MaxTextureDimension3D { get; }
+        public uint MaxTextureDimension3D => GetProperty<uint>("maxTextureDimension3D");
 
         [JsName("maxTextureArrayLayers")]
-        public uint MaxTextureArrayLayers { get; }
+        public uint MaxTextureArrayLayers => GetProperty<uint>("maxTextureArrayLayers");
 
         [JsName("maxBindGroups")]
-        public uint MaxBindGroups { get; }
+        public uint MaxBindGroups => GetProperty<uint>("maxBindGroups");
 
         [JsName("maxBindGroupsPlusVertexBuffers")]
-        public uint MaxBindGroupsPlusVertexBuffers { get; }
+        public uint MaxBindGroupsPlusVertexBuffers => GetProperty<uint>("maxBindGroupsPlusVertexBuffers");
 
         [JsName("maxBindingsPerBindGroup")]
-        public uint MaxBindingsPerBindGroup { get; }
+        public uint MaxBindingsPerBindGroup => GetProperty<uint>("maxBindingsPerBindGroup");
 
         [JsName("maxDynamicUniformBuffersPerPipelineLayout")]
-        public uint MaxDynamicUniformBuffersPerPipelineLayout { get; }
+        public uint MaxDynamicUniformBuffersPerPipelineLayout => GetProperty<uint>("maxDynamicUniformBuffersPerPipelineLayout");
 
         [JsName("maxDynamicStorageBuffersPerPipelineLayout")]
-        public uint MaxDynamicStorageBuffersPerPipelineLayout { get; }
+        public uint MaxDynamicStorageBuffersPerPipelineLayout => GetProperty<uint>("maxDynamicStorageBuffersPerPipelineLayout");
 
         [JsName("maxSampledTexturesPerShaderStage")]
-        public uint MaxSampledTexturesPerShaderStage { get; }
+        public uint MaxSampledTexturesPerShaderStage => GetProperty<uint>("maxSampledTexturesPerShaderStage");
 
         [JsName("maxSamplersPerShaderStage")]
-        public uint MaxSamplersPerShaderStage { get; }
+        public uint MaxSamplersPerShaderStage => GetProperty<uint>("maxSamplersPerShaderStage");
 
         [JsName("maxStorageBuffersPerShaderStage")]
-        public uint MaxStorageBuffersPerShaderStage { get; }
+        public uint MaxStorageBuffersPerShaderStage => GetProperty<uint>("maxStorageBuffersPerShaderStage");
 
         [JsName("maxStorageBuffersInVertexStage")]
-        public uint MaxStorageBuffersInVertexStage { get; }
+        public uint MaxStorageBuffersInVertexStage => GetProperty<uint>("maxStorageBuffersInVertexStage");
 
         [JsName("maxStorageBuffersInFragmentStage")]
-        public uint MaxStorageBuffersInFragmentStage { get; }
+        public uint MaxStorageBuffersInFragmentStage => GetProperty<uint>("maxStorageBuffersInFragmentStage");
 
         [JsName("maxStorageTexturesPerShaderStage")]
-        public uint MaxStorageTexturesPerShaderStage { get; }
+        public uint MaxStorageTexturesPerShaderStage => GetProperty<uint>("maxStorageTexturesPerShaderStage");
 
         [JsName("maxStorageTexturesInVertexStage")]
-        public uint MaxStorageTexturesInVertexStage { get; }
+        public uint MaxStorageTexturesInVertexStage => GetProperty<uint>("maxStorageTexturesInVertexStage");
 
         [JsName("maxStorageTexturesInFragmentStage")]
-        public uint MaxStorageTexturesInFragmentStage { get; }
+        public uint MaxStorageTexturesInFragmentStage => GetProperty<uint>("maxStorageTexturesInFragmentStage");
 
         [JsName("maxUniformBuffersPerShaderStage")]
-        public uint MaxUniformBuffersPerShaderStage { get; }
+        public uint MaxUniformBuffersPerShaderStage => GetProperty<uint>("maxUniformBuffersPerShaderStage");
 
         [JsName("maxUniformBufferBindingSize")]
-        public ulong MaxUniformBufferBindingSize { get; }
+        public ulong MaxUniformBufferBindingSize => GetProperty<ulong>("maxUniformBufferBindingSize");
 
         [JsName("maxStorageBufferBindingSize")]
-        public ulong MaxStorageBufferBindingSize { get; }
+        public ulong MaxStorageBufferBindingSize => GetProperty<ulong>("maxStorageBufferBindingSize");
 
         [JsName("minUniformBufferOffsetAlignment")]
-        public uint MinUniformBufferOffsetAlignment { get; }
+        public uint MinUniformBufferOffsetAlignment => GetProperty<uint>("minUniformBufferOffsetAlignment");
 
         [JsName("minStorageBufferOffsetAlignment")]
-        public uint MinStorageBufferOffsetAlignment { get; }
+        public uint MinStorageBufferOffsetAlignment => GetProperty<uint>("minStorageBufferOffsetAlignment");
 
         [JsName("maxVertexBuffers")]
-        public uint MaxVertexBuffers { get; }
+        public uint MaxVertexBuffers => GetProperty<uint>("maxVertexBuffers");
 
         [JsName("maxBufferSize")]
-        public ulong MaxBufferSize { get; }
+        public ulong MaxBufferSize => GetProperty<ulong>("maxBufferSize");
 
         [JsName("maxVertexAttributes")]
-        public uint MaxVertexAttributes { get; }
+        public uint MaxVertexAttributes => GetProperty<uint>("maxVertexAttributes");
 
         [JsName("maxVertexBufferArrayStride")]
-        public uint MaxVertexBufferArrayStride { get; }
+        public uint MaxVertexBufferArrayStride => GetProperty<uint>("maxVertexBufferArrayStride");
 
         [JsName("maxInterStageShaderVariables")]
-        public uint MaxInterStageShaderVariables { get; }
+        public uint MaxInterStageShaderVariables => GetProperty<uint>("maxInterStageShaderVariables");
 
         [JsName("maxColorAttachments")]
-        public uint MaxColorAttachments { get; }
+        public uint MaxColorAttachments => GetProperty<uint>("maxColorAttachments");
 
         [JsName("maxColorAttachmentBytesPerSample")]
-        public uint MaxColorAttachmentBytesPerSample { get; }
+        public uint MaxColorAttachmentBytesPerSample => GetProperty<uint>("maxColorAttachmentBytesPerSample");
 
         [JsName("maxComputeWorkgroupStorageSize")]
-        public uint MaxComputeWorkgroupStorageSize { get; }
+        public uint MaxComputeWorkgroupStorageSize => GetProperty<uint>("maxComputeWorkgroupStorageSize");
 
         [JsName("maxComputeInvocationsPerWorkgroup")]
-        public uint MaxComputeInvocationsPerWorkgroup { get; }
+        public uint MaxComputeInvocationsPerWorkgroup => GetProperty<uint>("maxComputeInvocationsPerWorkgroup");
 
         [JsName("maxComputeWorkgroupSizeX")]
-        public uint MaxComputeWorkgroupSizeX { get; }
+        public uint MaxComputeWorkgroupSizeX => GetProperty<uint>("maxComputeWorkgroupSizeX");
 
         [JsName("maxComputeWorkgroupSizeY")]
-        public uint MaxComputeWorkgroupSizeY { get; }
+        public uint MaxComputeWorkgroupSizeY => GetProperty<uint>("maxComputeWorkgroupSizeY");
 
         [JsName("maxComputeWorkgroupSizeZ")]
-        public uint MaxComputeWorkgroupSizeZ { get; }
+        public uint MaxComputeWorkgroupSizeZ => GetProperty<uint>("maxComputeWorkgroupSizeZ");
 
         [JsName("maxComputeWorkgroupsPerDimension")]
-        public uint MaxComputeWorkgroupsPerDimension { get; }
+        public uint MaxComputeWorkgroupsPerDimension => GetProperty<uint>("maxComputeWorkgroupsPerDimension");
     }
 }

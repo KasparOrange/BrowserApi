@@ -33,12 +33,16 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUShaderModule")]
-    public partial class GpuShaderModule
+    public partial class GpuShaderModule : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("getCompilationInfo")]
-        public Task<GpuCompilationInfo> GetCompilationInfoAsync() => throw new NotImplementedException();
+        public Task<GpuCompilationInfo> GetCompilationInfoAsync() => InvokeAsync<GpuCompilationInfo>("getCompilationInfo");
     }
 }

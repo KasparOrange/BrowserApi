@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_depth_texture")]
-    public partial class WebglDepthTexture
+    public partial class WebglDepthTexture : JsObject
     {
         public const uint UnsignedInt248Webgl = 0x84FA;
     }

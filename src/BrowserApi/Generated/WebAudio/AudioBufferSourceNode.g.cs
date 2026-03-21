@@ -35,24 +35,40 @@ namespace BrowserApi.WebAudio
     public partial class AudioBufferSourceNode : AudioScheduledSourceNode
     {
         [JsName("buffer")]
-        public AudioBuffer? Buffer { get; set; }
+        public AudioBuffer? Buffer
+        {
+            get => GetProperty<AudioBuffer?>("buffer");
+            set => SetProperty("buffer", value);
+        }
 
         [JsName("playbackRate")]
-        public AudioParam PlaybackRate { get; }
+        public AudioParam PlaybackRate => GetProperty<AudioParam>("playbackRate");
 
         [JsName("detune")]
-        public AudioParam Detune { get; }
+        public AudioParam Detune => GetProperty<AudioParam>("detune");
 
         [JsName("loop")]
-        public bool Loop { get; set; }
+        public bool Loop
+        {
+            get => GetProperty<bool>("loop");
+            set => SetProperty("loop", value);
+        }
 
         [JsName("loopStart")]
-        public double LoopStart { get; set; }
+        public double LoopStart
+        {
+            get => GetProperty<double>("loopStart");
+            set => SetProperty("loopStart", value);
+        }
 
         [JsName("loopEnd")]
-        public double LoopEnd { get; set; }
+        public double LoopEnd
+        {
+            get => GetProperty<double>("loopEnd");
+            set => SetProperty("loopEnd", value);
+        }
 
         [JsName("start")]
-        public void Start(double when = 0, double? offset = null, double? duration = null) => throw new NotImplementedException();
+        public void Start(double when = 0, double? offset = null, double? duration = null) => InvokeVoid("start", when, offset, duration);
     }
 }

@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGAnimatedLength")]
-    public partial class SvgAnimatedLength
+    public partial class SvgAnimatedLength : JsObject
     {
         [JsName("baseVal")]
-        public SvgLength BaseVal { get; }
+        public SvgLength BaseVal => GetProperty<SvgLength>("baseVal");
 
         [JsName("animVal")]
-        public SvgLength AnimVal { get; }
+        public SvgLength AnimVal => GetProperty<SvgLength>("animVal");
     }
 }

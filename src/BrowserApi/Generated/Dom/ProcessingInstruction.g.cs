@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class ProcessingInstruction : CharacterData
     {
         [JsName("target")]
-        public string Target { get; }
+        public string Target => GetProperty<string>("target");
 
         [JsName("sheet")]
-        public CssStyleSheet? Sheet { get; }
+        public CssStyleSheet? Sheet => GetProperty<CssStyleSheet?>("sheet");
     }
 }

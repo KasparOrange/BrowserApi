@@ -35,9 +35,9 @@ namespace BrowserApi.Css
     public partial class SnapEvent : Event
     {
         [JsName("snapTargetBlock")]
-        public Node? SnapTargetBlock { get; }
+        public Node? SnapTargetBlock => GetProperty<Node?>("snapTargetBlock");
 
         [JsName("snapTargetInline")]
-        public Node? SnapTargetInline { get; }
+        public Node? SnapTargetInline => GetProperty<Node?>("snapTargetInline");
     }
 }

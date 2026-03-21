@@ -32,27 +32,31 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class StyleSheet
+    public partial class StyleSheet : JsObject
     {
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("href")]
-        public string? Href { get; }
+        public string? Href => GetProperty<string?>("href");
 
         [JsName("ownerNode")]
-        public object OwnerNode { get; }
+        public object OwnerNode => GetProperty<object>("ownerNode");
 
         [JsName("parentStyleSheet")]
-        public CssStyleSheet? ParentStyleSheet { get; }
+        public CssStyleSheet? ParentStyleSheet => GetProperty<CssStyleSheet?>("parentStyleSheet");
 
         [JsName("title")]
-        public string? Title { get; }
+        public string? Title => GetProperty<string?>("title");
 
         [JsName("media")]
-        public MediaList Media { get; }
+        public MediaList Media => GetProperty<MediaList>("media");
 
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
     }
 }

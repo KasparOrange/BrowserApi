@@ -33,33 +33,33 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("CSSPseudoElement")]
-    public partial class CssPseudoElement
+    public partial class CssPseudoElement : JsObject
     {
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("element")]
-        public Element Element { get; }
+        public Element Element => GetProperty<Element>("element");
 
         [JsName("parent")]
-        public object Parent { get; }
+        public object Parent => GetProperty<object>("parent");
 
         [JsName("selectorText")]
-        public string SelectorText { get; }
+        public string SelectorText => GetProperty<string>("selectorText");
 
         [JsName("pseudo")]
-        public CssPseudoElement? Pseudo(string type) => throw new NotImplementedException();
+        public CssPseudoElement? Pseudo(string type) => Invoke<CssPseudoElement?>("pseudo", type);
 
         [JsName("getBoxQuads")]
-        public IReadOnlyList<DomQuad> GetBoxQuads(BoxQuadOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<DomQuad> GetBoxQuads(BoxQuadOptions? options = null) => Invoke<IReadOnlyList<DomQuad>>("getBoxQuads", options);
 
         [JsName("convertQuadFromNode")]
-        public DomQuad ConvertQuadFromNode(DomQuadInit quad, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomQuad ConvertQuadFromNode(DomQuadInit quad, object from, ConvertCoordinateOptions? options = null) => Invoke<DomQuad>("convertQuadFromNode", quad, from, options);
 
         [JsName("convertRectFromNode")]
-        public DomQuad ConvertRectFromNode(DomRectReadOnly rect, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomQuad ConvertRectFromNode(DomRectReadOnly rect, object from, ConvertCoordinateOptions? options = null) => Invoke<DomQuad>("convertRectFromNode", rect, from, options);
 
         [JsName("convertPointFromNode")]
-        public DomPoint ConvertPointFromNode(DomPointInit point, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomPoint ConvertPointFromNode(DomPointInit point, object from, ConvertCoordinateOptions? options = null) => Invoke<DomPoint>("convertPointFromNode", point, from, options);
     }
 }

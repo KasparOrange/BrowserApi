@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class EncodedVideoChunk
+    public partial class EncodedVideoChunk : JsObject
     {
         [JsName("type")]
-        public EncodedVideoChunkType Type { get; }
+        public EncodedVideoChunkType Type => GetProperty<EncodedVideoChunkType>("type");
 
         [JsName("timestamp")]
-        public long Timestamp { get; }
+        public long Timestamp => GetProperty<long>("timestamp");
 
         [JsName("duration")]
-        public ulong? Duration { get; }
+        public ulong? Duration => GetProperty<ulong?>("duration");
 
         [JsName("byteLength")]
-        public uint ByteLength { get; }
+        public uint ByteLength => GetProperty<uint>("byteLength");
 
         [JsName("copyTo")]
-        public void CopyTo(object destination) => throw new NotImplementedException();
+        public void CopyTo(object destination) => InvokeVoid("copyTo", destination);
     }
 }

@@ -33,12 +33,16 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGAnimatedEnumeration")]
-    public partial class SvgAnimatedEnumeration
+    public partial class SvgAnimatedEnumeration : JsObject
     {
         [JsName("baseVal")]
-        public ushort BaseVal { get; set; }
+        public ushort BaseVal
+        {
+            get => GetProperty<ushort>("baseVal");
+            set => SetProperty("baseVal", value);
+        }
 
         [JsName("animVal")]
-        public ushort AnimVal { get; }
+        public ushort AnimVal => GetProperty<ushort>("animVal");
     }
 }

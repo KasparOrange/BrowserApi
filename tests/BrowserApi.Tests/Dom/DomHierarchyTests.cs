@@ -1,3 +1,4 @@
+using BrowserApi.Common;
 using BrowserApi.Css;
 using BrowserApi.Dom;
 using BrowserApi.Events;
@@ -5,6 +6,11 @@ using BrowserApi.Events;
 namespace BrowserApi.Tests.Dom;
 
 public class DomHierarchyTests {
+    [Fact]
+    public void EventTarget_extends_JsObject() {
+        Assert.True(typeof(EventTarget).IsSubclassOf(typeof(JsObject)));
+    }
+
     [Fact]
     public void Node_extends_EventTarget() {
         Assert.True(typeof(Node).IsSubclassOf(typeof(EventTarget)));

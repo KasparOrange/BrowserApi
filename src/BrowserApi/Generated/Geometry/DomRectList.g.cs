@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Geometry
 {
     [JsName("DOMRectList")]
-    public partial class DomRectList
+    public partial class DomRectList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public DomRect? Item(uint index) => throw new NotImplementedException();
+        public DomRect? Item(uint index) => Invoke<DomRect?>("item", index);
     }
 }

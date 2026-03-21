@@ -36,15 +36,31 @@ namespace BrowserApi.Css
     public partial class CssOklab : CssColorValue
     {
         [JsName("l")]
-        public object L { get; set; }
+        public object L
+        {
+            get => GetProperty<object>("l");
+            set => SetProperty("l", value);
+        }
 
         [JsName("a")]
-        public object A { get; set; }
+        public object A
+        {
+            get => GetProperty<object>("a");
+            set => SetProperty("a", value);
+        }
 
         [JsName("b")]
-        public object B { get; set; }
+        public object B
+        {
+            get => GetProperty<object>("b");
+            set => SetProperty("b", value);
+        }
 
         [JsName("alpha")]
-        public object Alpha { get; set; }
+        public object Alpha
+        {
+            get => GetProperty<object>("alpha");
+            set => SetProperty("alpha", value);
+        }
     }
 }

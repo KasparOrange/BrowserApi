@@ -33,18 +33,22 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUQuerySet")]
-    public partial class GpuQuerySet
+    public partial class GpuQuerySet : JsObject
     {
         [JsName("type")]
-        public GpuQueryType Type { get; }
+        public GpuQueryType Type => GetProperty<GpuQueryType>("type");
 
         [JsName("count")]
-        public uint Count { get; }
+        public uint Count => GetProperty<uint>("count");
 
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

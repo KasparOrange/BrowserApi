@@ -35,21 +35,29 @@ namespace BrowserApi.ServiceWorkers
     public partial class ServiceWorker : EventTarget
     {
         [JsName("scriptURL")]
-        public string ScriptUrl { get; }
+        public string ScriptUrl => GetProperty<string>("scriptURL");
 
         [JsName("state")]
-        public ServiceWorkerState State { get; }
+        public ServiceWorkerState State => GetProperty<ServiceWorkerState>("state");
 
         [JsName("onstatechange")]
-        public object Onstatechange { get; set; }
+        public object Onstatechange
+        {
+            get => GetProperty<object>("onstatechange");
+            set => SetProperty("onstatechange", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("postMessage")]
-        public void PostMessage(object message, IReadOnlyList<object> transfer) => throw new NotImplementedException();
+        public void PostMessage(object message, IReadOnlyList<object> transfer) => InvokeVoid("postMessage", message, transfer);
 
         [JsName("postMessage")]
-        public void PostMessage(object message, object? options = null) => throw new NotImplementedException();
+        public void PostMessage(object message, object? options = null) => InvokeVoid("postMessage", message, options);
     }
 }

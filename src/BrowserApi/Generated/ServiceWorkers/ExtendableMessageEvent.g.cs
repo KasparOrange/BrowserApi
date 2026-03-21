@@ -35,18 +35,18 @@ namespace BrowserApi.ServiceWorkers
     public partial class ExtendableMessageEvent : ExtendableEvent
     {
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
 
         [JsName("origin")]
-        public string Origin { get; }
+        public string Origin => GetProperty<string>("origin");
 
         [JsName("lastEventId")]
-        public string LastEventId { get; }
+        public string LastEventId => GetProperty<string>("lastEventId");
 
         [JsName("source")]
-        public object Source { get; }
+        public object Source => GetProperty<object>("source");
 
         [JsName("ports")]
-        public IReadOnlyList<MessagePort> Ports { get; }
+        public IReadOnlyList<MessagePort> Ports => GetProperty<IReadOnlyList<MessagePort>>("ports");
     }
 }

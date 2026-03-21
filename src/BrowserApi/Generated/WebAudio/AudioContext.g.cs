@@ -35,48 +35,56 @@ namespace BrowserApi.WebAudio
     public partial class AudioContext : BaseAudioContext
     {
         [JsName("baseLatency")]
-        public double BaseLatency { get; }
+        public double BaseLatency => GetProperty<double>("baseLatency");
 
         [JsName("outputLatency")]
-        public double OutputLatency { get; }
+        public double OutputLatency => GetProperty<double>("outputLatency");
 
         [JsName("sinkId")]
-        public object SinkId { get; }
+        public object SinkId => GetProperty<object>("sinkId");
 
         [JsName("onsinkchange")]
-        public object Onsinkchange { get; set; }
+        public object Onsinkchange
+        {
+            get => GetProperty<object>("onsinkchange");
+            set => SetProperty("onsinkchange", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("playbackStats")]
-        public AudioPlaybackStats PlaybackStats { get; }
+        public AudioPlaybackStats PlaybackStats => GetProperty<AudioPlaybackStats>("playbackStats");
 
         [JsName("getOutputTimestamp")]
-        public AudioTimestamp GetOutputTimestamp() => throw new NotImplementedException();
+        public AudioTimestamp GetOutputTimestamp() => Invoke<AudioTimestamp>("getOutputTimestamp");
 
         [JsName("resume")]
-        public Task ResumeAsync() => throw new NotImplementedException();
+        public Task ResumeAsync() => InvokeVoidAsync("resume");
 
         [JsName("suspend")]
-        public Task SuspendAsync() => throw new NotImplementedException();
+        public Task SuspendAsync() => InvokeVoidAsync("suspend");
 
         [JsName("close")]
-        public Task CloseAsync() => throw new NotImplementedException();
+        public Task CloseAsync() => InvokeVoidAsync("close");
 
         [JsName("setSinkId")]
-        public Task SetSinkIdAsync(object sinkId) => throw new NotImplementedException();
+        public Task SetSinkIdAsync(object sinkId) => InvokeVoidAsync("setSinkId", sinkId);
 
         [JsName("createMediaElementSource")]
-        public MediaElementAudioSourceNode CreateMediaElementSource(HtmlMediaElement mediaElement) => throw new NotImplementedException();
+        public MediaElementAudioSourceNode CreateMediaElementSource(HtmlMediaElement mediaElement) => Invoke<MediaElementAudioSourceNode>("createMediaElementSource", mediaElement);
 
         [JsName("createMediaStreamSource")]
-        public MediaStreamAudioSourceNode CreateMediaStreamSource(MediaStream mediaStream) => throw new NotImplementedException();
+        public MediaStreamAudioSourceNode CreateMediaStreamSource(MediaStream mediaStream) => Invoke<MediaStreamAudioSourceNode>("createMediaStreamSource", mediaStream);
 
         [JsName("createMediaStreamTrackSource")]
-        public MediaStreamTrackAudioSourceNode CreateMediaStreamTrackSource(MediaStreamTrack mediaStreamTrack) => throw new NotImplementedException();
+        public MediaStreamTrackAudioSourceNode CreateMediaStreamTrackSource(MediaStreamTrack mediaStreamTrack) => Invoke<MediaStreamTrackAudioSourceNode>("createMediaStreamTrackSource", mediaStreamTrack);
 
         [JsName("createMediaStreamDestination")]
-        public MediaStreamAudioDestinationNode CreateMediaStreamDestination() => throw new NotImplementedException();
+        public MediaStreamAudioDestinationNode CreateMediaStreamDestination() => Invoke<MediaStreamAudioDestinationNode>("createMediaStreamDestination");
     }
 }

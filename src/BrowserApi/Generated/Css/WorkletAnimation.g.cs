@@ -35,6 +35,6 @@ namespace BrowserApi.Css
     public partial class WorkletAnimation : Animation
     {
         [JsName("animatorName")]
-        public string AnimatorName { get; }
+        public string AnimatorName => GetProperty<string>("animatorName");
     }
 }

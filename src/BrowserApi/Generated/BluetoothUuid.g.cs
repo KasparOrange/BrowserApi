@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("BluetoothUUID")]
-    public partial class BluetoothUuid
+    public partial class BluetoothUuid : JsObject
     {
         [JsName("getService")]
         public static string GetService(object name) => throw new NotImplementedException();

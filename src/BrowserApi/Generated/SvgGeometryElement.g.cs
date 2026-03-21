@@ -36,18 +36,18 @@ namespace BrowserApi
     public partial class SvgGeometryElement : SvgGraphicsElement
     {
         [JsName("pathLength")]
-        public SvgAnimatedNumber PathLength { get; }
+        public SvgAnimatedNumber PathLength => GetProperty<SvgAnimatedNumber>("pathLength");
 
         [JsName("isPointInFill")]
-        public bool IsPointInFill(DomPointInit? point = null) => throw new NotImplementedException();
+        public bool IsPointInFill(DomPointInit? point = null) => Invoke<bool>("isPointInFill", point);
 
         [JsName("isPointInStroke")]
-        public bool IsPointInStroke(DomPointInit? point = null) => throw new NotImplementedException();
+        public bool IsPointInStroke(DomPointInit? point = null) => Invoke<bool>("isPointInStroke", point);
 
         [JsName("getTotalLength")]
-        public float GetTotalLength() => throw new NotImplementedException();
+        public float GetTotalLength() => Invoke<float>("getTotalLength");
 
         [JsName("getPointAtLength")]
-        public DomPoint GetPointAtLength(float distance) => throw new NotImplementedException();
+        public DomPoint GetPointAtLength(float distance) => Invoke<DomPoint>("getPointAtLength", distance);
     }
 }

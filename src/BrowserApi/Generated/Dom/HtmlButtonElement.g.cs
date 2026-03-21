@@ -36,66 +36,118 @@ namespace BrowserApi.Dom
     public partial class HtmlButtonElement : HtmlElement
     {
         [JsName("command")]
-        public string Command { get; set; }
+        public string Command
+        {
+            get => GetProperty<string>("command");
+            set => SetProperty("command", value);
+        }
 
         [JsName("commandForElement")]
-        public Element? CommandForElement { get; set; }
+        public Element? CommandForElement
+        {
+            get => GetProperty<Element?>("commandForElement");
+            set => SetProperty("commandForElement", value);
+        }
 
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
 
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("formAction")]
-        public string FormAction { get; set; }
+        public string FormAction
+        {
+            get => GetProperty<string>("formAction");
+            set => SetProperty("formAction", value);
+        }
 
         [JsName("formEnctype")]
-        public string FormEnctype { get; set; }
+        public string FormEnctype
+        {
+            get => GetProperty<string>("formEnctype");
+            set => SetProperty("formEnctype", value);
+        }
 
         [JsName("formMethod")]
-        public string FormMethod { get; set; }
+        public string FormMethod
+        {
+            get => GetProperty<string>("formMethod");
+            set => SetProperty("formMethod", value);
+        }
 
         [JsName("formNoValidate")]
-        public bool FormNoValidate { get; set; }
+        public bool FormNoValidate
+        {
+            get => GetProperty<bool>("formNoValidate");
+            set => SetProperty("formNoValidate", value);
+        }
 
         [JsName("formTarget")]
-        public string FormTarget { get; set; }
+        public string FormTarget
+        {
+            get => GetProperty<string>("formTarget");
+            set => SetProperty("formTarget", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("willValidate")]
-        public bool WillValidate { get; }
+        public bool WillValidate => GetProperty<bool>("willValidate");
 
         [JsName("validity")]
-        public ValidityState Validity { get; }
+        public ValidityState Validity => GetProperty<ValidityState>("validity");
 
         [JsName("validationMessage")]
-        public string ValidationMessage { get; }
+        public string ValidationMessage => GetProperty<string>("validationMessage");
 
         [JsName("labels")]
-        public NodeList Labels { get; }
+        public NodeList Labels => GetProperty<NodeList>("labels");
 
         [JsName("popoverTargetElement")]
-        public Element? PopoverTargetElement { get; set; }
+        public Element? PopoverTargetElement
+        {
+            get => GetProperty<Element?>("popoverTargetElement");
+            set => SetProperty("popoverTargetElement", value);
+        }
 
         [JsName("popoverTargetAction")]
-        public string PopoverTargetAction { get; set; }
+        public string PopoverTargetAction
+        {
+            get => GetProperty<string>("popoverTargetAction");
+            set => SetProperty("popoverTargetAction", value);
+        }
 
         [JsName("checkValidity")]
-        public bool CheckValidity() => throw new NotImplementedException();
+        public bool CheckValidity() => Invoke<bool>("checkValidity");
 
         [JsName("reportValidity")]
-        public bool ReportValidity() => throw new NotImplementedException();
+        public bool ReportValidity() => Invoke<bool>("reportValidity");
 
         [JsName("setCustomValidity")]
-        public void SetCustomValidity(string error) => throw new NotImplementedException();
+        public void SetCustomValidity(string error) => InvokeVoid("setCustomValidity", error);
     }
 }

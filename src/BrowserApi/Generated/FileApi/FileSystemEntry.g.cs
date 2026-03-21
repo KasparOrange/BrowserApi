@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.FileApi
 {
-    public partial class FileSystemEntry
+    public partial class FileSystemEntry : JsObject
     {
         [JsName("isFile")]
-        public bool IsFile { get; }
+        public bool IsFile => GetProperty<bool>("isFile");
 
         [JsName("isDirectory")]
-        public bool IsDirectory { get; }
+        public bool IsDirectory => GetProperty<bool>("isDirectory");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("fullPath")]
-        public string FullPath { get; }
+        public string FullPath => GetProperty<string>("fullPath");
 
         [JsName("filesystem")]
-        public FileSystem Filesystem { get; }
+        public FileSystem Filesystem => GetProperty<FileSystem>("filesystem");
 
         [JsName("getParent")]
-        public void GetParent(FileSystemEntryCallback? successCallback = null, ErrorCallback? errorCallback = null) => throw new NotImplementedException();
+        public void GetParent(FileSystemEntryCallback? successCallback = null, ErrorCallback? errorCallback = null) => InvokeVoid("getParent", successCallback, errorCallback);
     }
 }

@@ -35,21 +35,37 @@ namespace BrowserApi.Animations
     public partial class KeyframeEffect : AnimationEffect
     {
         [JsName("target")]
-        public Element? Target { get; set; }
+        public Element? Target
+        {
+            get => GetProperty<Element?>("target");
+            set => SetProperty("target", value);
+        }
 
         [JsName("pseudoElement")]
-        public string? PseudoElement { get; set; }
+        public string? PseudoElement
+        {
+            get => GetProperty<string?>("pseudoElement");
+            set => SetProperty("pseudoElement", value);
+        }
 
         [JsName("composite")]
-        public CompositeOperation Composite { get; set; }
+        public CompositeOperation Composite
+        {
+            get => GetProperty<CompositeOperation>("composite");
+            set => SetProperty("composite", value);
+        }
 
         [JsName("iterationComposite")]
-        public IterationCompositeOperation IterationComposite { get; set; }
+        public IterationCompositeOperation IterationComposite
+        {
+            get => GetProperty<IterationCompositeOperation>("iterationComposite");
+            set => SetProperty("iterationComposite", value);
+        }
 
         [JsName("getKeyframes")]
-        public IReadOnlyList<object> GetKeyframes() => throw new NotImplementedException();
+        public IReadOnlyList<object> GetKeyframes() => Invoke<IReadOnlyList<object>>("getKeyframes");
 
         [JsName("setKeyframes")]
-        public void SetKeyframes(object keyframes) => throw new NotImplementedException();
+        public void SetKeyframes(object keyframes) => InvokeVoid("setKeyframes", keyframes);
     }
 }

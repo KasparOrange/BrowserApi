@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class SpeechSynthesisVoice
+    public partial class SpeechSynthesisVoice : JsObject
     {
         [JsName("voiceURI")]
-        public string VoiceUri { get; }
+        public string VoiceUri => GetProperty<string>("voiceURI");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("lang")]
-        public string Lang { get; }
+        public string Lang => GetProperty<string>("lang");
 
         [JsName("localService")]
-        public bool LocalService { get; }
+        public bool LocalService => GetProperty<bool>("localService");
 
         [JsName("default")]
-        public bool Default { get; }
+        public bool Default => GetProperty<bool>("default");
     }
 }

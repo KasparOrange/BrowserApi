@@ -35,12 +35,12 @@ namespace BrowserApi.WebAudio
     public partial class AudioProcessingEvent : Event
     {
         [JsName("playbackTime")]
-        public double PlaybackTime { get; }
+        public double PlaybackTime => GetProperty<double>("playbackTime");
 
         [JsName("inputBuffer")]
-        public AudioBuffer InputBuffer { get; }
+        public AudioBuffer InputBuffer => GetProperty<AudioBuffer>("inputBuffer");
 
         [JsName("outputBuffer")]
-        public AudioBuffer OutputBuffer { get; }
+        public AudioBuffer OutputBuffer => GetProperty<AudioBuffer>("outputBuffer");
     }
 }

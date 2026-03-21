@@ -35,12 +35,12 @@ namespace BrowserApi
     public partial class InterestGroupBiddingScriptRunnerGlobalScope : InterestGroupBiddingAndScoringScriptRunnerGlobalScope
     {
         [JsName("setBid")]
-        public bool SetBid(object? oneOrManyBids = null) => throw new NotImplementedException();
+        public bool SetBid(object? oneOrManyBids = null) => Invoke<bool>("setBid", oneOrManyBids);
 
         [JsName("setPriority")]
-        public void SetPriority(double priority) => throw new NotImplementedException();
+        public void SetPriority(double priority) => InvokeVoid("setPriority", priority);
 
         [JsName("setPrioritySignalsOverride")]
-        public void SetPrioritySignalsOverride(string key, double? priority = null) => throw new NotImplementedException();
+        public void SetPrioritySignalsOverride(string key, double? priority = null) => InvokeVoid("setPrioritySignalsOverride", key, priority);
     }
 }

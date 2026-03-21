@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class ShadowAnimation : Animation
     {
         [JsName("sourceAnimation")]
-        public Animation SourceAnimation { get; }
+        public Animation SourceAnimation => GetProperty<Animation>("sourceAnimation");
     }
 }

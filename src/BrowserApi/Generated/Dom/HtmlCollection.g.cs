@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("HTMLCollection")]
-    public partial class HtmlCollection
+    public partial class HtmlCollection : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public Element? Item(uint index) => throw new NotImplementedException();
+        public Element? Item(uint index) => Invoke<Element?>("item", index);
 
         [JsName("namedItem")]
-        public Element? NamedItem(string name) => throw new NotImplementedException();
+        public Element? NamedItem(string name) => Invoke<Element?>("namedItem", name);
     }
 }

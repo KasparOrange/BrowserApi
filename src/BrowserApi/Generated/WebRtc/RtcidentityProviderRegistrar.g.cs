@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCIdentityProviderRegistrar")]
-    public partial class RtcidentityProviderRegistrar
+    public partial class RtcidentityProviderRegistrar : JsObject
     {
         [JsName("register")]
-        public void Register(RtcidentityProvider idp) => throw new NotImplementedException();
+        public void Register(RtcidentityProvider idp) => InvokeVoid("register", idp);
     }
 }

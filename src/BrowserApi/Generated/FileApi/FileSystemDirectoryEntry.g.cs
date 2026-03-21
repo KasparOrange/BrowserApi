@@ -35,12 +35,12 @@ namespace BrowserApi.FileApi
     public partial class FileSystemDirectoryEntry : FileSystemEntry
     {
         [JsName("createReader")]
-        public FileSystemDirectoryReader CreateReader() => throw new NotImplementedException();
+        public FileSystemDirectoryReader CreateReader() => Invoke<FileSystemDirectoryReader>("createReader");
 
         [JsName("getFile")]
-        public void GetFile(string? path = null, FileSystemFlags? options = null, FileSystemEntryCallback? successCallback = null, ErrorCallback? errorCallback = null) => throw new NotImplementedException();
+        public void GetFile(string? path = null, FileSystemFlags? options = null, FileSystemEntryCallback? successCallback = null, ErrorCallback? errorCallback = null) => InvokeVoid("getFile", path, options, successCallback, errorCallback);
 
         [JsName("getDirectory")]
-        public void GetDirectory(string? path = null, FileSystemFlags? options = null, FileSystemEntryCallback? successCallback = null, ErrorCallback? errorCallback = null) => throw new NotImplementedException();
+        public void GetDirectory(string? path = null, FileSystemFlags? options = null, FileSystemEntryCallback? successCallback = null, ErrorCallback? errorCallback = null) => InvokeVoid("getDirectory", path, options, successCallback, errorCallback);
     }
 }

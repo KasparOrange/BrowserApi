@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class EyeDropper
+    public partial class EyeDropper : JsObject
     {
         [JsName("open")]
-        public Task<ColorSelectionResult> OpenAsync(ColorSelectionOptions? options = null) => throw new NotImplementedException();
+        public Task<ColorSelectionResult> OpenAsync(ColorSelectionOptions? options = null) => InvokeAsync<ColorSelectionResult>("open", options);
     }
 }

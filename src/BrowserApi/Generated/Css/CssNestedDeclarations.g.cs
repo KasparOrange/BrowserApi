@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssNestedDeclarations : CssRule
     {
         [JsName("style")]
-        public CssStyleProperties Style { get; }
+        public CssStyleProperties Style => GetProperty<CssStyleProperties>("style");
     }
 }

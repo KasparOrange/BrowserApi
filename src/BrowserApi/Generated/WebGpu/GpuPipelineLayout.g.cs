@@ -33,9 +33,13 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUPipelineLayout")]
-    public partial class GpuPipelineLayout
+    public partial class GpuPipelineLayout : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
     }
 }

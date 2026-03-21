@@ -36,36 +36,52 @@ namespace BrowserApi
     public partial class IdbDatabase : EventTarget
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("version")]
-        public ulong Version { get; }
+        public ulong Version => GetProperty<ulong>("version");
 
         [JsName("objectStoreNames")]
-        public DomStringList ObjectStoreNames { get; }
+        public DomStringList ObjectStoreNames => GetProperty<DomStringList>("objectStoreNames");
 
         [JsName("onabort")]
-        public object Onabort { get; set; }
+        public object Onabort
+        {
+            get => GetProperty<object>("onabort");
+            set => SetProperty("onabort", value);
+        }
 
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onversionchange")]
-        public object Onversionchange { get; set; }
+        public object Onversionchange
+        {
+            get => GetProperty<object>("onversionchange");
+            set => SetProperty("onversionchange", value);
+        }
 
         [JsName("transaction")]
-        public IdbTransaction Transaction(object storeNames, IdbTransactionMode? mode = null, IdbTransactionOptions? options = null) => throw new NotImplementedException();
+        public IdbTransaction Transaction(object storeNames, IdbTransactionMode? mode = null, IdbTransactionOptions? options = null) => Invoke<IdbTransaction>("transaction", storeNames, mode, options);
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("createObjectStore")]
-        public IdbObjectStore CreateObjectStore(string name, IdbObjectStoreParameters? options = null) => throw new NotImplementedException();
+        public IdbObjectStore CreateObjectStore(string name, IdbObjectStoreParameters? options = null) => Invoke<IdbObjectStore>("createObjectStore", name, options);
 
         [JsName("deleteObjectStore")]
-        public void DeleteObjectStore(string name) => throw new NotImplementedException();
+        public void DeleteObjectStore(string name) => InvokeVoid("deleteObjectStore", name);
     }
 }

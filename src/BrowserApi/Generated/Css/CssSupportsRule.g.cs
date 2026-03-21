@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssSupportsRule : CssConditionRule
     {
         [JsName("matches")]
-        public bool Matches { get; }
+        public bool Matches => GetProperty<bool>("matches");
     }
 }

@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class EventTarget
+    public partial class EventTarget : JsObject
     {
         [JsName("addEventListener")]
-        public void AddEventListener(string type, EventListener? callback, object? options = null) => throw new NotImplementedException();
+        public void AddEventListener(string type, EventListener? callback, object? options = null) => InvokeVoid("addEventListener", type, callback, options);
 
         [JsName("removeEventListener")]
-        public void RemoveEventListener(string type, EventListener? callback, object? options = null) => throw new NotImplementedException();
+        public void RemoveEventListener(string type, EventListener? callback, object? options = null) => InvokeVoid("removeEventListener", type, callback, options);
 
         [JsName("dispatchEvent")]
-        public bool DispatchEvent(Event @event) => throw new NotImplementedException();
+        public bool DispatchEvent(Event @event) => Invoke<bool>("dispatchEvent", @event);
 
         [JsName("when")]
-        public Observable When(string type, ObservableEventListenerOptions? options = null) => throw new NotImplementedException();
+        public Observable When(string type, ObservableEventListenerOptions? options = null) => Invoke<Observable>("when", type, options);
     }
 }

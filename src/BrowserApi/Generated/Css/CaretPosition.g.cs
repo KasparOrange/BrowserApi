@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class CaretPosition
+    public partial class CaretPosition : JsObject
     {
         [JsName("offsetNode")]
-        public Node OffsetNode { get; }
+        public Node OffsetNode => GetProperty<Node>("offsetNode");
 
         [JsName("offset")]
-        public uint Offset { get; }
+        public uint Offset => GetProperty<uint>("offset");
 
         [JsName("getClientRect")]
-        public DomRect? GetClientRect() => throw new NotImplementedException();
+        public DomRect? GetClientRect() => Invoke<DomRect?>("getClientRect");
     }
 }

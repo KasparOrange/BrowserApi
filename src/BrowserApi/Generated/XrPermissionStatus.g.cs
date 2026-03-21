@@ -36,6 +36,10 @@ namespace BrowserApi
     public partial class XrPermissionStatus : PermissionStatus
     {
         [JsName("granted")]
-        public IReadOnlyList<string> Granted { get; set; }
+        public IReadOnlyList<string> Granted
+        {
+            get => GetProperty<IReadOnlyList<string>>("granted");
+            set => SetProperty("granted", value);
+        }
     }
 }

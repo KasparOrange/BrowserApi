@@ -36,21 +36,21 @@ namespace BrowserApi
     public partial class SvgGraphicsElement : SvgElement
     {
         [JsName("transform")]
-        public SvgAnimatedTransformList Transform { get; }
+        public SvgAnimatedTransformList Transform => GetProperty<SvgAnimatedTransformList>("transform");
 
         [JsName("requiredExtensions")]
-        public SvgStringList RequiredExtensions { get; }
+        public SvgStringList RequiredExtensions => GetProperty<SvgStringList>("requiredExtensions");
 
         [JsName("systemLanguage")]
-        public SvgStringList SystemLanguage { get; }
+        public SvgStringList SystemLanguage => GetProperty<SvgStringList>("systemLanguage");
 
         [JsName("getBBox")]
-        public DomRect GetBbox(SvgBoundingBoxOptions? options = null) => throw new NotImplementedException();
+        public DomRect GetBbox(SvgBoundingBoxOptions? options = null) => Invoke<DomRect>("getBBox", options);
 
         [JsName("getCTM")]
-        public DomMatrix? GetCtm() => throw new NotImplementedException();
+        public DomMatrix? GetCtm() => Invoke<DomMatrix?>("getCTM");
 
         [JsName("getScreenCTM")]
-        public DomMatrix? GetScreenCtm() => throw new NotImplementedException();
+        public DomMatrix? GetScreenCtm() => Invoke<DomMatrix?>("getScreenCTM");
     }
 }

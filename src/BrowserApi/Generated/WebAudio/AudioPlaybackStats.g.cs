@@ -32,30 +32,30 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.WebAudio
 {
-    public partial class AudioPlaybackStats
+    public partial class AudioPlaybackStats : JsObject
     {
         [JsName("underrunDuration")]
-        public double UnderrunDuration { get; }
+        public double UnderrunDuration => GetProperty<double>("underrunDuration");
 
         [JsName("underrunEvents")]
-        public uint UnderrunEvents { get; }
+        public uint UnderrunEvents => GetProperty<uint>("underrunEvents");
 
         [JsName("totalDuration")]
-        public double TotalDuration { get; }
+        public double TotalDuration => GetProperty<double>("totalDuration");
 
         [JsName("averageLatency")]
-        public double AverageLatency { get; }
+        public double AverageLatency => GetProperty<double>("averageLatency");
 
         [JsName("minimumLatency")]
-        public double MinimumLatency { get; }
+        public double MinimumLatency => GetProperty<double>("minimumLatency");
 
         [JsName("maximumLatency")]
-        public double MaximumLatency { get; }
+        public double MaximumLatency => GetProperty<double>("maximumLatency");
 
         [JsName("resetLatency")]
-        public void ResetLatency() => throw new NotImplementedException();
+        public void ResetLatency() => InvokeVoid("resetLatency");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class Otpcredential : Credential
     {
         [JsName("code")]
-        public string Code { get; }
+        public string Code => GetProperty<string>("code");
     }
 }

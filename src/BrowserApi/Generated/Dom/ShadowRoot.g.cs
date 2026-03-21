@@ -35,57 +35,69 @@ namespace BrowserApi.Dom
     public partial class ShadowRoot : DocumentFragment
     {
         [JsName("mode")]
-        public ShadowRootMode Mode { get; }
+        public ShadowRootMode Mode => GetProperty<ShadowRootMode>("mode");
 
         [JsName("delegatesFocus")]
-        public bool DelegatesFocus { get; }
+        public bool DelegatesFocus => GetProperty<bool>("delegatesFocus");
 
         [JsName("slotAssignment")]
-        public SlotAssignmentMode SlotAssignment { get; }
+        public SlotAssignmentMode SlotAssignment => GetProperty<SlotAssignmentMode>("slotAssignment");
 
         [JsName("clonable")]
-        public bool Clonable { get; }
+        public bool Clonable => GetProperty<bool>("clonable");
 
         [JsName("serializable")]
-        public bool Serializable { get; }
+        public bool Serializable => GetProperty<bool>("serializable");
 
         [JsName("host")]
-        public Element Host { get; }
+        public Element Host => GetProperty<Element>("host");
 
         [JsName("onslotchange")]
-        public object Onslotchange { get; set; }
+        public object Onslotchange
+        {
+            get => GetProperty<object>("onslotchange");
+            set => SetProperty("onslotchange", value);
+        }
 
         [JsName("innerHTML")]
-        public object InnerHtml { get; set; }
+        public object InnerHtml
+        {
+            get => GetProperty<object>("innerHTML");
+            set => SetProperty("innerHTML", value);
+        }
 
         [JsName("customElementRegistry")]
-        public CustomElementRegistry? CustomElementRegistry { get; }
+        public CustomElementRegistry? CustomElementRegistry => GetProperty<CustomElementRegistry?>("customElementRegistry");
 
         [JsName("styleSheets")]
-        public StyleSheetList StyleSheets { get; }
+        public StyleSheetList StyleSheets => GetProperty<StyleSheetList>("styleSheets");
 
         [JsName("adoptedStyleSheets")]
-        public IReadOnlyList<CssStyleSheet> AdoptedStyleSheets { get; set; }
+        public IReadOnlyList<CssStyleSheet> AdoptedStyleSheets
+        {
+            get => GetProperty<IReadOnlyList<CssStyleSheet>>("adoptedStyleSheets");
+            set => SetProperty("adoptedStyleSheets", value);
+        }
 
         [JsName("fullscreenElement")]
-        public Element? FullscreenElement { get; }
+        public Element? FullscreenElement => GetProperty<Element?>("fullscreenElement");
 
         [JsName("activeElement")]
-        public Element? ActiveElement { get; }
+        public Element? ActiveElement => GetProperty<Element?>("activeElement");
 
         [JsName("pictureInPictureElement")]
-        public Element? PictureInPictureElement { get; }
+        public Element? PictureInPictureElement => GetProperty<Element?>("pictureInPictureElement");
 
         [JsName("pointerLockElement")]
-        public Element? PointerLockElement { get; }
+        public Element? PointerLockElement => GetProperty<Element?>("pointerLockElement");
 
         [JsName("setHTMLUnsafe")]
-        public void SetHtmlUnsafe(object html) => throw new NotImplementedException();
+        public void SetHtmlUnsafe(object html) => InvokeVoid("setHTMLUnsafe", html);
 
         [JsName("getHTML")]
-        public string GetHtml(GetHtmlOptions? options = null) => throw new NotImplementedException();
+        public string GetHtml(GetHtmlOptions? options = null) => Invoke<string>("getHTML", options);
 
         [JsName("getAnimations")]
-        public IReadOnlyList<Animation> GetAnimations() => throw new NotImplementedException();
+        public IReadOnlyList<Animation> GetAnimations() => Invoke<IReadOnlyList<Animation>>("getAnimations");
     }
 }

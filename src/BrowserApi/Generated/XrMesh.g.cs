@@ -33,21 +33,21 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRMesh")]
-    public partial class XrMesh
+    public partial class XrMesh : JsObject
     {
         [JsName("meshSpace")]
-        public XrSpace MeshSpace { get; }
+        public XrSpace MeshSpace => GetProperty<XrSpace>("meshSpace");
 
         [JsName("vertices")]
-        public float[] Vertices { get; }
+        public float[] Vertices => GetProperty<float[]>("vertices");
 
         [JsName("indices")]
-        public uint[] Indices { get; }
+        public uint[] Indices => GetProperty<uint[]>("indices");
 
         [JsName("lastChangedTime")]
-        public double LastChangedTime { get; }
+        public double LastChangedTime => GetProperty<double>("lastChangedTime");
 
         [JsName("semanticLabel")]
-        public string? SemanticLabel { get; }
+        public string? SemanticLabel => GetProperty<string?>("semanticLabel");
     }
 }

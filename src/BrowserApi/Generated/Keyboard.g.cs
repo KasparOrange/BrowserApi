@@ -35,15 +35,19 @@ namespace BrowserApi
     public partial class Keyboard : EventTarget
     {
         [JsName("onlayoutchange")]
-        public object Onlayoutchange { get; set; }
+        public object Onlayoutchange
+        {
+            get => GetProperty<object>("onlayoutchange");
+            set => SetProperty("onlayoutchange", value);
+        }
 
         [JsName("lock")]
-        public Task LockAsync(IReadOnlyList<string>? keyCodes = null) => throw new NotImplementedException();
+        public Task LockAsync(IReadOnlyList<string>? keyCodes = null) => InvokeVoidAsync("lock", keyCodes);
 
         [JsName("unlock")]
-        public void Unlock() => throw new NotImplementedException();
+        public void Unlock() => InvokeVoid("unlock");
 
         [JsName("getLayoutMap")]
-        public Task<KeyboardLayoutMap> GetLayoutMapAsync() => throw new NotImplementedException();
+        public Task<KeyboardLayoutMap> GetLayoutMapAsync() => InvokeAsync<KeyboardLayoutMap>("getLayoutMap");
     }
 }

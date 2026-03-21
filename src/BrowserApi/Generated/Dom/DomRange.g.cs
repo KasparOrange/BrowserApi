@@ -44,75 +44,75 @@ namespace BrowserApi.Dom
         public const ushort EndToStart = 3;
 
         [JsName("commonAncestorContainer")]
-        public Node CommonAncestorContainer { get; }
+        public Node CommonAncestorContainer => GetProperty<Node>("commonAncestorContainer");
 
         [JsName("setStart")]
-        public void SetStart(Node node, uint offset) => throw new NotImplementedException();
+        public void SetStart(Node node, uint offset) => InvokeVoid("setStart", node, offset);
 
         [JsName("setEnd")]
-        public void SetEnd(Node node, uint offset) => throw new NotImplementedException();
+        public void SetEnd(Node node, uint offset) => InvokeVoid("setEnd", node, offset);
 
         [JsName("setStartBefore")]
-        public void SetStartBefore(Node node) => throw new NotImplementedException();
+        public void SetStartBefore(Node node) => InvokeVoid("setStartBefore", node);
 
         [JsName("setStartAfter")]
-        public void SetStartAfter(Node node) => throw new NotImplementedException();
+        public void SetStartAfter(Node node) => InvokeVoid("setStartAfter", node);
 
         [JsName("setEndBefore")]
-        public void SetEndBefore(Node node) => throw new NotImplementedException();
+        public void SetEndBefore(Node node) => InvokeVoid("setEndBefore", node);
 
         [JsName("setEndAfter")]
-        public void SetEndAfter(Node node) => throw new NotImplementedException();
+        public void SetEndAfter(Node node) => InvokeVoid("setEndAfter", node);
 
         [JsName("collapse")]
-        public void Collapse(bool toStart = false) => throw new NotImplementedException();
+        public void Collapse(bool toStart = false) => InvokeVoid("collapse", toStart);
 
         [JsName("selectNode")]
-        public void SelectNode(Node node) => throw new NotImplementedException();
+        public void SelectNode(Node node) => InvokeVoid("selectNode", node);
 
         [JsName("selectNodeContents")]
-        public void SelectNodeContents(Node node) => throw new NotImplementedException();
+        public void SelectNodeContents(Node node) => InvokeVoid("selectNodeContents", node);
 
         [JsName("compareBoundaryPoints")]
-        public short CompareBoundaryPoints(ushort how, DomRange sourceRange) => throw new NotImplementedException();
+        public short CompareBoundaryPoints(ushort how, DomRange sourceRange) => Invoke<short>("compareBoundaryPoints", how, sourceRange);
 
         [JsName("deleteContents")]
-        public void DeleteContents() => throw new NotImplementedException();
+        public void DeleteContents() => InvokeVoid("deleteContents");
 
         [JsName("extractContents")]
-        public DocumentFragment ExtractContents() => throw new NotImplementedException();
+        public DocumentFragment ExtractContents() => Invoke<DocumentFragment>("extractContents");
 
         [JsName("cloneContents")]
-        public DocumentFragment CloneContents() => throw new NotImplementedException();
+        public DocumentFragment CloneContents() => Invoke<DocumentFragment>("cloneContents");
 
         [JsName("insertNode")]
-        public void InsertNode(Node node) => throw new NotImplementedException();
+        public void InsertNode(Node node) => InvokeVoid("insertNode", node);
 
         [JsName("surroundContents")]
-        public void SurroundContents(Node newParent) => throw new NotImplementedException();
+        public void SurroundContents(Node newParent) => InvokeVoid("surroundContents", newParent);
 
         [JsName("cloneRange")]
-        public DomRange CloneRange() => throw new NotImplementedException();
+        public DomRange CloneRange() => Invoke<DomRange>("cloneRange");
 
         [JsName("detach")]
-        public void Detach() => throw new NotImplementedException();
+        public void Detach() => InvokeVoid("detach");
 
         [JsName("isPointInRange")]
-        public bool IsPointInRange(Node node, uint offset) => throw new NotImplementedException();
+        public bool IsPointInRange(Node node, uint offset) => Invoke<bool>("isPointInRange", node, offset);
 
         [JsName("comparePoint")]
-        public short ComparePoint(Node node, uint offset) => throw new NotImplementedException();
+        public short ComparePoint(Node node, uint offset) => Invoke<short>("comparePoint", node, offset);
 
         [JsName("intersectsNode")]
-        public bool IntersectsNode(Node node) => throw new NotImplementedException();
+        public bool IntersectsNode(Node node) => Invoke<bool>("intersectsNode", node);
 
         [JsName("getClientRects")]
-        public DomRectList GetClientRects() => throw new NotImplementedException();
+        public DomRectList GetClientRects() => Invoke<DomRectList>("getClientRects");
 
         [JsName("getBoundingClientRect")]
-        public DomRect GetBoundingClientRect() => throw new NotImplementedException();
+        public DomRect GetBoundingClientRect() => Invoke<DomRect>("getBoundingClientRect");
 
         [JsName("createContextualFragment")]
-        public DocumentFragment CreateContextualFragment(object @string) => throw new NotImplementedException();
+        public DocumentFragment CreateContextualFragment(object @string) => Invoke<DocumentFragment>("createContextualFragment", @string);
     }
 }

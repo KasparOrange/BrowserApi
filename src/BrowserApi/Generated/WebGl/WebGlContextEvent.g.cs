@@ -36,6 +36,6 @@ namespace BrowserApi.WebGl
     public partial class WebGlContextEvent : Event
     {
         [JsName("statusMessage")]
-        public string StatusMessage { get; }
+        public string StatusMessage => GetProperty<string>("statusMessage");
     }
 }

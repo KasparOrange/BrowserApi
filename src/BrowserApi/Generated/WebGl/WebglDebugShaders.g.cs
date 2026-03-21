@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_debug_shaders")]
-    public partial class WebglDebugShaders
+    public partial class WebglDebugShaders : JsObject
     {
         [JsName("getTranslatedShaderSource")]
-        public string GetTranslatedShaderSource(WebGlShader shader) => throw new NotImplementedException();
+        public string GetTranslatedShaderSource(WebGlShader shader) => Invoke<string>("getTranslatedShaderSource", shader);
     }
 }

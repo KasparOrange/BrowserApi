@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class FontFaceVariationAxis
+    public partial class FontFaceVariationAxis : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("axisTag")]
-        public string AxisTag { get; }
+        public string AxisTag => GetProperty<string>("axisTag");
 
         [JsName("minimumValue")]
-        public double MinimumValue { get; }
+        public double MinimumValue => GetProperty<double>("minimumValue");
 
         [JsName("maximumValue")]
-        public double MaximumValue { get; }
+        public double MaximumValue => GetProperty<double>("maximumValue");
 
         [JsName("defaultValue")]
-        public double DefaultValue { get; }
+        public double DefaultValue => GetProperty<double>("defaultValue");
     }
 }

@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRBody")]
-    public partial class XrBody
+    public partial class XrBody : JsObject
     {
         [JsName("size")]
-        public uint Size { get; }
+        public uint Size => GetProperty<uint>("size");
 
         [JsName("get")]
-        public XrBodySpace Get(XrBodyJoint key) => throw new NotImplementedException();
+        public XrBodySpace Get(XrBodyJoint key) => Invoke<XrBodySpace>("get", key);
     }
 }

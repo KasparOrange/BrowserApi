@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("WGSLLanguageFeatures")]
-    public partial class WgsllanguageFeatures
+    public partial class WgsllanguageFeatures : JsObject
     {
     }
 }

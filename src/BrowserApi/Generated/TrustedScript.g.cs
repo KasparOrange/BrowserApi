@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class TrustedScript
+    public partial class TrustedScript : JsObject
     {
         [JsName("toJSON")]
-        public string ToJsOn() => throw new NotImplementedException();
+        public string ToJsOn() => Invoke<string>("toJSON");
     }
 }

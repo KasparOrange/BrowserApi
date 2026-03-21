@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Lock
+    public partial class Lock : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("mode")]
-        public LockMode Mode { get; }
+        public LockMode Mode => GetProperty<LockMode>("mode");
     }
 }

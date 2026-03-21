@@ -35,39 +35,39 @@ namespace BrowserApi.Dom
     public partial class PerformanceElementTiming : PerformanceEntry
     {
         [JsName("renderTime")]
-        public double RenderTime { get; }
+        public double RenderTime => GetProperty<double>("renderTime");
 
         [JsName("loadTime")]
-        public double LoadTime { get; }
+        public double LoadTime => GetProperty<double>("loadTime");
 
         [JsName("intersectionRect")]
-        public DomRectReadOnly IntersectionRect { get; }
+        public DomRectReadOnly IntersectionRect => GetProperty<DomRectReadOnly>("intersectionRect");
 
         [JsName("identifier")]
-        public string Identifier { get; }
+        public string Identifier => GetProperty<string>("identifier");
 
         [JsName("naturalWidth")]
-        public uint NaturalWidth { get; }
+        public uint NaturalWidth => GetProperty<uint>("naturalWidth");
 
         [JsName("naturalHeight")]
-        public uint NaturalHeight { get; }
+        public uint NaturalHeight => GetProperty<uint>("naturalHeight");
 
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("element")]
-        public Element? Element { get; }
+        public Element? Element => GetProperty<Element?>("element");
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("paintTime")]
-        public double PaintTime { get; }
+        public double PaintTime => GetProperty<double>("paintTime");
 
         [JsName("presentationTime")]
-        public double? PresentationTime { get; }
+        public double? PresentationTime => GetProperty<double?>("presentationTime");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

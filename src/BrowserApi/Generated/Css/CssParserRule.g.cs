@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSSParserRule")]
-    public partial class CssParserRule
+    public partial class CssParserRule : JsObject
     {
     }
 }

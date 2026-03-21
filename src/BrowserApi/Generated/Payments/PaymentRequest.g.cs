@@ -35,34 +35,46 @@ namespace BrowserApi.Payments
     public partial class PaymentRequest : EventTarget
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("shippingAddress")]
-        public ContactAddress? ShippingAddress { get; }
+        public ContactAddress? ShippingAddress => GetProperty<ContactAddress?>("shippingAddress");
 
         [JsName("shippingOption")]
-        public string? ShippingOption { get; }
+        public string? ShippingOption => GetProperty<string?>("shippingOption");
 
         [JsName("shippingType")]
-        public PaymentShippingType? ShippingType { get; }
+        public PaymentShippingType? ShippingType => GetProperty<PaymentShippingType?>("shippingType");
 
         [JsName("onshippingaddresschange")]
-        public object Onshippingaddresschange { get; set; }
+        public object Onshippingaddresschange
+        {
+            get => GetProperty<object>("onshippingaddresschange");
+            set => SetProperty("onshippingaddresschange", value);
+        }
 
         [JsName("onshippingoptionchange")]
-        public object Onshippingoptionchange { get; set; }
+        public object Onshippingoptionchange
+        {
+            get => GetProperty<object>("onshippingoptionchange");
+            set => SetProperty("onshippingoptionchange", value);
+        }
 
         [JsName("onpaymentmethodchange")]
-        public object Onpaymentmethodchange { get; set; }
+        public object Onpaymentmethodchange
+        {
+            get => GetProperty<object>("onpaymentmethodchange");
+            set => SetProperty("onpaymentmethodchange", value);
+        }
 
         [JsName("show")]
-        public Task<PaymentResponse> ShowAsync(Task<PaymentDetailsUpdate>? detailsPromise = null) => throw new NotImplementedException();
+        public Task<PaymentResponse> ShowAsync(Task<PaymentDetailsUpdate>? detailsPromise = null) => InvokeAsync<PaymentResponse>("show", detailsPromise);
 
         [JsName("abort")]
-        public Task AbortAsync() => throw new NotImplementedException();
+        public Task AbortAsync() => InvokeVoidAsync("abort");
 
         [JsName("canMakePayment")]
-        public Task<bool> CanMakePaymentAsync() => throw new NotImplementedException();
+        public Task<bool> CanMakePaymentAsync() => InvokeAsync<bool>("canMakePayment");
 
         [JsName("securePaymentConfirmationAvailability")]
         public static Task<SecurePaymentConfirmationAvailability> SecurePaymentConfirmationAvailabilityAsync() => throw new NotImplementedException();

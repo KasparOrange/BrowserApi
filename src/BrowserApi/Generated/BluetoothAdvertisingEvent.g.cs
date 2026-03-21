@@ -35,27 +35,27 @@ namespace BrowserApi
     public partial class BluetoothAdvertisingEvent : Event
     {
         [JsName("device")]
-        public BluetoothDevice Device { get; }
+        public BluetoothDevice Device => GetProperty<BluetoothDevice>("device");
 
         [JsName("uuids")]
-        public IReadOnlyList<string> Uuids { get; }
+        public IReadOnlyList<string> Uuids => GetProperty<IReadOnlyList<string>>("uuids");
 
         [JsName("name")]
-        public string? Name { get; }
+        public string? Name => GetProperty<string?>("name");
 
         [JsName("appearance")]
-        public ushort? Appearance { get; }
+        public ushort? Appearance => GetProperty<ushort?>("appearance");
 
         [JsName("txPower")]
-        public sbyte? TxPower { get; }
+        public sbyte? TxPower => GetProperty<sbyte?>("txPower");
 
         [JsName("rssi")]
-        public sbyte? Rssi { get; }
+        public sbyte? Rssi => GetProperty<sbyte?>("rssi");
 
         [JsName("manufacturerData")]
-        public BluetoothManufacturerDataMap ManufacturerData { get; }
+        public BluetoothManufacturerDataMap ManufacturerData => GetProperty<BluetoothManufacturerDataMap>("manufacturerData");
 
         [JsName("serviceData")]
-        public BluetoothServiceDataMap ServiceData { get; }
+        public BluetoothServiceDataMap ServiceData => GetProperty<BluetoothServiceDataMap>("serviceData");
     }
 }

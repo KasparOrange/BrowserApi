@@ -35,18 +35,18 @@ namespace BrowserApi
     public partial class TextUpdateEvent : Event
     {
         [JsName("updateRangeStart")]
-        public uint UpdateRangeStart { get; }
+        public uint UpdateRangeStart => GetProperty<uint>("updateRangeStart");
 
         [JsName("updateRangeEnd")]
-        public uint UpdateRangeEnd { get; }
+        public uint UpdateRangeEnd => GetProperty<uint>("updateRangeEnd");
 
         [JsName("text")]
-        public string Text { get; }
+        public string Text => GetProperty<string>("text");
 
         [JsName("selectionStart")]
-        public uint SelectionStart { get; }
+        public uint SelectionStart => GetProperty<uint>("selectionStart");
 
         [JsName("selectionEnd")]
-        public uint SelectionEnd { get; }
+        public uint SelectionEnd => GetProperty<uint>("selectionEnd");
     }
 }

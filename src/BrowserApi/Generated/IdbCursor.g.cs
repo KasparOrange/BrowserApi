@@ -33,36 +33,36 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("IDBCursor")]
-    public partial class IdbCursor
+    public partial class IdbCursor : JsObject
     {
         [JsName("source")]
-        public object Source { get; }
+        public object Source => GetProperty<object>("source");
 
         [JsName("direction")]
-        public IdbCursorDirection Direction { get; }
+        public IdbCursorDirection Direction => GetProperty<IdbCursorDirection>("direction");
 
         [JsName("key")]
-        public object Key { get; }
+        public object Key => GetProperty<object>("key");
 
         [JsName("primaryKey")]
-        public object PrimaryKey { get; }
+        public object PrimaryKey => GetProperty<object>("primaryKey");
 
         [JsName("request")]
-        public IdbRequest Request { get; }
+        public IdbRequest Request => GetProperty<IdbRequest>("request");
 
         [JsName("advance")]
-        public void Advance(uint count) => throw new NotImplementedException();
+        public void Advance(uint count) => InvokeVoid("advance", count);
 
         [JsName("continue")]
-        public void Continue(object? key = null) => throw new NotImplementedException();
+        public void Continue(object? key = null) => InvokeVoid("continue", key);
 
         [JsName("continuePrimaryKey")]
-        public void ContinuePrimaryKey(object key, object primaryKey) => throw new NotImplementedException();
+        public void ContinuePrimaryKey(object key, object primaryKey) => InvokeVoid("continuePrimaryKey", key, primaryKey);
 
         [JsName("update")]
-        public IdbRequest Update(object value) => throw new NotImplementedException();
+        public IdbRequest Update(object value) => Invoke<IdbRequest>("update", value);
 
         [JsName("delete")]
-        public IdbRequest Delete() => throw new NotImplementedException();
+        public IdbRequest Delete() => Invoke<IdbRequest>("delete");
     }
 }

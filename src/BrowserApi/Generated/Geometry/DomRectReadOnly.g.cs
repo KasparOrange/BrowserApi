@@ -33,36 +33,36 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Geometry
 {
     [JsName("DOMRectReadOnly")]
-    public partial class DomRectReadOnly
+    public partial class DomRectReadOnly : JsObject
     {
         [JsName("x")]
-        public double X { get; }
+        public double X => GetProperty<double>("x");
 
         [JsName("y")]
-        public double Y { get; }
+        public double Y => GetProperty<double>("y");
 
         [JsName("width")]
-        public double Width { get; }
+        public double Width => GetProperty<double>("width");
 
         [JsName("height")]
-        public double Height { get; }
+        public double Height => GetProperty<double>("height");
 
         [JsName("top")]
-        public double Top { get; }
+        public double Top => GetProperty<double>("top");
 
         [JsName("right")]
-        public double Right { get; }
+        public double Right => GetProperty<double>("right");
 
         [JsName("bottom")]
-        public double Bottom { get; }
+        public double Bottom => GetProperty<double>("bottom");
 
         [JsName("left")]
-        public double Left { get; }
+        public double Left => GetProperty<double>("left");
 
         [JsName("fromRect")]
         public static DomRectReadOnly FromRect(DomRectInit? other = null) => throw new NotImplementedException();
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

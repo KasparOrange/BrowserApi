@@ -35,21 +35,21 @@ namespace BrowserApi.Dom
     public partial class MessageEvent : Event
     {
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
 
         [JsName("origin")]
-        public string Origin { get; }
+        public string Origin => GetProperty<string>("origin");
 
         [JsName("lastEventId")]
-        public string LastEventId { get; }
+        public string LastEventId => GetProperty<string>("lastEventId");
 
         [JsName("source")]
-        public object Source { get; }
+        public object Source => GetProperty<object>("source");
 
         [JsName("ports")]
-        public IReadOnlyList<MessagePort> Ports { get; }
+        public IReadOnlyList<MessagePort> Ports => GetProperty<IReadOnlyList<MessagePort>>("ports");
 
         [JsName("initMessageEvent")]
-        public void InitMessageEvent(string type, bool bubbles = false, bool cancelable = false, object? data = null, string origin = "", string lastEventId = "", object? source = null, IReadOnlyList<MessagePort>? ports = null) => throw new NotImplementedException();
+        public void InitMessageEvent(string type, bool bubbles = false, bool cancelable = false, object? data = null, string origin = "", string lastEventId = "", object? source = null, IReadOnlyList<MessagePort>? ports = null) => InvokeVoid("initMessageEvent", type, bubbles, cancelable, data, origin, lastEventId, source, ports);
     }
 }

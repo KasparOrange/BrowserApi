@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("IDBRecord")]
-    public partial class IdbRecord
+    public partial class IdbRecord : JsObject
     {
         [JsName("key")]
-        public object Key { get; }
+        public object Key => GetProperty<object>("key");
 
         [JsName("primaryKey")]
-        public object PrimaryKey { get; }
+        public object PrimaryKey => GetProperty<object>("primaryKey");
 
         [JsName("value")]
-        public object Value { get; }
+        public object Value => GetProperty<object>("value");
     }
 }

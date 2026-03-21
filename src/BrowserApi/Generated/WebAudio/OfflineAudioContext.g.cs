@@ -35,18 +35,22 @@ namespace BrowserApi.WebAudio
     public partial class OfflineAudioContext : BaseAudioContext
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("oncomplete")]
-        public object Oncomplete { get; set; }
+        public object Oncomplete
+        {
+            get => GetProperty<object>("oncomplete");
+            set => SetProperty("oncomplete", value);
+        }
 
         [JsName("startRendering")]
-        public Task<AudioBuffer> StartRenderingAsync() => throw new NotImplementedException();
+        public Task<AudioBuffer> StartRenderingAsync() => InvokeAsync<AudioBuffer>("startRendering");
 
         [JsName("resume")]
-        public Task ResumeAsync() => throw new NotImplementedException();
+        public Task ResumeAsync() => InvokeVoidAsync("resume");
 
         [JsName("suspend")]
-        public Task SuspendAsync(double suspendTime) => throw new NotImplementedException();
+        public Task SuspendAsync(double suspendTime) => InvokeVoidAsync("suspend", suspendTime);
     }
 }

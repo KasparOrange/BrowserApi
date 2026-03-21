@@ -36,15 +36,31 @@ namespace BrowserApi.Css
     public partial class CssRgb : CssColorValue
     {
         [JsName("r")]
-        public object R { get; set; }
+        public object R
+        {
+            get => GetProperty<object>("r");
+            set => SetProperty("r", value);
+        }
 
         [JsName("g")]
-        public object G { get; set; }
+        public object G
+        {
+            get => GetProperty<object>("g");
+            set => SetProperty("g", value);
+        }
 
         [JsName("b")]
-        public object B { get; set; }
+        public object B
+        {
+            get => GetProperty<object>("b");
+            set => SetProperty("b", value);
+        }
 
         [JsName("alpha")]
-        public object Alpha { get; set; }
+        public object Alpha
+        {
+            get => GetProperty<object>("alpha");
+            set => SetProperty("alpha", value);
+        }
     }
 }

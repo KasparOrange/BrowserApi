@@ -32,48 +32,48 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class FontMetrics
+    public partial class FontMetrics : JsObject
     {
         [JsName("width")]
-        public double Width { get; }
+        public double Width => GetProperty<double>("width");
 
         [JsName("advances")]
-        public IReadOnlyList<double> Advances { get; }
+        public IReadOnlyList<double> Advances => GetProperty<IReadOnlyList<double>>("advances");
 
         [JsName("boundingBoxLeft")]
-        public double BoundingBoxLeft { get; }
+        public double BoundingBoxLeft => GetProperty<double>("boundingBoxLeft");
 
         [JsName("boundingBoxRight")]
-        public double BoundingBoxRight { get; }
+        public double BoundingBoxRight => GetProperty<double>("boundingBoxRight");
 
         [JsName("height")]
-        public double Height { get; }
+        public double Height => GetProperty<double>("height");
 
         [JsName("emHeightAscent")]
-        public double EmHeightAscent { get; }
+        public double EmHeightAscent => GetProperty<double>("emHeightAscent");
 
         [JsName("emHeightDescent")]
-        public double EmHeightDescent { get; }
+        public double EmHeightDescent => GetProperty<double>("emHeightDescent");
 
         [JsName("boundingBoxAscent")]
-        public double BoundingBoxAscent { get; }
+        public double BoundingBoxAscent => GetProperty<double>("boundingBoxAscent");
 
         [JsName("boundingBoxDescent")]
-        public double BoundingBoxDescent { get; }
+        public double BoundingBoxDescent => GetProperty<double>("boundingBoxDescent");
 
         [JsName("fontBoundingBoxAscent")]
-        public double FontBoundingBoxAscent { get; }
+        public double FontBoundingBoxAscent => GetProperty<double>("fontBoundingBoxAscent");
 
         [JsName("fontBoundingBoxDescent")]
-        public double FontBoundingBoxDescent { get; }
+        public double FontBoundingBoxDescent => GetProperty<double>("fontBoundingBoxDescent");
 
         [JsName("dominantBaseline")]
-        public Baseline DominantBaseline { get; }
+        public Baseline DominantBaseline => GetProperty<Baseline>("dominantBaseline");
 
         [JsName("baselines")]
-        public IReadOnlyList<Baseline> Baselines { get; }
+        public IReadOnlyList<Baseline> Baselines => GetProperty<IReadOnlyList<Baseline>>("baselines");
 
         [JsName("fonts")]
-        public IReadOnlyList<Font> Fonts { get; }
+        public IReadOnlyList<Font> Fonts => GetProperty<IReadOnlyList<Font>>("fonts");
     }
 }

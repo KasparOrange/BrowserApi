@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("DOMStringMap")]
-    public partial class DomStringMap
+    public partial class DomStringMap : JsObject
     {
     }
 }

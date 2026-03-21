@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("NDEFMessage")]
-    public partial class Ndefmessage
+    public partial class Ndefmessage : JsObject
     {
         [JsName("records")]
-        public IReadOnlyList<Ndefrecord> Records { get; }
+        public IReadOnlyList<Ndefrecord> Records => GetProperty<IReadOnlyList<Ndefrecord>>("records");
     }
 }

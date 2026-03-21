@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class MediaSourceHandle
+    public partial class MediaSourceHandle : JsObject
     {
     }
 }

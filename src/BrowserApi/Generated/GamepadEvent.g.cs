@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class GamepadEvent : Event
     {
         [JsName("gamepad")]
-        public Gamepad Gamepad { get; }
+        public Gamepad Gamepad => GetProperty<Gamepad>("gamepad");
     }
 }

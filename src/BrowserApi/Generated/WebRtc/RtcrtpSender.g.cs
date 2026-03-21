@@ -33,36 +33,40 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCRtpSender")]
-    public partial class RtcrtpSender
+    public partial class RtcrtpSender : JsObject
     {
         [JsName("track")]
-        public MediaStreamTrack? Track { get; }
+        public MediaStreamTrack? Track => GetProperty<MediaStreamTrack?>("track");
 
         [JsName("transport")]
-        public RtcdtlsTransport? Transport { get; }
+        public RtcdtlsTransport? Transport => GetProperty<RtcdtlsTransport?>("transport");
 
         [JsName("transform")]
-        public object Transform { get; set; }
+        public object Transform
+        {
+            get => GetProperty<object>("transform");
+            set => SetProperty("transform", value);
+        }
 
         [JsName("dtmf")]
-        public Rtcdtmfsender? Dtmf { get; }
+        public Rtcdtmfsender? Dtmf => GetProperty<Rtcdtmfsender?>("dtmf");
 
         [JsName("getCapabilities")]
         public static RtcrtpCapabilities? GetCapabilities(string kind) => throw new NotImplementedException();
 
         [JsName("setParameters")]
-        public Task SetParametersAsync(RtcrtpSendParameters parameters, RtcsetParameterOptions? setParameterOptions = null) => throw new NotImplementedException();
+        public Task SetParametersAsync(RtcrtpSendParameters parameters, RtcsetParameterOptions? setParameterOptions = null) => InvokeVoidAsync("setParameters", parameters, setParameterOptions);
 
         [JsName("getParameters")]
-        public RtcrtpSendParameters GetParameters() => throw new NotImplementedException();
+        public RtcrtpSendParameters GetParameters() => Invoke<RtcrtpSendParameters>("getParameters");
 
         [JsName("replaceTrack")]
-        public Task ReplaceTrackAsync(MediaStreamTrack? withTrack) => throw new NotImplementedException();
+        public Task ReplaceTrackAsync(MediaStreamTrack? withTrack) => InvokeVoidAsync("replaceTrack", withTrack);
 
         [JsName("setStreams")]
-        public void SetStreams(params object[] streams) => throw new NotImplementedException();
+        public void SetStreams(params object[] streams) => InvokeVoid("setStreams", streams);
 
         [JsName("getStats")]
-        public Task<RtcstatsReport> GetStatsAsync() => throw new NotImplementedException();
+        public Task<RtcstatsReport> GetStatsAsync() => InvokeAsync<RtcstatsReport>("getStats");
     }
 }

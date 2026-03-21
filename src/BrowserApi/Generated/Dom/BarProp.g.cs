@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class BarProp
+    public partial class BarProp : JsObject
     {
         [JsName("visible")]
-        public bool Visible { get; }
+        public bool Visible => GetProperty<bool>("visible");
     }
 }

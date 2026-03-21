@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Ink
+    public partial class Ink : JsObject
     {
         [JsName("requestPresenter")]
-        public Task<DelegatedInkTrailPresenter> RequestPresenterAsync(InkPresenterParam? param = null) => throw new NotImplementedException();
+        public Task<DelegatedInkTrailPresenter> RequestPresenterAsync(InkPresenterParam? param = null) => InvokeAsync<DelegatedInkTrailPresenter>("requestPresenter", param);
     }
 }

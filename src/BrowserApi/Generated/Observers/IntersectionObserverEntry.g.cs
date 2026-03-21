@@ -32,30 +32,30 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Observers
 {
-    public partial class IntersectionObserverEntry
+    public partial class IntersectionObserverEntry : JsObject
     {
         [JsName("time")]
-        public double Time { get; }
+        public double Time => GetProperty<double>("time");
 
         [JsName("rootBounds")]
-        public DomRectReadOnly? RootBounds { get; }
+        public DomRectReadOnly? RootBounds => GetProperty<DomRectReadOnly?>("rootBounds");
 
         [JsName("boundingClientRect")]
-        public DomRectReadOnly BoundingClientRect { get; }
+        public DomRectReadOnly BoundingClientRect => GetProperty<DomRectReadOnly>("boundingClientRect");
 
         [JsName("intersectionRect")]
-        public DomRectReadOnly IntersectionRect { get; }
+        public DomRectReadOnly IntersectionRect => GetProperty<DomRectReadOnly>("intersectionRect");
 
         [JsName("isIntersecting")]
-        public bool IsIntersecting { get; }
+        public bool IsIntersecting => GetProperty<bool>("isIntersecting");
 
         [JsName("isVisible")]
-        public bool IsVisible { get; }
+        public bool IsVisible => GetProperty<bool>("isVisible");
 
         [JsName("intersectionRatio")]
-        public double IntersectionRatio { get; }
+        public double IntersectionRatio => GetProperty<double>("intersectionRatio");
 
         [JsName("target")]
-        public Element Target { get; }
+        public Element Target => GetProperty<Element>("target");
     }
 }

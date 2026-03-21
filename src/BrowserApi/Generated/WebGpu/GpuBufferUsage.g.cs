@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUBufferUsage")]
-    public partial class GpuBufferUsage
+    public partial class GpuBufferUsage : JsObject
     {
         public const uint MapRead = 0x0001;
 

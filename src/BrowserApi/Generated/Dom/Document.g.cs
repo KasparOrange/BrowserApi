@@ -35,735 +35,1239 @@ namespace BrowserApi.Dom
     public partial class Document : Node
     {
         [JsName("implementation")]
-        public DomImplementation Implementation { get; }
+        public DomImplementation Implementation => GetProperty<DomImplementation>("implementation");
 
         [JsName("URL")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("URL");
 
         [JsName("documentURI")]
-        public string DocumentUri { get; }
+        public string DocumentUri => GetProperty<string>("documentURI");
 
         [JsName("compatMode")]
-        public string CompatMode { get; }
+        public string CompatMode => GetProperty<string>("compatMode");
 
         [JsName("characterSet")]
-        public string CharacterSet { get; }
+        public string CharacterSet => GetProperty<string>("characterSet");
 
         [JsName("charset")]
-        public string Charset { get; }
+        public string Charset => GetProperty<string>("charset");
 
         [JsName("inputEncoding")]
-        public string InputEncoding { get; }
+        public string InputEncoding => GetProperty<string>("inputEncoding");
 
         [JsName("contentType")]
-        public string ContentType { get; }
+        public string ContentType => GetProperty<string>("contentType");
 
         [JsName("doctype")]
-        public DocumentType? Doctype { get; }
+        public DocumentType? Doctype => GetProperty<DocumentType?>("doctype");
 
         [JsName("documentElement")]
-        public Element? DocumentElement { get; }
+        public Element? DocumentElement => GetProperty<Element?>("documentElement");
 
         [JsName("namedFlows")]
-        public NamedFlowMap NamedFlows { get; }
+        public NamedFlowMap NamedFlows => GetProperty<NamedFlowMap>("namedFlows");
 
         [JsName("activeViewTransition")]
-        public ViewTransition? ActiveViewTransition { get; }
+        public ViewTransition? ActiveViewTransition => GetProperty<ViewTransition?>("activeViewTransition");
 
         [JsName("scrollingElement")]
-        public Element? ScrollingElement { get; }
+        public Element? ScrollingElement => GetProperty<Element?>("scrollingElement");
 
         [JsName("fullscreenEnabled")]
-        public bool FullscreenEnabled { get; }
+        public bool FullscreenEnabled => GetProperty<bool>("fullscreenEnabled");
 
         [JsName("fullscreen")]
-        public bool Fullscreen { get; }
+        public bool Fullscreen => GetProperty<bool>("fullscreen");
 
         [JsName("onfullscreenchange")]
-        public object Onfullscreenchange { get; set; }
+        public object Onfullscreenchange
+        {
+            get => GetProperty<object>("onfullscreenchange");
+            set => SetProperty("onfullscreenchange", value);
+        }
 
         [JsName("onfullscreenerror")]
-        public object Onfullscreenerror { get; set; }
+        public object Onfullscreenerror
+        {
+            get => GetProperty<object>("onfullscreenerror");
+            set => SetProperty("onfullscreenerror", value);
+        }
 
         [JsName("location")]
-        public Location? Location { get; }
+        public Location? Location => GetProperty<Location?>("location");
 
         [JsName("domain")]
-        public string Domain { get; set; }
+        public string Domain
+        {
+            get => GetProperty<string>("domain");
+            set => SetProperty("domain", value);
+        }
 
         [JsName("referrer")]
-        public string Referrer { get; }
+        public string Referrer => GetProperty<string>("referrer");
 
         [JsName("cookie")]
-        public string Cookie { get; set; }
+        public string Cookie
+        {
+            get => GetProperty<string>("cookie");
+            set => SetProperty("cookie", value);
+        }
 
         [JsName("lastModified")]
-        public string LastModified { get; }
+        public string LastModified => GetProperty<string>("lastModified");
 
         [JsName("readyState")]
-        public DocumentReadyState ReadyState { get; }
+        public DocumentReadyState ReadyState => GetProperty<DocumentReadyState>("readyState");
 
         [JsName("title")]
-        public string Title { get; set; }
+        public string Title
+        {
+            get => GetProperty<string>("title");
+            set => SetProperty("title", value);
+        }
 
         [JsName("dir")]
-        public string Dir { get; set; }
+        public string Dir
+        {
+            get => GetProperty<string>("dir");
+            set => SetProperty("dir", value);
+        }
 
         [JsName("body")]
-        public HtmlElement? Body { get; set; }
+        public HtmlElement? Body
+        {
+            get => GetProperty<HtmlElement?>("body");
+            set => SetProperty("body", value);
+        }
 
         [JsName("head")]
-        public HtmlHeadElement? Head { get; }
+        public HtmlHeadElement? Head => GetProperty<HtmlHeadElement?>("head");
 
         [JsName("images")]
-        public HtmlCollection Images { get; }
+        public HtmlCollection Images => GetProperty<HtmlCollection>("images");
 
         [JsName("embeds")]
-        public HtmlCollection Embeds { get; }
+        public HtmlCollection Embeds => GetProperty<HtmlCollection>("embeds");
 
         [JsName("plugins")]
-        public HtmlCollection Plugins { get; }
+        public HtmlCollection Plugins => GetProperty<HtmlCollection>("plugins");
 
         [JsName("links")]
-        public HtmlCollection Links { get; }
+        public HtmlCollection Links => GetProperty<HtmlCollection>("links");
 
         [JsName("forms")]
-        public HtmlCollection Forms { get; }
+        public HtmlCollection Forms => GetProperty<HtmlCollection>("forms");
 
         [JsName("scripts")]
-        public HtmlCollection Scripts { get; }
+        public HtmlCollection Scripts => GetProperty<HtmlCollection>("scripts");
 
         [JsName("currentScript")]
-        public object CurrentScript { get; }
+        public object CurrentScript => GetProperty<object>("currentScript");
 
         [JsName("defaultView")]
-        public object DefaultView { get; }
+        public object DefaultView => GetProperty<object>("defaultView");
 
         [JsName("designMode")]
-        public string DesignMode { get; set; }
+        public string DesignMode
+        {
+            get => GetProperty<string>("designMode");
+            set => SetProperty("designMode", value);
+        }
 
         [JsName("hidden")]
-        public bool Hidden { get; }
+        public bool Hidden => GetProperty<bool>("hidden");
 
         [JsName("visibilityState")]
-        public DocumentVisibilityState VisibilityState { get; }
+        public DocumentVisibilityState VisibilityState => GetProperty<DocumentVisibilityState>("visibilityState");
 
         [JsName("onreadystatechange")]
-        public object Onreadystatechange { get; set; }
+        public object Onreadystatechange
+        {
+            get => GetProperty<object>("onreadystatechange");
+            set => SetProperty("onreadystatechange", value);
+        }
 
         [JsName("onvisibilitychange")]
-        public object Onvisibilitychange { get; set; }
+        public object Onvisibilitychange
+        {
+            get => GetProperty<object>("onvisibilitychange");
+            set => SetProperty("onvisibilitychange", value);
+        }
 
         [JsName("fgColor")]
-        public string FgColor { get; set; }
+        public string FgColor
+        {
+            get => GetProperty<string>("fgColor");
+            set => SetProperty("fgColor", value);
+        }
 
         [JsName("linkColor")]
-        public string LinkColor { get; set; }
+        public string LinkColor
+        {
+            get => GetProperty<string>("linkColor");
+            set => SetProperty("linkColor", value);
+        }
 
         [JsName("vlinkColor")]
-        public string VlinkColor { get; set; }
+        public string VlinkColor
+        {
+            get => GetProperty<string>("vlinkColor");
+            set => SetProperty("vlinkColor", value);
+        }
 
         [JsName("alinkColor")]
-        public string AlinkColor { get; set; }
+        public string AlinkColor
+        {
+            get => GetProperty<string>("alinkColor");
+            set => SetProperty("alinkColor", value);
+        }
 
         [JsName("bgColor")]
-        public string BgColor { get; set; }
+        public string BgColor
+        {
+            get => GetProperty<string>("bgColor");
+            set => SetProperty("bgColor", value);
+        }
 
         [JsName("anchors")]
-        public HtmlCollection Anchors { get; }
+        public HtmlCollection Anchors => GetProperty<HtmlCollection>("anchors");
 
         [JsName("applets")]
-        public HtmlCollection Applets { get; }
+        public HtmlCollection Applets => GetProperty<HtmlCollection>("applets");
 
         [JsName("all")]
-        public HtmlAllCollection All { get; }
+        public HtmlAllCollection All => GetProperty<HtmlAllCollection>("all");
 
         [JsName("onfreeze")]
-        public object Onfreeze { get; set; }
+        public object Onfreeze
+        {
+            get => GetProperty<object>("onfreeze");
+            set => SetProperty("onfreeze", value);
+        }
 
         [JsName("onresume")]
-        public object Onresume { get; set; }
+        public object Onresume
+        {
+            get => GetProperty<object>("onresume");
+            set => SetProperty("onresume", value);
+        }
 
         [JsName("wasDiscarded")]
-        public bool WasDiscarded { get; }
+        public bool WasDiscarded => GetProperty<bool>("wasDiscarded");
 
         [JsName("permissionsPolicy")]
-        public PermissionsPolicy PermissionsPolicy { get; }
+        public PermissionsPolicy PermissionsPolicy => GetProperty<PermissionsPolicy>("permissionsPolicy");
 
         [JsName("pictureInPictureEnabled")]
-        public bool PictureInPictureEnabled { get; }
+        public bool PictureInPictureEnabled => GetProperty<bool>("pictureInPictureEnabled");
 
         [JsName("onpointerlockchange")]
-        public object Onpointerlockchange { get; set; }
+        public object Onpointerlockchange
+        {
+            get => GetProperty<object>("onpointerlockchange");
+            set => SetProperty("onpointerlockchange", value);
+        }
 
         [JsName("onpointerlockerror")]
-        public object Onpointerlockerror { get; set; }
+        public object Onpointerlockerror
+        {
+            get => GetProperty<object>("onpointerlockerror");
+            set => SetProperty("onpointerlockerror", value);
+        }
 
         [JsName("prerendering")]
-        public bool Prerendering { get; }
+        public bool Prerendering => GetProperty<bool>("prerendering");
 
         [JsName("onprerenderingchange")]
-        public object Onprerenderingchange { get; set; }
+        public object Onprerenderingchange
+        {
+            get => GetProperty<object>("onprerenderingchange");
+            set => SetProperty("onprerenderingchange", value);
+        }
 
         [JsName("fragmentDirective")]
-        public FragmentDirective FragmentDirective { get; }
+        public FragmentDirective FragmentDirective => GetProperty<FragmentDirective>("fragmentDirective");
 
         [JsName("rootElement")]
-        public SvgSvgElement? RootElement { get; }
+        public SvgSvgElement? RootElement => GetProperty<SvgSvgElement?>("rootElement");
 
         [JsName("timeline")]
-        public DocumentTimeline Timeline { get; }
+        public DocumentTimeline Timeline => GetProperty<DocumentTimeline>("timeline");
 
         [JsName("fonts")]
-        public FontFaceSet Fonts { get; }
+        public FontFaceSet Fonts => GetProperty<FontFaceSet>("fonts");
 
         [JsName("customElementRegistry")]
-        public CustomElementRegistry? CustomElementRegistry { get; }
+        public CustomElementRegistry? CustomElementRegistry => GetProperty<CustomElementRegistry?>("customElementRegistry");
 
         [JsName("styleSheets")]
-        public StyleSheetList StyleSheets { get; }
+        public StyleSheetList StyleSheets => GetProperty<StyleSheetList>("styleSheets");
 
         [JsName("adoptedStyleSheets")]
-        public IReadOnlyList<CssStyleSheet> AdoptedStyleSheets { get; set; }
+        public IReadOnlyList<CssStyleSheet> AdoptedStyleSheets
+        {
+            get => GetProperty<IReadOnlyList<CssStyleSheet>>("adoptedStyleSheets");
+            set => SetProperty("adoptedStyleSheets", value);
+        }
 
         [JsName("fullscreenElement")]
-        public Element? FullscreenElement { get; }
+        public Element? FullscreenElement => GetProperty<Element?>("fullscreenElement");
 
         [JsName("activeElement")]
-        public Element? ActiveElement { get; }
+        public Element? ActiveElement => GetProperty<Element?>("activeElement");
 
         [JsName("pictureInPictureElement")]
-        public Element? PictureInPictureElement { get; }
+        public Element? PictureInPictureElement => GetProperty<Element?>("pictureInPictureElement");
 
         [JsName("pointerLockElement")]
-        public Element? PointerLockElement { get; }
+        public Element? PointerLockElement => GetProperty<Element?>("pointerLockElement");
 
         [JsName("children")]
-        public HtmlCollection Children { get; }
+        public HtmlCollection Children => GetProperty<HtmlCollection>("children");
 
         [JsName("firstElementChild")]
-        public Element? FirstElementChild { get; }
+        public Element? FirstElementChild => GetProperty<Element?>("firstElementChild");
 
         [JsName("lastElementChild")]
-        public Element? LastElementChild { get; }
+        public Element? LastElementChild => GetProperty<Element?>("lastElementChild");
 
         [JsName("childElementCount")]
-        public uint ChildElementCount { get; }
+        public uint ChildElementCount => GetProperty<uint>("childElementCount");
 
         [JsName("onabort")]
-        public object Onabort { get; set; }
+        public object Onabort
+        {
+            get => GetProperty<object>("onabort");
+            set => SetProperty("onabort", value);
+        }
 
         [JsName("onauxclick")]
-        public object Onauxclick { get; set; }
+        public object Onauxclick
+        {
+            get => GetProperty<object>("onauxclick");
+            set => SetProperty("onauxclick", value);
+        }
 
         [JsName("onbeforeinput")]
-        public object Onbeforeinput { get; set; }
+        public object Onbeforeinput
+        {
+            get => GetProperty<object>("onbeforeinput");
+            set => SetProperty("onbeforeinput", value);
+        }
 
         [JsName("onbeforematch")]
-        public object Onbeforematch { get; set; }
+        public object Onbeforematch
+        {
+            get => GetProperty<object>("onbeforematch");
+            set => SetProperty("onbeforematch", value);
+        }
 
         [JsName("onbeforetoggle")]
-        public object Onbeforetoggle { get; set; }
+        public object Onbeforetoggle
+        {
+            get => GetProperty<object>("onbeforetoggle");
+            set => SetProperty("onbeforetoggle", value);
+        }
 
         [JsName("onblur")]
-        public object Onblur { get; set; }
+        public object Onblur
+        {
+            get => GetProperty<object>("onblur");
+            set => SetProperty("onblur", value);
+        }
 
         [JsName("oncancel")]
-        public object Oncancel { get; set; }
+        public object Oncancel
+        {
+            get => GetProperty<object>("oncancel");
+            set => SetProperty("oncancel", value);
+        }
 
         [JsName("oncanplay")]
-        public object Oncanplay { get; set; }
+        public object Oncanplay
+        {
+            get => GetProperty<object>("oncanplay");
+            set => SetProperty("oncanplay", value);
+        }
 
         [JsName("oncanplaythrough")]
-        public object Oncanplaythrough { get; set; }
+        public object Oncanplaythrough
+        {
+            get => GetProperty<object>("oncanplaythrough");
+            set => SetProperty("oncanplaythrough", value);
+        }
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("onclick")]
-        public object Onclick { get; set; }
+        public object Onclick
+        {
+            get => GetProperty<object>("onclick");
+            set => SetProperty("onclick", value);
+        }
 
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("oncommand")]
-        public object Oncommand { get; set; }
+        public object Oncommand
+        {
+            get => GetProperty<object>("oncommand");
+            set => SetProperty("oncommand", value);
+        }
 
         [JsName("oncontextlost")]
-        public object Oncontextlost { get; set; }
+        public object Oncontextlost
+        {
+            get => GetProperty<object>("oncontextlost");
+            set => SetProperty("oncontextlost", value);
+        }
 
         [JsName("oncontextmenu")]
-        public object Oncontextmenu { get; set; }
+        public object Oncontextmenu
+        {
+            get => GetProperty<object>("oncontextmenu");
+            set => SetProperty("oncontextmenu", value);
+        }
 
         [JsName("oncontextrestored")]
-        public object Oncontextrestored { get; set; }
+        public object Oncontextrestored
+        {
+            get => GetProperty<object>("oncontextrestored");
+            set => SetProperty("oncontextrestored", value);
+        }
 
         [JsName("oncopy")]
-        public object Oncopy { get; set; }
+        public object Oncopy
+        {
+            get => GetProperty<object>("oncopy");
+            set => SetProperty("oncopy", value);
+        }
 
         [JsName("oncuechange")]
-        public object Oncuechange { get; set; }
+        public object Oncuechange
+        {
+            get => GetProperty<object>("oncuechange");
+            set => SetProperty("oncuechange", value);
+        }
 
         [JsName("oncut")]
-        public object Oncut { get; set; }
+        public object Oncut
+        {
+            get => GetProperty<object>("oncut");
+            set => SetProperty("oncut", value);
+        }
 
         [JsName("ondblclick")]
-        public object Ondblclick { get; set; }
+        public object Ondblclick
+        {
+            get => GetProperty<object>("ondblclick");
+            set => SetProperty("ondblclick", value);
+        }
 
         [JsName("ondrag")]
-        public object Ondrag { get; set; }
+        public object Ondrag
+        {
+            get => GetProperty<object>("ondrag");
+            set => SetProperty("ondrag", value);
+        }
 
         [JsName("ondragend")]
-        public object Ondragend { get; set; }
+        public object Ondragend
+        {
+            get => GetProperty<object>("ondragend");
+            set => SetProperty("ondragend", value);
+        }
 
         [JsName("ondragenter")]
-        public object Ondragenter { get; set; }
+        public object Ondragenter
+        {
+            get => GetProperty<object>("ondragenter");
+            set => SetProperty("ondragenter", value);
+        }
 
         [JsName("ondragleave")]
-        public object Ondragleave { get; set; }
+        public object Ondragleave
+        {
+            get => GetProperty<object>("ondragleave");
+            set => SetProperty("ondragleave", value);
+        }
 
         [JsName("ondragover")]
-        public object Ondragover { get; set; }
+        public object Ondragover
+        {
+            get => GetProperty<object>("ondragover");
+            set => SetProperty("ondragover", value);
+        }
 
         [JsName("ondragstart")]
-        public object Ondragstart { get; set; }
+        public object Ondragstart
+        {
+            get => GetProperty<object>("ondragstart");
+            set => SetProperty("ondragstart", value);
+        }
 
         [JsName("ondrop")]
-        public object Ondrop { get; set; }
+        public object Ondrop
+        {
+            get => GetProperty<object>("ondrop");
+            set => SetProperty("ondrop", value);
+        }
 
         [JsName("ondurationchange")]
-        public object Ondurationchange { get; set; }
+        public object Ondurationchange
+        {
+            get => GetProperty<object>("ondurationchange");
+            set => SetProperty("ondurationchange", value);
+        }
 
         [JsName("onemptied")]
-        public object Onemptied { get; set; }
+        public object Onemptied
+        {
+            get => GetProperty<object>("onemptied");
+            set => SetProperty("onemptied", value);
+        }
 
         [JsName("onended")]
-        public object Onended { get; set; }
+        public object Onended
+        {
+            get => GetProperty<object>("onended");
+            set => SetProperty("onended", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onfocus")]
-        public object Onfocus { get; set; }
+        public object Onfocus
+        {
+            get => GetProperty<object>("onfocus");
+            set => SetProperty("onfocus", value);
+        }
 
         [JsName("onformdata")]
-        public object Onformdata { get; set; }
+        public object Onformdata
+        {
+            get => GetProperty<object>("onformdata");
+            set => SetProperty("onformdata", value);
+        }
 
         [JsName("oninput")]
-        public object Oninput { get; set; }
+        public object Oninput
+        {
+            get => GetProperty<object>("oninput");
+            set => SetProperty("oninput", value);
+        }
 
         [JsName("oninvalid")]
-        public object Oninvalid { get; set; }
+        public object Oninvalid
+        {
+            get => GetProperty<object>("oninvalid");
+            set => SetProperty("oninvalid", value);
+        }
 
         [JsName("onkeydown")]
-        public object Onkeydown { get; set; }
+        public object Onkeydown
+        {
+            get => GetProperty<object>("onkeydown");
+            set => SetProperty("onkeydown", value);
+        }
 
         [JsName("onkeypress")]
-        public object Onkeypress { get; set; }
+        public object Onkeypress
+        {
+            get => GetProperty<object>("onkeypress");
+            set => SetProperty("onkeypress", value);
+        }
 
         [JsName("onkeyup")]
-        public object Onkeyup { get; set; }
+        public object Onkeyup
+        {
+            get => GetProperty<object>("onkeyup");
+            set => SetProperty("onkeyup", value);
+        }
 
         [JsName("onload")]
-        public object Onload { get; set; }
+        public object Onload
+        {
+            get => GetProperty<object>("onload");
+            set => SetProperty("onload", value);
+        }
 
         [JsName("onloadeddata")]
-        public object Onloadeddata { get; set; }
+        public object Onloadeddata
+        {
+            get => GetProperty<object>("onloadeddata");
+            set => SetProperty("onloadeddata", value);
+        }
 
         [JsName("onloadedmetadata")]
-        public object Onloadedmetadata { get; set; }
+        public object Onloadedmetadata
+        {
+            get => GetProperty<object>("onloadedmetadata");
+            set => SetProperty("onloadedmetadata", value);
+        }
 
         [JsName("onloadstart")]
-        public object Onloadstart { get; set; }
+        public object Onloadstart
+        {
+            get => GetProperty<object>("onloadstart");
+            set => SetProperty("onloadstart", value);
+        }
 
         [JsName("onmousedown")]
-        public object Onmousedown { get; set; }
+        public object Onmousedown
+        {
+            get => GetProperty<object>("onmousedown");
+            set => SetProperty("onmousedown", value);
+        }
 
         [JsName("onmouseenter")]
-        public object Onmouseenter { get; set; }
+        public object Onmouseenter
+        {
+            get => GetProperty<object>("onmouseenter");
+            set => SetProperty("onmouseenter", value);
+        }
 
         [JsName("onmouseleave")]
-        public object Onmouseleave { get; set; }
+        public object Onmouseleave
+        {
+            get => GetProperty<object>("onmouseleave");
+            set => SetProperty("onmouseleave", value);
+        }
 
         [JsName("onmousemove")]
-        public object Onmousemove { get; set; }
+        public object Onmousemove
+        {
+            get => GetProperty<object>("onmousemove");
+            set => SetProperty("onmousemove", value);
+        }
 
         [JsName("onmouseout")]
-        public object Onmouseout { get; set; }
+        public object Onmouseout
+        {
+            get => GetProperty<object>("onmouseout");
+            set => SetProperty("onmouseout", value);
+        }
 
         [JsName("onmouseover")]
-        public object Onmouseover { get; set; }
+        public object Onmouseover
+        {
+            get => GetProperty<object>("onmouseover");
+            set => SetProperty("onmouseover", value);
+        }
 
         [JsName("onmouseup")]
-        public object Onmouseup { get; set; }
+        public object Onmouseup
+        {
+            get => GetProperty<object>("onmouseup");
+            set => SetProperty("onmouseup", value);
+        }
 
         [JsName("onpaste")]
-        public object Onpaste { get; set; }
+        public object Onpaste
+        {
+            get => GetProperty<object>("onpaste");
+            set => SetProperty("onpaste", value);
+        }
 
         [JsName("onpause")]
-        public object Onpause { get; set; }
+        public object Onpause
+        {
+            get => GetProperty<object>("onpause");
+            set => SetProperty("onpause", value);
+        }
 
         [JsName("onplay")]
-        public object Onplay { get; set; }
+        public object Onplay
+        {
+            get => GetProperty<object>("onplay");
+            set => SetProperty("onplay", value);
+        }
 
         [JsName("onplaying")]
-        public object Onplaying { get; set; }
+        public object Onplaying
+        {
+            get => GetProperty<object>("onplaying");
+            set => SetProperty("onplaying", value);
+        }
 
         [JsName("onprogress")]
-        public object Onprogress { get; set; }
+        public object Onprogress
+        {
+            get => GetProperty<object>("onprogress");
+            set => SetProperty("onprogress", value);
+        }
 
         [JsName("onratechange")]
-        public object Onratechange { get; set; }
+        public object Onratechange
+        {
+            get => GetProperty<object>("onratechange");
+            set => SetProperty("onratechange", value);
+        }
 
         [JsName("onreset")]
-        public object Onreset { get; set; }
+        public object Onreset
+        {
+            get => GetProperty<object>("onreset");
+            set => SetProperty("onreset", value);
+        }
 
         [JsName("onresize")]
-        public object Onresize { get; set; }
+        public object Onresize
+        {
+            get => GetProperty<object>("onresize");
+            set => SetProperty("onresize", value);
+        }
 
         [JsName("onscroll")]
-        public object Onscroll { get; set; }
+        public object Onscroll
+        {
+            get => GetProperty<object>("onscroll");
+            set => SetProperty("onscroll", value);
+        }
 
         [JsName("onscrollend")]
-        public object Onscrollend { get; set; }
+        public object Onscrollend
+        {
+            get => GetProperty<object>("onscrollend");
+            set => SetProperty("onscrollend", value);
+        }
 
         [JsName("onsecuritypolicyviolation")]
-        public object Onsecuritypolicyviolation { get; set; }
+        public object Onsecuritypolicyviolation
+        {
+            get => GetProperty<object>("onsecuritypolicyviolation");
+            set => SetProperty("onsecuritypolicyviolation", value);
+        }
 
         [JsName("onseeked")]
-        public object Onseeked { get; set; }
+        public object Onseeked
+        {
+            get => GetProperty<object>("onseeked");
+            set => SetProperty("onseeked", value);
+        }
 
         [JsName("onseeking")]
-        public object Onseeking { get; set; }
+        public object Onseeking
+        {
+            get => GetProperty<object>("onseeking");
+            set => SetProperty("onseeking", value);
+        }
 
         [JsName("onselect")]
-        public object Onselect { get; set; }
+        public object Onselect
+        {
+            get => GetProperty<object>("onselect");
+            set => SetProperty("onselect", value);
+        }
 
         [JsName("onslotchange")]
-        public object Onslotchange { get; set; }
+        public object Onslotchange
+        {
+            get => GetProperty<object>("onslotchange");
+            set => SetProperty("onslotchange", value);
+        }
 
         [JsName("onstalled")]
-        public object Onstalled { get; set; }
+        public object Onstalled
+        {
+            get => GetProperty<object>("onstalled");
+            set => SetProperty("onstalled", value);
+        }
 
         [JsName("onsubmit")]
-        public object Onsubmit { get; set; }
+        public object Onsubmit
+        {
+            get => GetProperty<object>("onsubmit");
+            set => SetProperty("onsubmit", value);
+        }
 
         [JsName("onsuspend")]
-        public object Onsuspend { get; set; }
+        public object Onsuspend
+        {
+            get => GetProperty<object>("onsuspend");
+            set => SetProperty("onsuspend", value);
+        }
 
         [JsName("ontimeupdate")]
-        public object Ontimeupdate { get; set; }
+        public object Ontimeupdate
+        {
+            get => GetProperty<object>("ontimeupdate");
+            set => SetProperty("ontimeupdate", value);
+        }
 
         [JsName("ontoggle")]
-        public object Ontoggle { get; set; }
+        public object Ontoggle
+        {
+            get => GetProperty<object>("ontoggle");
+            set => SetProperty("ontoggle", value);
+        }
 
         [JsName("onvolumechange")]
-        public object Onvolumechange { get; set; }
+        public object Onvolumechange
+        {
+            get => GetProperty<object>("onvolumechange");
+            set => SetProperty("onvolumechange", value);
+        }
 
         [JsName("onwaiting")]
-        public object Onwaiting { get; set; }
+        public object Onwaiting
+        {
+            get => GetProperty<object>("onwaiting");
+            set => SetProperty("onwaiting", value);
+        }
 
         [JsName("onwebkitanimationend")]
-        public object Onwebkitanimationend { get; set; }
+        public object Onwebkitanimationend
+        {
+            get => GetProperty<object>("onwebkitanimationend");
+            set => SetProperty("onwebkitanimationend", value);
+        }
 
         [JsName("onwebkitanimationiteration")]
-        public object Onwebkitanimationiteration { get; set; }
+        public object Onwebkitanimationiteration
+        {
+            get => GetProperty<object>("onwebkitanimationiteration");
+            set => SetProperty("onwebkitanimationiteration", value);
+        }
 
         [JsName("onwebkitanimationstart")]
-        public object Onwebkitanimationstart { get; set; }
+        public object Onwebkitanimationstart
+        {
+            get => GetProperty<object>("onwebkitanimationstart");
+            set => SetProperty("onwebkitanimationstart", value);
+        }
 
         [JsName("onwebkittransitionend")]
-        public object Onwebkittransitionend { get; set; }
+        public object Onwebkittransitionend
+        {
+            get => GetProperty<object>("onwebkittransitionend");
+            set => SetProperty("onwebkittransitionend", value);
+        }
 
         [JsName("onwheel")]
-        public object Onwheel { get; set; }
+        public object Onwheel
+        {
+            get => GetProperty<object>("onwheel");
+            set => SetProperty("onwheel", value);
+        }
 
         [JsName("onanimationstart")]
-        public object Onanimationstart { get; set; }
+        public object Onanimationstart
+        {
+            get => GetProperty<object>("onanimationstart");
+            set => SetProperty("onanimationstart", value);
+        }
 
         [JsName("onanimationiteration")]
-        public object Onanimationiteration { get; set; }
+        public object Onanimationiteration
+        {
+            get => GetProperty<object>("onanimationiteration");
+            set => SetProperty("onanimationiteration", value);
+        }
 
         [JsName("onanimationend")]
-        public object Onanimationend { get; set; }
+        public object Onanimationend
+        {
+            get => GetProperty<object>("onanimationend");
+            set => SetProperty("onanimationend", value);
+        }
 
         [JsName("onanimationcancel")]
-        public object Onanimationcancel { get; set; }
+        public object Onanimationcancel
+        {
+            get => GetProperty<object>("onanimationcancel");
+            set => SetProperty("onanimationcancel", value);
+        }
 
         [JsName("onsnapchanged")]
-        public object Onsnapchanged { get; set; }
+        public object Onsnapchanged
+        {
+            get => GetProperty<object>("onsnapchanged");
+            set => SetProperty("onsnapchanged", value);
+        }
 
         [JsName("onsnapchanging")]
-        public object Onsnapchanging { get; set; }
+        public object Onsnapchanging
+        {
+            get => GetProperty<object>("onsnapchanging");
+            set => SetProperty("onsnapchanging", value);
+        }
 
         [JsName("ontransitionrun")]
-        public object Ontransitionrun { get; set; }
+        public object Ontransitionrun
+        {
+            get => GetProperty<object>("ontransitionrun");
+            set => SetProperty("ontransitionrun", value);
+        }
 
         [JsName("ontransitionstart")]
-        public object Ontransitionstart { get; set; }
+        public object Ontransitionstart
+        {
+            get => GetProperty<object>("ontransitionstart");
+            set => SetProperty("ontransitionstart", value);
+        }
 
         [JsName("ontransitionend")]
-        public object Ontransitionend { get; set; }
+        public object Ontransitionend
+        {
+            get => GetProperty<object>("ontransitionend");
+            set => SetProperty("ontransitionend", value);
+        }
 
         [JsName("ontransitioncancel")]
-        public object Ontransitioncancel { get; set; }
+        public object Ontransitioncancel
+        {
+            get => GetProperty<object>("ontransitioncancel");
+            set => SetProperty("ontransitioncancel", value);
+        }
 
         [JsName("onfencedtreeclick")]
-        public object Onfencedtreeclick { get; set; }
+        public object Onfencedtreeclick
+        {
+            get => GetProperty<object>("onfencedtreeclick");
+            set => SetProperty("onfencedtreeclick", value);
+        }
 
         [JsName("onpointerover")]
-        public object Onpointerover { get; set; }
+        public object Onpointerover
+        {
+            get => GetProperty<object>("onpointerover");
+            set => SetProperty("onpointerover", value);
+        }
 
         [JsName("onpointerenter")]
-        public object Onpointerenter { get; set; }
+        public object Onpointerenter
+        {
+            get => GetProperty<object>("onpointerenter");
+            set => SetProperty("onpointerenter", value);
+        }
 
         [JsName("onpointerdown")]
-        public object Onpointerdown { get; set; }
+        public object Onpointerdown
+        {
+            get => GetProperty<object>("onpointerdown");
+            set => SetProperty("onpointerdown", value);
+        }
 
         [JsName("onpointermove")]
-        public object Onpointermove { get; set; }
+        public object Onpointermove
+        {
+            get => GetProperty<object>("onpointermove");
+            set => SetProperty("onpointermove", value);
+        }
 
         [JsName("onpointerrawupdate")]
-        public object Onpointerrawupdate { get; set; }
+        public object Onpointerrawupdate
+        {
+            get => GetProperty<object>("onpointerrawupdate");
+            set => SetProperty("onpointerrawupdate", value);
+        }
 
         [JsName("onpointerup")]
-        public object Onpointerup { get; set; }
+        public object Onpointerup
+        {
+            get => GetProperty<object>("onpointerup");
+            set => SetProperty("onpointerup", value);
+        }
 
         [JsName("onpointercancel")]
-        public object Onpointercancel { get; set; }
+        public object Onpointercancel
+        {
+            get => GetProperty<object>("onpointercancel");
+            set => SetProperty("onpointercancel", value);
+        }
 
         [JsName("onpointerout")]
-        public object Onpointerout { get; set; }
+        public object Onpointerout
+        {
+            get => GetProperty<object>("onpointerout");
+            set => SetProperty("onpointerout", value);
+        }
 
         [JsName("onpointerleave")]
-        public object Onpointerleave { get; set; }
+        public object Onpointerleave
+        {
+            get => GetProperty<object>("onpointerleave");
+            set => SetProperty("onpointerleave", value);
+        }
 
         [JsName("ongotpointercapture")]
-        public object Ongotpointercapture { get; set; }
+        public object Ongotpointercapture
+        {
+            get => GetProperty<object>("ongotpointercapture");
+            set => SetProperty("ongotpointercapture", value);
+        }
 
         [JsName("onlostpointercapture")]
-        public object Onlostpointercapture { get; set; }
+        public object Onlostpointercapture
+        {
+            get => GetProperty<object>("onlostpointercapture");
+            set => SetProperty("onlostpointercapture", value);
+        }
 
         [JsName("onselectstart")]
-        public object Onselectstart { get; set; }
+        public object Onselectstart
+        {
+            get => GetProperty<object>("onselectstart");
+            set => SetProperty("onselectstart", value);
+        }
 
         [JsName("onselectionchange")]
-        public object Onselectionchange { get; set; }
+        public object Onselectionchange
+        {
+            get => GetProperty<object>("onselectionchange");
+            set => SetProperty("onselectionchange", value);
+        }
 
         [JsName("ontouchstart")]
-        public object Ontouchstart { get; set; }
+        public object Ontouchstart
+        {
+            get => GetProperty<object>("ontouchstart");
+            set => SetProperty("ontouchstart", value);
+        }
 
         [JsName("ontouchend")]
-        public object Ontouchend { get; set; }
+        public object Ontouchend
+        {
+            get => GetProperty<object>("ontouchend");
+            set => SetProperty("ontouchend", value);
+        }
 
         [JsName("ontouchmove")]
-        public object Ontouchmove { get; set; }
+        public object Ontouchmove
+        {
+            get => GetProperty<object>("ontouchmove");
+            set => SetProperty("ontouchmove", value);
+        }
 
         [JsName("ontouchcancel")]
-        public object Ontouchcancel { get; set; }
+        public object Ontouchcancel
+        {
+            get => GetProperty<object>("ontouchcancel");
+            set => SetProperty("ontouchcancel", value);
+        }
 
         [JsName("onbeforexrselect")]
-        public object Onbeforexrselect { get; set; }
+        public object Onbeforexrselect
+        {
+            get => GetProperty<object>("onbeforexrselect");
+            set => SetProperty("onbeforexrselect", value);
+        }
 
         [JsName("getElementsByTagName")]
-        public HtmlCollection GetElementsByTagName(string qualifiedName) => throw new NotImplementedException();
+        public HtmlCollection GetElementsByTagName(string qualifiedName) => Invoke<HtmlCollection>("getElementsByTagName", qualifiedName);
 
         [JsName("getElementsByTagNameNS")]
-        public HtmlCollection GetElementsByTagNameNs(string? @namespace, string localName) => throw new NotImplementedException();
+        public HtmlCollection GetElementsByTagNameNs(string? @namespace, string localName) => Invoke<HtmlCollection>("getElementsByTagNameNS", @namespace, localName);
 
         [JsName("getElementsByClassName")]
-        public HtmlCollection GetElementsByClassName(string classNames) => throw new NotImplementedException();
+        public HtmlCollection GetElementsByClassName(string classNames) => Invoke<HtmlCollection>("getElementsByClassName", classNames);
 
         [JsName("createElement")]
-        public Element CreateElement(string localName, object? options = null) => throw new NotImplementedException();
+        public Element CreateElement(string localName, object? options = null) => Invoke<Element>("createElement", localName, options);
 
         [JsName("createElementNS")]
-        public Element CreateElementNs(string? @namespace, string qualifiedName, object? options = null) => throw new NotImplementedException();
+        public Element CreateElementNs(string? @namespace, string qualifiedName, object? options = null) => Invoke<Element>("createElementNS", @namespace, qualifiedName, options);
 
         [JsName("createDocumentFragment")]
-        public DocumentFragment CreateDocumentFragment() => throw new NotImplementedException();
+        public DocumentFragment CreateDocumentFragment() => Invoke<DocumentFragment>("createDocumentFragment");
 
         [JsName("createTextNode")]
-        public Text CreateTextNode(string data) => throw new NotImplementedException();
+        public Text CreateTextNode(string data) => Invoke<Text>("createTextNode", data);
 
         [JsName("createCDATASection")]
-        public Cdatasection CreateCdatasection(string data) => throw new NotImplementedException();
+        public Cdatasection CreateCdatasection(string data) => Invoke<Cdatasection>("createCDATASection", data);
 
         [JsName("createComment")]
-        public Comment CreateComment(string data) => throw new NotImplementedException();
+        public Comment CreateComment(string data) => Invoke<Comment>("createComment", data);
 
         [JsName("createProcessingInstruction")]
-        public ProcessingInstruction CreateProcessingInstruction(string target, string data) => throw new NotImplementedException();
+        public ProcessingInstruction CreateProcessingInstruction(string target, string data) => Invoke<ProcessingInstruction>("createProcessingInstruction", target, data);
 
         [JsName("importNode")]
-        public Node ImportNode(Node node, object? options = null) => throw new NotImplementedException();
+        public Node ImportNode(Node node, object? options = null) => Invoke<Node>("importNode", node, options);
 
         [JsName("adoptNode")]
-        public Node AdoptNode(Node node) => throw new NotImplementedException();
+        public Node AdoptNode(Node node) => Invoke<Node>("adoptNode", node);
 
         [JsName("createAttribute")]
-        public Attr CreateAttribute(string localName) => throw new NotImplementedException();
+        public Attr CreateAttribute(string localName) => Invoke<Attr>("createAttribute", localName);
 
         [JsName("createAttributeNS")]
-        public Attr CreateAttributeNs(string? @namespace, string qualifiedName) => throw new NotImplementedException();
+        public Attr CreateAttributeNs(string? @namespace, string qualifiedName) => Invoke<Attr>("createAttributeNS", @namespace, qualifiedName);
 
         [JsName("createEvent")]
-        public Event CreateEvent(string @interface) => throw new NotImplementedException();
+        public Event CreateEvent(string @interface) => Invoke<Event>("createEvent", @interface);
 
         [JsName("createRange")]
-        public DomRange CreateRange() => throw new NotImplementedException();
+        public DomRange CreateRange() => Invoke<DomRange>("createRange");
 
         [JsName("createNodeIterator")]
-        public NodeIterator CreateNodeIterator(Node root, uint whatToShow = 0xFFFFFFFF, NodeFilter? filter = null) => throw new NotImplementedException();
+        public NodeIterator CreateNodeIterator(Node root, uint whatToShow = 0xFFFFFFFF, NodeFilter? filter = null) => Invoke<NodeIterator>("createNodeIterator", root, whatToShow, filter);
 
         [JsName("createTreeWalker")]
-        public TreeWalker CreateTreeWalker(Node root, uint whatToShow = 0xFFFFFFFF, NodeFilter? filter = null) => throw new NotImplementedException();
+        public TreeWalker CreateTreeWalker(Node root, uint whatToShow = 0xFFFFFFFF, NodeFilter? filter = null) => Invoke<TreeWalker>("createTreeWalker", root, whatToShow, filter);
 
         [JsName("startViewTransition")]
-        public ViewTransition StartViewTransition(object? callbackOptions = null) => throw new NotImplementedException();
+        public ViewTransition StartViewTransition(object? callbackOptions = null) => Invoke<ViewTransition>("startViewTransition", callbackOptions);
 
         [JsName("elementFromPoint")]
-        public Element? ElementFromPoint(double x, double y) => throw new NotImplementedException();
+        public Element? ElementFromPoint(double x, double y) => Invoke<Element?>("elementFromPoint", x, y);
 
         [JsName("elementsFromPoint")]
-        public IReadOnlyList<Element> ElementsFromPoint(double x, double y) => throw new NotImplementedException();
+        public IReadOnlyList<Element> ElementsFromPoint(double x, double y) => Invoke<IReadOnlyList<Element>>("elementsFromPoint", x, y);
 
         [JsName("caretPositionFromPoint")]
-        public CaretPosition? CaretPositionFromPoint(double x, double y, CaretPositionFromPointOptions? options = null) => throw new NotImplementedException();
+        public CaretPosition? CaretPositionFromPoint(double x, double y, CaretPositionFromPointOptions? options = null) => Invoke<CaretPosition?>("caretPositionFromPoint", x, y, options);
 
         [JsName("measureElement")]
-        public FontMetrics MeasureElement(Element element) => throw new NotImplementedException();
+        public FontMetrics MeasureElement(Element element) => Invoke<FontMetrics>("measureElement", element);
 
         [JsName("measureText")]
-        public FontMetrics MeasureText(string text, StylePropertyMapReadOnly styleMap) => throw new NotImplementedException();
+        public FontMetrics MeasureText(string text, StylePropertyMapReadOnly styleMap) => Invoke<FontMetrics>("measureText", text, styleMap);
 
         [JsName("exitFullscreen")]
-        public Task ExitFullscreenAsync() => throw new NotImplementedException();
+        public Task ExitFullscreenAsync() => InvokeVoidAsync("exitFullscreen");
 
         [JsName("parseHTMLUnsafe")]
         public static Document ParseHtmlUnsafe(object html) => throw new NotImplementedException();
 
         [JsName("getElementsByName")]
-        public NodeList GetElementsByName(string elementName) => throw new NotImplementedException();
+        public NodeList GetElementsByName(string elementName) => Invoke<NodeList>("getElementsByName", elementName);
 
         [JsName("open")]
-        public Document Open(string? unused1 = null, string? unused2 = null) => throw new NotImplementedException();
+        public Document Open(string? unused1 = null, string? unused2 = null) => Invoke<Document>("open", unused1, unused2);
 
         [JsName("open")]
-        public object Open(string url, string name, string features) => throw new NotImplementedException();
+        public object Open(string url, string name, string features) => Invoke<object>("open", url, name, features);
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("write")]
-        public void Write(params object[] text) => throw new NotImplementedException();
+        public void Write(params object[] text) => InvokeVoid("write", text);
 
         [JsName("writeln")]
-        public void Writeln(params object[] text) => throw new NotImplementedException();
+        public void Writeln(params object[] text) => InvokeVoid("writeln", text);
 
         [JsName("hasFocus")]
-        public bool HasFocus() => throw new NotImplementedException();
+        public bool HasFocus() => Invoke<bool>("hasFocus");
 
         [JsName("execCommand")]
-        public bool ExecCommand(string commandId, bool showUi = false, string value = "") => throw new NotImplementedException();
+        public bool ExecCommand(string commandId, bool showUi = false, string value = "") => Invoke<bool>("execCommand", commandId, showUi, value);
 
         [JsName("queryCommandEnabled")]
-        public bool QueryCommandEnabled(string commandId) => throw new NotImplementedException();
+        public bool QueryCommandEnabled(string commandId) => Invoke<bool>("queryCommandEnabled", commandId);
 
         [JsName("queryCommandIndeterm")]
-        public bool QueryCommandIndeterm(string commandId) => throw new NotImplementedException();
+        public bool QueryCommandIndeterm(string commandId) => Invoke<bool>("queryCommandIndeterm", commandId);
 
         [JsName("queryCommandState")]
-        public bool QueryCommandState(string commandId) => throw new NotImplementedException();
+        public bool QueryCommandState(string commandId) => Invoke<bool>("queryCommandState", commandId);
 
         [JsName("queryCommandSupported")]
-        public bool QueryCommandSupported(string commandId) => throw new NotImplementedException();
+        public bool QueryCommandSupported(string commandId) => Invoke<bool>("queryCommandSupported", commandId);
 
         [JsName("queryCommandValue")]
-        public string QueryCommandValue(string commandId) => throw new NotImplementedException();
+        public string QueryCommandValue(string commandId) => Invoke<string>("queryCommandValue", commandId);
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
 
         [JsName("captureEvents")]
-        public void CaptureEvents() => throw new NotImplementedException();
+        public void CaptureEvents() => InvokeVoid("captureEvents");
 
         [JsName("releaseEvents")]
-        public void ReleaseEvents() => throw new NotImplementedException();
+        public void ReleaseEvents() => InvokeVoid("releaseEvents");
 
         [JsName("exitPictureInPicture")]
-        public Task ExitPictureInPictureAsync() => throw new NotImplementedException();
+        public Task ExitPictureInPictureAsync() => InvokeVoidAsync("exitPictureInPicture");
 
         [JsName("exitPointerLock")]
-        public void ExitPointerLock() => throw new NotImplementedException();
+        public void ExitPointerLock() => InvokeVoid("exitPointerLock");
 
         [JsName("requestStorageAccessFor")]
-        public Task RequestStorageAccessForAsync(string requestedOrigin) => throw new NotImplementedException();
+        public Task RequestStorageAccessForAsync(string requestedOrigin) => InvokeVoidAsync("requestStorageAccessFor", requestedOrigin);
 
         [JsName("hasUnpartitionedCookieAccess")]
-        public Task<bool> HasUnpartitionedCookieAccessAsync() => throw new NotImplementedException();
+        public Task<bool> HasUnpartitionedCookieAccessAsync() => InvokeAsync<bool>("hasUnpartitionedCookieAccess");
 
         [JsName("getSelection")]
-        public Selection? GetSelection() => throw new NotImplementedException();
+        public Selection? GetSelection() => Invoke<Selection?>("getSelection");
 
         [JsName("hasStorageAccess")]
-        public Task<bool> HasStorageAccessAsync() => throw new NotImplementedException();
+        public Task<bool> HasStorageAccessAsync() => InvokeAsync<bool>("hasStorageAccess");
 
         [JsName("requestStorageAccess")]
-        public Task RequestStorageAccessAsync() => throw new NotImplementedException();
+        public Task RequestStorageAccessAsync() => InvokeVoidAsync("requestStorageAccess");
 
         [JsName("hasPrivateToken")]
-        public Task<bool> HasPrivateTokenAsync(string issuer) => throw new NotImplementedException();
+        public Task<bool> HasPrivateTokenAsync(string issuer) => InvokeAsync<bool>("hasPrivateToken", issuer);
 
         [JsName("hasRedemptionRecord")]
-        public Task<bool> HasRedemptionRecordAsync(string issuer) => throw new NotImplementedException();
+        public Task<bool> HasRedemptionRecordAsync(string issuer) => InvokeAsync<bool>("hasRedemptionRecord", issuer);
 
         [JsName("getBoxQuads")]
-        public IReadOnlyList<DomQuad> GetBoxQuads(BoxQuadOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<DomQuad> GetBoxQuads(BoxQuadOptions? options = null) => Invoke<IReadOnlyList<DomQuad>>("getBoxQuads", options);
 
         [JsName("convertQuadFromNode")]
-        public DomQuad ConvertQuadFromNode(DomQuadInit quad, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomQuad ConvertQuadFromNode(DomQuadInit quad, object from, ConvertCoordinateOptions? options = null) => Invoke<DomQuad>("convertQuadFromNode", quad, from, options);
 
         [JsName("convertRectFromNode")]
-        public DomQuad ConvertRectFromNode(DomRectReadOnly rect, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomQuad ConvertRectFromNode(DomRectReadOnly rect, object from, ConvertCoordinateOptions? options = null) => Invoke<DomQuad>("convertRectFromNode", rect, from, options);
 
         [JsName("convertPointFromNode")]
-        public DomPoint ConvertPointFromNode(DomPointInit point, object from, ConvertCoordinateOptions? options = null) => throw new NotImplementedException();
+        public DomPoint ConvertPointFromNode(DomPointInit point, object from, ConvertCoordinateOptions? options = null) => Invoke<DomPoint>("convertPointFromNode", point, from, options);
 
         [JsName("getElementById")]
-        public Element? GetElementById(string elementId) => throw new NotImplementedException();
+        public Element? GetElementById(string elementId) => Invoke<Element?>("getElementById", elementId);
 
         [JsName("getAnimations")]
-        public IReadOnlyList<Animation> GetAnimations() => throw new NotImplementedException();
+        public IReadOnlyList<Animation> GetAnimations() => Invoke<IReadOnlyList<Animation>>("getAnimations");
 
         [JsName("prepend")]
-        public void Prepend(params object[] nodes) => throw new NotImplementedException();
+        public void Prepend(params object[] nodes) => InvokeVoid("prepend", nodes);
 
         [JsName("append")]
-        public void Append(params object[] nodes) => throw new NotImplementedException();
+        public void Append(params object[] nodes) => InvokeVoid("append", nodes);
 
         [JsName("replaceChildren")]
-        public void ReplaceChildren(params object[] nodes) => throw new NotImplementedException();
+        public void ReplaceChildren(params object[] nodes) => InvokeVoid("replaceChildren", nodes);
 
         [JsName("moveBefore")]
-        public void MoveBefore(Node node, Node? child) => throw new NotImplementedException();
+        public void MoveBefore(Node node, Node? child) => InvokeVoid("moveBefore", node, child);
 
         [JsName("querySelector")]
-        public Element? QuerySelector(string selectors) => throw new NotImplementedException();
+        public Element? QuerySelector(string selectors) => Invoke<Element?>("querySelector", selectors);
 
         [JsName("querySelectorAll")]
-        public NodeList QuerySelectorAll(string selectors) => throw new NotImplementedException();
+        public NodeList QuerySelectorAll(string selectors) => Invoke<NodeList>("querySelectorAll", selectors);
 
         [JsName("createExpression")]
-        public XpathExpression CreateExpression(string expression, XpathNsresolver? resolver = null) => throw new NotImplementedException();
+        public XpathExpression CreateExpression(string expression, XpathNsresolver? resolver = null) => Invoke<XpathExpression>("createExpression", expression, resolver);
 
         [JsName("createNSResolver")]
-        public Node CreateNsresolver(Node nodeResolver) => throw new NotImplementedException();
+        public Node CreateNsresolver(Node nodeResolver) => Invoke<Node>("createNSResolver", nodeResolver);
 
         [JsName("evaluate")]
-        public XpathResult Evaluate(string expression, Node contextNode, XpathNsresolver? resolver = null, ushort type = 0, XpathResult? result = null) => throw new NotImplementedException();
+        public XpathResult Evaluate(string expression, Node contextNode, XpathNsresolver? resolver = null, ushort type = 0, XpathResult? result = null) => Invoke<XpathResult>("evaluate", expression, contextNode, resolver, type, result);
 
         [JsName("ariaNotify")]
-        public void AriaNotify(string announcement, AriaNotificationOptions? options = null) => throw new NotImplementedException();
+        public void AriaNotify(string announcement, AriaNotificationOptions? options = null) => InvokeVoid("ariaNotify", announcement, options);
     }
 }

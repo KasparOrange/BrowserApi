@@ -36,27 +36,43 @@ namespace BrowserApi
     public partial class XrCompositionLayer : XrLayer
     {
         [JsName("layout")]
-        public XrLayerLayout Layout { get; }
+        public XrLayerLayout Layout => GetProperty<XrLayerLayout>("layout");
 
         [JsName("blendTextureSourceAlpha")]
-        public bool BlendTextureSourceAlpha { get; set; }
+        public bool BlendTextureSourceAlpha
+        {
+            get => GetProperty<bool>("blendTextureSourceAlpha");
+            set => SetProperty("blendTextureSourceAlpha", value);
+        }
 
         [JsName("forceMonoPresentation")]
-        public bool ForceMonoPresentation { get; set; }
+        public bool ForceMonoPresentation
+        {
+            get => GetProperty<bool>("forceMonoPresentation");
+            set => SetProperty("forceMonoPresentation", value);
+        }
 
         [JsName("opacity")]
-        public float Opacity { get; set; }
+        public float Opacity
+        {
+            get => GetProperty<float>("opacity");
+            set => SetProperty("opacity", value);
+        }
 
         [JsName("mipLevels")]
-        public uint MipLevels { get; }
+        public uint MipLevels => GetProperty<uint>("mipLevels");
 
         [JsName("quality")]
-        public XrLayerQuality Quality { get; set; }
+        public XrLayerQuality Quality
+        {
+            get => GetProperty<XrLayerQuality>("quality");
+            set => SetProperty("quality", value);
+        }
 
         [JsName("needsRedraw")]
-        public bool NeedsRedraw { get; }
+        public bool NeedsRedraw => GetProperty<bool>("needsRedraw");
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

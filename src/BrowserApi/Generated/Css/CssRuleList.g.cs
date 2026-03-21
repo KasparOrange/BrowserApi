@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSSRuleList")]
-    public partial class CssRuleList
+    public partial class CssRuleList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public CssRule? Item(uint index) => throw new NotImplementedException();
+        public CssRule? Item(uint index) => Invoke<CssRule?>("item", index);
     }
 }

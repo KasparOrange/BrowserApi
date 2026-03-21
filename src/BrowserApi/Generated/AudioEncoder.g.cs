@@ -35,28 +35,32 @@ namespace BrowserApi
     public partial class AudioEncoder : EventTarget
     {
         [JsName("state")]
-        public CodecState State { get; }
+        public CodecState State => GetProperty<CodecState>("state");
 
         [JsName("encodeQueueSize")]
-        public uint EncodeQueueSize { get; }
+        public uint EncodeQueueSize => GetProperty<uint>("encodeQueueSize");
 
         [JsName("ondequeue")]
-        public object Ondequeue { get; set; }
+        public object Ondequeue
+        {
+            get => GetProperty<object>("ondequeue");
+            set => SetProperty("ondequeue", value);
+        }
 
         [JsName("configure")]
-        public void Configure(AudioEncoderConfig config) => throw new NotImplementedException();
+        public void Configure(AudioEncoderConfig config) => InvokeVoid("configure", config);
 
         [JsName("encode")]
-        public void Encode(AudioData data) => throw new NotImplementedException();
+        public void Encode(AudioData data) => InvokeVoid("encode", data);
 
         [JsName("flush")]
-        public Task FlushAsync() => throw new NotImplementedException();
+        public Task FlushAsync() => InvokeVoidAsync("flush");
 
         [JsName("reset")]
-        public void Reset() => throw new NotImplementedException();
+        public void Reset() => InvokeVoid("reset");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("isConfigSupported")]
         public static Task<AudioEncoderSupport> IsConfigSupportedAsync(AudioEncoderConfig config) => throw new NotImplementedException();

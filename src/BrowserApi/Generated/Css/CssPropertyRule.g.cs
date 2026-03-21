@@ -36,15 +36,15 @@ namespace BrowserApi.Css
     public partial class CssPropertyRule : CssRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("syntax")]
-        public string Syntax { get; }
+        public string Syntax => GetProperty<string>("syntax");
 
         [JsName("inherits")]
-        public bool Inherits { get; }
+        public bool Inherits => GetProperty<bool>("inherits");
 
         [JsName("initialValue")]
-        public string? InitialValue { get; }
+        public string? InitialValue => GetProperty<string?>("initialValue");
     }
 }

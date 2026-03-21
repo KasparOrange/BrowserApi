@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class SvgStopElement : SvgElement
     {
         [JsName("offset")]
-        public SvgAnimatedNumber Offset { get; }
+        public SvgAnimatedNumber Offset => GetProperty<SvgAnimatedNumber>("offset");
     }
 }

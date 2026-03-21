@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class MediaStreamAudioSourceNode : AudioNode
     {
         [JsName("mediaStream")]
-        public MediaStream MediaStream { get; }
+        public MediaStream MediaStream => GetProperty<MediaStream>("mediaStream");
     }
 }

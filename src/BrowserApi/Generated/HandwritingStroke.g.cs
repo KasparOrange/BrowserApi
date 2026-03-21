@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class HandwritingStroke
+    public partial class HandwritingStroke : JsObject
     {
         [JsName("addPoint")]
-        public void AddPoint(HandwritingPoint point) => throw new NotImplementedException();
+        public void AddPoint(HandwritingPoint point) => InvokeVoid("addPoint", point);
 
         [JsName("getPoints")]
-        public IReadOnlyList<HandwritingPoint> GetPoints() => throw new NotImplementedException();
+        public IReadOnlyList<HandwritingPoint> GetPoints() => Invoke<IReadOnlyList<HandwritingPoint>>("getPoints");
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
     }
 }

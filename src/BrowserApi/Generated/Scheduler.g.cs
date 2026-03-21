@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Scheduler
+    public partial class Scheduler : JsObject
     {
         [JsName("postTask")]
-        public Task<object> PostTaskAsync(SchedulerPostTaskCallback callback, SchedulerPostTaskOptions? options = null) => throw new NotImplementedException();
+        public Task<object> PostTaskAsync(SchedulerPostTaskCallback callback, SchedulerPostTaskOptions? options = null) => InvokeAsync<object>("postTask", callback, options);
 
         [JsName("yield")]
-        public Task YieldAsync() => throw new NotImplementedException();
+        public Task YieldAsync() => InvokeVoidAsync("yield");
     }
 }

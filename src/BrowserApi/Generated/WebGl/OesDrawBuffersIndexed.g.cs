@@ -33,27 +33,27 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("OES_draw_buffers_indexed")]
-    public partial class OesDrawBuffersIndexed
+    public partial class OesDrawBuffersIndexed : JsObject
     {
         [JsName("enableiOES")]
-        public void EnableiOes(uint target, uint index) => throw new NotImplementedException();
+        public void EnableiOes(uint target, uint index) => InvokeVoid("enableiOES", target, index);
 
         [JsName("disableiOES")]
-        public void DisableiOes(uint target, uint index) => throw new NotImplementedException();
+        public void DisableiOes(uint target, uint index) => InvokeVoid("disableiOES", target, index);
 
         [JsName("blendEquationiOES")]
-        public void BlendEquationiOes(uint buf, uint mode) => throw new NotImplementedException();
+        public void BlendEquationiOes(uint buf, uint mode) => InvokeVoid("blendEquationiOES", buf, mode);
 
         [JsName("blendEquationSeparateiOES")]
-        public void BlendEquationSeparateiOes(uint buf, uint modeRgb, uint modeAlpha) => throw new NotImplementedException();
+        public void BlendEquationSeparateiOes(uint buf, uint modeRgb, uint modeAlpha) => InvokeVoid("blendEquationSeparateiOES", buf, modeRgb, modeAlpha);
 
         [JsName("blendFunciOES")]
-        public void BlendFunciOes(uint buf, uint src, uint dst) => throw new NotImplementedException();
+        public void BlendFunciOes(uint buf, uint src, uint dst) => InvokeVoid("blendFunciOES", buf, src, dst);
 
         [JsName("blendFuncSeparateiOES")]
-        public void BlendFuncSeparateiOes(uint buf, uint srcRgb, uint dstRgb, uint srcAlpha, uint dstAlpha) => throw new NotImplementedException();
+        public void BlendFuncSeparateiOes(uint buf, uint srcRgb, uint dstRgb, uint srcAlpha, uint dstAlpha) => InvokeVoid("blendFuncSeparateiOES", buf, srcRgb, dstRgb, srcAlpha, dstAlpha);
 
         [JsName("colorMaskiOES")]
-        public void ColorMaskiOes(uint buf, bool r, bool g, bool b, bool a) => throw new NotImplementedException();
+        public void ColorMaskiOes(uint buf, bool r, bool g, bool b, bool a) => InvokeVoid("colorMaskiOES", buf, r, g, b, a);
     }
 }

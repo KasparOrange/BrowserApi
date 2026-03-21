@@ -32,45 +32,77 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Location
+    public partial class Location : JsObject
     {
         [JsName("href")]
-        public string Href { get; set; }
+        public string Href
+        {
+            get => GetProperty<string>("href");
+            set => SetProperty("href", value);
+        }
 
         [JsName("origin")]
-        public string Origin { get; }
+        public string Origin => GetProperty<string>("origin");
 
         [JsName("protocol")]
-        public string Protocol { get; set; }
+        public string Protocol
+        {
+            get => GetProperty<string>("protocol");
+            set => SetProperty("protocol", value);
+        }
 
         [JsName("host")]
-        public string Host { get; set; }
+        public string Host
+        {
+            get => GetProperty<string>("host");
+            set => SetProperty("host", value);
+        }
 
         [JsName("hostname")]
-        public string Hostname { get; set; }
+        public string Hostname
+        {
+            get => GetProperty<string>("hostname");
+            set => SetProperty("hostname", value);
+        }
 
         [JsName("port")]
-        public string Port { get; set; }
+        public string Port
+        {
+            get => GetProperty<string>("port");
+            set => SetProperty("port", value);
+        }
 
         [JsName("pathname")]
-        public string Pathname { get; set; }
+        public string Pathname
+        {
+            get => GetProperty<string>("pathname");
+            set => SetProperty("pathname", value);
+        }
 
         [JsName("search")]
-        public string Search { get; set; }
+        public string Search
+        {
+            get => GetProperty<string>("search");
+            set => SetProperty("search", value);
+        }
 
         [JsName("hash")]
-        public string Hash { get; set; }
+        public string Hash
+        {
+            get => GetProperty<string>("hash");
+            set => SetProperty("hash", value);
+        }
 
         [JsName("ancestorOrigins")]
-        public DomStringList AncestorOrigins { get; }
+        public DomStringList AncestorOrigins => GetProperty<DomStringList>("ancestorOrigins");
 
         [JsName("assign")]
-        public void Assign(string url) => throw new NotImplementedException();
+        public void Assign(string url) => InvokeVoid("assign", url);
 
         [JsName("replace")]
-        public void Replace(string url) => throw new NotImplementedException();
+        public void Replace(string url) => InvokeVoid("replace", url);
 
         [JsName("reload")]
-        public void Reload() => throw new NotImplementedException();
+        public void Reload() => InvokeVoid("reload");
     }
 }

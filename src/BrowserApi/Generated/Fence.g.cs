@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Fence
+    public partial class Fence : JsObject
     {
         [JsName("reportEvent")]
-        public void ReportEvent(object? @event = null) => throw new NotImplementedException();
+        public void ReportEvent(object? @event = null) => InvokeVoid("reportEvent", @event);
 
         [JsName("setReportEventDataForAutomaticBeacons")]
-        public void SetReportEventDataForAutomaticBeacons(FenceEvent? @event = null) => throw new NotImplementedException();
+        public void SetReportEventDataForAutomaticBeacons(FenceEvent? @event = null) => InvokeVoid("setReportEventDataForAutomaticBeacons", @event);
 
         [JsName("getNestedConfigs")]
-        public IReadOnlyList<FencedFrameConfig> GetNestedConfigs() => throw new NotImplementedException();
+        public IReadOnlyList<FencedFrameConfig> GetNestedConfigs() => Invoke<IReadOnlyList<FencedFrameConfig>>("getNestedConfigs");
 
         [JsName("disableUntrustedNetwork")]
-        public Task DisableUntrustedNetworkAsync() => throw new NotImplementedException();
+        public Task DisableUntrustedNetworkAsync() => InvokeVoidAsync("disableUntrustedNetwork");
 
         [JsName("notifyEvent")]
-        public void NotifyEvent(Event @event) => throw new NotImplementedException();
+        public void NotifyEvent(Event @event) => InvokeVoid("notifyEvent", @event);
     }
 }

@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class WebTransportReceiveStream : ReadableStream
     {
         [JsName("getStats")]
-        public Task<WebTransportReceiveStreamStats> GetStatsAsync() => throw new NotImplementedException();
+        public Task<WebTransportReceiveStreamStats> GetStatsAsync() => InvokeAsync<WebTransportReceiveStreamStats>("getStats");
     }
 }

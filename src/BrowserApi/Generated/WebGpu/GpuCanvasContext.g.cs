@@ -33,21 +33,21 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUCanvasContext")]
-    public partial class GpuCanvasContext
+    public partial class GpuCanvasContext : JsObject
     {
         [JsName("canvas")]
-        public object Canvas { get; }
+        public object Canvas => GetProperty<object>("canvas");
 
         [JsName("configure")]
-        public void Configure(GpuCanvasConfiguration configuration) => throw new NotImplementedException();
+        public void Configure(GpuCanvasConfiguration configuration) => InvokeVoid("configure", configuration);
 
         [JsName("unconfigure")]
-        public void Unconfigure() => throw new NotImplementedException();
+        public void Unconfigure() => InvokeVoid("unconfigure");
 
         [JsName("getConfiguration")]
-        public GpuCanvasConfiguration? GetConfiguration() => throw new NotImplementedException();
+        public GpuCanvasConfiguration? GetConfiguration() => Invoke<GpuCanvasConfiguration?>("getConfiguration");
 
         [JsName("getCurrentTexture")]
-        public GpuTexture GetCurrentTexture() => throw new NotImplementedException();
+        public GpuTexture GetCurrentTexture() => Invoke<GpuTexture>("getCurrentTexture");
     }
 }

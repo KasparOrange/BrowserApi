@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.WebAudio
 {
-    public partial class AudioWorkletProcessor
+    public partial class AudioWorkletProcessor : JsObject
     {
         [JsName("port")]
-        public MessagePort Port { get; }
+        public MessagePort Port => GetProperty<MessagePort>("port");
     }
 }

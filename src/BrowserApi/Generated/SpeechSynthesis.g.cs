@@ -35,30 +35,34 @@ namespace BrowserApi
     public partial class SpeechSynthesis : EventTarget
     {
         [JsName("pending")]
-        public bool Pending { get; }
+        public bool Pending => GetProperty<bool>("pending");
 
         [JsName("speaking")]
-        public bool Speaking { get; }
+        public bool Speaking => GetProperty<bool>("speaking");
 
         [JsName("paused")]
-        public bool Paused { get; }
+        public bool Paused => GetProperty<bool>("paused");
 
         [JsName("onvoiceschanged")]
-        public object Onvoiceschanged { get; set; }
+        public object Onvoiceschanged
+        {
+            get => GetProperty<object>("onvoiceschanged");
+            set => SetProperty("onvoiceschanged", value);
+        }
 
         [JsName("speak")]
-        public void Speak(SpeechSynthesisUtterance utterance) => throw new NotImplementedException();
+        public void Speak(SpeechSynthesisUtterance utterance) => InvokeVoid("speak", utterance);
 
         [JsName("cancel")]
-        public void Cancel() => throw new NotImplementedException();
+        public void Cancel() => InvokeVoid("cancel");
 
         [JsName("pause")]
-        public void Pause() => throw new NotImplementedException();
+        public void Pause() => InvokeVoid("pause");
 
         [JsName("resume")]
-        public void Resume() => throw new NotImplementedException();
+        public void Resume() => InvokeVoid("resume");
 
         [JsName("getVoices")]
-        public IReadOnlyList<SpeechSynthesisVoice> GetVoices() => throw new NotImplementedException();
+        public IReadOnlyList<SpeechSynthesisVoice> GetVoices() => Invoke<IReadOnlyList<SpeechSynthesisVoice>>("getVoices");
     }
 }

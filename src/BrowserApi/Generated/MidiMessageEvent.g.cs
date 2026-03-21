@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class MidiMessageEvent : Event
     {
         [JsName("data")]
-        public byte[]? Data { get; }
+        public byte[]? Data => GetProperty<byte[]?>("data");
     }
 }

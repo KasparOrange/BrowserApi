@@ -35,6 +35,6 @@ namespace BrowserApi.Css
     public partial class LayoutWorkletGlobalScope : WorkletGlobalScope
     {
         [JsName("registerLayout")]
-        public void RegisterLayout(string name, VoidFunction layoutCtor) => throw new NotImplementedException();
+        public void RegisterLayout(string name, VoidFunction layoutCtor) => InvokeVoid("registerLayout", name, layoutCtor);
     }
 }

@@ -35,9 +35,13 @@ namespace BrowserApi.WebAudio
     public partial class ScriptProcessorNode : AudioNode
     {
         [JsName("onaudioprocess")]
-        public object Onaudioprocess { get; set; }
+        public object Onaudioprocess
+        {
+            get => GetProperty<object>("onaudioprocess");
+            set => SetProperty("onaudioprocess", value);
+        }
 
         [JsName("bufferSize")]
-        public int BufferSize { get; }
+        public int BufferSize => GetProperty<int>("bufferSize");
     }
 }

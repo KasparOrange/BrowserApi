@@ -36,33 +36,65 @@ namespace BrowserApi.Dom
     public partial class HtmlFrameElement : HtmlElement
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("scrolling")]
-        public string Scrolling { get; set; }
+        public string Scrolling
+        {
+            get => GetProperty<string>("scrolling");
+            set => SetProperty("scrolling", value);
+        }
 
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("frameBorder")]
-        public string FrameBorder { get; set; }
+        public string FrameBorder
+        {
+            get => GetProperty<string>("frameBorder");
+            set => SetProperty("frameBorder", value);
+        }
 
         [JsName("longDesc")]
-        public string LongDesc { get; set; }
+        public string LongDesc
+        {
+            get => GetProperty<string>("longDesc");
+            set => SetProperty("longDesc", value);
+        }
 
         [JsName("noResize")]
-        public bool NoResize { get; set; }
+        public bool NoResize
+        {
+            get => GetProperty<bool>("noResize");
+            set => SetProperty("noResize", value);
+        }
 
         [JsName("contentDocument")]
-        public Document? ContentDocument { get; }
+        public Document? ContentDocument => GetProperty<Document?>("contentDocument");
 
         [JsName("contentWindow")]
-        public object ContentWindow { get; }
+        public object ContentWindow => GetProperty<object>("contentWindow");
 
         [JsName("marginHeight")]
-        public string MarginHeight { get; set; }
+        public string MarginHeight
+        {
+            get => GetProperty<string>("marginHeight");
+            set => SetProperty("marginHeight", value);
+        }
 
         [JsName("marginWidth")]
-        public string MarginWidth { get; set; }
+        public string MarginWidth
+        {
+            get => GetProperty<string>("marginWidth");
+            set => SetProperty("marginWidth", value);
+        }
     }
 }

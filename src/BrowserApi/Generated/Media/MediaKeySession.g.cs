@@ -35,36 +35,44 @@ namespace BrowserApi.Media
     public partial class MediaKeySession : EventTarget
     {
         [JsName("sessionId")]
-        public string SessionId { get; }
+        public string SessionId => GetProperty<string>("sessionId");
 
         [JsName("expiration")]
-        public double Expiration { get; }
+        public double Expiration => GetProperty<double>("expiration");
 
         [JsName("closed")]
-        public Task<MediaKeySessionClosedReason> Closed { get; }
+        public Task<MediaKeySessionClosedReason> Closed => GetProperty<Task<MediaKeySessionClosedReason>>("closed");
 
         [JsName("keyStatuses")]
-        public MediaKeyStatusMap KeyStatuses { get; }
+        public MediaKeyStatusMap KeyStatuses => GetProperty<MediaKeyStatusMap>("keyStatuses");
 
         [JsName("onkeystatuseschange")]
-        public object Onkeystatuseschange { get; set; }
+        public object Onkeystatuseschange
+        {
+            get => GetProperty<object>("onkeystatuseschange");
+            set => SetProperty("onkeystatuseschange", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("generateRequest")]
-        public Task GenerateRequestAsync(string initDataType, byte[] initData) => throw new NotImplementedException();
+        public Task GenerateRequestAsync(string initDataType, byte[] initData) => InvokeVoidAsync("generateRequest", initDataType, initData);
 
         [JsName("load")]
-        public Task<bool> LoadAsync(string sessionId) => throw new NotImplementedException();
+        public Task<bool> LoadAsync(string sessionId) => InvokeAsync<bool>("load", sessionId);
 
         [JsName("update")]
-        public Task UpdateAsync(byte[] response) => throw new NotImplementedException();
+        public Task UpdateAsync(byte[] response) => InvokeVoidAsync("update", response);
 
         [JsName("close")]
-        public Task CloseAsync() => throw new NotImplementedException();
+        public Task CloseAsync() => InvokeVoidAsync("close");
 
         [JsName("remove")]
-        public Task RemoveAsync() => throw new NotImplementedException();
+        public Task RemoveAsync() => InvokeVoidAsync("remove");
     }
 }

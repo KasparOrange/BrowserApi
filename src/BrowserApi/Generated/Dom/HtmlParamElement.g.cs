@@ -36,15 +36,31 @@ namespace BrowserApi.Dom
     public partial class HtmlParamElement : HtmlElement
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("valueType")]
-        public string ValueType { get; set; }
+        public string ValueType
+        {
+            get => GetProperty<string>("valueType");
+            set => SetProperty("valueType", value);
+        }
     }
 }

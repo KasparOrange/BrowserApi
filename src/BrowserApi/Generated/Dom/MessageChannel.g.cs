@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class MessageChannel
+    public partial class MessageChannel : JsObject
     {
         [JsName("port1")]
-        public MessagePort Port1 { get; }
+        public MessagePort Port1 => GetProperty<MessagePort>("port1");
 
         [JsName("port2")]
-        public MessagePort Port2 { get; }
+        public MessagePort Port2 => GetProperty<MessagePort>("port2");
     }
 }

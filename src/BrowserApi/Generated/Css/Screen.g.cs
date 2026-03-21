@@ -32,33 +32,37 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class Screen
+    public partial class Screen : JsObject
     {
         [JsName("availWidth")]
-        public int AvailWidth { get; }
+        public int AvailWidth => GetProperty<int>("availWidth");
 
         [JsName("availHeight")]
-        public int AvailHeight { get; }
+        public int AvailHeight => GetProperty<int>("availHeight");
 
         [JsName("width")]
-        public int Width { get; }
+        public int Width => GetProperty<int>("width");
 
         [JsName("height")]
-        public int Height { get; }
+        public int Height => GetProperty<int>("height");
 
         [JsName("colorDepth")]
-        public uint ColorDepth { get; }
+        public uint ColorDepth => GetProperty<uint>("colorDepth");
 
         [JsName("pixelDepth")]
-        public uint PixelDepth { get; }
+        public uint PixelDepth => GetProperty<uint>("pixelDepth");
 
         [JsName("orientation")]
-        public ScreenOrientation Orientation { get; }
+        public ScreenOrientation Orientation => GetProperty<ScreenOrientation>("orientation");
 
         [JsName("isExtended")]
-        public bool IsExtended { get; }
+        public bool IsExtended => GetProperty<bool>("isExtended");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
     }
 }

@@ -36,18 +36,34 @@ namespace BrowserApi
     public partial class HtmlFencedFrameElement : HtmlElement
     {
         [JsName("config")]
-        public FencedFrameConfig? Config { get; set; }
+        public FencedFrameConfig? Config
+        {
+            get => GetProperty<FencedFrameConfig?>("config");
+            set => SetProperty("config", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public string Height { get; set; }
+        public string Height
+        {
+            get => GetProperty<string>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("sandbox")]
-        public DomTokenList Sandbox { get; }
+        public DomTokenList Sandbox => GetProperty<DomTokenList>("sandbox");
 
         [JsName("allow")]
-        public string Allow { get; set; }
+        public string Allow
+        {
+            get => GetProperty<string>("allow");
+            set => SetProperty("allow", value);
+        }
     }
 }

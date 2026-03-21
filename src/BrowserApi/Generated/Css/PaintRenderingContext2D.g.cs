@@ -32,186 +32,246 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class PaintRenderingContext2D
+    public partial class PaintRenderingContext2D : JsObject
     {
         [JsName("globalAlpha")]
-        public double GlobalAlpha { get; set; }
+        public double GlobalAlpha
+        {
+            get => GetProperty<double>("globalAlpha");
+            set => SetProperty("globalAlpha", value);
+        }
 
         [JsName("globalCompositeOperation")]
-        public string GlobalCompositeOperation { get; set; }
+        public string GlobalCompositeOperation
+        {
+            get => GetProperty<string>("globalCompositeOperation");
+            set => SetProperty("globalCompositeOperation", value);
+        }
 
         [JsName("imageSmoothingEnabled")]
-        public bool ImageSmoothingEnabled { get; set; }
+        public bool ImageSmoothingEnabled
+        {
+            get => GetProperty<bool>("imageSmoothingEnabled");
+            set => SetProperty("imageSmoothingEnabled", value);
+        }
 
         [JsName("imageSmoothingQuality")]
-        public ImageSmoothingQuality ImageSmoothingQuality { get; set; }
+        public ImageSmoothingQuality ImageSmoothingQuality
+        {
+            get => GetProperty<ImageSmoothingQuality>("imageSmoothingQuality");
+            set => SetProperty("imageSmoothingQuality", value);
+        }
 
         [JsName("strokeStyle")]
-        public object StrokeStyle { get; set; }
+        public object StrokeStyle
+        {
+            get => GetProperty<object>("strokeStyle");
+            set => SetProperty("strokeStyle", value);
+        }
 
         [JsName("fillStyle")]
-        public object FillStyle { get; set; }
+        public object FillStyle
+        {
+            get => GetProperty<object>("fillStyle");
+            set => SetProperty("fillStyle", value);
+        }
 
         [JsName("shadowOffsetX")]
-        public double ShadowOffsetX { get; set; }
+        public double ShadowOffsetX
+        {
+            get => GetProperty<double>("shadowOffsetX");
+            set => SetProperty("shadowOffsetX", value);
+        }
 
         [JsName("shadowOffsetY")]
-        public double ShadowOffsetY { get; set; }
+        public double ShadowOffsetY
+        {
+            get => GetProperty<double>("shadowOffsetY");
+            set => SetProperty("shadowOffsetY", value);
+        }
 
         [JsName("shadowBlur")]
-        public double ShadowBlur { get; set; }
+        public double ShadowBlur
+        {
+            get => GetProperty<double>("shadowBlur");
+            set => SetProperty("shadowBlur", value);
+        }
 
         [JsName("shadowColor")]
-        public string ShadowColor { get; set; }
+        public string ShadowColor
+        {
+            get => GetProperty<string>("shadowColor");
+            set => SetProperty("shadowColor", value);
+        }
 
         [JsName("lineWidth")]
-        public double LineWidth { get; set; }
+        public double LineWidth
+        {
+            get => GetProperty<double>("lineWidth");
+            set => SetProperty("lineWidth", value);
+        }
 
         [JsName("lineCap")]
-        public CanvasLineCap LineCap { get; set; }
+        public CanvasLineCap LineCap
+        {
+            get => GetProperty<CanvasLineCap>("lineCap");
+            set => SetProperty("lineCap", value);
+        }
 
         [JsName("lineJoin")]
-        public CanvasLineJoin LineJoin { get; set; }
+        public CanvasLineJoin LineJoin
+        {
+            get => GetProperty<CanvasLineJoin>("lineJoin");
+            set => SetProperty("lineJoin", value);
+        }
 
         [JsName("miterLimit")]
-        public double MiterLimit { get; set; }
+        public double MiterLimit
+        {
+            get => GetProperty<double>("miterLimit");
+            set => SetProperty("miterLimit", value);
+        }
 
         [JsName("lineDashOffset")]
-        public double LineDashOffset { get; set; }
+        public double LineDashOffset
+        {
+            get => GetProperty<double>("lineDashOffset");
+            set => SetProperty("lineDashOffset", value);
+        }
 
         [JsName("save")]
-        public void Save() => throw new NotImplementedException();
+        public void Save() => InvokeVoid("save");
 
         [JsName("restore")]
-        public void Restore() => throw new NotImplementedException();
+        public void Restore() => InvokeVoid("restore");
 
         [JsName("reset")]
-        public void Reset() => throw new NotImplementedException();
+        public void Reset() => InvokeVoid("reset");
 
         [JsName("isContextLost")]
-        public bool IsContextLost() => throw new NotImplementedException();
+        public bool IsContextLost() => Invoke<bool>("isContextLost");
 
         [JsName("scale")]
-        public void Scale(double x, double y) => throw new NotImplementedException();
+        public void Scale(double x, double y) => InvokeVoid("scale", x, y);
 
         [JsName("rotate")]
-        public void Rotate(double angle) => throw new NotImplementedException();
+        public void Rotate(double angle) => InvokeVoid("rotate", angle);
 
         [JsName("translate")]
-        public void Translate(double x, double y) => throw new NotImplementedException();
+        public void Translate(double x, double y) => InvokeVoid("translate", x, y);
 
         [JsName("transform")]
-        public void Transform(double a, double b, double c, double d, double e, double f) => throw new NotImplementedException();
+        public void Transform(double a, double b, double c, double d, double e, double f) => InvokeVoid("transform", a, b, c, d, e, f);
 
         [JsName("getTransform")]
-        public DomMatrix GetTransform() => throw new NotImplementedException();
+        public DomMatrix GetTransform() => Invoke<DomMatrix>("getTransform");
 
         [JsName("setTransform")]
-        public void SetTransform(double a, double b, double c, double d, double e, double f) => throw new NotImplementedException();
+        public void SetTransform(double a, double b, double c, double d, double e, double f) => InvokeVoid("setTransform", a, b, c, d, e, f);
 
         [JsName("setTransform")]
-        public void SetTransform(DomMatrix2Dinit? transform = null) => throw new NotImplementedException();
+        public void SetTransform(DomMatrix2Dinit? transform = null) => InvokeVoid("setTransform", transform);
 
         [JsName("resetTransform")]
-        public void ResetTransform() => throw new NotImplementedException();
+        public void ResetTransform() => InvokeVoid("resetTransform");
 
         [JsName("createLinearGradient")]
-        public CanvasGradient CreateLinearGradient(double x0, double y0, double x1, double y1) => throw new NotImplementedException();
+        public CanvasGradient CreateLinearGradient(double x0, double y0, double x1, double y1) => Invoke<CanvasGradient>("createLinearGradient", x0, y0, x1, y1);
 
         [JsName("createRadialGradient")]
-        public CanvasGradient CreateRadialGradient(double x0, double y0, double r0, double x1, double y1, double r1) => throw new NotImplementedException();
+        public CanvasGradient CreateRadialGradient(double x0, double y0, double r0, double x1, double y1, double r1) => Invoke<CanvasGradient>("createRadialGradient", x0, y0, r0, x1, y1, r1);
 
         [JsName("createConicGradient")]
-        public CanvasGradient CreateConicGradient(double startAngle, double x, double y) => throw new NotImplementedException();
+        public CanvasGradient CreateConicGradient(double startAngle, double x, double y) => Invoke<CanvasGradient>("createConicGradient", startAngle, x, y);
 
         [JsName("createPattern")]
-        public CanvasPattern? CreatePattern(object image, string repetition) => throw new NotImplementedException();
+        public CanvasPattern? CreatePattern(object image, string repetition) => Invoke<CanvasPattern?>("createPattern", image, repetition);
 
         [JsName("clearRect")]
-        public void ClearRect(double x, double y, double w, double h) => throw new NotImplementedException();
+        public void ClearRect(double x, double y, double w, double h) => InvokeVoid("clearRect", x, y, w, h);
 
         [JsName("fillRect")]
-        public void FillRect(double x, double y, double w, double h) => throw new NotImplementedException();
+        public void FillRect(double x, double y, double w, double h) => InvokeVoid("fillRect", x, y, w, h);
 
         [JsName("strokeRect")]
-        public void StrokeRect(double x, double y, double w, double h) => throw new NotImplementedException();
+        public void StrokeRect(double x, double y, double w, double h) => InvokeVoid("strokeRect", x, y, w, h);
 
         [JsName("beginPath")]
-        public void BeginPath() => throw new NotImplementedException();
+        public void BeginPath() => InvokeVoid("beginPath");
 
         [JsName("fill")]
-        public void Fill(CanvasFillRule? fillRule = null) => throw new NotImplementedException();
+        public void Fill(CanvasFillRule? fillRule = null) => InvokeVoid("fill", fillRule);
 
         [JsName("fill")]
-        public void Fill(Path2D path, CanvasFillRule? fillRule = null) => throw new NotImplementedException();
+        public void Fill(Path2D path, CanvasFillRule? fillRule = null) => InvokeVoid("fill", path, fillRule);
 
         [JsName("stroke")]
-        public void Stroke() => throw new NotImplementedException();
+        public void Stroke() => InvokeVoid("stroke");
 
         [JsName("stroke")]
-        public void Stroke(Path2D path) => throw new NotImplementedException();
+        public void Stroke(Path2D path) => InvokeVoid("stroke", path);
 
         [JsName("clip")]
-        public void Clip(CanvasFillRule? fillRule = null) => throw new NotImplementedException();
+        public void Clip(CanvasFillRule? fillRule = null) => InvokeVoid("clip", fillRule);
 
         [JsName("clip")]
-        public void Clip(Path2D path, CanvasFillRule? fillRule = null) => throw new NotImplementedException();
+        public void Clip(Path2D path, CanvasFillRule? fillRule = null) => InvokeVoid("clip", path, fillRule);
 
         [JsName("isPointInPath")]
-        public bool IsPointInPath(double x, double y, CanvasFillRule? fillRule = null) => throw new NotImplementedException();
+        public bool IsPointInPath(double x, double y, CanvasFillRule? fillRule = null) => Invoke<bool>("isPointInPath", x, y, fillRule);
 
         [JsName("isPointInPath")]
-        public bool IsPointInPath(Path2D path, double x, double y, CanvasFillRule? fillRule = null) => throw new NotImplementedException();
+        public bool IsPointInPath(Path2D path, double x, double y, CanvasFillRule? fillRule = null) => Invoke<bool>("isPointInPath", path, x, y, fillRule);
 
         [JsName("isPointInStroke")]
-        public bool IsPointInStroke(double x, double y) => throw new NotImplementedException();
+        public bool IsPointInStroke(double x, double y) => Invoke<bool>("isPointInStroke", x, y);
 
         [JsName("isPointInStroke")]
-        public bool IsPointInStroke(Path2D path, double x, double y) => throw new NotImplementedException();
+        public bool IsPointInStroke(Path2D path, double x, double y) => Invoke<bool>("isPointInStroke", path, x, y);
 
         [JsName("drawImage")]
-        public void DrawImage(object image, double dx, double dy) => throw new NotImplementedException();
+        public void DrawImage(object image, double dx, double dy) => InvokeVoid("drawImage", image, dx, dy);
 
         [JsName("drawImage")]
-        public void DrawImage(object image, double dx, double dy, double dw, double dh) => throw new NotImplementedException();
+        public void DrawImage(object image, double dx, double dy, double dw, double dh) => InvokeVoid("drawImage", image, dx, dy, dw, dh);
 
         [JsName("drawImage")]
-        public void DrawImage(object image, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) => throw new NotImplementedException();
+        public void DrawImage(object image, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) => InvokeVoid("drawImage", image, sx, sy, sw, sh, dx, dy, dw, dh);
 
         [JsName("setLineDash")]
-        public void SetLineDash(IReadOnlyList<double> segments) => throw new NotImplementedException();
+        public void SetLineDash(IReadOnlyList<double> segments) => InvokeVoid("setLineDash", segments);
 
         [JsName("getLineDash")]
-        public IReadOnlyList<double> GetLineDash() => throw new NotImplementedException();
+        public IReadOnlyList<double> GetLineDash() => Invoke<IReadOnlyList<double>>("getLineDash");
 
         [JsName("closePath")]
-        public void ClosePath() => throw new NotImplementedException();
+        public void ClosePath() => InvokeVoid("closePath");
 
         [JsName("moveTo")]
-        public void MoveTo(double x, double y) => throw new NotImplementedException();
+        public void MoveTo(double x, double y) => InvokeVoid("moveTo", x, y);
 
         [JsName("lineTo")]
-        public void LineTo(double x, double y) => throw new NotImplementedException();
+        public void LineTo(double x, double y) => InvokeVoid("lineTo", x, y);
 
         [JsName("quadraticCurveTo")]
-        public void QuadraticCurveTo(double cpx, double cpy, double x, double y) => throw new NotImplementedException();
+        public void QuadraticCurveTo(double cpx, double cpy, double x, double y) => InvokeVoid("quadraticCurveTo", cpx, cpy, x, y);
 
         [JsName("bezierCurveTo")]
-        public void BezierCurveTo(double cp1x, double cp1y, double cp2x, double cp2y, double x, double y) => throw new NotImplementedException();
+        public void BezierCurveTo(double cp1x, double cp1y, double cp2x, double cp2y, double x, double y) => InvokeVoid("bezierCurveTo", cp1x, cp1y, cp2x, cp2y, x, y);
 
         [JsName("arcTo")]
-        public void ArcTo(double x1, double y1, double x2, double y2, double radius) => throw new NotImplementedException();
+        public void ArcTo(double x1, double y1, double x2, double y2, double radius) => InvokeVoid("arcTo", x1, y1, x2, y2, radius);
 
         [JsName("rect")]
-        public void Rect(double x, double y, double w, double h) => throw new NotImplementedException();
+        public void Rect(double x, double y, double w, double h) => InvokeVoid("rect", x, y, w, h);
 
         [JsName("roundRect")]
-        public void RoundRect(double x, double y, double w, double h, object? radii = null) => throw new NotImplementedException();
+        public void RoundRect(double x, double y, double w, double h, object? radii = null) => InvokeVoid("roundRect", x, y, w, h, radii);
 
         [JsName("arc")]
-        public void Arc(double x, double y, double radius, double startAngle, double endAngle, bool counterclockwise = false) => throw new NotImplementedException();
+        public void Arc(double x, double y, double radius, double startAngle, double endAngle, bool counterclockwise = false) => InvokeVoid("arc", x, y, radius, startAngle, endAngle, counterclockwise);
 
         [JsName("ellipse")]
-        public void Ellipse(double x, double y, double radiusX, double radiusY, double rotation, double startAngle, double endAngle, bool counterclockwise = false) => throw new NotImplementedException();
+        public void Ellipse(double x, double y, double radiusX, double radiusY, double rotation, double startAngle, double endAngle, bool counterclockwise = false) => InvokeVoid("ellipse", x, y, radiusX, radiusY, rotation, startAngle, endAngle, counterclockwise);
     }
 }

@@ -36,33 +36,53 @@ namespace BrowserApi.Dom
     public partial class HtmlTableRowElement : HtmlElement
     {
         [JsName("rowIndex")]
-        public int RowIndex { get; }
+        public int RowIndex => GetProperty<int>("rowIndex");
 
         [JsName("sectionRowIndex")]
-        public int SectionRowIndex { get; }
+        public int SectionRowIndex => GetProperty<int>("sectionRowIndex");
 
         [JsName("cells")]
-        public HtmlCollection Cells { get; }
+        public HtmlCollection Cells => GetProperty<HtmlCollection>("cells");
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("ch")]
-        public string Ch { get; set; }
+        public string Ch
+        {
+            get => GetProperty<string>("ch");
+            set => SetProperty("ch", value);
+        }
 
         [JsName("chOff")]
-        public string ChOff { get; set; }
+        public string ChOff
+        {
+            get => GetProperty<string>("chOff");
+            set => SetProperty("chOff", value);
+        }
 
         [JsName("vAlign")]
-        public string VAlign { get; set; }
+        public string VAlign
+        {
+            get => GetProperty<string>("vAlign");
+            set => SetProperty("vAlign", value);
+        }
 
         [JsName("bgColor")]
-        public string BgColor { get; set; }
+        public string BgColor
+        {
+            get => GetProperty<string>("bgColor");
+            set => SetProperty("bgColor", value);
+        }
 
         [JsName("insertCell")]
-        public HtmlTableCellElement InsertCell(int index = -1) => throw new NotImplementedException();
+        public HtmlTableCellElement InsertCell(int index = -1) => Invoke<HtmlTableCellElement>("insertCell", index);
 
         [JsName("deleteCell")]
-        public void DeleteCell(int index) => throw new NotImplementedException();
+        public void DeleteCell(int index) => InvokeVoid("deleteCell", index);
     }
 }

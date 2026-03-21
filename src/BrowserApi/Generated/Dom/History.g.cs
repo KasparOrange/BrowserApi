@@ -32,30 +32,34 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class History
+    public partial class History : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("scrollRestoration")]
-        public ScrollRestoration ScrollRestoration { get; set; }
+        public ScrollRestoration ScrollRestoration
+        {
+            get => GetProperty<ScrollRestoration>("scrollRestoration");
+            set => SetProperty("scrollRestoration", value);
+        }
 
         [JsName("state")]
-        public object State { get; }
+        public object State => GetProperty<object>("state");
 
         [JsName("go")]
-        public void Go(int delta = 0) => throw new NotImplementedException();
+        public void Go(int delta = 0) => InvokeVoid("go", delta);
 
         [JsName("back")]
-        public void Back() => throw new NotImplementedException();
+        public void Back() => InvokeVoid("back");
 
         [JsName("forward")]
-        public void Forward() => throw new NotImplementedException();
+        public void Forward() => InvokeVoid("forward");
 
         [JsName("pushState")]
-        public void PushState(object data, string unused, string? url = null) => throw new NotImplementedException();
+        public void PushState(object data, string unused, string? url = null) => InvokeVoid("pushState", data, unused, url);
 
         [JsName("replaceState")]
-        public void ReplaceState(object data, string unused, string? url = null) => throw new NotImplementedException();
+        public void ReplaceState(object data, string unused, string? url = null) => InvokeVoid("replaceState", data, unused, url);
     }
 }

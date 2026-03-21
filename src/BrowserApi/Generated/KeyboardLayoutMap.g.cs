@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class KeyboardLayoutMap
+    public partial class KeyboardLayoutMap : JsObject
     {
     }
 }

@@ -36,36 +36,52 @@ namespace BrowserApi
     public partial class BluetoothRemoteGattservice : EventTarget
     {
         [JsName("device")]
-        public BluetoothDevice Device { get; }
+        public BluetoothDevice Device => GetProperty<BluetoothDevice>("device");
 
         [JsName("uuid")]
-        public string Uuid { get; }
+        public string Uuid => GetProperty<string>("uuid");
 
         [JsName("isPrimary")]
-        public bool IsPrimary { get; }
+        public bool IsPrimary => GetProperty<bool>("isPrimary");
 
         [JsName("oncharacteristicvaluechanged")]
-        public object Oncharacteristicvaluechanged { get; set; }
+        public object Oncharacteristicvaluechanged
+        {
+            get => GetProperty<object>("oncharacteristicvaluechanged");
+            set => SetProperty("oncharacteristicvaluechanged", value);
+        }
 
         [JsName("onserviceadded")]
-        public object Onserviceadded { get; set; }
+        public object Onserviceadded
+        {
+            get => GetProperty<object>("onserviceadded");
+            set => SetProperty("onserviceadded", value);
+        }
 
         [JsName("onservicechanged")]
-        public object Onservicechanged { get; set; }
+        public object Onservicechanged
+        {
+            get => GetProperty<object>("onservicechanged");
+            set => SetProperty("onservicechanged", value);
+        }
 
         [JsName("onserviceremoved")]
-        public object Onserviceremoved { get; set; }
+        public object Onserviceremoved
+        {
+            get => GetProperty<object>("onserviceremoved");
+            set => SetProperty("onserviceremoved", value);
+        }
 
         [JsName("getCharacteristic")]
-        public Task<BluetoothRemoteGattcharacteristic> GetCharacteristicAsync(object characteristic) => throw new NotImplementedException();
+        public Task<BluetoothRemoteGattcharacteristic> GetCharacteristicAsync(object characteristic) => InvokeAsync<BluetoothRemoteGattcharacteristic>("getCharacteristic", characteristic);
 
         [JsName("getCharacteristics")]
-        public Task<IReadOnlyList<BluetoothRemoteGattcharacteristic>> GetCharacteristicsAsync(object? characteristic = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<BluetoothRemoteGattcharacteristic>> GetCharacteristicsAsync(object? characteristic = null) => InvokeAsync<IReadOnlyList<BluetoothRemoteGattcharacteristic>>("getCharacteristics", characteristic);
 
         [JsName("getIncludedService")]
-        public Task<BluetoothRemoteGattservice> GetIncludedServiceAsync(object service) => throw new NotImplementedException();
+        public Task<BluetoothRemoteGattservice> GetIncludedServiceAsync(object service) => InvokeAsync<BluetoothRemoteGattservice>("getIncludedService", service);
 
         [JsName("getIncludedServices")]
-        public Task<IReadOnlyList<BluetoothRemoteGattservice>> GetIncludedServicesAsync(object? service = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<BluetoothRemoteGattservice>> GetIncludedServicesAsync(object? service = null) => InvokeAsync<IReadOnlyList<BluetoothRemoteGattservice>>("getIncludedServices", service);
     }
 }

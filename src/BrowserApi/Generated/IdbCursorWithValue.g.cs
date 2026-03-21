@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class IdbCursorWithValue : IdbCursor
     {
         [JsName("value")]
-        public object Value { get; }
+        public object Value => GetProperty<object>("value");
     }
 }

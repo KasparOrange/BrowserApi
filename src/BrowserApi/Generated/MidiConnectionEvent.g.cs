@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class MidiConnectionEvent : Event
     {
         [JsName("port")]
-        public MidiPort? Port { get; }
+        public MidiPort? Port => GetProperty<MidiPort?>("port");
     }
 }

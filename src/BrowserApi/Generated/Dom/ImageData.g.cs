@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class ImageData
+    public partial class ImageData : JsObject
     {
         [JsName("width")]
-        public uint Width { get; }
+        public uint Width => GetProperty<uint>("width");
 
         [JsName("height")]
-        public uint Height { get; }
+        public uint Height => GetProperty<uint>("height");
 
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
 
         [JsName("pixelFormat")]
-        public ImageDataPixelFormat PixelFormat { get; }
+        public ImageDataPixelFormat PixelFormat => GetProperty<ImageDataPixelFormat>("pixelFormat");
 
         [JsName("colorSpace")]
-        public PredefinedColorSpace ColorSpace { get; }
+        public PredefinedColorSpace ColorSpace => GetProperty<PredefinedColorSpace>("colorSpace");
     }
 }

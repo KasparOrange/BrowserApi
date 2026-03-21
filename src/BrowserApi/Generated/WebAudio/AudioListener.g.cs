@@ -32,39 +32,39 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.WebAudio
 {
-    public partial class AudioListener
+    public partial class AudioListener : JsObject
     {
         [JsName("positionX")]
-        public AudioParam PositionX { get; }
+        public AudioParam PositionX => GetProperty<AudioParam>("positionX");
 
         [JsName("positionY")]
-        public AudioParam PositionY { get; }
+        public AudioParam PositionY => GetProperty<AudioParam>("positionY");
 
         [JsName("positionZ")]
-        public AudioParam PositionZ { get; }
+        public AudioParam PositionZ => GetProperty<AudioParam>("positionZ");
 
         [JsName("forwardX")]
-        public AudioParam ForwardX { get; }
+        public AudioParam ForwardX => GetProperty<AudioParam>("forwardX");
 
         [JsName("forwardY")]
-        public AudioParam ForwardY { get; }
+        public AudioParam ForwardY => GetProperty<AudioParam>("forwardY");
 
         [JsName("forwardZ")]
-        public AudioParam ForwardZ { get; }
+        public AudioParam ForwardZ => GetProperty<AudioParam>("forwardZ");
 
         [JsName("upX")]
-        public AudioParam UpX { get; }
+        public AudioParam UpX => GetProperty<AudioParam>("upX");
 
         [JsName("upY")]
-        public AudioParam UpY { get; }
+        public AudioParam UpY => GetProperty<AudioParam>("upY");
 
         [JsName("upZ")]
-        public AudioParam UpZ { get; }
+        public AudioParam UpZ => GetProperty<AudioParam>("upZ");
 
         [JsName("setPosition")]
-        public void SetPosition(float x, float y, float z) => throw new NotImplementedException();
+        public void SetPosition(float x, float y, float z) => InvokeVoid("setPosition", x, y, z);
 
         [JsName("setOrientation")]
-        public void SetOrientation(float x, float y, float z, float xUp, float yUp, float zUp) => throw new NotImplementedException();
+        public void SetOrientation(float x, float y, float z, float xUp, float yUp, float zUp) => InvokeVoid("setOrientation", x, y, z, xUp, yUp, zUp);
     }
 }

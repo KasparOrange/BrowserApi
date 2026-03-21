@@ -36,15 +36,15 @@ namespace BrowserApi.Css
     public partial class CssColorProfileRule : CssRule
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("src")]
-        public string Src { get; }
+        public string Src => GetProperty<string>("src");
 
         [JsName("renderingIntent")]
-        public string RenderingIntent { get; }
+        public string RenderingIntent => GetProperty<string>("renderingIntent");
 
         [JsName("components")]
-        public string Components { get; }
+        public string Components => GetProperty<string>("components");
     }
 }

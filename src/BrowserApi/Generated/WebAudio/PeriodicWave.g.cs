@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.WebAudio
 {
-    public partial class PeriodicWave
+    public partial class PeriodicWave : JsObject
     {
     }
 }

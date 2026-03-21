@@ -32,27 +32,43 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class WebTransportDatagramDuplexStream
+    public partial class WebTransportDatagramDuplexStream : JsObject
     {
         [JsName("readable")]
-        public ReadableStream Readable { get; }
+        public ReadableStream Readable => GetProperty<ReadableStream>("readable");
 
         [JsName("maxDatagramSize")]
-        public uint MaxDatagramSize { get; }
+        public uint MaxDatagramSize => GetProperty<uint>("maxDatagramSize");
 
         [JsName("incomingMaxAge")]
-        public double? IncomingMaxAge { get; set; }
+        public double? IncomingMaxAge
+        {
+            get => GetProperty<double?>("incomingMaxAge");
+            set => SetProperty("incomingMaxAge", value);
+        }
 
         [JsName("outgoingMaxAge")]
-        public double? OutgoingMaxAge { get; set; }
+        public double? OutgoingMaxAge
+        {
+            get => GetProperty<double?>("outgoingMaxAge");
+            set => SetProperty("outgoingMaxAge", value);
+        }
 
         [JsName("incomingMaxBufferedDatagrams")]
-        public uint IncomingMaxBufferedDatagrams { get; set; }
+        public uint IncomingMaxBufferedDatagrams
+        {
+            get => GetProperty<uint>("incomingMaxBufferedDatagrams");
+            set => SetProperty("incomingMaxBufferedDatagrams", value);
+        }
 
         [JsName("outgoingMaxBufferedDatagrams")]
-        public uint OutgoingMaxBufferedDatagrams { get; set; }
+        public uint OutgoingMaxBufferedDatagrams
+        {
+            get => GetProperty<uint>("outgoingMaxBufferedDatagrams");
+            set => SetProperty("outgoingMaxBufferedDatagrams", value);
+        }
 
         [JsName("createWritable")]
-        public WebTransportDatagramsWritable CreateWritable(WebTransportSendOptions? options = null) => throw new NotImplementedException();
+        public WebTransportDatagramsWritable CreateWritable(WebTransportSendOptions? options = null) => Invoke<WebTransportDatagramsWritable>("createWritable", options);
     }
 }

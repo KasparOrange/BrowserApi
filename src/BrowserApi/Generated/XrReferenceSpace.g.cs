@@ -36,9 +36,13 @@ namespace BrowserApi
     public partial class XrReferenceSpace : XrSpace
     {
         [JsName("onreset")]
-        public object Onreset { get; set; }
+        public object Onreset
+        {
+            get => GetProperty<object>("onreset");
+            set => SetProperty("onreset", value);
+        }
 
         [JsName("getOffsetReferenceSpace")]
-        public XrReferenceSpace GetOffsetReferenceSpace(XrRigidTransform originOffset) => throw new NotImplementedException();
+        public XrReferenceSpace GetOffsetReferenceSpace(XrRigidTransform originOffset) => Invoke<XrReferenceSpace>("getOffsetReferenceSpace", originOffset);
     }
 }

@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssContainerRule : CssConditionRule
     {
         [JsName("containerName")]
-        public string ContainerName { get; }
+        public string ContainerName => GetProperty<string>("containerName");
 
         [JsName("containerQuery")]
-        public string ContainerQuery { get; }
+        public string ContainerQuery => GetProperty<string>("containerQuery");
     }
 }

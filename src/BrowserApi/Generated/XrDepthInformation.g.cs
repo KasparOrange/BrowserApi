@@ -33,24 +33,24 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRDepthInformation")]
-    public partial class XrDepthInformation
+    public partial class XrDepthInformation : JsObject
     {
         [JsName("width")]
-        public uint Width { get; }
+        public uint Width => GetProperty<uint>("width");
 
         [JsName("height")]
-        public uint Height { get; }
+        public uint Height => GetProperty<uint>("height");
 
         [JsName("normDepthBufferFromNormView")]
-        public XrRigidTransform NormDepthBufferFromNormView { get; }
+        public XrRigidTransform NormDepthBufferFromNormView => GetProperty<XrRigidTransform>("normDepthBufferFromNormView");
 
         [JsName("rawValueToMeters")]
-        public float RawValueToMeters { get; }
+        public float RawValueToMeters => GetProperty<float>("rawValueToMeters");
 
         [JsName("projectionMatrix")]
-        public float[] ProjectionMatrix { get; }
+        public float[] ProjectionMatrix => GetProperty<float[]>("projectionMatrix");
 
         [JsName("transform")]
-        public XrRigidTransform Transform { get; }
+        public XrRigidTransform Transform => GetProperty<XrRigidTransform>("transform");
     }
 }

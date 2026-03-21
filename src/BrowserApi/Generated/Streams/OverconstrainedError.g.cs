@@ -35,6 +35,6 @@ namespace BrowserApi.Streams
     public partial class OverconstrainedError : DomException
     {
         [JsName("constraint")]
-        public string Constraint { get; }
+        public string Constraint => GetProperty<string>("constraint");
     }
 }

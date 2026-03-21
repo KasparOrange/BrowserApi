@@ -35,39 +35,67 @@ namespace BrowserApi
     public partial class Bluetooth : EventTarget
     {
         [JsName("onavailabilitychanged")]
-        public object Onavailabilitychanged { get; set; }
+        public object Onavailabilitychanged
+        {
+            get => GetProperty<object>("onavailabilitychanged");
+            set => SetProperty("onavailabilitychanged", value);
+        }
 
         [JsName("referringDevice")]
-        public BluetoothDevice? ReferringDevice { get; }
+        public BluetoothDevice? ReferringDevice => GetProperty<BluetoothDevice?>("referringDevice");
 
         [JsName("onadvertisementreceived")]
-        public object Onadvertisementreceived { get; set; }
+        public object Onadvertisementreceived
+        {
+            get => GetProperty<object>("onadvertisementreceived");
+            set => SetProperty("onadvertisementreceived", value);
+        }
 
         [JsName("ongattserverdisconnected")]
-        public object Ongattserverdisconnected { get; set; }
+        public object Ongattserverdisconnected
+        {
+            get => GetProperty<object>("ongattserverdisconnected");
+            set => SetProperty("ongattserverdisconnected", value);
+        }
 
         [JsName("oncharacteristicvaluechanged")]
-        public object Oncharacteristicvaluechanged { get; set; }
+        public object Oncharacteristicvaluechanged
+        {
+            get => GetProperty<object>("oncharacteristicvaluechanged");
+            set => SetProperty("oncharacteristicvaluechanged", value);
+        }
 
         [JsName("onserviceadded")]
-        public object Onserviceadded { get; set; }
+        public object Onserviceadded
+        {
+            get => GetProperty<object>("onserviceadded");
+            set => SetProperty("onserviceadded", value);
+        }
 
         [JsName("onservicechanged")]
-        public object Onservicechanged { get; set; }
+        public object Onservicechanged
+        {
+            get => GetProperty<object>("onservicechanged");
+            set => SetProperty("onservicechanged", value);
+        }
 
         [JsName("onserviceremoved")]
-        public object Onserviceremoved { get; set; }
+        public object Onserviceremoved
+        {
+            get => GetProperty<object>("onserviceremoved");
+            set => SetProperty("onserviceremoved", value);
+        }
 
         [JsName("getAvailability")]
-        public Task<bool> GetAvailabilityAsync() => throw new NotImplementedException();
+        public Task<bool> GetAvailabilityAsync() => InvokeAsync<bool>("getAvailability");
 
         [JsName("getDevices")]
-        public Task<IReadOnlyList<BluetoothDevice>> GetDevicesAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<BluetoothDevice>> GetDevicesAsync() => InvokeAsync<IReadOnlyList<BluetoothDevice>>("getDevices");
 
         [JsName("requestDevice")]
-        public Task<BluetoothDevice> RequestDeviceAsync(RequestDeviceOptions? options = null) => throw new NotImplementedException();
+        public Task<BluetoothDevice> RequestDeviceAsync(RequestDeviceOptions? options = null) => InvokeAsync<BluetoothDevice>("requestDevice", options);
 
         [JsName("requestLEScan")]
-        public Task<BluetoothLescan> RequestLescanAsync(BluetoothLescanOptions? options = null) => throw new NotImplementedException();
+        public Task<BluetoothLescan> RequestLescanAsync(BluetoothLescanOptions? options = null) => InvokeAsync<BluetoothLescan>("requestLEScan", options);
     }
 }

@@ -50,8 +50,19 @@ public static class ClassEmitter {
             w.AppendLine($"[JsName(\"{prop.JsName}\")]");
 
         var staticMod = prop.IsStatic ? "static " : "";
-        var accessors = prop.IsReadOnly ? "{ get; }" : "{ get; set; }";
-        w.AppendLine($"public {staticMod}{prop.CSharpType} {prop.Name} {accessors}");
+        var jsName = prop.JsName ?? prop.Name;
+
+        if (prop.IsStatic) {
+            var accessors = prop.IsReadOnly ? "{ get; }" : "{ get; set; }";
+            w.AppendLine($"public {staticMod}{prop.CSharpType} {prop.Name} {accessors}");
+        } else if (prop.IsReadOnly) {
+            w.AppendLine($"public {prop.CSharpType} {prop.Name} => GetProperty<{prop.CSharpType}>(\"{jsName}\");");
+        } else {
+            using (w.BeginBlock($"public {prop.CSharpType} {prop.Name}")) {
+                w.AppendLine($"get => GetProperty<{prop.CSharpType}>(\"{jsName}\");");
+                w.AppendLine($"set => SetProperty(\"{jsName}\", value);");
+            }
+        }
     }
 
     private static void EmitMethod(CSharpCodeWriter w, CSharpMethod method) {
@@ -60,7 +71,26 @@ public static class ClassEmitter {
 
         var staticMod = method.IsStatic ? "static " : "";
         var paramList = FormatParameters(method.Parameters);
-        w.AppendLine($"public {staticMod}{method.ReturnType} {method.Name}({paramList}) => throw new NotImplementedException();");
+        var jsName = method.JsName ?? method.Name;
+
+        if (method.IsStatic) {
+            w.AppendLine($"public {staticMod}{method.ReturnType} {method.Name}({paramList}) => throw new NotImplementedException();");
+            return;
+        }
+
+        var argNames = method.Parameters.Select(p => p.Name).ToList();
+        var argsStr = argNames.Count > 0 ? ", " + string.Join(", ", argNames) : "";
+
+        if (method.ReturnType == "void") {
+            w.AppendLine($"public void {method.Name}({paramList}) => InvokeVoid(\"{jsName}\"{argsStr});");
+        } else if (method.IsAsync && method.ReturnType == "Task") {
+            w.AppendLine($"public Task {method.Name}({paramList}) => InvokeVoidAsync(\"{jsName}\"{argsStr});");
+        } else if (method.IsAsync) {
+            var innerType = method.ReturnType.Substring(5, method.ReturnType.Length - 6); // "Task<X>" → "X"
+            w.AppendLine($"public Task<{innerType}> {method.Name}({paramList}) => InvokeAsync<{innerType}>(\"{jsName}\"{argsStr});");
+        } else {
+            w.AppendLine($"public {method.ReturnType} {method.Name}({paramList}) => Invoke<{method.ReturnType}>(\"{jsName}\"{argsStr});");
+        }
     }
 
     private static void EmitConstructor(CSharpCodeWriter w, string className, CSharpConstructor ctor) {

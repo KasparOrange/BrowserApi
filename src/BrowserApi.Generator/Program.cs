@@ -77,9 +77,9 @@ if (!string.IsNullOrEmpty(cssDataDir)) {
     var styleDeclCode = CssStyleDeclarationEmitter.Emit(cssProperties);
     if (!dryRun) {
         Directory.CreateDirectory(cssOutputDir);
-        File.WriteAllText(Path.Combine(cssOutputDir, "CssStyleDeclaration.g.cs"), styleDeclCode);
+        File.WriteAllText(Path.Combine(cssOutputDir, "CssStyleDeclaration.CssProperties.g.cs"), styleDeclCode);
     }
-    Console.WriteLine($"  {(dryRun ? "Would write" : "Wrote")} CssStyleDeclaration.g.cs");
+    Console.WriteLine($"  {(dryRun ? "Would write" : "Wrote")} CssStyleDeclaration.CssProperties.g.cs");
 
     // Emit CSS enums for keyword-only properties
     var cssEnumCount = 0;

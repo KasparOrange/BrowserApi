@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssViewTransitionRule : CssRule
     {
         [JsName("navigation")]
-        public string Navigation { get; }
+        public string Navigation => GetProperty<string>("navigation");
 
         [JsName("types")]
-        public IReadOnlyList<string> Types { get; }
+        public IReadOnlyList<string> Types => GetProperty<IReadOnlyList<string>>("types");
     }
 }

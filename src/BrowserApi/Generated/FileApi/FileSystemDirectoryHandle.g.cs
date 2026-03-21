@@ -35,15 +35,15 @@ namespace BrowserApi.FileApi
     public partial class FileSystemDirectoryHandle : FileSystemHandle
     {
         [JsName("getFileHandle")]
-        public Task<FileSystemFileHandle> GetFileHandleAsync(string name, FileSystemGetFileOptions? options = null) => throw new NotImplementedException();
+        public Task<FileSystemFileHandle> GetFileHandleAsync(string name, FileSystemGetFileOptions? options = null) => InvokeAsync<FileSystemFileHandle>("getFileHandle", name, options);
 
         [JsName("getDirectoryHandle")]
-        public Task<FileSystemDirectoryHandle> GetDirectoryHandleAsync(string name, FileSystemGetDirectoryOptions? options = null) => throw new NotImplementedException();
+        public Task<FileSystemDirectoryHandle> GetDirectoryHandleAsync(string name, FileSystemGetDirectoryOptions? options = null) => InvokeAsync<FileSystemDirectoryHandle>("getDirectoryHandle", name, options);
 
         [JsName("removeEntry")]
-        public Task RemoveEntryAsync(string name, FileSystemRemoveOptions? options = null) => throw new NotImplementedException();
+        public Task RemoveEntryAsync(string name, FileSystemRemoveOptions? options = null) => InvokeVoidAsync("removeEntry", name, options);
 
         [JsName("resolve")]
-        public Task<IReadOnlyList<string>?> ResolveAsync(FileSystemHandle possibleDescendant) => throw new NotImplementedException();
+        public Task<IReadOnlyList<string>?> ResolveAsync(FileSystemHandle possibleDescendant) => InvokeAsync<IReadOnlyList<string>?>("resolve", possibleDescendant);
     }
 }

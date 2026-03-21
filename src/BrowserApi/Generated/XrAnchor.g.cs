@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRAnchor")]
-    public partial class XrAnchor
+    public partial class XrAnchor : JsObject
     {
         [JsName("anchorSpace")]
-        public XrSpace AnchorSpace { get; }
+        public XrSpace AnchorSpace => GetProperty<XrSpace>("anchorSpace");
 
         [JsName("requestPersistentHandle")]
-        public Task<string> RequestPersistentHandleAsync() => throw new NotImplementedException();
+        public Task<string> RequestPersistentHandleAsync() => InvokeAsync<string>("requestPersistentHandle");
 
         [JsName("delete")]
-        public void Delete() => throw new NotImplementedException();
+        public void Delete() => InvokeVoid("delete");
     }
 }

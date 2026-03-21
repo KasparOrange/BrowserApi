@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ImageTrackList
+    public partial class ImageTrackList : JsObject
     {
         [JsName("ready")]
-        public Task Ready { get; }
+        public Task Ready => GetProperty<Task>("ready");
 
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("selectedIndex")]
-        public int SelectedIndex { get; }
+        public int SelectedIndex => GetProperty<int>("selectedIndex");
 
         [JsName("selectedTrack")]
-        public ImageTrack? SelectedTrack { get; }
+        public ImageTrack? SelectedTrack => GetProperty<ImageTrack?>("selectedTrack");
     }
 }

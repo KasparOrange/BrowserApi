@@ -35,12 +35,16 @@ namespace BrowserApi.WebAudio
     public partial class AudioWorkletNode : AudioNode
     {
         [JsName("parameters")]
-        public AudioParamMap Parameters { get; }
+        public AudioParamMap Parameters => GetProperty<AudioParamMap>("parameters");
 
         [JsName("port")]
-        public MessagePort Port { get; }
+        public MessagePort Port => GetProperty<MessagePort>("port");
 
         [JsName("onprocessorerror")]
-        public object Onprocessorerror { get; set; }
+        public object Onprocessorerror
+        {
+            get => GetProperty<object>("onprocessorerror");
+            set => SetProperty("onprocessorerror", value);
+        }
     }
 }

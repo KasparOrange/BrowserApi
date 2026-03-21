@@ -35,18 +35,22 @@ namespace BrowserApi
     public partial class IdleDetector : EventTarget
     {
         [JsName("userState")]
-        public UserIdleState? UserState { get; }
+        public UserIdleState? UserState => GetProperty<UserIdleState?>("userState");
 
         [JsName("screenState")]
-        public ScreenIdleState? ScreenState { get; }
+        public ScreenIdleState? ScreenState => GetProperty<ScreenIdleState?>("screenState");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("requestPermission")]
         public static Task<PermissionState> RequestPermissionAsync() => throw new NotImplementedException();
 
         [JsName("start")]
-        public Task StartAsync(IdleOptions? options = null) => throw new NotImplementedException();
+        public Task StartAsync(IdleOptions? options = null) => InvokeVoidAsync("start", options);
     }
 }

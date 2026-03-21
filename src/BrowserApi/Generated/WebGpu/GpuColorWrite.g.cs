@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUColorWrite")]
-    public partial class GpuColorWrite
+    public partial class GpuColorWrite : JsObject
     {
         public const uint Red = 0x1;
 

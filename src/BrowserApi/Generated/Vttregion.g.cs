@@ -33,30 +33,62 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("VTTRegion")]
-    public partial class Vttregion
+    public partial class Vttregion : JsObject
     {
         [JsName("id")]
-        public string Id { get; set; }
+        public string Id
+        {
+            get => GetProperty<string>("id");
+            set => SetProperty("id", value);
+        }
 
         [JsName("width")]
-        public double Width { get; set; }
+        public double Width
+        {
+            get => GetProperty<double>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("lines")]
-        public uint Lines { get; set; }
+        public uint Lines
+        {
+            get => GetProperty<uint>("lines");
+            set => SetProperty("lines", value);
+        }
 
         [JsName("regionAnchorX")]
-        public double RegionAnchorX { get; set; }
+        public double RegionAnchorX
+        {
+            get => GetProperty<double>("regionAnchorX");
+            set => SetProperty("regionAnchorX", value);
+        }
 
         [JsName("regionAnchorY")]
-        public double RegionAnchorY { get; set; }
+        public double RegionAnchorY
+        {
+            get => GetProperty<double>("regionAnchorY");
+            set => SetProperty("regionAnchorY", value);
+        }
 
         [JsName("viewportAnchorX")]
-        public double ViewportAnchorX { get; set; }
+        public double ViewportAnchorX
+        {
+            get => GetProperty<double>("viewportAnchorX");
+            set => SetProperty("viewportAnchorX", value);
+        }
 
         [JsName("viewportAnchorY")]
-        public double ViewportAnchorY { get; set; }
+        public double ViewportAnchorY
+        {
+            get => GetProperty<double>("viewportAnchorY");
+            set => SetProperty("viewportAnchorY", value);
+        }
 
         [JsName("scroll")]
-        public ScrollSetting Scroll { get; set; }
+        public ScrollSetting Scroll
+        {
+            get => GetProperty<ScrollSetting>("scroll");
+            set => SetProperty("scroll", value);
+        }
     }
 }

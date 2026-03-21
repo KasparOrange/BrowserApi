@@ -36,12 +36,16 @@ namespace BrowserApi.WebRtc
     public partial class RtcsframeReceiverTransform : EventTarget
     {
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("addDecryptionKey")]
-        public Task AddDecryptionKeyAsync(CryptoKey key, object keyId) => throw new NotImplementedException();
+        public Task AddDecryptionKeyAsync(CryptoKey key, object keyId) => InvokeVoidAsync("addDecryptionKey", key, keyId);
 
         [JsName("removeDecryptionKey")]
-        public Task RemoveDecryptionKeyAsync(object keyId) => throw new NotImplementedException();
+        public Task RemoveDecryptionKeyAsync(object keyId) => InvokeVoidAsync("removeDecryptionKey", keyId);
     }
 }

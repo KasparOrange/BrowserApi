@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WebGLUniformLocation")]
-    public partial class WebGlUniformLocation
+    public partial class WebGlUniformLocation : JsObject
     {
     }
 }

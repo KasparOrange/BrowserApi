@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class WebTransportWriter : WritableStreamDefaultWriter
     {
         [JsName("atomicWrite")]
-        public Task AtomicWriteAsync(object? chunk = null) => throw new NotImplementedException();
+        public Task AtomicWriteAsync(object? chunk = null) => InvokeVoidAsync("atomicWrite", chunk);
 
         [JsName("commit")]
-        public void Commit() => throw new NotImplementedException();
+        public void Commit() => InvokeVoid("commit");
     }
 }

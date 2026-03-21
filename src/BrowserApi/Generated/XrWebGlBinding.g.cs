@@ -33,45 +33,45 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRWebGLBinding")]
-    public partial class XrWebGlBinding
+    public partial class XrWebGlBinding : JsObject
     {
         [JsName("nativeProjectionScaleFactor")]
-        public double NativeProjectionScaleFactor { get; }
+        public double NativeProjectionScaleFactor => GetProperty<double>("nativeProjectionScaleFactor");
 
         [JsName("usesDepthValues")]
-        public bool UsesDepthValues { get; }
+        public bool UsesDepthValues => GetProperty<bool>("usesDepthValues");
 
         [JsName("createProjectionLayer")]
-        public XrProjectionLayer CreateProjectionLayer(XrProjectionLayerInit? init = null) => throw new NotImplementedException();
+        public XrProjectionLayer CreateProjectionLayer(XrProjectionLayerInit? init = null) => Invoke<XrProjectionLayer>("createProjectionLayer", init);
 
         [JsName("createQuadLayer")]
-        public XrQuadLayer CreateQuadLayer(XrQuadLayerInit? init = null) => throw new NotImplementedException();
+        public XrQuadLayer CreateQuadLayer(XrQuadLayerInit? init = null) => Invoke<XrQuadLayer>("createQuadLayer", init);
 
         [JsName("createCylinderLayer")]
-        public XrCylinderLayer CreateCylinderLayer(XrCylinderLayerInit? init = null) => throw new NotImplementedException();
+        public XrCylinderLayer CreateCylinderLayer(XrCylinderLayerInit? init = null) => Invoke<XrCylinderLayer>("createCylinderLayer", init);
 
         [JsName("createEquirectLayer")]
-        public XrEquirectLayer CreateEquirectLayer(XrEquirectLayerInit? init = null) => throw new NotImplementedException();
+        public XrEquirectLayer CreateEquirectLayer(XrEquirectLayerInit? init = null) => Invoke<XrEquirectLayer>("createEquirectLayer", init);
 
         [JsName("createCubeLayer")]
-        public XrCubeLayer CreateCubeLayer(XrCubeLayerInit? init = null) => throw new NotImplementedException();
+        public XrCubeLayer CreateCubeLayer(XrCubeLayerInit? init = null) => Invoke<XrCubeLayer>("createCubeLayer", init);
 
         [JsName("getSubImage")]
-        public XrWebGlSubImage GetSubImage(XrCompositionLayer layer, XrFrame frame, XrEye? eye = null) => throw new NotImplementedException();
+        public XrWebGlSubImage GetSubImage(XrCompositionLayer layer, XrFrame frame, XrEye? eye = null) => Invoke<XrWebGlSubImage>("getSubImage", layer, frame, eye);
 
         [JsName("getViewSubImage")]
-        public XrWebGlSubImage GetViewSubImage(XrProjectionLayer layer, XrView view) => throw new NotImplementedException();
+        public XrWebGlSubImage GetViewSubImage(XrProjectionLayer layer, XrView view) => Invoke<XrWebGlSubImage>("getViewSubImage", layer, view);
 
         [JsName("foveateBoundTexture")]
-        public void FoveateBoundTexture(uint target, float fixedFoveation) => throw new NotImplementedException();
+        public void FoveateBoundTexture(uint target, float fixedFoveation) => InvokeVoid("foveateBoundTexture", target, fixedFoveation);
 
         [JsName("getCameraImage")]
-        public WebGlTexture? GetCameraImage(XrCamera camera) => throw new NotImplementedException();
+        public WebGlTexture? GetCameraImage(XrCamera camera) => Invoke<WebGlTexture?>("getCameraImage", camera);
 
         [JsName("getDepthInformation")]
-        public XrWebGlDepthInformation? GetDepthInformation(XrView view) => throw new NotImplementedException();
+        public XrWebGlDepthInformation? GetDepthInformation(XrView view) => Invoke<XrWebGlDepthInformation?>("getDepthInformation", view);
 
         [JsName("getReflectionCubeMap")]
-        public WebGlTexture? GetReflectionCubeMap(XrLightProbe lightProbe) => throw new NotImplementedException();
+        public WebGlTexture? GetReflectionCubeMap(XrLightProbe lightProbe) => Invoke<WebGlTexture?>("getReflectionCubeMap", lightProbe);
     }
 }

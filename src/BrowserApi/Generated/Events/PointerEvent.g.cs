@@ -35,48 +35,48 @@ namespace BrowserApi.Events
     public partial class PointerEvent : MouseEvent
     {
         [JsName("pointerId")]
-        public int PointerId { get; }
+        public int PointerId => GetProperty<int>("pointerId");
 
         [JsName("width")]
-        public double Width { get; }
+        public double Width => GetProperty<double>("width");
 
         [JsName("height")]
-        public double Height { get; }
+        public double Height => GetProperty<double>("height");
 
         [JsName("pressure")]
-        public float Pressure { get; }
+        public float Pressure => GetProperty<float>("pressure");
 
         [JsName("tangentialPressure")]
-        public float TangentialPressure { get; }
+        public float TangentialPressure => GetProperty<float>("tangentialPressure");
 
         [JsName("tiltX")]
-        public int TiltX { get; }
+        public int TiltX => GetProperty<int>("tiltX");
 
         [JsName("tiltY")]
-        public int TiltY { get; }
+        public int TiltY => GetProperty<int>("tiltY");
 
         [JsName("twist")]
-        public int Twist { get; }
+        public int Twist => GetProperty<int>("twist");
 
         [JsName("altitudeAngle")]
-        public double AltitudeAngle { get; }
+        public double AltitudeAngle => GetProperty<double>("altitudeAngle");
 
         [JsName("azimuthAngle")]
-        public double AzimuthAngle { get; }
+        public double AzimuthAngle => GetProperty<double>("azimuthAngle");
 
         [JsName("pointerType")]
-        public string PointerType { get; }
+        public string PointerType => GetProperty<string>("pointerType");
 
         [JsName("isPrimary")]
-        public bool IsPrimary { get; }
+        public bool IsPrimary => GetProperty<bool>("isPrimary");
 
         [JsName("persistentDeviceId")]
-        public int PersistentDeviceId { get; }
+        public int PersistentDeviceId => GetProperty<int>("persistentDeviceId");
 
         [JsName("getCoalescedEvents")]
-        public IReadOnlyList<PointerEvent> GetCoalescedEvents() => throw new NotImplementedException();
+        public IReadOnlyList<PointerEvent> GetCoalescedEvents() => Invoke<IReadOnlyList<PointerEvent>>("getCoalescedEvents");
 
         [JsName("getPredictedEvents")]
-        public IReadOnlyList<PointerEvent> GetPredictedEvents() => throw new NotImplementedException();
+        public IReadOnlyList<PointerEvent> GetPredictedEvents() => Invoke<IReadOnlyList<PointerEvent>>("getPredictedEvents");
     }
 }

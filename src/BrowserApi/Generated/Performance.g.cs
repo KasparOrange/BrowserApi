@@ -35,57 +35,61 @@ namespace BrowserApi
     public partial class Performance : EventTarget
     {
         [JsName("timeOrigin")]
-        public double TimeOrigin { get; }
+        public double TimeOrigin => GetProperty<double>("timeOrigin");
 
         [JsName("eventCounts")]
-        public EventCounts EventCounts { get; }
+        public EventCounts EventCounts => GetProperty<EventCounts>("eventCounts");
 
         [JsName("interactionCount")]
-        public ulong InteractionCount { get; }
+        public ulong InteractionCount => GetProperty<ulong>("interactionCount");
 
         [JsName("timing")]
-        public PerformanceTiming Timing { get; }
+        public PerformanceTiming Timing => GetProperty<PerformanceTiming>("timing");
 
         [JsName("navigation")]
-        public PerformanceNavigation Navigation { get; }
+        public PerformanceNavigation Navigation => GetProperty<PerformanceNavigation>("navigation");
 
         [JsName("onresourcetimingbufferfull")]
-        public object Onresourcetimingbufferfull { get; set; }
+        public object Onresourcetimingbufferfull
+        {
+            get => GetProperty<object>("onresourcetimingbufferfull");
+            set => SetProperty("onresourcetimingbufferfull", value);
+        }
 
         [JsName("now")]
-        public double Now() => throw new NotImplementedException();
+        public double Now() => Invoke<double>("now");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
 
         [JsName("measureUserAgentSpecificMemory")]
-        public Task<MemoryMeasurement> MeasureUserAgentSpecificMemoryAsync() => throw new NotImplementedException();
+        public Task<MemoryMeasurement> MeasureUserAgentSpecificMemoryAsync() => InvokeAsync<MemoryMeasurement>("measureUserAgentSpecificMemory");
 
         [JsName("getEntries")]
-        public IReadOnlyList<PerformanceEntry> GetEntries() => throw new NotImplementedException();
+        public IReadOnlyList<PerformanceEntry> GetEntries() => Invoke<IReadOnlyList<PerformanceEntry>>("getEntries");
 
         [JsName("getEntriesByType")]
-        public IReadOnlyList<PerformanceEntry> GetEntriesByType(string type) => throw new NotImplementedException();
+        public IReadOnlyList<PerformanceEntry> GetEntriesByType(string type) => Invoke<IReadOnlyList<PerformanceEntry>>("getEntriesByType", type);
 
         [JsName("getEntriesByName")]
-        public IReadOnlyList<PerformanceEntry> GetEntriesByName(string name, string? type = null) => throw new NotImplementedException();
+        public IReadOnlyList<PerformanceEntry> GetEntriesByName(string name, string? type = null) => Invoke<IReadOnlyList<PerformanceEntry>>("getEntriesByName", name, type);
 
         [JsName("clearResourceTimings")]
-        public void ClearResourceTimings() => throw new NotImplementedException();
+        public void ClearResourceTimings() => InvokeVoid("clearResourceTimings");
 
         [JsName("setResourceTimingBufferSize")]
-        public void SetResourceTimingBufferSize(uint maxSize) => throw new NotImplementedException();
+        public void SetResourceTimingBufferSize(uint maxSize) => InvokeVoid("setResourceTimingBufferSize", maxSize);
 
         [JsName("mark")]
-        public PerformanceMark Mark(string markName, PerformanceMarkOptions? markOptions = null) => throw new NotImplementedException();
+        public PerformanceMark Mark(string markName, PerformanceMarkOptions? markOptions = null) => Invoke<PerformanceMark>("mark", markName, markOptions);
 
         [JsName("clearMarks")]
-        public void ClearMarks(string? markName = null) => throw new NotImplementedException();
+        public void ClearMarks(string? markName = null) => InvokeVoid("clearMarks", markName);
 
         [JsName("measure")]
-        public PerformanceMeasure Measure(string measureName, object? startOrMeasureOptions = null, string? endMark = null) => throw new NotImplementedException();
+        public PerformanceMeasure Measure(string measureName, object? startOrMeasureOptions = null, string? endMark = null) => Invoke<PerformanceMeasure>("measure", measureName, startOrMeasureOptions, endMark);
 
         [JsName("clearMeasures")]
-        public void ClearMeasures(string? measureName = null) => throw new NotImplementedException();
+        public void ClearMeasures(string? measureName = null) => InvokeVoid("clearMeasures", measureName);
     }
 }

@@ -35,36 +35,36 @@ namespace BrowserApi.Dom
     public partial class DocumentFragment : Node
     {
         [JsName("children")]
-        public HtmlCollection Children { get; }
+        public HtmlCollection Children => GetProperty<HtmlCollection>("children");
 
         [JsName("firstElementChild")]
-        public Element? FirstElementChild { get; }
+        public Element? FirstElementChild => GetProperty<Element?>("firstElementChild");
 
         [JsName("lastElementChild")]
-        public Element? LastElementChild { get; }
+        public Element? LastElementChild => GetProperty<Element?>("lastElementChild");
 
         [JsName("childElementCount")]
-        public uint ChildElementCount { get; }
+        public uint ChildElementCount => GetProperty<uint>("childElementCount");
 
         [JsName("getElementById")]
-        public Element? GetElementById(string elementId) => throw new NotImplementedException();
+        public Element? GetElementById(string elementId) => Invoke<Element?>("getElementById", elementId);
 
         [JsName("prepend")]
-        public void Prepend(params object[] nodes) => throw new NotImplementedException();
+        public void Prepend(params object[] nodes) => InvokeVoid("prepend", nodes);
 
         [JsName("append")]
-        public void Append(params object[] nodes) => throw new NotImplementedException();
+        public void Append(params object[] nodes) => InvokeVoid("append", nodes);
 
         [JsName("replaceChildren")]
-        public void ReplaceChildren(params object[] nodes) => throw new NotImplementedException();
+        public void ReplaceChildren(params object[] nodes) => InvokeVoid("replaceChildren", nodes);
 
         [JsName("moveBefore")]
-        public void MoveBefore(Node node, Node? child) => throw new NotImplementedException();
+        public void MoveBefore(Node node, Node? child) => InvokeVoid("moveBefore", node, child);
 
         [JsName("querySelector")]
-        public Element? QuerySelector(string selectors) => throw new NotImplementedException();
+        public Element? QuerySelector(string selectors) => Invoke<Element?>("querySelector", selectors);
 
         [JsName("querySelectorAll")]
-        public NodeList QuerySelectorAll(string selectors) => throw new NotImplementedException();
+        public NodeList QuerySelectorAll(string selectors) => Invoke<NodeList>("querySelectorAll", selectors);
     }
 }

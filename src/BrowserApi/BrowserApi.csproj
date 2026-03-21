@@ -5,4 +5,9 @@
         <Description>Typed C# wrappers for browser APIs. Zero dependencies — pure types, CSS values, DOM interfaces, and enums generated from W3C WebIDL specs.</Description>
     </PropertyGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="BrowserApi.JSInterop" />
+        <InternalsVisibleTo Include="BrowserApi.Tests" />
+    </ItemGroup>
+
 </Project>

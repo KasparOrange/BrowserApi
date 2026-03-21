@@ -36,24 +36,32 @@ namespace BrowserApi
     public partial class IdbRequest : EventTarget
     {
         [JsName("result")]
-        public object Result { get; }
+        public object Result => GetProperty<object>("result");
 
         [JsName("error")]
-        public DomException? Error { get; }
+        public DomException? Error => GetProperty<DomException?>("error");
 
         [JsName("source")]
-        public object Source { get; }
+        public object Source => GetProperty<object>("source");
 
         [JsName("transaction")]
-        public IdbTransaction? Transaction { get; }
+        public IdbTransaction? Transaction => GetProperty<IdbTransaction?>("transaction");
 
         [JsName("readyState")]
-        public IdbRequestReadyState ReadyState { get; }
+        public IdbRequestReadyState ReadyState => GetProperty<IdbRequestReadyState>("readyState");
 
         [JsName("onsuccess")]
-        public object Onsuccess { get; set; }
+        public object Onsuccess
+        {
+            get => GetProperty<object>("onsuccess");
+            set => SetProperty("onsuccess", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
     }
 }

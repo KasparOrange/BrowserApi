@@ -35,84 +35,88 @@ namespace BrowserApi.WebAudio
     public partial class BaseAudioContext : EventTarget
     {
         [JsName("destination")]
-        public AudioDestinationNode Destination { get; }
+        public AudioDestinationNode Destination => GetProperty<AudioDestinationNode>("destination");
 
         [JsName("sampleRate")]
-        public float SampleRate { get; }
+        public float SampleRate => GetProperty<float>("sampleRate");
 
         [JsName("currentTime")]
-        public double CurrentTime { get; }
+        public double CurrentTime => GetProperty<double>("currentTime");
 
         [JsName("listener")]
-        public AudioListener Listener { get; }
+        public AudioListener Listener => GetProperty<AudioListener>("listener");
 
         [JsName("state")]
-        public AudioContextState State { get; }
+        public AudioContextState State => GetProperty<AudioContextState>("state");
 
         [JsName("renderQuantumSize")]
-        public uint RenderQuantumSize { get; }
+        public uint RenderQuantumSize => GetProperty<uint>("renderQuantumSize");
 
         [JsName("audioWorklet")]
-        public AudioWorklet AudioWorklet { get; }
+        public AudioWorklet AudioWorklet => GetProperty<AudioWorklet>("audioWorklet");
 
         [JsName("onstatechange")]
-        public object Onstatechange { get; set; }
+        public object Onstatechange
+        {
+            get => GetProperty<object>("onstatechange");
+            set => SetProperty("onstatechange", value);
+        }
 
         [JsName("createAnalyser")]
-        public AnalyserNode CreateAnalyser() => throw new NotImplementedException();
+        public AnalyserNode CreateAnalyser() => Invoke<AnalyserNode>("createAnalyser");
 
         [JsName("createBiquadFilter")]
-        public BiquadFilterNode CreateBiquadFilter() => throw new NotImplementedException();
+        public BiquadFilterNode CreateBiquadFilter() => Invoke<BiquadFilterNode>("createBiquadFilter");
 
         [JsName("createBuffer")]
-        public AudioBuffer CreateBuffer(uint numberOfChannels, uint length, float sampleRate) => throw new NotImplementedException();
+        public AudioBuffer CreateBuffer(uint numberOfChannels, uint length, float sampleRate) => Invoke<AudioBuffer>("createBuffer", numberOfChannels, length, sampleRate);
 
         [JsName("createBufferSource")]
-        public AudioBufferSourceNode CreateBufferSource() => throw new NotImplementedException();
+        public AudioBufferSourceNode CreateBufferSource() => Invoke<AudioBufferSourceNode>("createBufferSource");
 
         [JsName("createChannelMerger")]
-        public ChannelMergerNode CreateChannelMerger(uint numberOfInputs = 6) => throw new NotImplementedException();
+        public ChannelMergerNode CreateChannelMerger(uint numberOfInputs = 6) => Invoke<ChannelMergerNode>("createChannelMerger", numberOfInputs);
 
         [JsName("createChannelSplitter")]
-        public ChannelSplitterNode CreateChannelSplitter(uint numberOfOutputs = 6) => throw new NotImplementedException();
+        public ChannelSplitterNode CreateChannelSplitter(uint numberOfOutputs = 6) => Invoke<ChannelSplitterNode>("createChannelSplitter", numberOfOutputs);
 
         [JsName("createConstantSource")]
-        public ConstantSourceNode CreateConstantSource() => throw new NotImplementedException();
+        public ConstantSourceNode CreateConstantSource() => Invoke<ConstantSourceNode>("createConstantSource");
 
         [JsName("createConvolver")]
-        public ConvolverNode CreateConvolver() => throw new NotImplementedException();
+        public ConvolverNode CreateConvolver() => Invoke<ConvolverNode>("createConvolver");
 
         [JsName("createDelay")]
-        public DelayNode CreateDelay(double maxDelayTime = 1.0) => throw new NotImplementedException();
+        public DelayNode CreateDelay(double maxDelayTime = 1.0) => Invoke<DelayNode>("createDelay", maxDelayTime);
 
         [JsName("createDynamicsCompressor")]
-        public DynamicsCompressorNode CreateDynamicsCompressor() => throw new NotImplementedException();
+        public DynamicsCompressorNode CreateDynamicsCompressor() => Invoke<DynamicsCompressorNode>("createDynamicsCompressor");
 
         [JsName("createGain")]
-        public GainNode CreateGain() => throw new NotImplementedException();
+        public GainNode CreateGain() => Invoke<GainNode>("createGain");
 
         [JsName("createIIRFilter")]
-        public IirfilterNode CreateIirfilter(IReadOnlyList<double> feedforward, IReadOnlyList<double> feedback) => throw new NotImplementedException();
+        public IirfilterNode CreateIirfilter(IReadOnlyList<double> feedforward, IReadOnlyList<double> feedback) => Invoke<IirfilterNode>("createIIRFilter", feedforward, feedback);
 
         [JsName("createOscillator")]
-        public OscillatorNode CreateOscillator() => throw new NotImplementedException();
+        public OscillatorNode CreateOscillator() => Invoke<OscillatorNode>("createOscillator");
 
         [JsName("createPanner")]
-        public PannerNode CreatePanner() => throw new NotImplementedException();
+        public PannerNode CreatePanner() => Invoke<PannerNode>("createPanner");
 
         [JsName("createPeriodicWave")]
-        public PeriodicWave CreatePeriodicWave(IReadOnlyList<float> real, IReadOnlyList<float> imag, PeriodicWaveConstraints? constraints = null) => throw new NotImplementedException();
+        public PeriodicWave CreatePeriodicWave(IReadOnlyList<float> real, IReadOnlyList<float> imag, PeriodicWaveConstraints? constraints = null) => Invoke<PeriodicWave>("createPeriodicWave", real, imag, constraints);
 
         [JsName("createScriptProcessor")]
-        public ScriptProcessorNode CreateScriptProcessor(uint bufferSize = 0, uint numberOfInputChannels = 2, uint numberOfOutputChannels = 2) => throw new NotImplementedException();
+        public ScriptProcessorNode CreateScriptProcessor(uint bufferSize = 0, uint numberOfInputChannels = 2, uint numberOfOutputChannels = 2) => Invoke<ScriptProcessorNode>("createScriptProcessor", bufferSize, numberOfInputChannels, numberOfOutputChannels);
 
         [JsName("createStereoPanner")]
-        public StereoPannerNode CreateStereoPanner() => throw new NotImplementedException();
+        public StereoPannerNode CreateStereoPanner() => Invoke<StereoPannerNode>("createStereoPanner");
 
         [JsName("createWaveShaper")]
-        public WaveShaperNode CreateWaveShaper() => throw new NotImplementedException();
+        public WaveShaperNode CreateWaveShaper() => Invoke<WaveShaperNode>("createWaveShaper");
 
         [JsName("decodeAudioData")]
-        public Task<AudioBuffer> DecodeAudioDataAsync(byte[] audioData, DecodeSuccessCallback? successCallback = null, DecodeErrorCallback? errorCallback = null) => throw new NotImplementedException();
+        public Task<AudioBuffer> DecodeAudioDataAsync(byte[] audioData, DecodeSuccessCallback? successCallback = null, DecodeErrorCallback? errorCallback = null) => InvokeAsync<AudioBuffer>("decodeAudioData", audioData, successCallback, errorCallback);
     }
 }

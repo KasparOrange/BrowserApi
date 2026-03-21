@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.FileApi
 {
-    public partial class FileSystem
+    public partial class FileSystem : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("root")]
-        public FileSystemDirectoryEntry Root { get; }
+        public FileSystemDirectoryEntry Root => GetProperty<FileSystemDirectoryEntry>("root");
     }
 }

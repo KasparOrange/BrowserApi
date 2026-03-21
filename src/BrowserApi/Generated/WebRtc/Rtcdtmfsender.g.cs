@@ -36,15 +36,19 @@ namespace BrowserApi.WebRtc
     public partial class Rtcdtmfsender : EventTarget
     {
         [JsName("ontonechange")]
-        public object Ontonechange { get; set; }
+        public object Ontonechange
+        {
+            get => GetProperty<object>("ontonechange");
+            set => SetProperty("ontonechange", value);
+        }
 
         [JsName("canInsertDTMF")]
-        public bool CanInsertDtmf { get; }
+        public bool CanInsertDtmf => GetProperty<bool>("canInsertDTMF");
 
         [JsName("toneBuffer")]
-        public string ToneBuffer { get; }
+        public string ToneBuffer => GetProperty<string>("toneBuffer");
 
         [JsName("insertDTMF")]
-        public void InsertDtmf(string tones, uint duration = 100, uint interToneGap = 70) => throw new NotImplementedException();
+        public void InsertDtmf(string tones, uint duration = 100, uint interToneGap = 70) => InvokeVoid("insertDTMF", tones, duration, interToneGap);
     }
 }

@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Permissions
+    public partial class Permissions : JsObject
     {
         [JsName("query")]
-        public Task<PermissionStatus> QueryAsync(object permissionDesc) => throw new NotImplementedException();
+        public Task<PermissionStatus> QueryAsync(object permissionDesc) => InvokeAsync<PermissionStatus>("query", permissionDesc);
 
         [JsName("request")]
-        public Task<PermissionStatus> RequestAsync(object permissionDesc) => throw new NotImplementedException();
+        public Task<PermissionStatus> RequestAsync(object permissionDesc) => InvokeAsync<PermissionStatus>("request", permissionDesc);
 
         [JsName("revoke")]
-        public Task<PermissionStatus> RevokeAsync(object permissionDesc) => throw new NotImplementedException();
+        public Task<PermissionStatus> RevokeAsync(object permissionDesc) => InvokeAsync<PermissionStatus>("revoke", permissionDesc);
     }
 }

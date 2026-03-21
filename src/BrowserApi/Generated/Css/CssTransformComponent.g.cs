@@ -33,12 +33,16 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSSTransformComponent")]
-    public partial class CssTransformComponent
+    public partial class CssTransformComponent : JsObject
     {
         [JsName("is2D")]
-        public bool Is2D { get; set; }
+        public bool Is2D
+        {
+            get => GetProperty<bool>("is2D");
+            set => SetProperty("is2D", value);
+        }
 
         [JsName("toMatrix")]
-        public DomMatrix ToMatrix() => throw new NotImplementedException();
+        public DomMatrix ToMatrix() => Invoke<DomMatrix>("toMatrix");
     }
 }

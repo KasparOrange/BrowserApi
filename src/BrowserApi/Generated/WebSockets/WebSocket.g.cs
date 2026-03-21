@@ -43,39 +43,59 @@ namespace BrowserApi.WebSockets
         public const ushort Closed = 3;
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("readyState")]
-        public ushort ReadyState { get; }
+        public ushort ReadyState => GetProperty<ushort>("readyState");
 
         [JsName("bufferedAmount")]
-        public ulong BufferedAmount { get; }
+        public ulong BufferedAmount => GetProperty<ulong>("bufferedAmount");
 
         [JsName("onopen")]
-        public object Onopen { get; set; }
+        public object Onopen
+        {
+            get => GetProperty<object>("onopen");
+            set => SetProperty("onopen", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onclose")]
-        public object Onclose { get; set; }
+        public object Onclose
+        {
+            get => GetProperty<object>("onclose");
+            set => SetProperty("onclose", value);
+        }
 
         [JsName("extensions")]
-        public string Extensions { get; }
+        public string Extensions => GetProperty<string>("extensions");
 
         [JsName("protocol")]
-        public string Protocol { get; }
+        public string Protocol => GetProperty<string>("protocol");
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("binaryType")]
-        public BinaryType BinaryType { get; set; }
+        public BinaryType BinaryType
+        {
+            get => GetProperty<BinaryType>("binaryType");
+            set => SetProperty("binaryType", value);
+        }
 
         [JsName("close")]
-        public void Close(ushort? code = null, string? reason = null) => throw new NotImplementedException();
+        public void Close(ushort? code = null, string? reason = null) => InvokeVoid("close", code, reason);
 
         [JsName("send")]
-        public void Send(object data) => throw new NotImplementedException();
+        public void Send(object data) => InvokeVoid("send", data);
     }
 }

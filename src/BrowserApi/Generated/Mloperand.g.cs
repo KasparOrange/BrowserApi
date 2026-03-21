@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("MLOperand")]
-    public partial class Mloperand
+    public partial class Mloperand : JsObject
     {
         [JsName("dataType")]
-        public MloperandDataType DataType { get; }
+        public MloperandDataType DataType => GetProperty<MloperandDataType>("dataType");
 
         [JsName("shape")]
-        public IReadOnlyList<uint> Shape { get; }
+        public IReadOnlyList<uint> Shape => GetProperty<IReadOnlyList<uint>>("shape");
     }
 }

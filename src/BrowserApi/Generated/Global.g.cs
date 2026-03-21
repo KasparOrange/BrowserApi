@@ -32,12 +32,16 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Global
+    public partial class Global : JsObject
     {
         [JsName("value")]
-        public object Value { get; set; }
+        public object Value
+        {
+            get => GetProperty<object>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("valueOf")]
-        public object ValueOf() => throw new NotImplementedException();
+        public object ValueOf() => Invoke<object>("valueOf");
     }
 }

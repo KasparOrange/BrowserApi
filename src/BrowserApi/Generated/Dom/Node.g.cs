@@ -71,90 +71,98 @@ namespace BrowserApi.Dom
         public const ushort DocumentPositionImplementationSpecific = 0x20;
 
         [JsName("nodeType")]
-        public ushort NodeType { get; }
+        public ushort NodeType => GetProperty<ushort>("nodeType");
 
         [JsName("nodeName")]
-        public string NodeName { get; }
+        public string NodeName => GetProperty<string>("nodeName");
 
         [JsName("baseURI")]
-        public string BaseUri { get; }
+        public string BaseUri => GetProperty<string>("baseURI");
 
         [JsName("isConnected")]
-        public bool IsConnected { get; }
+        public bool IsConnected => GetProperty<bool>("isConnected");
 
         [JsName("ownerDocument")]
-        public Document? OwnerDocument { get; }
+        public Document? OwnerDocument => GetProperty<Document?>("ownerDocument");
 
         [JsName("parentNode")]
-        public Node? ParentNode { get; }
+        public Node? ParentNode => GetProperty<Node?>("parentNode");
 
         [JsName("parentElement")]
-        public Element? ParentElement { get; }
+        public Element? ParentElement => GetProperty<Element?>("parentElement");
 
         [JsName("childNodes")]
-        public NodeList ChildNodes { get; }
+        public NodeList ChildNodes => GetProperty<NodeList>("childNodes");
 
         [JsName("firstChild")]
-        public Node? FirstChild { get; }
+        public Node? FirstChild => GetProperty<Node?>("firstChild");
 
         [JsName("lastChild")]
-        public Node? LastChild { get; }
+        public Node? LastChild => GetProperty<Node?>("lastChild");
 
         [JsName("previousSibling")]
-        public Node? PreviousSibling { get; }
+        public Node? PreviousSibling => GetProperty<Node?>("previousSibling");
 
         [JsName("nextSibling")]
-        public Node? NextSibling { get; }
+        public Node? NextSibling => GetProperty<Node?>("nextSibling");
 
         [JsName("nodeValue")]
-        public string? NodeValue { get; set; }
+        public string? NodeValue
+        {
+            get => GetProperty<string?>("nodeValue");
+            set => SetProperty("nodeValue", value);
+        }
 
         [JsName("textContent")]
-        public string? TextContent { get; set; }
+        public string? TextContent
+        {
+            get => GetProperty<string?>("textContent");
+            set => SetProperty("textContent", value);
+        }
 
         [JsName("getRootNode")]
-        public Node GetRootNode(GetRootNodeOptions? options = null) => throw new NotImplementedException();
+        public Node GetRootNode(GetRootNodeOptions? options = null) => Invoke<Node>("getRootNode", options);
 
         [JsName("hasChildNodes")]
-        public bool HasChildNodes() => throw new NotImplementedException();
+        public bool HasChildNodes() => Invoke<bool>("hasChildNodes");
 
         [JsName("normalize")]
-        public void Normalize() => throw new NotImplementedException();
+        public void Normalize() => InvokeVoid("normalize");
 
         [JsName("cloneNode")]
-        public Node CloneNode(bool subtree = false) => throw new NotImplementedException();
+        public Node CloneNode(bool subtree = false) => Invoke<Node>("cloneNode", subtree);
 
         [JsName("isEqualNode")]
-        public bool IsEqualNode(Node? otherNode) => throw new NotImplementedException();
+        public bool IsEqualNode(Node? otherNode) => Invoke<bool>("isEqualNode", otherNode);
 
         [JsName("isSameNode")]
-        public bool IsSameNode(Node? otherNode) => throw new NotImplementedException();
+        public bool IsSameNode(Node? otherNode) => Invoke<bool>("isSameNode", otherNode);
 
         [JsName("compareDocumentPosition")]
-        public ushort CompareDocumentPosition(Node other) => throw new NotImplementedException();
+        public ushort CompareDocumentPosition(Node other) => Invoke<ushort>("compareDocumentPosition", other);
 
         [JsName("contains")]
-        public bool Contains(Node? other) => throw new NotImplementedException();
+        public bool Contains(Node? other) => Invoke<bool>("contains", other);
 
         [JsName("lookupPrefix")]
-        public string? LookupPrefix(string? @namespace) => throw new NotImplementedException();
+        public string? LookupPrefix(string? @namespace) => Invoke<string?>("lookupPrefix", @namespace);
 
         [JsName("lookupNamespaceURI")]
-        public string? LookupNamespaceUri(string? prefix) => throw new NotImplementedException();
+        public string? LookupNamespaceUri(string? prefix) => Invoke<string?>("lookupNamespaceURI", prefix);
 
         [JsName("isDefaultNamespace")]
-        public bool IsDefaultNamespace(string? @namespace) => throw new NotImplementedException();
+        public bool IsDefaultNamespace(string? @namespace) => Invoke<bool>("isDefaultNamespace", @namespace);
 
         [JsName("insertBefore")]
-        public Node InsertBefore(Node node, Node? child) => throw new NotImplementedException();
+        public Node InsertBefore(Node node, Node? child) => Invoke<Node>("insertBefore", node, child);
 
         [JsName("appendChild")]
-        public Node AppendChild(Node node) => throw new NotImplementedException();
+        public Node AppendChild(Node node) => Invoke<Node>("appendChild", node);
 
         [JsName("replaceChild")]
-        public Node ReplaceChild(Node node, Node child) => throw new NotImplementedException();
+        public Node ReplaceChild(Node node, Node child) => Invoke<Node>("replaceChild", node, child);
 
         [JsName("removeChild")]
-        public Node RemoveChild(Node child) => throw new NotImplementedException();
+        public Node RemoveChild(Node child) => Invoke<Node>("removeChild", child);
     }
 }

@@ -35,21 +35,21 @@ namespace BrowserApi.Css
     public partial class NamedFlow : EventTarget
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("overset")]
-        public bool Overset { get; }
+        public bool Overset => GetProperty<bool>("overset");
 
         [JsName("firstEmptyRegionIndex")]
-        public short FirstEmptyRegionIndex { get; }
+        public short FirstEmptyRegionIndex => GetProperty<short>("firstEmptyRegionIndex");
 
         [JsName("getRegions")]
-        public IReadOnlyList<Element> GetRegions() => throw new NotImplementedException();
+        public IReadOnlyList<Element> GetRegions() => Invoke<IReadOnlyList<Element>>("getRegions");
 
         [JsName("getContent")]
-        public IReadOnlyList<Node> GetContent() => throw new NotImplementedException();
+        public IReadOnlyList<Node> GetContent() => Invoke<IReadOnlyList<Node>>("getContent");
 
         [JsName("getRegionsByContent")]
-        public IReadOnlyList<Element> GetRegionsByContent(Node node) => throw new NotImplementedException();
+        public IReadOnlyList<Element> GetRegionsByContent(Node node) => Invoke<IReadOnlyList<Element>>("getRegionsByContent", node);
     }
 }

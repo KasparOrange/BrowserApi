@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSSRule")]
-    public partial class CssRule
+    public partial class CssRule : JsObject
     {
         public const ushort StyleRule = 1;
 
@@ -62,15 +62,19 @@ namespace BrowserApi.Css
         public const ushort FontFeatureValuesRule = 14;
 
         [JsName("cssText")]
-        public string CssText { get; set; }
+        public string CssText
+        {
+            get => GetProperty<string>("cssText");
+            set => SetProperty("cssText", value);
+        }
 
         [JsName("parentRule")]
-        public CssRule? ParentRule { get; }
+        public CssRule? ParentRule => GetProperty<CssRule?>("parentRule");
 
         [JsName("parentStyleSheet")]
-        public CssStyleSheet? ParentStyleSheet { get; }
+        public CssStyleSheet? ParentStyleSheet => GetProperty<CssStyleSheet?>("parentStyleSheet");
 
         [JsName("type")]
-        public ushort Type { get; }
+        public ushort Type => GetProperty<ushort>("type");
     }
 }

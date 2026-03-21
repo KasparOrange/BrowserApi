@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("TrustedHTML")]
-    public partial class TrustedHtml
+    public partial class TrustedHtml : JsObject
     {
         [JsName("toJSON")]
-        public string ToJsOn() => throw new NotImplementedException();
+        public string ToJsOn() => Invoke<string>("toJSON");
     }
 }

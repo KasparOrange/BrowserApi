@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSSNumericArray")]
-    public partial class CssNumericArray
+    public partial class CssNumericArray : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
     }
 }

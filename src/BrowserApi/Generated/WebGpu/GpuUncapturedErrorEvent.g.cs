@@ -36,6 +36,6 @@ namespace BrowserApi.WebGpu
     public partial class GpuUncapturedErrorEvent : Event
     {
         [JsName("error")]
-        public GpuError Error { get; }
+        public GpuError Error => GetProperty<GpuError>("error");
     }
 }

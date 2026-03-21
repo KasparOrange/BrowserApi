@@ -33,30 +33,34 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUBuffer")]
-    public partial class GpuBuffer
+    public partial class GpuBuffer : JsObject
     {
         [JsName("size")]
-        public ulong Size { get; }
+        public ulong Size => GetProperty<ulong>("size");
 
         [JsName("usage")]
-        public uint Usage { get; }
+        public uint Usage => GetProperty<uint>("usage");
 
         [JsName("mapState")]
-        public GpuBufferMapState MapState { get; }
+        public GpuBufferMapState MapState => GetProperty<GpuBufferMapState>("mapState");
 
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("mapAsync")]
-        public Task MapAsync(uint mode, ulong offset = 0, ulong? size = null) => throw new NotImplementedException();
+        public Task MapAsync(uint mode, ulong offset = 0, ulong? size = null) => InvokeVoidAsync("mapAsync", mode, offset, size);
 
         [JsName("getMappedRange")]
-        public byte[] GetMappedRange(ulong offset = 0, ulong? size = null) => throw new NotImplementedException();
+        public byte[] GetMappedRange(ulong offset = 0, ulong? size = null) => Invoke<byte[]>("getMappedRange", offset, size);
 
         [JsName("unmap")]
-        public void Unmap() => throw new NotImplementedException();
+        public void Unmap() => InvokeVoid("unmap");
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

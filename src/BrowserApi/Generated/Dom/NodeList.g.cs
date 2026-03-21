@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class NodeList
+    public partial class NodeList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public Node? Item(uint index) => throw new NotImplementedException();
+        public Node? Item(uint index) => Invoke<Node?>("item", index);
     }
 }

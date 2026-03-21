@@ -33,12 +33,16 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGAnimatedInteger")]
-    public partial class SvgAnimatedInteger
+    public partial class SvgAnimatedInteger : JsObject
     {
         [JsName("baseVal")]
-        public int BaseVal { get; set; }
+        public int BaseVal
+        {
+            get => GetProperty<int>("baseVal");
+            set => SetProperty("baseVal", value);
+        }
 
         [JsName("animVal")]
-        public int AnimVal { get; }
+        public int AnimVal => GetProperty<int>("animVal");
     }
 }

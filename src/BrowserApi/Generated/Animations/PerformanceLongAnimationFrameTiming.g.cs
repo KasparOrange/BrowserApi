@@ -35,39 +35,39 @@ namespace BrowserApi.Animations
     public partial class PerformanceLongAnimationFrameTiming : PerformanceEntry
     {
         [JsName("startTime")]
-        public double StartTime { get; }
+        public double StartTime => GetProperty<double>("startTime");
 
         [JsName("duration")]
-        public double Duration { get; }
+        public double Duration => GetProperty<double>("duration");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("entryType")]
-        public string EntryType { get; }
+        public string EntryType => GetProperty<string>("entryType");
 
         [JsName("renderStart")]
-        public double RenderStart { get; }
+        public double RenderStart => GetProperty<double>("renderStart");
 
         [JsName("styleAndLayoutStart")]
-        public double StyleAndLayoutStart { get; }
+        public double StyleAndLayoutStart => GetProperty<double>("styleAndLayoutStart");
 
         [JsName("blockingDuration")]
-        public double BlockingDuration { get; }
+        public double BlockingDuration => GetProperty<double>("blockingDuration");
 
         [JsName("firstUIEventTimestamp")]
-        public double FirstUieventTimestamp { get; }
+        public double FirstUieventTimestamp => GetProperty<double>("firstUIEventTimestamp");
 
         [JsName("scripts")]
-        public IReadOnlyList<PerformanceScriptTiming> Scripts { get; }
+        public IReadOnlyList<PerformanceScriptTiming> Scripts => GetProperty<IReadOnlyList<PerformanceScriptTiming>>("scripts");
 
         [JsName("paintTime")]
-        public double PaintTime { get; }
+        public double PaintTime => GetProperty<double>("paintTime");
 
         [JsName("presentationTime")]
-        public double? PresentationTime { get; }
+        public double? PresentationTime => GetProperty<double?>("presentationTime");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

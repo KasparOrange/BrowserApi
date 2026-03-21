@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class EpubReadingSystem
+    public partial class EpubReadingSystem : JsObject
     {
         [JsName("hasFeature")]
-        public bool HasFeature(string feature, string? version = null) => throw new NotImplementedException();
+        public bool HasFeature(string feature, string? version = null) => Invoke<bool>("hasFeature", feature, version);
     }
 }

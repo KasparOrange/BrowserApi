@@ -33,24 +33,24 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUCompilationMessage")]
-    public partial class GpuCompilationMessage
+    public partial class GpuCompilationMessage : JsObject
     {
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
 
         [JsName("type")]
-        public GpuCompilationMessageType Type { get; }
+        public GpuCompilationMessageType Type => GetProperty<GpuCompilationMessageType>("type");
 
         [JsName("lineNum")]
-        public ulong LineNum { get; }
+        public ulong LineNum => GetProperty<ulong>("lineNum");
 
         [JsName("linePos")]
-        public ulong LinePos { get; }
+        public ulong LinePos => GetProperty<ulong>("linePos");
 
         [JsName("offset")]
-        public ulong Offset { get; }
+        public ulong Offset => GetProperty<ulong>("offset");
 
         [JsName("length")]
-        public ulong Length { get; }
+        public ulong Length => GetProperty<ulong>("length");
     }
 }

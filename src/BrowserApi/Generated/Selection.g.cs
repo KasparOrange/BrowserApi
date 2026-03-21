@@ -32,78 +32,78 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Selection
+    public partial class Selection : JsObject
     {
         [JsName("anchorNode")]
-        public Node? AnchorNode { get; }
+        public Node? AnchorNode => GetProperty<Node?>("anchorNode");
 
         [JsName("anchorOffset")]
-        public uint AnchorOffset { get; }
+        public uint AnchorOffset => GetProperty<uint>("anchorOffset");
 
         [JsName("focusNode")]
-        public Node? FocusNode { get; }
+        public Node? FocusNode => GetProperty<Node?>("focusNode");
 
         [JsName("focusOffset")]
-        public uint FocusOffset { get; }
+        public uint FocusOffset => GetProperty<uint>("focusOffset");
 
         [JsName("isCollapsed")]
-        public bool IsCollapsed { get; }
+        public bool IsCollapsed => GetProperty<bool>("isCollapsed");
 
         [JsName("rangeCount")]
-        public uint RangeCount { get; }
+        public uint RangeCount => GetProperty<uint>("rangeCount");
 
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("direction")]
-        public string Direction { get; }
+        public string Direction => GetProperty<string>("direction");
 
         [JsName("getRangeAt")]
-        public DomRange GetRangeAt(uint index) => throw new NotImplementedException();
+        public DomRange GetRangeAt(uint index) => Invoke<DomRange>("getRangeAt", index);
 
         [JsName("addRange")]
-        public void AddRange(DomRange range) => throw new NotImplementedException();
+        public void AddRange(DomRange range) => InvokeVoid("addRange", range);
 
         [JsName("removeRange")]
-        public void RemoveRange(DomRange range) => throw new NotImplementedException();
+        public void RemoveRange(DomRange range) => InvokeVoid("removeRange", range);
 
         [JsName("removeAllRanges")]
-        public void RemoveAllRanges() => throw new NotImplementedException();
+        public void RemoveAllRanges() => InvokeVoid("removeAllRanges");
 
         [JsName("empty")]
-        public void Empty() => throw new NotImplementedException();
+        public void Empty() => InvokeVoid("empty");
 
         [JsName("getComposedRanges")]
-        public IReadOnlyList<StaticRange> GetComposedRanges(GetComposedRangesOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<StaticRange> GetComposedRanges(GetComposedRangesOptions? options = null) => Invoke<IReadOnlyList<StaticRange>>("getComposedRanges", options);
 
         [JsName("collapse")]
-        public void Collapse(Node? node, uint offset = 0) => throw new NotImplementedException();
+        public void Collapse(Node? node, uint offset = 0) => InvokeVoid("collapse", node, offset);
 
         [JsName("setPosition")]
-        public void SetPosition(Node? node, uint offset = 0) => throw new NotImplementedException();
+        public void SetPosition(Node? node, uint offset = 0) => InvokeVoid("setPosition", node, offset);
 
         [JsName("collapseToStart")]
-        public void CollapseToStart() => throw new NotImplementedException();
+        public void CollapseToStart() => InvokeVoid("collapseToStart");
 
         [JsName("collapseToEnd")]
-        public void CollapseToEnd() => throw new NotImplementedException();
+        public void CollapseToEnd() => InvokeVoid("collapseToEnd");
 
         [JsName("extend")]
-        public void Extend(Node node, uint offset = 0) => throw new NotImplementedException();
+        public void Extend(Node node, uint offset = 0) => InvokeVoid("extend", node, offset);
 
         [JsName("setBaseAndExtent")]
-        public void SetBaseAndExtent(Node anchorNode, uint anchorOffset, Node focusNode, uint focusOffset) => throw new NotImplementedException();
+        public void SetBaseAndExtent(Node anchorNode, uint anchorOffset, Node focusNode, uint focusOffset) => InvokeVoid("setBaseAndExtent", anchorNode, anchorOffset, focusNode, focusOffset);
 
         [JsName("selectAllChildren")]
-        public void SelectAllChildren(Node node) => throw new NotImplementedException();
+        public void SelectAllChildren(Node node) => InvokeVoid("selectAllChildren", node);
 
         [JsName("modify")]
-        public void Modify(string? alter = null, string? direction = null, string? granularity = null) => throw new NotImplementedException();
+        public void Modify(string? alter = null, string? direction = null, string? granularity = null) => InvokeVoid("modify", alter, direction, granularity);
 
         [JsName("deleteFromDocument")]
-        public void DeleteFromDocument() => throw new NotImplementedException();
+        public void DeleteFromDocument() => InvokeVoid("deleteFromDocument");
 
         [JsName("containsNode")]
-        public bool ContainsNode(Node node, bool allowPartialContainment = false) => throw new NotImplementedException();
+        public bool ContainsNode(Node node, bool allowPartialContainment = false) => Invoke<bool>("containsNode", node, allowPartialContainment);
     }
 }

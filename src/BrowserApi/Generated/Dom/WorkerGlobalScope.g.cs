@@ -35,99 +35,123 @@ namespace BrowserApi.Dom
     public partial class WorkerGlobalScope : EventTarget
     {
         [JsName("self")]
-        public WorkerGlobalScope Self { get; }
+        public WorkerGlobalScope Self => GetProperty<WorkerGlobalScope>("self");
 
         [JsName("location")]
-        public WorkerLocation Location { get; }
+        public WorkerLocation Location => GetProperty<WorkerLocation>("location");
 
         [JsName("navigator")]
-        public WorkerNavigator Navigator { get; }
+        public WorkerNavigator Navigator => GetProperty<WorkerNavigator>("navigator");
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onlanguagechange")]
-        public object Onlanguagechange { get; set; }
+        public object Onlanguagechange
+        {
+            get => GetProperty<object>("onlanguagechange");
+            set => SetProperty("onlanguagechange", value);
+        }
 
         [JsName("onoffline")]
-        public object Onoffline { get; set; }
+        public object Onoffline
+        {
+            get => GetProperty<object>("onoffline");
+            set => SetProperty("onoffline", value);
+        }
 
         [JsName("ononline")]
-        public object Ononline { get; set; }
+        public object Ononline
+        {
+            get => GetProperty<object>("ononline");
+            set => SetProperty("ononline", value);
+        }
 
         [JsName("onrejectionhandled")]
-        public object Onrejectionhandled { get; set; }
+        public object Onrejectionhandled
+        {
+            get => GetProperty<object>("onrejectionhandled");
+            set => SetProperty("onrejectionhandled", value);
+        }
 
         [JsName("onunhandledrejection")]
-        public object Onunhandledrejection { get; set; }
+        public object Onunhandledrejection
+        {
+            get => GetProperty<object>("onunhandledrejection");
+            set => SetProperty("onunhandledrejection", value);
+        }
 
         [JsName("fonts")]
-        public FontFaceSet Fonts { get; }
+        public FontFaceSet Fonts => GetProperty<FontFaceSet>("fonts");
 
         [JsName("origin")]
-        public string Origin { get; }
+        public string Origin => GetProperty<string>("origin");
 
         [JsName("isSecureContext")]
-        public bool IsSecureContext { get; }
+        public bool IsSecureContext => GetProperty<bool>("isSecureContext");
 
         [JsName("crossOriginIsolated")]
-        public bool CrossOriginIsolated { get; }
+        public bool CrossOriginIsolated => GetProperty<bool>("crossOriginIsolated");
 
         [JsName("performance")]
-        public Performance Performance { get; }
+        public Performance Performance => GetProperty<Performance>("performance");
 
         [JsName("indexedDB")]
-        public IdbFactory IndexedDb { get; }
+        public IdbFactory IndexedDb => GetProperty<IdbFactory>("indexedDB");
 
         [JsName("scheduler")]
-        public Scheduler Scheduler { get; }
+        public Scheduler Scheduler => GetProperty<Scheduler>("scheduler");
 
         [JsName("caches")]
-        public CacheStorage Caches { get; }
+        public CacheStorage Caches => GetProperty<CacheStorage>("caches");
 
         [JsName("trustedTypes")]
-        public TrustedTypePolicyFactory TrustedTypes { get; }
+        public TrustedTypePolicyFactory TrustedTypes => GetProperty<TrustedTypePolicyFactory>("trustedTypes");
 
         [JsName("crypto")]
-        public Crypto Crypto { get; }
+        public Crypto Crypto => GetProperty<Crypto>("crypto");
 
         [JsName("importScripts")]
-        public void ImportScripts(params object[] urls) => throw new NotImplementedException();
+        public void ImportScripts(params object[] urls) => InvokeVoid("importScripts", urls);
 
         [JsName("reportError")]
-        public void ReportError(object e) => throw new NotImplementedException();
+        public void ReportError(object e) => InvokeVoid("reportError", e);
 
         [JsName("btoa")]
-        public string Btoa(string data) => throw new NotImplementedException();
+        public string Btoa(string data) => Invoke<string>("btoa", data);
 
         [JsName("atob")]
-        public string Atob(string data) => throw new NotImplementedException();
+        public string Atob(string data) => Invoke<string>("atob", data);
 
         [JsName("setTimeout")]
-        public int SetTimeout(object handler, int timeout = 0, params object[] arguments) => throw new NotImplementedException();
+        public int SetTimeout(object handler, int timeout = 0, params object[] arguments) => Invoke<int>("setTimeout", handler, timeout, arguments);
 
         [JsName("clearTimeout")]
-        public void ClearTimeout(int id = 0) => throw new NotImplementedException();
+        public void ClearTimeout(int id = 0) => InvokeVoid("clearTimeout", id);
 
         [JsName("setInterval")]
-        public int SetInterval(object handler, int timeout = 0, params object[] arguments) => throw new NotImplementedException();
+        public int SetInterval(object handler, int timeout = 0, params object[] arguments) => Invoke<int>("setInterval", handler, timeout, arguments);
 
         [JsName("clearInterval")]
-        public void ClearInterval(int id = 0) => throw new NotImplementedException();
+        public void ClearInterval(int id = 0) => InvokeVoid("clearInterval", id);
 
         [JsName("queueMicrotask")]
-        public void QueueMicrotask(VoidFunction callback) => throw new NotImplementedException();
+        public void QueueMicrotask(VoidFunction callback) => InvokeVoid("queueMicrotask", callback);
 
         [JsName("createImageBitmap")]
-        public Task<ImageBitmap> CreateImageBitmapAsync(object image, ImageBitmapOptions? options = null) => throw new NotImplementedException();
+        public Task<ImageBitmap> CreateImageBitmapAsync(object image, ImageBitmapOptions? options = null) => InvokeAsync<ImageBitmap>("createImageBitmap", image, options);
 
         [JsName("createImageBitmap")]
-        public Task<ImageBitmap> CreateImageBitmapAsync(object image, int sx, int sy, int sw, int sh, ImageBitmapOptions? options = null) => throw new NotImplementedException();
+        public Task<ImageBitmap> CreateImageBitmapAsync(object image, int sx, int sy, int sw, int sh, ImageBitmapOptions? options = null) => InvokeAsync<ImageBitmap>("createImageBitmap", image, sx, sy, sw, sh, options);
 
         [JsName("structuredClone")]
-        public object StructuredClone(object value, object? options = null) => throw new NotImplementedException();
+        public object StructuredClone(object value, object? options = null) => Invoke<object>("structuredClone", value, options);
 
         [JsName("fetch")]
-        public Task<Response> FetchAsync(object input, RequestInit? init = null) => throw new NotImplementedException();
+        public Task<Response> FetchAsync(object input, RequestInit? init = null) => InvokeAsync<Response>("fetch", input, init);
     }
 }

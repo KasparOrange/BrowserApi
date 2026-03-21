@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRHand")]
-    public partial class XrHand
+    public partial class XrHand : JsObject
     {
         [JsName("size")]
-        public uint Size { get; }
+        public uint Size => GetProperty<uint>("size");
 
         [JsName("get")]
-        public XrJointSpace Get(XrHandJoint key) => throw new NotImplementedException();
+        public XrJointSpace Get(XrHandJoint key) => Invoke<XrJointSpace>("get", key);
     }
 }

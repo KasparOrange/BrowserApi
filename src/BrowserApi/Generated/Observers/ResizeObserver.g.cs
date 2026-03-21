@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Observers
 {
-    public partial class ResizeObserver
+    public partial class ResizeObserver : JsObject
     {
         [JsName("observe")]
-        public void Observe(Element target, ResizeObserverOptions? options = null) => throw new NotImplementedException();
+        public void Observe(Element target, ResizeObserverOptions? options = null) => InvokeVoid("observe", target, options);
 
         [JsName("unobserve")]
-        public void Unobserve(Element target) => throw new NotImplementedException();
+        public void Unobserve(Element target) => InvokeVoid("unobserve", target);
 
         [JsName("disconnect")]
-        public void Disconnect() => throw new NotImplementedException();
+        public void Disconnect() => InvokeVoid("disconnect");
     }
 }

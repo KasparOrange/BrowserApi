@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class XrInputSourceEvent : Event
     {
         [JsName("frame")]
-        public XrFrame Frame { get; }
+        public XrFrame Frame => GetProperty<XrFrame>("frame");
 
         [JsName("inputSource")]
-        public XrInputSource InputSource { get; }
+        public XrInputSource InputSource => GetProperty<XrInputSource>("inputSource");
     }
 }

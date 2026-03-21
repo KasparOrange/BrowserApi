@@ -54,135 +54,203 @@ namespace BrowserApi.Dom
         public const ushort HaveEnoughData = 4;
 
         [JsName("error")]
-        public MediaError? Error { get; }
+        public MediaError? Error => GetProperty<MediaError?>("error");
 
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("srcObject")]
-        public object SrcObject { get; set; }
+        public object SrcObject
+        {
+            get => GetProperty<object>("srcObject");
+            set => SetProperty("srcObject", value);
+        }
 
         [JsName("currentSrc")]
-        public string CurrentSrc { get; }
+        public string CurrentSrc => GetProperty<string>("currentSrc");
 
         [JsName("crossOrigin")]
-        public string? CrossOrigin { get; set; }
+        public string? CrossOrigin
+        {
+            get => GetProperty<string?>("crossOrigin");
+            set => SetProperty("crossOrigin", value);
+        }
 
         [JsName("networkState")]
-        public ushort NetworkState { get; }
+        public ushort NetworkState => GetProperty<ushort>("networkState");
 
         [JsName("preload")]
-        public string Preload { get; set; }
+        public string Preload
+        {
+            get => GetProperty<string>("preload");
+            set => SetProperty("preload", value);
+        }
 
         [JsName("buffered")]
-        public TimeRanges Buffered { get; }
+        public TimeRanges Buffered => GetProperty<TimeRanges>("buffered");
 
         [JsName("readyState")]
-        public ushort ReadyState { get; }
+        public ushort ReadyState => GetProperty<ushort>("readyState");
 
         [JsName("seeking")]
-        public bool Seeking { get; }
+        public bool Seeking => GetProperty<bool>("seeking");
 
         [JsName("currentTime")]
-        public double CurrentTime { get; set; }
+        public double CurrentTime
+        {
+            get => GetProperty<double>("currentTime");
+            set => SetProperty("currentTime", value);
+        }
 
         [JsName("duration")]
-        public double Duration { get; }
+        public double Duration => GetProperty<double>("duration");
 
         [JsName("paused")]
-        public bool Paused { get; }
+        public bool Paused => GetProperty<bool>("paused");
 
         [JsName("defaultPlaybackRate")]
-        public double DefaultPlaybackRate { get; set; }
+        public double DefaultPlaybackRate
+        {
+            get => GetProperty<double>("defaultPlaybackRate");
+            set => SetProperty("defaultPlaybackRate", value);
+        }
 
         [JsName("playbackRate")]
-        public double PlaybackRate { get; set; }
+        public double PlaybackRate
+        {
+            get => GetProperty<double>("playbackRate");
+            set => SetProperty("playbackRate", value);
+        }
 
         [JsName("preservesPitch")]
-        public bool PreservesPitch { get; set; }
+        public bool PreservesPitch
+        {
+            get => GetProperty<bool>("preservesPitch");
+            set => SetProperty("preservesPitch", value);
+        }
 
         [JsName("played")]
-        public TimeRanges Played { get; }
+        public TimeRanges Played => GetProperty<TimeRanges>("played");
 
         [JsName("seekable")]
-        public TimeRanges Seekable { get; }
+        public TimeRanges Seekable => GetProperty<TimeRanges>("seekable");
 
         [JsName("ended")]
-        public bool Ended { get; }
+        public bool Ended => GetProperty<bool>("ended");
 
         [JsName("autoplay")]
-        public bool Autoplay { get; set; }
+        public bool Autoplay
+        {
+            get => GetProperty<bool>("autoplay");
+            set => SetProperty("autoplay", value);
+        }
 
         [JsName("loop")]
-        public bool Loop { get; set; }
+        public bool Loop
+        {
+            get => GetProperty<bool>("loop");
+            set => SetProperty("loop", value);
+        }
 
         [JsName("controls")]
-        public bool Controls { get; set; }
+        public bool Controls
+        {
+            get => GetProperty<bool>("controls");
+            set => SetProperty("controls", value);
+        }
 
         [JsName("volume")]
-        public double Volume { get; set; }
+        public double Volume
+        {
+            get => GetProperty<double>("volume");
+            set => SetProperty("volume", value);
+        }
 
         [JsName("muted")]
-        public bool Muted { get; set; }
+        public bool Muted
+        {
+            get => GetProperty<bool>("muted");
+            set => SetProperty("muted", value);
+        }
 
         [JsName("defaultMuted")]
-        public bool DefaultMuted { get; set; }
+        public bool DefaultMuted
+        {
+            get => GetProperty<bool>("defaultMuted");
+            set => SetProperty("defaultMuted", value);
+        }
 
         [JsName("audioTracks")]
-        public AudioTrackList AudioTracks { get; }
+        public AudioTrackList AudioTracks => GetProperty<AudioTrackList>("audioTracks");
 
         [JsName("videoTracks")]
-        public VideoTrackList VideoTracks { get; }
+        public VideoTrackList VideoTracks => GetProperty<VideoTrackList>("videoTracks");
 
         [JsName("textTracks")]
-        public TextTrackList TextTracks { get; }
+        public TextTrackList TextTracks => GetProperty<TextTrackList>("textTracks");
 
         [JsName("sinkId")]
-        public string SinkId { get; }
+        public string SinkId => GetProperty<string>("sinkId");
 
         [JsName("mediaKeys")]
-        public MediaKeys? MediaKeys { get; }
+        public MediaKeys? MediaKeys => GetProperty<MediaKeys?>("mediaKeys");
 
         [JsName("onencrypted")]
-        public object Onencrypted { get; set; }
+        public object Onencrypted
+        {
+            get => GetProperty<object>("onencrypted");
+            set => SetProperty("onencrypted", value);
+        }
 
         [JsName("onwaitingforkey")]
-        public object Onwaitingforkey { get; set; }
+        public object Onwaitingforkey
+        {
+            get => GetProperty<object>("onwaitingforkey");
+            set => SetProperty("onwaitingforkey", value);
+        }
 
         [JsName("remote")]
-        public RemotePlayback Remote { get; }
+        public RemotePlayback Remote => GetProperty<RemotePlayback>("remote");
 
         [JsName("disableRemotePlayback")]
-        public bool DisableRemotePlayback { get; set; }
+        public bool DisableRemotePlayback
+        {
+            get => GetProperty<bool>("disableRemotePlayback");
+            set => SetProperty("disableRemotePlayback", value);
+        }
 
         [JsName("load")]
-        public void Load() => throw new NotImplementedException();
+        public void Load() => InvokeVoid("load");
 
         [JsName("canPlayType")]
-        public CanPlayTypeResult CanPlayType(string type) => throw new NotImplementedException();
+        public CanPlayTypeResult CanPlayType(string type) => Invoke<CanPlayTypeResult>("canPlayType", type);
 
         [JsName("fastSeek")]
-        public void FastSeek(double time) => throw new NotImplementedException();
+        public void FastSeek(double time) => InvokeVoid("fastSeek", time);
 
         [JsName("getStartDate")]
-        public object GetStartDate() => throw new NotImplementedException();
+        public object GetStartDate() => Invoke<object>("getStartDate");
 
         [JsName("play")]
-        public Task PlayAsync() => throw new NotImplementedException();
+        public Task PlayAsync() => InvokeVoidAsync("play");
 
         [JsName("pause")]
-        public void Pause() => throw new NotImplementedException();
+        public void Pause() => InvokeVoid("pause");
 
         [JsName("addTextTrack")]
-        public TextTrack AddTextTrack(TextTrackKind kind, string label = "", string language = "") => throw new NotImplementedException();
+        public TextTrack AddTextTrack(TextTrackKind kind, string label = "", string language = "") => Invoke<TextTrack>("addTextTrack", kind, label, language);
 
         [JsName("setSinkId")]
-        public Task SetSinkIdAsync(string sinkId) => throw new NotImplementedException();
+        public Task SetSinkIdAsync(string sinkId) => InvokeVoidAsync("setSinkId", sinkId);
 
         [JsName("setMediaKeys")]
-        public Task SetMediaKeysAsync(MediaKeys? mediaKeys) => throw new NotImplementedException();
+        public Task SetMediaKeysAsync(MediaKeys? mediaKeys) => InvokeVoidAsync("setMediaKeys", mediaKeys);
 
         [JsName("captureStream")]
-        public MediaStream CaptureStream() => throw new NotImplementedException();
+        public MediaStream CaptureStream() => Invoke<MediaStream>("captureStream");
     }
 }

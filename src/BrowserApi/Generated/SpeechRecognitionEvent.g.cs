@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class SpeechRecognitionEvent : Event
     {
         [JsName("resultIndex")]
-        public uint ResultIndex { get; }
+        public uint ResultIndex => GetProperty<uint>("resultIndex");
 
         [JsName("results")]
-        public SpeechRecognitionResultList Results { get; }
+        public SpeechRecognitionResultList Results => GetProperty<SpeechRecognitionResultList>("results");
     }
 }

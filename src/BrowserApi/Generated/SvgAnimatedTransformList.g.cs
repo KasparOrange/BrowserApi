@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGAnimatedTransformList")]
-    public partial class SvgAnimatedTransformList
+    public partial class SvgAnimatedTransformList : JsObject
     {
         [JsName("baseVal")]
-        public SvgTransformList BaseVal { get; }
+        public SvgTransformList BaseVal => GetProperty<SvgTransformList>("baseVal");
 
         [JsName("animVal")]
-        public SvgTransformList AnimVal { get; }
+        public SvgTransformList AnimVal => GetProperty<SvgTransformList>("animVal");
     }
 }

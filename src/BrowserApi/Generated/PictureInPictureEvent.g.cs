@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class PictureInPictureEvent : Event
     {
         [JsName("pictureInPictureWindow")]
-        public PictureInPictureWindow PictureInPictureWindow { get; }
+        public PictureInPictureWindow PictureInPictureWindow => GetProperty<PictureInPictureWindow>("pictureInPictureWindow");
     }
 }

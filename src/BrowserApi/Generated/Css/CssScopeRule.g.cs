@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssScopeRule : CssGroupingRule
     {
         [JsName("start")]
-        public string? Start { get; }
+        public string? Start => GetProperty<string?>("start");
 
         [JsName("end")]
-        public string? End { get; }
+        public string? End => GetProperty<string?>("end");
     }
 }

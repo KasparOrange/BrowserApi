@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("XPathResult")]
-    public partial class XpathResult
+    public partial class XpathResult : JsObject
     {
         public const ushort AnyType = 0;
 
@@ -56,30 +56,30 @@ namespace BrowserApi.Dom
         public const ushort FirstOrderedNodeType = 9;
 
         [JsName("resultType")]
-        public ushort ResultType { get; }
+        public ushort ResultType => GetProperty<ushort>("resultType");
 
         [JsName("numberValue")]
-        public double NumberValue { get; }
+        public double NumberValue => GetProperty<double>("numberValue");
 
         [JsName("stringValue")]
-        public string StringValue { get; }
+        public string StringValue => GetProperty<string>("stringValue");
 
         [JsName("booleanValue")]
-        public bool BooleanValue { get; }
+        public bool BooleanValue => GetProperty<bool>("booleanValue");
 
         [JsName("singleNodeValue")]
-        public Node? SingleNodeValue { get; }
+        public Node? SingleNodeValue => GetProperty<Node?>("singleNodeValue");
 
         [JsName("invalidIteratorState")]
-        public bool InvalidIteratorState { get; }
+        public bool InvalidIteratorState => GetProperty<bool>("invalidIteratorState");
 
         [JsName("snapshotLength")]
-        public uint SnapshotLength { get; }
+        public uint SnapshotLength => GetProperty<uint>("snapshotLength");
 
         [JsName("iterateNext")]
-        public Node? IterateNext() => throw new NotImplementedException();
+        public Node? IterateNext() => Invoke<Node?>("iterateNext");
 
         [JsName("snapshotItem")]
-        public Node? SnapshotItem(uint index) => throw new NotImplementedException();
+        public Node? SnapshotItem(uint index) => Invoke<Node?>("snapshotItem", index);
     }
 }

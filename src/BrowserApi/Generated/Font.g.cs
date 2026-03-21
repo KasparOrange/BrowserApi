@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Font
+    public partial class Font : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("glyphsRendered")]
-        public uint GlyphsRendered { get; }
+        public uint GlyphsRendered => GetProperty<uint>("glyphsRendered");
     }
 }

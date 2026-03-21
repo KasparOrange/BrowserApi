@@ -35,75 +35,151 @@ namespace BrowserApi.ServiceWorkers
     public partial class ServiceWorkerGlobalScope : WorkerGlobalScope
     {
         [JsName("clients")]
-        public Clients Clients { get; }
+        public Clients Clients => GetProperty<Clients>("clients");
 
         [JsName("registration")]
-        public ServiceWorkerRegistration Registration { get; }
+        public ServiceWorkerRegistration Registration => GetProperty<ServiceWorkerRegistration>("registration");
 
         [JsName("serviceWorker")]
-        public ServiceWorker ServiceWorker { get; }
+        public ServiceWorker ServiceWorker => GetProperty<ServiceWorker>("serviceWorker");
 
         [JsName("oninstall")]
-        public object Oninstall { get; set; }
+        public object Oninstall
+        {
+            get => GetProperty<object>("oninstall");
+            set => SetProperty("oninstall", value);
+        }
 
         [JsName("onactivate")]
-        public object Onactivate { get; set; }
+        public object Onactivate
+        {
+            get => GetProperty<object>("onactivate");
+            set => SetProperty("onactivate", value);
+        }
 
         [JsName("onfetch")]
-        public object Onfetch { get; set; }
+        public object Onfetch
+        {
+            get => GetProperty<object>("onfetch");
+            set => SetProperty("onfetch", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("onmessageerror")]
-        public object Onmessageerror { get; set; }
+        public object Onmessageerror
+        {
+            get => GetProperty<object>("onmessageerror");
+            set => SetProperty("onmessageerror", value);
+        }
 
         [JsName("onbackgroundfetchsuccess")]
-        public object Onbackgroundfetchsuccess { get; set; }
+        public object Onbackgroundfetchsuccess
+        {
+            get => GetProperty<object>("onbackgroundfetchsuccess");
+            set => SetProperty("onbackgroundfetchsuccess", value);
+        }
 
         [JsName("onbackgroundfetchfail")]
-        public object Onbackgroundfetchfail { get; set; }
+        public object Onbackgroundfetchfail
+        {
+            get => GetProperty<object>("onbackgroundfetchfail");
+            set => SetProperty("onbackgroundfetchfail", value);
+        }
 
         [JsName("onbackgroundfetchabort")]
-        public object Onbackgroundfetchabort { get; set; }
+        public object Onbackgroundfetchabort
+        {
+            get => GetProperty<object>("onbackgroundfetchabort");
+            set => SetProperty("onbackgroundfetchabort", value);
+        }
 
         [JsName("onbackgroundfetchclick")]
-        public object Onbackgroundfetchclick { get; set; }
+        public object Onbackgroundfetchclick
+        {
+            get => GetProperty<object>("onbackgroundfetchclick");
+            set => SetProperty("onbackgroundfetchclick", value);
+        }
 
         [JsName("onsync")]
-        public object Onsync { get; set; }
+        public object Onsync
+        {
+            get => GetProperty<object>("onsync");
+            set => SetProperty("onsync", value);
+        }
 
         [JsName("oncontentdelete")]
-        public object Oncontentdelete { get; set; }
+        public object Oncontentdelete
+        {
+            get => GetProperty<object>("oncontentdelete");
+            set => SetProperty("oncontentdelete", value);
+        }
 
         [JsName("cookieStore")]
-        public CookieStore CookieStore { get; }
+        public CookieStore CookieStore => GetProperty<CookieStore>("cookieStore");
 
         [JsName("oncookiechange")]
-        public object Oncookiechange { get; set; }
+        public object Oncookiechange
+        {
+            get => GetProperty<object>("oncookiechange");
+            set => SetProperty("oncookiechange", value);
+        }
 
         [JsName("onnotificationclick")]
-        public object Onnotificationclick { get; set; }
+        public object Onnotificationclick
+        {
+            get => GetProperty<object>("onnotificationclick");
+            set => SetProperty("onnotificationclick", value);
+        }
 
         [JsName("onnotificationclose")]
-        public object Onnotificationclose { get; set; }
+        public object Onnotificationclose
+        {
+            get => GetProperty<object>("onnotificationclose");
+            set => SetProperty("onnotificationclose", value);
+        }
 
         [JsName("onperiodicsync")]
-        public object Onperiodicsync { get; set; }
+        public object Onperiodicsync
+        {
+            get => GetProperty<object>("onperiodicsync");
+            set => SetProperty("onperiodicsync", value);
+        }
 
         [JsName("onpush")]
-        public object Onpush { get; set; }
+        public object Onpush
+        {
+            get => GetProperty<object>("onpush");
+            set => SetProperty("onpush", value);
+        }
 
         [JsName("onpushsubscriptionchange")]
-        public object Onpushsubscriptionchange { get; set; }
+        public object Onpushsubscriptionchange
+        {
+            get => GetProperty<object>("onpushsubscriptionchange");
+            set => SetProperty("onpushsubscriptionchange", value);
+        }
 
         [JsName("oncanmakepayment")]
-        public object Oncanmakepayment { get; set; }
+        public object Oncanmakepayment
+        {
+            get => GetProperty<object>("oncanmakepayment");
+            set => SetProperty("oncanmakepayment", value);
+        }
 
         [JsName("onpaymentrequest")]
-        public object Onpaymentrequest { get; set; }
+        public object Onpaymentrequest
+        {
+            get => GetProperty<object>("onpaymentrequest");
+            set => SetProperty("onpaymentrequest", value);
+        }
 
         [JsName("skipWaiting")]
-        public Task SkipWaitingAsync() => throw new NotImplementedException();
+        public Task SkipWaitingAsync() => InvokeVoidAsync("skipWaiting");
     }
 }

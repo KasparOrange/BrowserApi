@@ -36,27 +36,27 @@ namespace BrowserApi
     public partial class SvgFeimageElement : SvgElement
     {
         [JsName("preserveAspectRatio")]
-        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio { get; }
+        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio => GetProperty<SvgAnimatedPreserveAspectRatio>("preserveAspectRatio");
 
         [JsName("crossOrigin")]
-        public SvgAnimatedString CrossOrigin { get; }
+        public SvgAnimatedString CrossOrigin => GetProperty<SvgAnimatedString>("crossOrigin");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
 
         [JsName("href")]
-        public SvgAnimatedString Href { get; }
+        public SvgAnimatedString Href => GetProperty<SvgAnimatedString>("href");
     }
 }

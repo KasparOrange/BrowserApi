@@ -33,66 +33,70 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("IDBObjectStore")]
-    public partial class IdbObjectStore
+    public partial class IdbObjectStore : JsObject
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("keyPath")]
-        public object KeyPath { get; }
+        public object KeyPath => GetProperty<object>("keyPath");
 
         [JsName("indexNames")]
-        public DomStringList IndexNames { get; }
+        public DomStringList IndexNames => GetProperty<DomStringList>("indexNames");
 
         [JsName("transaction")]
-        public IdbTransaction Transaction { get; }
+        public IdbTransaction Transaction => GetProperty<IdbTransaction>("transaction");
 
         [JsName("autoIncrement")]
-        public bool AutoIncrement { get; }
+        public bool AutoIncrement => GetProperty<bool>("autoIncrement");
 
         [JsName("put")]
-        public IdbRequest Put(object value, object? key = null) => throw new NotImplementedException();
+        public IdbRequest Put(object value, object? key = null) => Invoke<IdbRequest>("put", value, key);
 
         [JsName("add")]
-        public IdbRequest Add(object value, object? key = null) => throw new NotImplementedException();
+        public IdbRequest Add(object value, object? key = null) => Invoke<IdbRequest>("add", value, key);
 
         [JsName("delete")]
-        public IdbRequest Delete(object query) => throw new NotImplementedException();
+        public IdbRequest Delete(object query) => Invoke<IdbRequest>("delete", query);
 
         [JsName("clear")]
-        public IdbRequest Clear() => throw new NotImplementedException();
+        public IdbRequest Clear() => Invoke<IdbRequest>("clear");
 
         [JsName("get")]
-        public IdbRequest Get(object query) => throw new NotImplementedException();
+        public IdbRequest Get(object query) => Invoke<IdbRequest>("get", query);
 
         [JsName("getKey")]
-        public IdbRequest GetKey(object query) => throw new NotImplementedException();
+        public IdbRequest GetKey(object query) => Invoke<IdbRequest>("getKey", query);
 
         [JsName("getAll")]
-        public IdbRequest GetAll(object? queryOrOptions = null, uint? count = null) => throw new NotImplementedException();
+        public IdbRequest GetAll(object? queryOrOptions = null, uint? count = null) => Invoke<IdbRequest>("getAll", queryOrOptions, count);
 
         [JsName("getAllKeys")]
-        public IdbRequest GetAllKeys(object? queryOrOptions = null, uint? count = null) => throw new NotImplementedException();
+        public IdbRequest GetAllKeys(object? queryOrOptions = null, uint? count = null) => Invoke<IdbRequest>("getAllKeys", queryOrOptions, count);
 
         [JsName("getAllRecords")]
-        public IdbRequest GetAllRecords(IdbGetAllOptions? options = null) => throw new NotImplementedException();
+        public IdbRequest GetAllRecords(IdbGetAllOptions? options = null) => Invoke<IdbRequest>("getAllRecords", options);
 
         [JsName("count")]
-        public IdbRequest Count(object? query = null) => throw new NotImplementedException();
+        public IdbRequest Count(object? query = null) => Invoke<IdbRequest>("count", query);
 
         [JsName("openCursor")]
-        public IdbRequest OpenCursor(object? query = null, IdbCursorDirection? direction = null) => throw new NotImplementedException();
+        public IdbRequest OpenCursor(object? query = null, IdbCursorDirection? direction = null) => Invoke<IdbRequest>("openCursor", query, direction);
 
         [JsName("openKeyCursor")]
-        public IdbRequest OpenKeyCursor(object? query = null, IdbCursorDirection? direction = null) => throw new NotImplementedException();
+        public IdbRequest OpenKeyCursor(object? query = null, IdbCursorDirection? direction = null) => Invoke<IdbRequest>("openKeyCursor", query, direction);
 
         [JsName("index")]
-        public IdbIndex Index(string name) => throw new NotImplementedException();
+        public IdbIndex Index(string name) => Invoke<IdbIndex>("index", name);
 
         [JsName("createIndex")]
-        public IdbIndex CreateIndex(string name, object keyPath, IdbIndexParameters? options = null) => throw new NotImplementedException();
+        public IdbIndex CreateIndex(string name, object keyPath, IdbIndexParameters? options = null) => Invoke<IdbIndex>("createIndex", name, keyPath, options);
 
         [JsName("deleteIndex")]
-        public void DeleteIndex(string name) => throw new NotImplementedException();
+        public void DeleteIndex(string name) => InvokeVoid("deleteIndex", name);
     }
 }

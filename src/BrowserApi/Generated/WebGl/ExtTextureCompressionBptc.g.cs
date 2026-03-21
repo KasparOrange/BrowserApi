@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_texture_compression_bptc")]
-    public partial class ExtTextureCompressionBptc
+    public partial class ExtTextureCompressionBptc : JsObject
     {
         public const uint CompressedRgbaBptcUnormExt = 0x8E8C;
 

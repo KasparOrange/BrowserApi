@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRInputSourceArray")]
-    public partial class XrInputSourceArray
+    public partial class XrInputSourceArray : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
     }
 }

@@ -32,33 +32,33 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class LayoutConstraints
+    public partial class LayoutConstraints : JsObject
     {
         [JsName("availableInlineSize")]
-        public double AvailableInlineSize { get; }
+        public double AvailableInlineSize => GetProperty<double>("availableInlineSize");
 
         [JsName("availableBlockSize")]
-        public double AvailableBlockSize { get; }
+        public double AvailableBlockSize => GetProperty<double>("availableBlockSize");
 
         [JsName("fixedInlineSize")]
-        public double? FixedInlineSize { get; }
+        public double? FixedInlineSize => GetProperty<double?>("fixedInlineSize");
 
         [JsName("fixedBlockSize")]
-        public double? FixedBlockSize { get; }
+        public double? FixedBlockSize => GetProperty<double?>("fixedBlockSize");
 
         [JsName("percentageInlineSize")]
-        public double PercentageInlineSize { get; }
+        public double PercentageInlineSize => GetProperty<double>("percentageInlineSize");
 
         [JsName("percentageBlockSize")]
-        public double PercentageBlockSize { get; }
+        public double PercentageBlockSize => GetProperty<double>("percentageBlockSize");
 
         [JsName("blockFragmentationOffset")]
-        public double? BlockFragmentationOffset { get; }
+        public double? BlockFragmentationOffset => GetProperty<double?>("blockFragmentationOffset");
 
         [JsName("blockFragmentationType")]
-        public BlockFragmentationType BlockFragmentationType { get; }
+        public BlockFragmentationType BlockFragmentationType => GetProperty<BlockFragmentationType>("blockFragmentationType");
 
         [JsName("data")]
-        public object Data { get; }
+        public object Data => GetProperty<object>("data");
     }
 }

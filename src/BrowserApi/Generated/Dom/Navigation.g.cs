@@ -35,51 +35,67 @@ namespace BrowserApi.Dom
     public partial class Navigation : EventTarget
     {
         [JsName("currentEntry")]
-        public NavigationHistoryEntry? CurrentEntry { get; }
+        public NavigationHistoryEntry? CurrentEntry => GetProperty<NavigationHistoryEntry?>("currentEntry");
 
         [JsName("transition")]
-        public NavigationTransition? Transition { get; }
+        public NavigationTransition? Transition => GetProperty<NavigationTransition?>("transition");
 
         [JsName("activation")]
-        public NavigationActivation? Activation { get; }
+        public NavigationActivation? Activation => GetProperty<NavigationActivation?>("activation");
 
         [JsName("canGoBack")]
-        public bool CanGoBack { get; }
+        public bool CanGoBack => GetProperty<bool>("canGoBack");
 
         [JsName("canGoForward")]
-        public bool CanGoForward { get; }
+        public bool CanGoForward => GetProperty<bool>("canGoForward");
 
         [JsName("onnavigate")]
-        public object Onnavigate { get; set; }
+        public object Onnavigate
+        {
+            get => GetProperty<object>("onnavigate");
+            set => SetProperty("onnavigate", value);
+        }
 
         [JsName("onnavigatesuccess")]
-        public object Onnavigatesuccess { get; set; }
+        public object Onnavigatesuccess
+        {
+            get => GetProperty<object>("onnavigatesuccess");
+            set => SetProperty("onnavigatesuccess", value);
+        }
 
         [JsName("onnavigateerror")]
-        public object Onnavigateerror { get; set; }
+        public object Onnavigateerror
+        {
+            get => GetProperty<object>("onnavigateerror");
+            set => SetProperty("onnavigateerror", value);
+        }
 
         [JsName("oncurrententrychange")]
-        public object Oncurrententrychange { get; set; }
+        public object Oncurrententrychange
+        {
+            get => GetProperty<object>("oncurrententrychange");
+            set => SetProperty("oncurrententrychange", value);
+        }
 
         [JsName("entries")]
-        public IReadOnlyList<NavigationHistoryEntry> Entries() => throw new NotImplementedException();
+        public IReadOnlyList<NavigationHistoryEntry> Entries() => Invoke<IReadOnlyList<NavigationHistoryEntry>>("entries");
 
         [JsName("updateCurrentEntry")]
-        public void UpdateCurrentEntry(NavigationUpdateCurrentEntryOptions options) => throw new NotImplementedException();
+        public void UpdateCurrentEntry(NavigationUpdateCurrentEntryOptions options) => InvokeVoid("updateCurrentEntry", options);
 
         [JsName("navigate")]
-        public NavigationResult Navigate(string url, NavigationNavigateOptions? options = null) => throw new NotImplementedException();
+        public NavigationResult Navigate(string url, NavigationNavigateOptions? options = null) => Invoke<NavigationResult>("navigate", url, options);
 
         [JsName("reload")]
-        public NavigationResult Reload(NavigationReloadOptions? options = null) => throw new NotImplementedException();
+        public NavigationResult Reload(NavigationReloadOptions? options = null) => Invoke<NavigationResult>("reload", options);
 
         [JsName("traverseTo")]
-        public NavigationResult TraverseTo(string key, NavigationOptions? options = null) => throw new NotImplementedException();
+        public NavigationResult TraverseTo(string key, NavigationOptions? options = null) => Invoke<NavigationResult>("traverseTo", key, options);
 
         [JsName("back")]
-        public NavigationResult Back(NavigationOptions? options = null) => throw new NotImplementedException();
+        public NavigationResult Back(NavigationOptions? options = null) => Invoke<NavigationResult>("back", options);
 
         [JsName("forward")]
-        public NavigationResult Forward(NavigationOptions? options = null) => throw new NotImplementedException();
+        public NavigationResult Forward(NavigationOptions? options = null) => Invoke<NavigationResult>("forward", options);
     }
 }

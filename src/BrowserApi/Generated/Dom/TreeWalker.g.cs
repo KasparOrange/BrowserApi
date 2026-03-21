@@ -32,39 +32,43 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class TreeWalker
+    public partial class TreeWalker : JsObject
     {
         [JsName("root")]
-        public Node Root { get; }
+        public Node Root => GetProperty<Node>("root");
 
         [JsName("whatToShow")]
-        public uint WhatToShow { get; }
+        public uint WhatToShow => GetProperty<uint>("whatToShow");
 
         [JsName("filter")]
-        public NodeFilter? Filter { get; }
+        public NodeFilter? Filter => GetProperty<NodeFilter?>("filter");
 
         [JsName("currentNode")]
-        public Node CurrentNode { get; set; }
+        public Node CurrentNode
+        {
+            get => GetProperty<Node>("currentNode");
+            set => SetProperty("currentNode", value);
+        }
 
         [JsName("parentNode")]
-        public Node? ParentNode() => throw new NotImplementedException();
+        public Node? ParentNode() => Invoke<Node?>("parentNode");
 
         [JsName("firstChild")]
-        public Node? FirstChild() => throw new NotImplementedException();
+        public Node? FirstChild() => Invoke<Node?>("firstChild");
 
         [JsName("lastChild")]
-        public Node? LastChild() => throw new NotImplementedException();
+        public Node? LastChild() => Invoke<Node?>("lastChild");
 
         [JsName("previousSibling")]
-        public Node? PreviousSibling() => throw new NotImplementedException();
+        public Node? PreviousSibling() => Invoke<Node?>("previousSibling");
 
         [JsName("nextSibling")]
-        public Node? NextSibling() => throw new NotImplementedException();
+        public Node? NextSibling() => Invoke<Node?>("nextSibling");
 
         [JsName("previousNode")]
-        public Node? PreviousNode() => throw new NotImplementedException();
+        public Node? PreviousNode() => Invoke<Node?>("previousNode");
 
         [JsName("nextNode")]
-        public Node? NextNode() => throw new NotImplementedException();
+        public Node? NextNode() => Invoke<Node?>("nextNode");
     }
 }

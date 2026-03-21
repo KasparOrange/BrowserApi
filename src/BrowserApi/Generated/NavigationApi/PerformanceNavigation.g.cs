@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.NavigationApi
 {
-    public partial class PerformanceNavigation
+    public partial class PerformanceNavigation : JsObject
     {
         public const ushort TypeNavigate = 0;
 
@@ -43,12 +43,12 @@ namespace BrowserApi.NavigationApi
         public const ushort TypeReserved = 255;
 
         [JsName("type")]
-        public ushort Type { get; }
+        public ushort Type => GetProperty<ushort>("type");
 
         [JsName("redirectCount")]
-        public ushort RedirectCount { get; }
+        public ushort RedirectCount => GetProperty<ushort>("redirectCount");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

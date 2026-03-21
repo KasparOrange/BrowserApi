@@ -36,12 +36,24 @@ namespace BrowserApi.Dom
     public partial class HtmlFontElement : HtmlElement
     {
         [JsName("color")]
-        public string Color { get; set; }
+        public string Color
+        {
+            get => GetProperty<string>("color");
+            set => SetProperty("color", value);
+        }
 
         [JsName("face")]
-        public string Face { get; set; }
+        public string Face
+        {
+            get => GetProperty<string>("face");
+            set => SetProperty("face", value);
+        }
 
         [JsName("size")]
-        public string Size { get; set; }
+        public string Size
+        {
+            get => GetProperty<string>("size");
+            set => SetProperty("size", value);
+        }
     }
 }

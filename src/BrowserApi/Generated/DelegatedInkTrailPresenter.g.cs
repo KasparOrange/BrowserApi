@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class DelegatedInkTrailPresenter
+    public partial class DelegatedInkTrailPresenter : JsObject
     {
         [JsName("presentationArea")]
-        public Element? PresentationArea { get; }
+        public Element? PresentationArea => GetProperty<Element?>("presentationArea");
 
         [JsName("updateInkTrailStartPoint")]
-        public void UpdateInkTrailStartPoint(PointerEvent @event, InkTrailStyle style) => throw new NotImplementedException();
+        public void UpdateInkTrailStartPoint(PointerEvent @event, InkTrailStyle style) => InvokeVoid("updateInkTrailStartPoint", @event, style);
     }
 }

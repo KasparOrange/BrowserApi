@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssAnimation : Animation
     {
         [JsName("animationName")]
-        public string AnimationName { get; }
+        public string AnimationName => GetProperty<string>("animationName");
     }
 }

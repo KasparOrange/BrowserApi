@@ -36,6 +36,6 @@ namespace BrowserApi.WebRtc
     public partial class RtcerrorEvent : Event
     {
         [JsName("error")]
-        public Rtcerror Error { get; }
+        public Rtcerror Error => GetProperty<Rtcerror>("error");
     }
 }

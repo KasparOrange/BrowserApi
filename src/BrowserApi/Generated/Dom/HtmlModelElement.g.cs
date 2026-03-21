@@ -36,24 +36,36 @@ namespace BrowserApi.Dom
     public partial class HtmlModelElement : HtmlElement
     {
         [JsName("ready")]
-        public Task<HtmlModelElement> Ready { get; }
+        public Task<HtmlModelElement> Ready => GetProperty<Task<HtmlModelElement>>("ready");
 
         [JsName("boundingBoxCenter")]
-        public DomPointReadOnly BoundingBoxCenter { get; }
+        public DomPointReadOnly BoundingBoxCenter => GetProperty<DomPointReadOnly>("boundingBoxCenter");
 
         [JsName("boundingBoxExtents")]
-        public DomPointReadOnly BoundingBoxExtents { get; }
+        public DomPointReadOnly BoundingBoxExtents => GetProperty<DomPointReadOnly>("boundingBoxExtents");
 
         [JsName("entityTransform")]
-        public DomMatrixReadOnly EntityTransform { get; set; }
+        public DomMatrixReadOnly EntityTransform
+        {
+            get => GetProperty<DomMatrixReadOnly>("entityTransform");
+            set => SetProperty("entityTransform", value);
+        }
 
         [JsName("environmentMap")]
-        public string EnvironmentMap { get; set; }
+        public string EnvironmentMap
+        {
+            get => GetProperty<string>("environmentMap");
+            set => SetProperty("environmentMap", value);
+        }
 
         [JsName("environmentMapReady")]
-        public Task EnvironmentMapReady { get; }
+        public Task EnvironmentMapReady => GetProperty<Task>("environmentMapReady");
 
         [JsName("stageMode")]
-        public string StageMode { get; set; }
+        public string StageMode
+        {
+            get => GetProperty<string>("stageMode");
+            set => SetProperty("stageMode", value);
+        }
     }
 }

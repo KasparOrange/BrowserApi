@@ -36,27 +36,27 @@ namespace BrowserApi
     public partial class SvgFespotLightElement : SvgElement
     {
         [JsName("x")]
-        public SvgAnimatedNumber X { get; }
+        public SvgAnimatedNumber X => GetProperty<SvgAnimatedNumber>("x");
 
         [JsName("y")]
-        public SvgAnimatedNumber Y { get; }
+        public SvgAnimatedNumber Y => GetProperty<SvgAnimatedNumber>("y");
 
         [JsName("z")]
-        public SvgAnimatedNumber Z { get; }
+        public SvgAnimatedNumber Z => GetProperty<SvgAnimatedNumber>("z");
 
         [JsName("pointsAtX")]
-        public SvgAnimatedNumber PointsAtX { get; }
+        public SvgAnimatedNumber PointsAtX => GetProperty<SvgAnimatedNumber>("pointsAtX");
 
         [JsName("pointsAtY")]
-        public SvgAnimatedNumber PointsAtY { get; }
+        public SvgAnimatedNumber PointsAtY => GetProperty<SvgAnimatedNumber>("pointsAtY");
 
         [JsName("pointsAtZ")]
-        public SvgAnimatedNumber PointsAtZ { get; }
+        public SvgAnimatedNumber PointsAtZ => GetProperty<SvgAnimatedNumber>("pointsAtZ");
 
         [JsName("specularExponent")]
-        public SvgAnimatedNumber SpecularExponent { get; }
+        public SvgAnimatedNumber SpecularExponent => GetProperty<SvgAnimatedNumber>("specularExponent");
 
         [JsName("limitingConeAngle")]
-        public SvgAnimatedNumber LimitingConeAngle { get; }
+        public SvgAnimatedNumber LimitingConeAngle => GetProperty<SvgAnimatedNumber>("limitingConeAngle");
     }
 }

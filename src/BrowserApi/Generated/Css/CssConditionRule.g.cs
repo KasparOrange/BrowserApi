@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssConditionRule : CssGroupingRule
     {
         [JsName("conditionText")]
-        public string ConditionText { get; }
+        public string ConditionText => GetProperty<string>("conditionText");
     }
 }

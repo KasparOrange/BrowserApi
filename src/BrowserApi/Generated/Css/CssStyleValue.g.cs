@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSSStyleValue")]
-    public partial class CssStyleValue
+    public partial class CssStyleValue : JsObject
     {
         [JsName("parse")]
         public static CssStyleValue Parse(string property, string cssText) => throw new NotImplementedException();

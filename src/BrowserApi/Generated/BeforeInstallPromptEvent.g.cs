@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class BeforeInstallPromptEvent : Event
     {
         [JsName("prompt")]
-        public Task<PromptResponseObject> PromptAsync() => throw new NotImplementedException();
+        public Task<PromptResponseObject> PromptAsync() => InvokeAsync<PromptResponseObject>("prompt");
     }
 }

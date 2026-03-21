@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Fetch
 {
-    public partial class Headers
+    public partial class Headers : JsObject
     {
         [JsName("append")]
-        public void Append(string name, string value) => throw new NotImplementedException();
+        public void Append(string name, string value) => InvokeVoid("append", name, value);
 
         [JsName("delete")]
-        public void Delete(string name) => throw new NotImplementedException();
+        public void Delete(string name) => InvokeVoid("delete", name);
 
         [JsName("get")]
-        public string? Get(string name) => throw new NotImplementedException();
+        public string? Get(string name) => Invoke<string?>("get", name);
 
         [JsName("getSetCookie")]
-        public IReadOnlyList<string> GetSetCookie() => throw new NotImplementedException();
+        public IReadOnlyList<string> GetSetCookie() => Invoke<IReadOnlyList<string>>("getSetCookie");
 
         [JsName("has")]
-        public bool Has(string name) => throw new NotImplementedException();
+        public bool Has(string name) => Invoke<bool>("has", name);
 
         [JsName("set")]
-        public void Set(string name, string value) => throw new NotImplementedException();
+        public void Set(string name, string value) => InvokeVoid("set", name, value);
     }
 }

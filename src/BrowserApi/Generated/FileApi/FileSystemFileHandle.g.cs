@@ -35,12 +35,12 @@ namespace BrowserApi.FileApi
     public partial class FileSystemFileHandle : FileSystemHandle
     {
         [JsName("getFile")]
-        public Task<WebFile> GetFileAsync() => throw new NotImplementedException();
+        public Task<WebFile> GetFileAsync() => InvokeAsync<WebFile>("getFile");
 
         [JsName("createWritable")]
-        public Task<FileSystemWritableFileStream> CreateWritableAsync(FileSystemCreateWritableOptions? options = null) => throw new NotImplementedException();
+        public Task<FileSystemWritableFileStream> CreateWritableAsync(FileSystemCreateWritableOptions? options = null) => InvokeAsync<FileSystemWritableFileStream>("createWritable", options);
 
         [JsName("createSyncAccessHandle")]
-        public Task<FileSystemSyncAccessHandle> CreateSyncAccessHandleAsync() => throw new NotImplementedException();
+        public Task<FileSystemSyncAccessHandle> CreateSyncAccessHandleAsync() => InvokeAsync<FileSystemSyncAccessHandle>("createSyncAccessHandle");
     }
 }

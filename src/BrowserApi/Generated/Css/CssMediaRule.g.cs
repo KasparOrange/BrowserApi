@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssMediaRule : CssConditionRule
     {
         [JsName("media")]
-        public MediaList Media { get; }
+        public MediaList Media => GetProperty<MediaList>("media");
 
         [JsName("matches")]
-        public bool Matches { get; }
+        public bool Matches => GetProperty<bool>("matches");
     }
 }

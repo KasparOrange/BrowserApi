@@ -36,27 +36,31 @@ namespace BrowserApi.Css
     public partial class CssFontFeatureValuesRule : CssRule
     {
         [JsName("fontFamily")]
-        public string FontFamily { get; set; }
+        public string FontFamily
+        {
+            get => GetProperty<string>("fontFamily");
+            set => SetProperty("fontFamily", value);
+        }
 
         [JsName("annotation")]
-        public CssFontFeatureValuesMap Annotation { get; }
+        public CssFontFeatureValuesMap Annotation => GetProperty<CssFontFeatureValuesMap>("annotation");
 
         [JsName("ornaments")]
-        public CssFontFeatureValuesMap Ornaments { get; }
+        public CssFontFeatureValuesMap Ornaments => GetProperty<CssFontFeatureValuesMap>("ornaments");
 
         [JsName("stylistic")]
-        public CssFontFeatureValuesMap Stylistic { get; }
+        public CssFontFeatureValuesMap Stylistic => GetProperty<CssFontFeatureValuesMap>("stylistic");
 
         [JsName("swash")]
-        public CssFontFeatureValuesMap Swash { get; }
+        public CssFontFeatureValuesMap Swash => GetProperty<CssFontFeatureValuesMap>("swash");
 
         [JsName("characterVariant")]
-        public CssFontFeatureValuesMap CharacterVariant { get; }
+        public CssFontFeatureValuesMap CharacterVariant => GetProperty<CssFontFeatureValuesMap>("characterVariant");
 
         [JsName("styleset")]
-        public CssFontFeatureValuesMap Styleset { get; }
+        public CssFontFeatureValuesMap Styleset => GetProperty<CssFontFeatureValuesMap>("styleset");
 
         [JsName("historicalForms")]
-        public CssFontFeatureValuesMap HistoricalForms { get; }
+        public CssFontFeatureValuesMap HistoricalForms => GetProperty<CssFontFeatureValuesMap>("historicalForms");
     }
 }

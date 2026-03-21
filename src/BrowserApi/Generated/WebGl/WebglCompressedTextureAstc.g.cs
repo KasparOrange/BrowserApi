@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_compressed_texture_astc")]
-    public partial class WebglCompressedTextureAstc
+    public partial class WebglCompressedTextureAstc : JsObject
     {
         public const uint CompressedRgbaAstc4x4Khr = 0x93B0;
 
@@ -92,6 +92,6 @@ namespace BrowserApi.WebGl
         public const uint CompressedSrgb8Alpha8Astc12x12Khr = 0x93DD;
 
         [JsName("getSupportedProfiles")]
-        public IReadOnlyList<string> GetSupportedProfiles() => throw new NotImplementedException();
+        public IReadOnlyList<string> GetSupportedProfiles() => Invoke<IReadOnlyList<string>>("getSupportedProfiles");
     }
 }

@@ -32,33 +32,33 @@ using BrowserApi.WebSockets;
 
 namespace BrowserApi.WebStorage
 {
-    public partial class StorageBucket
+    public partial class StorageBucket : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("indexedDB")]
-        public IdbFactory IndexedDb { get; }
+        public IdbFactory IndexedDb => GetProperty<IdbFactory>("indexedDB");
 
         [JsName("caches")]
-        public CacheStorage Caches { get; }
+        public CacheStorage Caches => GetProperty<CacheStorage>("caches");
 
         [JsName("persist")]
-        public Task<bool> PersistAsync() => throw new NotImplementedException();
+        public Task<bool> PersistAsync() => InvokeAsync<bool>("persist");
 
         [JsName("persisted")]
-        public Task<bool> PersistedAsync() => throw new NotImplementedException();
+        public Task<bool> PersistedAsync() => InvokeAsync<bool>("persisted");
 
         [JsName("estimate")]
-        public Task<StorageEstimate> EstimateAsync() => throw new NotImplementedException();
+        public Task<StorageEstimate> EstimateAsync() => InvokeAsync<StorageEstimate>("estimate");
 
         [JsName("setExpires")]
-        public Task SetExpiresAsync(double expires) => throw new NotImplementedException();
+        public Task SetExpiresAsync(double expires) => InvokeVoidAsync("setExpires", expires);
 
         [JsName("expires")]
-        public Task<double?> ExpiresAsync() => throw new NotImplementedException();
+        public Task<double?> ExpiresAsync() => InvokeAsync<double?>("expires");
 
         [JsName("getDirectory")]
-        public Task<FileSystemDirectoryHandle> GetDirectoryAsync() => throw new NotImplementedException();
+        public Task<FileSystemDirectoryHandle> GetDirectoryAsync() => InvokeAsync<FileSystemDirectoryHandle>("getDirectory");
     }
 }

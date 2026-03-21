@@ -32,33 +32,33 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class MutationRecord
+    public partial class MutationRecord : JsObject
     {
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("target")]
-        public Node Target { get; }
+        public Node Target => GetProperty<Node>("target");
 
         [JsName("addedNodes")]
-        public NodeList AddedNodes { get; }
+        public NodeList AddedNodes => GetProperty<NodeList>("addedNodes");
 
         [JsName("removedNodes")]
-        public NodeList RemovedNodes { get; }
+        public NodeList RemovedNodes => GetProperty<NodeList>("removedNodes");
 
         [JsName("previousSibling")]
-        public Node? PreviousSibling { get; }
+        public Node? PreviousSibling => GetProperty<Node?>("previousSibling");
 
         [JsName("nextSibling")]
-        public Node? NextSibling { get; }
+        public Node? NextSibling => GetProperty<Node?>("nextSibling");
 
         [JsName("attributeName")]
-        public string? AttributeName { get; }
+        public string? AttributeName => GetProperty<string?>("attributeName");
 
         [JsName("attributeNamespace")]
-        public string? AttributeNamespace { get; }
+        public string? AttributeNamespace => GetProperty<string?>("attributeNamespace");
 
         [JsName("oldValue")]
-        public string? OldValue { get; }
+        public string? OldValue => GetProperty<string?>("oldValue");
     }
 }

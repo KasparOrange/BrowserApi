@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class UsbConnectionEvent : Event
     {
         [JsName("device")]
-        public UsbDevice Device { get; }
+        public UsbDevice Device => GetProperty<UsbDevice>("device");
     }
 }

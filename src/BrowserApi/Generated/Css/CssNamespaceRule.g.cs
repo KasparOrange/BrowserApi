@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssNamespaceRule : CssRule
     {
         [JsName("namespaceURI")]
-        public string NamespaceUri { get; }
+        public string NamespaceUri => GetProperty<string>("namespaceURI");
 
         [JsName("prefix")]
-        public string Prefix { get; }
+        public string Prefix => GetProperty<string>("prefix");
     }
 }

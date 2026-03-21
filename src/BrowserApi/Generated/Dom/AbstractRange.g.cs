@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class AbstractRange
+    public partial class AbstractRange : JsObject
     {
         [JsName("startContainer")]
-        public Node StartContainer { get; }
+        public Node StartContainer => GetProperty<Node>("startContainer");
 
         [JsName("startOffset")]
-        public uint StartOffset { get; }
+        public uint StartOffset => GetProperty<uint>("startOffset");
 
         [JsName("endContainer")]
-        public Node EndContainer { get; }
+        public Node EndContainer => GetProperty<Node>("endContainer");
 
         [JsName("endOffset")]
-        public uint EndOffset { get; }
+        public uint EndOffset => GetProperty<uint>("endOffset");
 
         [JsName("collapsed")]
-        public bool Collapsed { get; }
+        public bool Collapsed => GetProperty<bool>("collapsed");
     }
 }

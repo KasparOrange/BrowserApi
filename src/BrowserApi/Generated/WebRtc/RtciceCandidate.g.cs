@@ -33,57 +33,57 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCIceCandidate")]
-    public partial class RtciceCandidate
+    public partial class RtciceCandidate : JsObject
     {
         [JsName("candidate")]
-        public string Candidate { get; }
+        public string Candidate => GetProperty<string>("candidate");
 
         [JsName("sdpMid")]
-        public string? SdpMid { get; }
+        public string? SdpMid => GetProperty<string?>("sdpMid");
 
         [JsName("sdpMLineIndex")]
-        public ushort? SdpMlineIndex { get; }
+        public ushort? SdpMlineIndex => GetProperty<ushort?>("sdpMLineIndex");
 
         [JsName("foundation")]
-        public string? Foundation { get; }
+        public string? Foundation => GetProperty<string?>("foundation");
 
         [JsName("component")]
-        public RtciceComponent? Component { get; }
+        public RtciceComponent? Component => GetProperty<RtciceComponent?>("component");
 
         [JsName("priority")]
-        public uint? Priority { get; }
+        public uint? Priority => GetProperty<uint?>("priority");
 
         [JsName("address")]
-        public string? Address { get; }
+        public string? Address => GetProperty<string?>("address");
 
         [JsName("protocol")]
-        public RtciceProtocol? Protocol { get; }
+        public RtciceProtocol? Protocol => GetProperty<RtciceProtocol?>("protocol");
 
         [JsName("port")]
-        public ushort? Port { get; }
+        public ushort? Port => GetProperty<ushort?>("port");
 
         [JsName("type")]
-        public RtciceCandidateType? Type { get; }
+        public RtciceCandidateType? Type => GetProperty<RtciceCandidateType?>("type");
 
         [JsName("tcpType")]
-        public RtciceTcpCandidateType? TcpType { get; }
+        public RtciceTcpCandidateType? TcpType => GetProperty<RtciceTcpCandidateType?>("tcpType");
 
         [JsName("relatedAddress")]
-        public string? RelatedAddress { get; }
+        public string? RelatedAddress => GetProperty<string?>("relatedAddress");
 
         [JsName("relatedPort")]
-        public ushort? RelatedPort { get; }
+        public ushort? RelatedPort => GetProperty<ushort?>("relatedPort");
 
         [JsName("usernameFragment")]
-        public string? UsernameFragment { get; }
+        public string? UsernameFragment => GetProperty<string?>("usernameFragment");
 
         [JsName("relayProtocol")]
-        public RtciceServerTransportProtocol? RelayProtocol { get; }
+        public RtciceServerTransportProtocol? RelayProtocol => GetProperty<RtciceServerTransportProtocol?>("relayProtocol");
 
         [JsName("url")]
-        public string? Url { get; }
+        public string? Url => GetProperty<string?>("url");
 
         [JsName("toJSON")]
-        public RtciceCandidateInit ToJsOn() => throw new NotImplementedException();
+        public RtciceCandidateInit ToJsOn() => Invoke<RtciceCandidateInit>("toJSON");
     }
 }

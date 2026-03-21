@@ -35,9 +35,9 @@ namespace BrowserApi.Css
     public partial class MediaQueryListEvent : Event
     {
         [JsName("media")]
-        public string Media { get; }
+        public string Media => GetProperty<string>("media");
 
         [JsName("matches")]
-        public bool Matches { get; }
+        public bool Matches => GetProperty<bool>("matches");
     }
 }

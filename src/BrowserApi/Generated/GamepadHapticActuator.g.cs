@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class GamepadHapticActuator
+    public partial class GamepadHapticActuator : JsObject
     {
         [JsName("effects")]
-        public IReadOnlyList<GamepadHapticEffectType> Effects { get; }
+        public IReadOnlyList<GamepadHapticEffectType> Effects => GetProperty<IReadOnlyList<GamepadHapticEffectType>>("effects");
 
         [JsName("playEffect")]
-        public Task<GamepadHapticsResult> PlayEffectAsync(GamepadHapticEffectType type, GamepadEffectParameters? @params = null) => throw new NotImplementedException();
+        public Task<GamepadHapticsResult> PlayEffectAsync(GamepadHapticEffectType type, GamepadEffectParameters? @params = null) => InvokeAsync<GamepadHapticsResult>("playEffect", type, @params);
 
         [JsName("reset")]
-        public Task<GamepadHapticsResult> ResetAsync() => throw new NotImplementedException();
+        public Task<GamepadHapticsResult> ResetAsync() => InvokeAsync<GamepadHapticsResult>("reset");
 
         [JsName("pulse")]
-        public Task<bool> PulseAsync(double value, double duration) => throw new NotImplementedException();
+        public Task<bool> PulseAsync(double value, double duration) => InvokeAsync<bool>("pulse", value, duration);
     }
 }

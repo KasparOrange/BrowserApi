@@ -32,10 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class External
+    public partial class External : JsObject
     {
-        public void AddSearchProvider() => throw new NotImplementedException();
+        [JsName("AddSearchProvider")]
+        public void AddSearchProvider() => InvokeVoid("AddSearchProvider");
 
-        public void IsSearchProviderInstalled() => throw new NotImplementedException();
+        [JsName("IsSearchProviderInstalled")]
+        public void IsSearchProviderInstalled() => InvokeVoid("IsSearchProviderInstalled");
     }
 }

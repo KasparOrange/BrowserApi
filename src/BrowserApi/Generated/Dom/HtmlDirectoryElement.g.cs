@@ -36,6 +36,10 @@ namespace BrowserApi.Dom
     public partial class HtmlDirectoryElement : HtmlElement
     {
         [JsName("compact")]
-        public bool Compact { get; set; }
+        public bool Compact
+        {
+            get => GetProperty<bool>("compact");
+            set => SetProperty("compact", value);
+        }
     }
 }

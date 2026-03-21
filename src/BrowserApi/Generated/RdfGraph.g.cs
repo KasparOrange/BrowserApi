@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class RdfGraph
+    public partial class RdfGraph : JsObject
     {
         [JsName("add")]
-        public void Add(RdfTriple triple) => throw new NotImplementedException();
+        public void Add(RdfTriple triple) => InvokeVoid("add", triple);
     }
 }

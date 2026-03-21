@@ -36,33 +36,33 @@ namespace BrowserApi
     public partial class SvgFediffuseLightingElement : SvgElement
     {
         [JsName("in1")]
-        public SvgAnimatedString In1 { get; }
+        public SvgAnimatedString In1 => GetProperty<SvgAnimatedString>("in1");
 
         [JsName("surfaceScale")]
-        public SvgAnimatedNumber SurfaceScale { get; }
+        public SvgAnimatedNumber SurfaceScale => GetProperty<SvgAnimatedNumber>("surfaceScale");
 
         [JsName("diffuseConstant")]
-        public SvgAnimatedNumber DiffuseConstant { get; }
+        public SvgAnimatedNumber DiffuseConstant => GetProperty<SvgAnimatedNumber>("diffuseConstant");
 
         [JsName("kernelUnitLengthX")]
-        public SvgAnimatedNumber KernelUnitLengthX { get; }
+        public SvgAnimatedNumber KernelUnitLengthX => GetProperty<SvgAnimatedNumber>("kernelUnitLengthX");
 
         [JsName("kernelUnitLengthY")]
-        public SvgAnimatedNumber KernelUnitLengthY { get; }
+        public SvgAnimatedNumber KernelUnitLengthY => GetProperty<SvgAnimatedNumber>("kernelUnitLengthY");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
     }
 }

@@ -32,33 +32,33 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class WorkerLocation
+    public partial class WorkerLocation : JsObject
     {
         [JsName("href")]
-        public string Href { get; }
+        public string Href => GetProperty<string>("href");
 
         [JsName("origin")]
-        public string Origin { get; }
+        public string Origin => GetProperty<string>("origin");
 
         [JsName("protocol")]
-        public string Protocol { get; }
+        public string Protocol => GetProperty<string>("protocol");
 
         [JsName("host")]
-        public string Host { get; }
+        public string Host => GetProperty<string>("host");
 
         [JsName("hostname")]
-        public string Hostname { get; }
+        public string Hostname => GetProperty<string>("hostname");
 
         [JsName("port")]
-        public string Port { get; }
+        public string Port => GetProperty<string>("port");
 
         [JsName("pathname")]
-        public string Pathname { get; }
+        public string Pathname => GetProperty<string>("pathname");
 
         [JsName("search")]
-        public string Search { get; }
+        public string Search => GetProperty<string>("search");
 
         [JsName("hash")]
-        public string Hash { get; }
+        public string Hash => GetProperty<string>("hash");
     }
 }

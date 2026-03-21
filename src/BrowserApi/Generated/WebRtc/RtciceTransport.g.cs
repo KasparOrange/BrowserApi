@@ -36,57 +36,77 @@ namespace BrowserApi.WebRtc
     public partial class RtciceTransport : EventTarget
     {
         [JsName("role")]
-        public RtciceRole Role { get; }
+        public RtciceRole Role => GetProperty<RtciceRole>("role");
 
         [JsName("component")]
-        public RtciceComponent Component { get; }
+        public RtciceComponent Component => GetProperty<RtciceComponent>("component");
 
         [JsName("state")]
-        public RtciceTransportState State { get; }
+        public RtciceTransportState State => GetProperty<RtciceTransportState>("state");
 
         [JsName("gatheringState")]
-        public RtciceGathererState GatheringState { get; }
+        public RtciceGathererState GatheringState => GetProperty<RtciceGathererState>("gatheringState");
 
         [JsName("onstatechange")]
-        public object Onstatechange { get; set; }
+        public object Onstatechange
+        {
+            get => GetProperty<object>("onstatechange");
+            set => SetProperty("onstatechange", value);
+        }
 
         [JsName("ongatheringstatechange")]
-        public object Ongatheringstatechange { get; set; }
+        public object Ongatheringstatechange
+        {
+            get => GetProperty<object>("ongatheringstatechange");
+            set => SetProperty("ongatheringstatechange", value);
+        }
 
         [JsName("onselectedcandidatepairchange")]
-        public object Onselectedcandidatepairchange { get; set; }
+        public object Onselectedcandidatepairchange
+        {
+            get => GetProperty<object>("onselectedcandidatepairchange");
+            set => SetProperty("onselectedcandidatepairchange", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onicecandidate")]
-        public object Onicecandidate { get; set; }
+        public object Onicecandidate
+        {
+            get => GetProperty<object>("onicecandidate");
+            set => SetProperty("onicecandidate", value);
+        }
 
         [JsName("getLocalCandidates")]
-        public IReadOnlyList<RtciceCandidate> GetLocalCandidates() => throw new NotImplementedException();
+        public IReadOnlyList<RtciceCandidate> GetLocalCandidates() => Invoke<IReadOnlyList<RtciceCandidate>>("getLocalCandidates");
 
         [JsName("getRemoteCandidates")]
-        public IReadOnlyList<RtciceCandidate> GetRemoteCandidates() => throw new NotImplementedException();
+        public IReadOnlyList<RtciceCandidate> GetRemoteCandidates() => Invoke<IReadOnlyList<RtciceCandidate>>("getRemoteCandidates");
 
         [JsName("getSelectedCandidatePair")]
-        public RtciceCandidatePair? GetSelectedCandidatePair() => throw new NotImplementedException();
+        public RtciceCandidatePair? GetSelectedCandidatePair() => Invoke<RtciceCandidatePair?>("getSelectedCandidatePair");
 
         [JsName("getLocalParameters")]
-        public RtciceParameters? GetLocalParameters() => throw new NotImplementedException();
+        public RtciceParameters? GetLocalParameters() => Invoke<RtciceParameters?>("getLocalParameters");
 
         [JsName("getRemoteParameters")]
-        public RtciceParameters? GetRemoteParameters() => throw new NotImplementedException();
+        public RtciceParameters? GetRemoteParameters() => Invoke<RtciceParameters?>("getRemoteParameters");
 
         [JsName("gather")]
-        public void Gather(RtciceGatherOptions? options = null) => throw new NotImplementedException();
+        public void Gather(RtciceGatherOptions? options = null) => InvokeVoid("gather", options);
 
         [JsName("start")]
-        public void Start(RtciceParameters? remoteParameters = null, RtciceRole? role = null) => throw new NotImplementedException();
+        public void Start(RtciceParameters? remoteParameters = null, RtciceRole? role = null) => InvokeVoid("start", remoteParameters, role);
 
         [JsName("stop")]
-        public void Stop() => throw new NotImplementedException();
+        public void Stop() => InvokeVoid("stop");
 
         [JsName("addRemoteCandidate")]
-        public void AddRemoteCandidate(RtciceCandidateInit? remoteCandidate = null) => throw new NotImplementedException();
+        public void AddRemoteCandidate(RtciceCandidateInit? remoteCandidate = null) => InvokeVoid("addRemoteCandidate", remoteCandidate);
     }
 }

@@ -33,19 +33,19 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("IDBKeyRange")]
-    public partial class IdbKeyRange
+    public partial class IdbKeyRange : JsObject
     {
         [JsName("lower")]
-        public object Lower { get; }
+        public object Lower => GetProperty<object>("lower");
 
         [JsName("upper")]
-        public object Upper { get; }
+        public object Upper => GetProperty<object>("upper");
 
         [JsName("lowerOpen")]
-        public bool LowerOpen { get; }
+        public bool LowerOpen => GetProperty<bool>("lowerOpen");
 
         [JsName("upperOpen")]
-        public bool UpperOpen { get; }
+        public bool UpperOpen => GetProperty<bool>("upperOpen");
 
         [JsName("only")]
         public static IdbKeyRange Only(object value) => throw new NotImplementedException();
@@ -60,6 +60,6 @@ namespace BrowserApi
         public static IdbKeyRange Bound(object lower, object upper, bool lowerOpen = false, bool upperOpen = false) => throw new NotImplementedException();
 
         [JsName("includes")]
-        public bool Includes(object key) => throw new NotImplementedException();
+        public bool Includes(object key) => Invoke<bool>("includes", key);
     }
 }

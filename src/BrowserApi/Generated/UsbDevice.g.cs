@@ -33,102 +33,102 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("USBDevice")]
-    public partial class UsbDevice
+    public partial class UsbDevice : JsObject
     {
         [JsName("usbVersionMajor")]
-        public byte UsbVersionMajor { get; }
+        public byte UsbVersionMajor => GetProperty<byte>("usbVersionMajor");
 
         [JsName("usbVersionMinor")]
-        public byte UsbVersionMinor { get; }
+        public byte UsbVersionMinor => GetProperty<byte>("usbVersionMinor");
 
         [JsName("usbVersionSubminor")]
-        public byte UsbVersionSubminor { get; }
+        public byte UsbVersionSubminor => GetProperty<byte>("usbVersionSubminor");
 
         [JsName("deviceClass")]
-        public byte DeviceClass { get; }
+        public byte DeviceClass => GetProperty<byte>("deviceClass");
 
         [JsName("deviceSubclass")]
-        public byte DeviceSubclass { get; }
+        public byte DeviceSubclass => GetProperty<byte>("deviceSubclass");
 
         [JsName("deviceProtocol")]
-        public byte DeviceProtocol { get; }
+        public byte DeviceProtocol => GetProperty<byte>("deviceProtocol");
 
         [JsName("vendorId")]
-        public ushort VendorId { get; }
+        public ushort VendorId => GetProperty<ushort>("vendorId");
 
         [JsName("productId")]
-        public ushort ProductId { get; }
+        public ushort ProductId => GetProperty<ushort>("productId");
 
         [JsName("deviceVersionMajor")]
-        public byte DeviceVersionMajor { get; }
+        public byte DeviceVersionMajor => GetProperty<byte>("deviceVersionMajor");
 
         [JsName("deviceVersionMinor")]
-        public byte DeviceVersionMinor { get; }
+        public byte DeviceVersionMinor => GetProperty<byte>("deviceVersionMinor");
 
         [JsName("deviceVersionSubminor")]
-        public byte DeviceVersionSubminor { get; }
+        public byte DeviceVersionSubminor => GetProperty<byte>("deviceVersionSubminor");
 
         [JsName("manufacturerName")]
-        public string? ManufacturerName { get; }
+        public string? ManufacturerName => GetProperty<string?>("manufacturerName");
 
         [JsName("productName")]
-        public string? ProductName { get; }
+        public string? ProductName => GetProperty<string?>("productName");
 
         [JsName("serialNumber")]
-        public string? SerialNumber { get; }
+        public string? SerialNumber => GetProperty<string?>("serialNumber");
 
         [JsName("configuration")]
-        public UsbConfiguration? Configuration { get; }
+        public UsbConfiguration? Configuration => GetProperty<UsbConfiguration?>("configuration");
 
         [JsName("configurations")]
-        public IReadOnlyList<UsbConfiguration> Configurations { get; }
+        public IReadOnlyList<UsbConfiguration> Configurations => GetProperty<IReadOnlyList<UsbConfiguration>>("configurations");
 
         [JsName("opened")]
-        public bool Opened { get; }
+        public bool Opened => GetProperty<bool>("opened");
 
         [JsName("open")]
-        public Task OpenAsync() => throw new NotImplementedException();
+        public Task OpenAsync() => InvokeVoidAsync("open");
 
         [JsName("close")]
-        public Task CloseAsync() => throw new NotImplementedException();
+        public Task CloseAsync() => InvokeVoidAsync("close");
 
         [JsName("forget")]
-        public Task ForgetAsync() => throw new NotImplementedException();
+        public Task ForgetAsync() => InvokeVoidAsync("forget");
 
         [JsName("selectConfiguration")]
-        public Task SelectConfigurationAsync(byte configurationValue) => throw new NotImplementedException();
+        public Task SelectConfigurationAsync(byte configurationValue) => InvokeVoidAsync("selectConfiguration", configurationValue);
 
         [JsName("claimInterface")]
-        public Task ClaimInterfaceAsync(byte interfaceNumber) => throw new NotImplementedException();
+        public Task ClaimInterfaceAsync(byte interfaceNumber) => InvokeVoidAsync("claimInterface", interfaceNumber);
 
         [JsName("releaseInterface")]
-        public Task ReleaseInterfaceAsync(byte interfaceNumber) => throw new NotImplementedException();
+        public Task ReleaseInterfaceAsync(byte interfaceNumber) => InvokeVoidAsync("releaseInterface", interfaceNumber);
 
         [JsName("selectAlternateInterface")]
-        public Task SelectAlternateInterfaceAsync(byte interfaceNumber, byte alternateSetting) => throw new NotImplementedException();
+        public Task SelectAlternateInterfaceAsync(byte interfaceNumber, byte alternateSetting) => InvokeVoidAsync("selectAlternateInterface", interfaceNumber, alternateSetting);
 
         [JsName("controlTransferIn")]
-        public Task<UsbInTransferResult> ControlTransferInAsync(UsbControlTransferParameters setup, ushort length) => throw new NotImplementedException();
+        public Task<UsbInTransferResult> ControlTransferInAsync(UsbControlTransferParameters setup, ushort length) => InvokeAsync<UsbInTransferResult>("controlTransferIn", setup, length);
 
         [JsName("controlTransferOut")]
-        public Task<UsbOutTransferResult> ControlTransferOutAsync(UsbControlTransferParameters setup, byte[]? data = null) => throw new NotImplementedException();
+        public Task<UsbOutTransferResult> ControlTransferOutAsync(UsbControlTransferParameters setup, byte[]? data = null) => InvokeAsync<UsbOutTransferResult>("controlTransferOut", setup, data);
 
         [JsName("clearHalt")]
-        public Task ClearHaltAsync(UsbDirection direction, byte endpointNumber) => throw new NotImplementedException();
+        public Task ClearHaltAsync(UsbDirection direction, byte endpointNumber) => InvokeVoidAsync("clearHalt", direction, endpointNumber);
 
         [JsName("transferIn")]
-        public Task<UsbInTransferResult> TransferInAsync(byte endpointNumber, uint length) => throw new NotImplementedException();
+        public Task<UsbInTransferResult> TransferInAsync(byte endpointNumber, uint length) => InvokeAsync<UsbInTransferResult>("transferIn", endpointNumber, length);
 
         [JsName("transferOut")]
-        public Task<UsbOutTransferResult> TransferOutAsync(byte endpointNumber, byte[] data) => throw new NotImplementedException();
+        public Task<UsbOutTransferResult> TransferOutAsync(byte endpointNumber, byte[] data) => InvokeAsync<UsbOutTransferResult>("transferOut", endpointNumber, data);
 
         [JsName("isochronousTransferIn")]
-        public Task<UsbIsochronousInTransferResult> IsochronousTransferInAsync(byte endpointNumber, IReadOnlyList<uint> packetLengths) => throw new NotImplementedException();
+        public Task<UsbIsochronousInTransferResult> IsochronousTransferInAsync(byte endpointNumber, IReadOnlyList<uint> packetLengths) => InvokeAsync<UsbIsochronousInTransferResult>("isochronousTransferIn", endpointNumber, packetLengths);
 
         [JsName("isochronousTransferOut")]
-        public Task<UsbIsochronousOutTransferResult> IsochronousTransferOutAsync(byte endpointNumber, byte[] data, IReadOnlyList<uint> packetLengths) => throw new NotImplementedException();
+        public Task<UsbIsochronousOutTransferResult> IsochronousTransferOutAsync(byte endpointNumber, byte[] data, IReadOnlyList<uint> packetLengths) => InvokeAsync<UsbIsochronousOutTransferResult>("isochronousTransferOut", endpointNumber, data, packetLengths);
 
         [JsName("reset")]
-        public Task ResetAsync() => throw new NotImplementedException();
+        public Task ResetAsync() => InvokeVoidAsync("reset");
     }
 }

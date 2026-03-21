@@ -32,28 +32,28 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ImageDecoder
+    public partial class ImageDecoder : JsObject
     {
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("complete")]
-        public bool Complete { get; }
+        public bool Complete => GetProperty<bool>("complete");
 
         [JsName("completed")]
-        public Task Completed { get; }
+        public Task Completed => GetProperty<Task>("completed");
 
         [JsName("tracks")]
-        public ImageTrackList Tracks { get; }
+        public ImageTrackList Tracks => GetProperty<ImageTrackList>("tracks");
 
         [JsName("decode")]
-        public Task<ImageDecodeResult> DecodeAsync(ImageDecodeOptions? options = null) => throw new NotImplementedException();
+        public Task<ImageDecodeResult> DecodeAsync(ImageDecodeOptions? options = null) => InvokeAsync<ImageDecodeResult>("decode", options);
 
         [JsName("reset")]
-        public void Reset() => throw new NotImplementedException();
+        public void Reset() => InvokeVoid("reset");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("isTypeSupported")]
         public static Task<bool> IsTypeSupportedAsync(string type) => throw new NotImplementedException();

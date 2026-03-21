@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGUnitTypes")]
-    public partial class SvgUnitTypes
+    public partial class SvgUnitTypes : JsObject
     {
         public const ushort SvgUnitTypeUnknown = 0;
 

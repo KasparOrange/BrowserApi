@@ -33,33 +33,37 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("DOMTokenList")]
-    public partial class DomTokenList
+    public partial class DomTokenList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("item")]
-        public string? Item(uint index) => throw new NotImplementedException();
+        public string? Item(uint index) => Invoke<string?>("item", index);
 
         [JsName("contains")]
-        public bool Contains(string token) => throw new NotImplementedException();
+        public bool Contains(string token) => Invoke<bool>("contains", token);
 
         [JsName("add")]
-        public void Add(params object[] tokens) => throw new NotImplementedException();
+        public void Add(params object[] tokens) => InvokeVoid("add", tokens);
 
         [JsName("remove")]
-        public void Remove(params object[] tokens) => throw new NotImplementedException();
+        public void Remove(params object[] tokens) => InvokeVoid("remove", tokens);
 
         [JsName("toggle")]
-        public bool Toggle(string token, bool? force = null) => throw new NotImplementedException();
+        public bool Toggle(string token, bool? force = null) => Invoke<bool>("toggle", token, force);
 
         [JsName("replace")]
-        public bool Replace(string token, string newToken) => throw new NotImplementedException();
+        public bool Replace(string token, string newToken) => Invoke<bool>("replace", token, newToken);
 
         [JsName("supports")]
-        public bool Supports(string token) => throw new NotImplementedException();
+        public bool Supports(string token) => Invoke<bool>("supports", token);
     }
 }

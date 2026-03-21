@@ -32,12 +32,16 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Payments
 {
-    public partial class PaymentManager
+    public partial class PaymentManager : JsObject
     {
         [JsName("userHint")]
-        public string UserHint { get; set; }
+        public string UserHint
+        {
+            get => GetProperty<string>("userHint");
+            set => SetProperty("userHint", value);
+        }
 
         [JsName("enableDelegations")]
-        public Task EnableDelegationsAsync(IReadOnlyList<PaymentDelegation> delegations) => throw new NotImplementedException();
+        public Task EnableDelegationsAsync(IReadOnlyList<PaymentDelegation> delegations) => InvokeVoidAsync("enableDelegations", delegations);
     }
 }

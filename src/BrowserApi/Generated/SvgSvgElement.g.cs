@@ -36,159 +36,247 @@ namespace BrowserApi
     public partial class SvgSvgElement : SvgGraphicsElement
     {
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("currentScale")]
-        public float CurrentScale { get; set; }
+        public float CurrentScale
+        {
+            get => GetProperty<float>("currentScale");
+            set => SetProperty("currentScale", value);
+        }
 
         [JsName("currentTranslate")]
-        public DomPointReadOnly CurrentTranslate { get; }
+        public DomPointReadOnly CurrentTranslate => GetProperty<DomPointReadOnly>("currentTranslate");
 
         [JsName("viewBox")]
-        public SvgAnimatedRect ViewBox { get; }
+        public SvgAnimatedRect ViewBox => GetProperty<SvgAnimatedRect>("viewBox");
 
         [JsName("preserveAspectRatio")]
-        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio { get; }
+        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio => GetProperty<SvgAnimatedPreserveAspectRatio>("preserveAspectRatio");
 
         [JsName("onafterprint")]
-        public object Onafterprint { get; set; }
+        public object Onafterprint
+        {
+            get => GetProperty<object>("onafterprint");
+            set => SetProperty("onafterprint", value);
+        }
 
         [JsName("onbeforeprint")]
-        public object Onbeforeprint { get; set; }
+        public object Onbeforeprint
+        {
+            get => GetProperty<object>("onbeforeprint");
+            set => SetProperty("onbeforeprint", value);
+        }
 
         [JsName("onbeforeunload")]
-        public object Onbeforeunload { get; set; }
+        public object Onbeforeunload
+        {
+            get => GetProperty<object>("onbeforeunload");
+            set => SetProperty("onbeforeunload", value);
+        }
 
         [JsName("onhashchange")]
-        public object Onhashchange { get; set; }
+        public object Onhashchange
+        {
+            get => GetProperty<object>("onhashchange");
+            set => SetProperty("onhashchange", value);
+        }
 
         [JsName("onlanguagechange")]
-        public object Onlanguagechange { get; set; }
+        public object Onlanguagechange
+        {
+            get => GetProperty<object>("onlanguagechange");
+            set => SetProperty("onlanguagechange", value);
+        }
 
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("onmessageerror")]
-        public object Onmessageerror { get; set; }
+        public object Onmessageerror
+        {
+            get => GetProperty<object>("onmessageerror");
+            set => SetProperty("onmessageerror", value);
+        }
 
         [JsName("onoffline")]
-        public object Onoffline { get; set; }
+        public object Onoffline
+        {
+            get => GetProperty<object>("onoffline");
+            set => SetProperty("onoffline", value);
+        }
 
         [JsName("ononline")]
-        public object Ononline { get; set; }
+        public object Ononline
+        {
+            get => GetProperty<object>("ononline");
+            set => SetProperty("ononline", value);
+        }
 
         [JsName("onpagehide")]
-        public object Onpagehide { get; set; }
+        public object Onpagehide
+        {
+            get => GetProperty<object>("onpagehide");
+            set => SetProperty("onpagehide", value);
+        }
 
         [JsName("onpagereveal")]
-        public object Onpagereveal { get; set; }
+        public object Onpagereveal
+        {
+            get => GetProperty<object>("onpagereveal");
+            set => SetProperty("onpagereveal", value);
+        }
 
         [JsName("onpageshow")]
-        public object Onpageshow { get; set; }
+        public object Onpageshow
+        {
+            get => GetProperty<object>("onpageshow");
+            set => SetProperty("onpageshow", value);
+        }
 
         [JsName("onpageswap")]
-        public object Onpageswap { get; set; }
+        public object Onpageswap
+        {
+            get => GetProperty<object>("onpageswap");
+            set => SetProperty("onpageswap", value);
+        }
 
         [JsName("onpopstate")]
-        public object Onpopstate { get; set; }
+        public object Onpopstate
+        {
+            get => GetProperty<object>("onpopstate");
+            set => SetProperty("onpopstate", value);
+        }
 
         [JsName("onrejectionhandled")]
-        public object Onrejectionhandled { get; set; }
+        public object Onrejectionhandled
+        {
+            get => GetProperty<object>("onrejectionhandled");
+            set => SetProperty("onrejectionhandled", value);
+        }
 
         [JsName("onstorage")]
-        public object Onstorage { get; set; }
+        public object Onstorage
+        {
+            get => GetProperty<object>("onstorage");
+            set => SetProperty("onstorage", value);
+        }
 
         [JsName("onunhandledrejection")]
-        public object Onunhandledrejection { get; set; }
+        public object Onunhandledrejection
+        {
+            get => GetProperty<object>("onunhandledrejection");
+            set => SetProperty("onunhandledrejection", value);
+        }
 
         [JsName("onunload")]
-        public object Onunload { get; set; }
+        public object Onunload
+        {
+            get => GetProperty<object>("onunload");
+            set => SetProperty("onunload", value);
+        }
 
         [JsName("ongamepadconnected")]
-        public object Ongamepadconnected { get; set; }
+        public object Ongamepadconnected
+        {
+            get => GetProperty<object>("ongamepadconnected");
+            set => SetProperty("ongamepadconnected", value);
+        }
 
         [JsName("ongamepaddisconnected")]
-        public object Ongamepaddisconnected { get; set; }
+        public object Ongamepaddisconnected
+        {
+            get => GetProperty<object>("ongamepaddisconnected");
+            set => SetProperty("ongamepaddisconnected", value);
+        }
 
         [JsName("onportalactivate")]
-        public object Onportalactivate { get; set; }
+        public object Onportalactivate
+        {
+            get => GetProperty<object>("onportalactivate");
+            set => SetProperty("onportalactivate", value);
+        }
 
         [JsName("getIntersectionList")]
-        public NodeList GetIntersectionList(DomRectReadOnly rect, SvgElement? referenceElement) => throw new NotImplementedException();
+        public NodeList GetIntersectionList(DomRectReadOnly rect, SvgElement? referenceElement) => Invoke<NodeList>("getIntersectionList", rect, referenceElement);
 
         [JsName("getEnclosureList")]
-        public NodeList GetEnclosureList(DomRectReadOnly rect, SvgElement? referenceElement) => throw new NotImplementedException();
+        public NodeList GetEnclosureList(DomRectReadOnly rect, SvgElement? referenceElement) => Invoke<NodeList>("getEnclosureList", rect, referenceElement);
 
         [JsName("checkIntersection")]
-        public bool CheckIntersection(SvgElement element, DomRectReadOnly rect) => throw new NotImplementedException();
+        public bool CheckIntersection(SvgElement element, DomRectReadOnly rect) => Invoke<bool>("checkIntersection", element, rect);
 
         [JsName("checkEnclosure")]
-        public bool CheckEnclosure(SvgElement element, DomRectReadOnly rect) => throw new NotImplementedException();
+        public bool CheckEnclosure(SvgElement element, DomRectReadOnly rect) => Invoke<bool>("checkEnclosure", element, rect);
 
         [JsName("deselectAll")]
-        public void DeselectAll() => throw new NotImplementedException();
+        public void DeselectAll() => InvokeVoid("deselectAll");
 
         [JsName("createSVGNumber")]
-        public SvgNumber CreateSvgNumber() => throw new NotImplementedException();
+        public SvgNumber CreateSvgNumber() => Invoke<SvgNumber>("createSVGNumber");
 
         [JsName("createSVGLength")]
-        public SvgLength CreateSvgLength() => throw new NotImplementedException();
+        public SvgLength CreateSvgLength() => Invoke<SvgLength>("createSVGLength");
 
         [JsName("createSVGAngle")]
-        public SvgAngle CreateSvgAngle() => throw new NotImplementedException();
+        public SvgAngle CreateSvgAngle() => Invoke<SvgAngle>("createSVGAngle");
 
         [JsName("createSVGPoint")]
-        public DomPoint CreateSvgPoint() => throw new NotImplementedException();
+        public DomPoint CreateSvgPoint() => Invoke<DomPoint>("createSVGPoint");
 
         [JsName("createSVGMatrix")]
-        public DomMatrix CreateSvgMatrix() => throw new NotImplementedException();
+        public DomMatrix CreateSvgMatrix() => Invoke<DomMatrix>("createSVGMatrix");
 
         [JsName("createSVGRect")]
-        public DomRect CreateSvgRect() => throw new NotImplementedException();
+        public DomRect CreateSvgRect() => Invoke<DomRect>("createSVGRect");
 
         [JsName("createSVGTransform")]
-        public SvgTransform CreateSvgTransform() => throw new NotImplementedException();
+        public SvgTransform CreateSvgTransform() => Invoke<SvgTransform>("createSVGTransform");
 
         [JsName("createSVGTransformFromMatrix")]
-        public SvgTransform CreateSvgTransformFromMatrix(DomMatrix2Dinit? matrix = null) => throw new NotImplementedException();
+        public SvgTransform CreateSvgTransformFromMatrix(DomMatrix2Dinit? matrix = null) => Invoke<SvgTransform>("createSVGTransformFromMatrix", matrix);
 
         [JsName("getElementById")]
-        public Element? GetElementById(string elementId) => throw new NotImplementedException();
+        public Element? GetElementById(string elementId) => Invoke<Element?>("getElementById", elementId);
 
         [JsName("suspendRedraw")]
-        public uint SuspendRedraw(uint maxWaitMilliseconds) => throw new NotImplementedException();
+        public uint SuspendRedraw(uint maxWaitMilliseconds) => Invoke<uint>("suspendRedraw", maxWaitMilliseconds);
 
         [JsName("unsuspendRedraw")]
-        public void UnsuspendRedraw(uint suspendHandleId) => throw new NotImplementedException();
+        public void UnsuspendRedraw(uint suspendHandleId) => InvokeVoid("unsuspendRedraw", suspendHandleId);
 
         [JsName("unsuspendRedrawAll")]
-        public void UnsuspendRedrawAll() => throw new NotImplementedException();
+        public void UnsuspendRedrawAll() => InvokeVoid("unsuspendRedrawAll");
 
         [JsName("forceRedraw")]
-        public void ForceRedraw() => throw new NotImplementedException();
+        public void ForceRedraw() => InvokeVoid("forceRedraw");
 
         [JsName("pauseAnimations")]
-        public void PauseAnimations() => throw new NotImplementedException();
+        public void PauseAnimations() => InvokeVoid("pauseAnimations");
 
         [JsName("unpauseAnimations")]
-        public void UnpauseAnimations() => throw new NotImplementedException();
+        public void UnpauseAnimations() => InvokeVoid("unpauseAnimations");
 
         [JsName("animationsPaused")]
-        public bool AnimationsPaused() => throw new NotImplementedException();
+        public bool AnimationsPaused() => Invoke<bool>("animationsPaused");
 
         [JsName("getCurrentTime")]
-        public float GetCurrentTime() => throw new NotImplementedException();
+        public float GetCurrentTime() => Invoke<float>("getCurrentTime");
 
         [JsName("setCurrentTime")]
-        public void SetCurrentTime(float seconds) => throw new NotImplementedException();
+        public void SetCurrentTime(float seconds) => InvokeVoid("setCurrentTime", seconds);
     }
 }

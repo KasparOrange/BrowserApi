@@ -32,66 +32,66 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Observable
+    public partial class Observable : JsObject
     {
         [JsName("subscribe")]
-        public void Subscribe(object? observer = null, SubscribeOptions? options = null) => throw new NotImplementedException();
+        public void Subscribe(object? observer = null, SubscribeOptions? options = null) => InvokeVoid("subscribe", observer, options);
 
         [JsName("from")]
         public static Observable From(object value) => throw new NotImplementedException();
 
         [JsName("takeUntil")]
-        public Observable TakeUntil(object value) => throw new NotImplementedException();
+        public Observable TakeUntil(object value) => Invoke<Observable>("takeUntil", value);
 
         [JsName("map")]
-        public Observable Map(Mapper mapper) => throw new NotImplementedException();
+        public Observable Map(Mapper mapper) => Invoke<Observable>("map", mapper);
 
         [JsName("filter")]
-        public Observable Filter(Predicate predicate) => throw new NotImplementedException();
+        public Observable Filter(Predicate predicate) => Invoke<Observable>("filter", predicate);
 
         [JsName("take")]
-        public Observable Take(ulong amount) => throw new NotImplementedException();
+        public Observable Take(ulong amount) => Invoke<Observable>("take", amount);
 
         [JsName("drop")]
-        public Observable Drop(ulong amount) => throw new NotImplementedException();
+        public Observable Drop(ulong amount) => Invoke<Observable>("drop", amount);
 
         [JsName("flatMap")]
-        public Observable FlatMap(Mapper mapper) => throw new NotImplementedException();
+        public Observable FlatMap(Mapper mapper) => Invoke<Observable>("flatMap", mapper);
 
         [JsName("switchMap")]
-        public Observable SwitchMap(Mapper mapper) => throw new NotImplementedException();
+        public Observable SwitchMap(Mapper mapper) => Invoke<Observable>("switchMap", mapper);
 
         [JsName("inspect")]
-        public Observable Inspect(object? inspectorUnion = null) => throw new NotImplementedException();
+        public Observable Inspect(object? inspectorUnion = null) => Invoke<Observable>("inspect", inspectorUnion);
 
         [JsName("catch")]
-        public Observable Catch(CatchCallback callback) => throw new NotImplementedException();
+        public Observable Catch(CatchCallback callback) => Invoke<Observable>("catch", callback);
 
         [JsName("finally")]
-        public Observable Finally(VoidFunction callback) => throw new NotImplementedException();
+        public Observable Finally(VoidFunction callback) => Invoke<Observable>("finally", callback);
 
         [JsName("toArray")]
-        public Task<IReadOnlyList<object>> ToArrayAsync(SubscribeOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<object>> ToArrayAsync(SubscribeOptions? options = null) => InvokeAsync<IReadOnlyList<object>>("toArray", options);
 
         [JsName("forEach")]
-        public Task ForEachAsync(Visitor callback, SubscribeOptions? options = null) => throw new NotImplementedException();
+        public Task ForEachAsync(Visitor callback, SubscribeOptions? options = null) => InvokeVoidAsync("forEach", callback, options);
 
         [JsName("every")]
-        public Task<bool> EveryAsync(Predicate predicate, SubscribeOptions? options = null) => throw new NotImplementedException();
+        public Task<bool> EveryAsync(Predicate predicate, SubscribeOptions? options = null) => InvokeAsync<bool>("every", predicate, options);
 
         [JsName("first")]
-        public Task<object> FirstAsync(SubscribeOptions? options = null) => throw new NotImplementedException();
+        public Task<object> FirstAsync(SubscribeOptions? options = null) => InvokeAsync<object>("first", options);
 
         [JsName("last")]
-        public Task<object> LastAsync(SubscribeOptions? options = null) => throw new NotImplementedException();
+        public Task<object> LastAsync(SubscribeOptions? options = null) => InvokeAsync<object>("last", options);
 
         [JsName("find")]
-        public Task<object> FindAsync(Predicate predicate, SubscribeOptions? options = null) => throw new NotImplementedException();
+        public Task<object> FindAsync(Predicate predicate, SubscribeOptions? options = null) => InvokeAsync<object>("find", predicate, options);
 
         [JsName("some")]
-        public Task<bool> SomeAsync(Predicate predicate, SubscribeOptions? options = null) => throw new NotImplementedException();
+        public Task<bool> SomeAsync(Predicate predicate, SubscribeOptions? options = null) => InvokeAsync<bool>("some", predicate, options);
 
         [JsName("reduce")]
-        public Task<object> ReduceAsync(Reducer reducer, object? initialValue = null, SubscribeOptions? options = null) => throw new NotImplementedException();
+        public Task<object> ReduceAsync(Reducer reducer, object? initialValue = null, SubscribeOptions? options = null) => InvokeAsync<object>("reduce", reducer, initialValue, options);
     }
 }

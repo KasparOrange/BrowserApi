@@ -35,6 +35,6 @@ namespace BrowserApi.Payments
     public partial class PaymentRequestUpdateEvent : Event
     {
         [JsName("updateWith")]
-        public void UpdateWith(Task<PaymentDetailsUpdate> detailsPromise) => throw new NotImplementedException();
+        public void UpdateWith(Task<PaymentDetailsUpdate> detailsPromise) => InvokeVoid("updateWith", detailsPromise);
     }
 }

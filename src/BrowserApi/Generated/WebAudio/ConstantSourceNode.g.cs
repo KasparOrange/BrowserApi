@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class ConstantSourceNode : AudioScheduledSourceNode
     {
         [JsName("offset")]
-        public AudioParam Offset { get; }
+        public AudioParam Offset => GetProperty<AudioParam>("offset");
     }
 }

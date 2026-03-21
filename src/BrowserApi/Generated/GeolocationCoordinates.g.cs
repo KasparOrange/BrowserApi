@@ -32,30 +32,30 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class GeolocationCoordinates
+    public partial class GeolocationCoordinates : JsObject
     {
         [JsName("accuracy")]
-        public double Accuracy { get; }
+        public double Accuracy => GetProperty<double>("accuracy");
 
         [JsName("latitude")]
-        public double Latitude { get; }
+        public double Latitude => GetProperty<double>("latitude");
 
         [JsName("longitude")]
-        public double Longitude { get; }
+        public double Longitude => GetProperty<double>("longitude");
 
         [JsName("altitude")]
-        public double? Altitude { get; }
+        public double? Altitude => GetProperty<double?>("altitude");
 
         [JsName("altitudeAccuracy")]
-        public double? AltitudeAccuracy { get; }
+        public double? AltitudeAccuracy => GetProperty<double?>("altitudeAccuracy");
 
         [JsName("heading")]
-        public double? Heading { get; }
+        public double? Heading => GetProperty<double?>("heading");
 
         [JsName("speed")]
-        public double? Speed { get; }
+        public double? Speed => GetProperty<double?>("speed");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

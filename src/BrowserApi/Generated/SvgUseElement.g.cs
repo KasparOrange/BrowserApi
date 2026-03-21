@@ -36,24 +36,24 @@ namespace BrowserApi
     public partial class SvgUseElement : SvgGraphicsElement
     {
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("instanceRoot")]
-        public SvgElement? InstanceRoot { get; }
+        public SvgElement? InstanceRoot => GetProperty<SvgElement?>("instanceRoot");
 
         [JsName("animatedInstanceRoot")]
-        public SvgElement? AnimatedInstanceRoot { get; }
+        public SvgElement? AnimatedInstanceRoot => GetProperty<SvgElement?>("animatedInstanceRoot");
 
         [JsName("href")]
-        public SvgAnimatedString Href { get; }
+        public SvgAnimatedString Href => GetProperty<SvgAnimatedString>("href");
     }
 }

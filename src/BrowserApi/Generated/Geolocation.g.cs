@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Geolocation
+    public partial class Geolocation : JsObject
     {
         [JsName("getCurrentPosition")]
-        public void GetCurrentPosition(PositionCallback successCallback, PositionErrorCallback? errorCallback = null, PositionOptions? options = null) => throw new NotImplementedException();
+        public void GetCurrentPosition(PositionCallback successCallback, PositionErrorCallback? errorCallback = null, PositionOptions? options = null) => InvokeVoid("getCurrentPosition", successCallback, errorCallback, options);
 
         [JsName("watchPosition")]
-        public int WatchPosition(PositionCallback successCallback, PositionErrorCallback? errorCallback = null, PositionOptions? options = null) => throw new NotImplementedException();
+        public int WatchPosition(PositionCallback successCallback, PositionErrorCallback? errorCallback = null, PositionOptions? options = null) => Invoke<int>("watchPosition", successCallback, errorCallback, options);
 
         [JsName("clearWatch")]
-        public void ClearWatch(int watchId) => throw new NotImplementedException();
+        public void ClearWatch(int watchId) => InvokeVoid("clearWatch", watchId);
     }
 }

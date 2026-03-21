@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("XMLSerializer")]
-    public partial class XmlSerializer
+    public partial class XmlSerializer : JsObject
     {
         [JsName("serializeToString")]
-        public string SerializeToString(Node root) => throw new NotImplementedException();
+        public string SerializeToString(Node root) => Invoke<string>("serializeToString", root);
     }
 }

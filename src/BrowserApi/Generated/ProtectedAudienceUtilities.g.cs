@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ProtectedAudienceUtilities
+    public partial class ProtectedAudienceUtilities : JsObject
     {
         [JsName("encodeUtf8")]
-        public byte[] EncodeUtf8(string input) => throw new NotImplementedException();
+        public byte[] EncodeUtf8(string input) => Invoke<byte[]>("encodeUtf8", input);
 
         [JsName("decodeUtf8")]
-        public string DecodeUtf8(byte[] bytes) => throw new NotImplementedException();
+        public string DecodeUtf8(byte[] bytes) => Invoke<string>("decodeUtf8", bytes);
     }
 }

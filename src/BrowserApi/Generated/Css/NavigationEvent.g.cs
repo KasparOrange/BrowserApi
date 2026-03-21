@@ -35,9 +35,9 @@ namespace BrowserApi.Css
     public partial class NavigationEvent : Uievent
     {
         [JsName("dir")]
-        public SpatialNavigationDirection Dir { get; }
+        public SpatialNavigationDirection Dir => GetProperty<SpatialNavigationDirection>("dir");
 
         [JsName("relatedTarget")]
-        public EventTarget? RelatedTarget { get; }
+        public EventTarget? RelatedTarget => GetProperty<EventTarget?>("relatedTarget");
     }
 }

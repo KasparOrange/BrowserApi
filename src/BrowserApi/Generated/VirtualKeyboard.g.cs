@@ -35,18 +35,26 @@ namespace BrowserApi
     public partial class VirtualKeyboard : EventTarget
     {
         [JsName("boundingRect")]
-        public DomRect BoundingRect { get; }
+        public DomRect BoundingRect => GetProperty<DomRect>("boundingRect");
 
         [JsName("overlaysContent")]
-        public bool OverlaysContent { get; set; }
+        public bool OverlaysContent
+        {
+            get => GetProperty<bool>("overlaysContent");
+            set => SetProperty("overlaysContent", value);
+        }
 
         [JsName("ongeometrychange")]
-        public object Ongeometrychange { get; set; }
+        public object Ongeometrychange
+        {
+            get => GetProperty<object>("ongeometrychange");
+            set => SetProperty("ongeometrychange", value);
+        }
 
         [JsName("show")]
-        public void Show() => throw new NotImplementedException();
+        public void Show() => InvokeVoid("show");
 
         [JsName("hide")]
-        public void Hide() => throw new NotImplementedException();
+        public void Hide() => InvokeVoid("hide");
     }
 }

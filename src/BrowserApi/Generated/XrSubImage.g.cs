@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRSubImage")]
-    public partial class XrSubImage
+    public partial class XrSubImage : JsObject
     {
         [JsName("viewport")]
-        public XrViewport Viewport { get; }
+        public XrViewport Viewport => GetProperty<XrViewport>("viewport");
     }
 }

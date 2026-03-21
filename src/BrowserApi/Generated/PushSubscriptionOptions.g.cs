@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PushSubscriptionOptions
+    public partial class PushSubscriptionOptions : JsObject
     {
         [JsName("userVisibleOnly")]
-        public bool UserVisibleOnly { get; }
+        public bool UserVisibleOnly => GetProperty<bool>("userVisibleOnly");
 
         [JsName("applicationServerKey")]
-        public byte[]? ApplicationServerKey { get; }
+        public byte[]? ApplicationServerKey => GetProperty<byte[]?>("applicationServerKey");
     }
 }

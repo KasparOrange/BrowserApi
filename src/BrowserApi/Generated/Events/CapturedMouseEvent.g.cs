@@ -35,9 +35,9 @@ namespace BrowserApi.Events
     public partial class CapturedMouseEvent : Event
     {
         [JsName("surfaceX")]
-        public int SurfaceX { get; }
+        public int SurfaceX => GetProperty<int>("surfaceX");
 
         [JsName("surfaceY")]
-        public int SurfaceY { get; }
+        public int SurfaceY => GetProperty<int>("surfaceY");
     }
 }

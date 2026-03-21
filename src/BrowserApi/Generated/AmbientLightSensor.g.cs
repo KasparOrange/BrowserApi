@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class AmbientLightSensor : Sensor
     {
         [JsName("illuminance")]
-        public double? Illuminance { get; }
+        public double? Illuminance => GetProperty<double?>("illuminance");
     }
 }

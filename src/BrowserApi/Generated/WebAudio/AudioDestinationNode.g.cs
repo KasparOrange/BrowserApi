@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class AudioDestinationNode : AudioNode
     {
         [JsName("maxChannelCount")]
-        public uint MaxChannelCount { get; }
+        public uint MaxChannelCount => GetProperty<uint>("maxChannelCount");
     }
 }

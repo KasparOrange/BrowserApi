@@ -1,0 +1,56 @@
+(function () {
+    "use strict";
+
+    const listeners = new Map();
+    let listenerId = 0;
+
+    globalThis.browserApi = {
+        getProperty(obj, name) {
+            return obj[name];
+        },
+
+        setProperty(obj, name, value) {
+            obj[name] = value;
+        },
+
+        invoke(obj, method, args) {
+            return obj[method](...(args || []));
+        },
+
+        async invokeAsync(obj, method, args) {
+            return await obj[method](...(args || []));
+        },
+
+        construct(className, args) {
+            const parts = className.split(".");
+            let ctor = globalThis;
+            for (const part of parts) {
+                ctor = ctor[part];
+                if (!ctor) throw new Error(`Constructor not found: ${className}`);
+            }
+            return new ctor(...(args || []));
+        },
+
+        getGlobal(name) {
+            return globalThis[name];
+        },
+
+        addEventListener(obj, eventName, dotNetRef) {
+            const id = ++listenerId;
+            const handler = function (event) {
+                dotNetRef.invokeMethodAsync("OnEvent", event);
+            };
+            obj.addEventListener(eventName, handler);
+            listeners.set(id, { obj, eventName, handler });
+            return id;
+        },
+
+        removeEventListener(obj, eventName, id) {
+            const entry = listeners.get(id);
+            if (entry) {
+                entry.obj.removeEventListener(entry.eventName, entry.handler);
+                listeners.delete(id);
+            }
+        }
+    };
+})();

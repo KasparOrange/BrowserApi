@@ -36,9 +36,17 @@ namespace BrowserApi
     public partial class IdbOpenDbrequest : IdbRequest
     {
         [JsName("onblocked")]
-        public object Onblocked { get; set; }
+        public object Onblocked
+        {
+            get => GetProperty<object>("onblocked");
+            set => SetProperty("onblocked", value);
+        }
 
         [JsName("onupgradeneeded")]
-        public object Onupgradeneeded { get; set; }
+        public object Onupgradeneeded
+        {
+            get => GetProperty<object>("onupgradeneeded");
+            set => SetProperty("onupgradeneeded", value);
+        }
     }
 }

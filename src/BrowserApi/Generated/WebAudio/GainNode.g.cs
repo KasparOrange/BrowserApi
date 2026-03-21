@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class GainNode : AudioNode
     {
         [JsName("gain")]
-        public AudioParam Gain { get; }
+        public AudioParam Gain => GetProperty<AudioParam>("gain");
     }
 }

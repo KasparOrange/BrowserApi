@@ -35,6 +35,6 @@ namespace BrowserApi.WebRtc
     public partial class KeyFrameRequestEvent : Event
     {
         [JsName("rid")]
-        public string? Rid { get; }
+        public string? Rid => GetProperty<string?>("rid");
     }
 }

@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class TrustedTypePolicy
+    public partial class TrustedTypePolicy : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("createHTML")]
-        public TrustedHtml CreateHtml(string input, params object[] arguments) => throw new NotImplementedException();
+        public TrustedHtml CreateHtml(string input, params object[] arguments) => Invoke<TrustedHtml>("createHTML", input, arguments);
 
         [JsName("createScript")]
-        public TrustedScript CreateScript(string input, params object[] arguments) => throw new NotImplementedException();
+        public TrustedScript CreateScript(string input, params object[] arguments) => Invoke<TrustedScript>("createScript", input, arguments);
 
         [JsName("createScriptURL")]
-        public TrustedScriptUrl CreateScriptUrl(string input, params object[] arguments) => throw new NotImplementedException();
+        public TrustedScriptUrl CreateScriptUrl(string input, params object[] arguments) => Invoke<TrustedScriptUrl>("createScriptURL", input, arguments);
     }
 }

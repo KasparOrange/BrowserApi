@@ -35,24 +35,24 @@ namespace BrowserApi.Events
     public partial class PerformanceEventTiming : PerformanceEntry
     {
         [JsName("processingStart")]
-        public double ProcessingStart { get; }
+        public double ProcessingStart => GetProperty<double>("processingStart");
 
         [JsName("processingEnd")]
-        public double ProcessingEnd { get; }
+        public double ProcessingEnd => GetProperty<double>("processingEnd");
 
         [JsName("cancelable")]
-        public bool Cancelable { get; }
+        public bool Cancelable => GetProperty<bool>("cancelable");
 
         [JsName("target")]
-        public Node? Target { get; }
+        public Node? Target => GetProperty<Node?>("target");
 
         [JsName("targetSelector")]
-        public string TargetSelector { get; }
+        public string TargetSelector => GetProperty<string>("targetSelector");
 
         [JsName("interactionId")]
-        public ulong InteractionId { get; }
+        public ulong InteractionId => GetProperty<ulong>("interactionId");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

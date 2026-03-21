@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class CookieChangeEvent : Event
     {
         [JsName("changed")]
-        public IReadOnlyList<CookieListItem> Changed { get; }
+        public IReadOnlyList<CookieListItem> Changed => GetProperty<IReadOnlyList<CookieListItem>>("changed");
 
         [JsName("deleted")]
-        public IReadOnlyList<CookieListItem> Deleted { get; }
+        public IReadOnlyList<CookieListItem> Deleted => GetProperty<IReadOnlyList<CookieListItem>>("deleted");
     }
 }

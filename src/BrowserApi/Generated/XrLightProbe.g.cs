@@ -36,9 +36,13 @@ namespace BrowserApi
     public partial class XrLightProbe : EventTarget
     {
         [JsName("probeSpace")]
-        public XrSpace ProbeSpace { get; }
+        public XrSpace ProbeSpace => GetProperty<XrSpace>("probeSpace");
 
         [JsName("onreflectionchange")]
-        public object Onreflectionchange { get; set; }
+        public object Onreflectionchange
+        {
+            get => GetProperty<object>("onreflectionchange");
+            set => SetProperty("onreflectionchange", value);
+        }
     }
 }

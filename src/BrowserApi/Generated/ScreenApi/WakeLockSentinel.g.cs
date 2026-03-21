@@ -35,15 +35,19 @@ namespace BrowserApi.ScreenApi
     public partial class WakeLockSentinel : EventTarget
     {
         [JsName("released")]
-        public bool Released { get; }
+        public bool Released => GetProperty<bool>("released");
 
         [JsName("type")]
-        public WakeLockType Type { get; }
+        public WakeLockType Type => GetProperty<WakeLockType>("type");
 
         [JsName("onrelease")]
-        public object Onrelease { get; set; }
+        public object Onrelease
+        {
+            get => GetProperty<object>("onrelease");
+            set => SetProperty("onrelease", value);
+        }
 
         [JsName("release")]
-        public Task ReleaseAsync() => throw new NotImplementedException();
+        public Task ReleaseAsync() => InvokeVoidAsync("release");
     }
 }

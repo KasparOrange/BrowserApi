@@ -33,43 +33,83 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Url
 {
     [JsName("URL")]
-    public partial class Url
+    public partial class Url : JsObject
     {
         [JsName("href")]
-        public string Href { get; set; }
+        public string Href
+        {
+            get => GetProperty<string>("href");
+            set => SetProperty("href", value);
+        }
 
         [JsName("origin")]
-        public string Origin { get; }
+        public string Origin => GetProperty<string>("origin");
 
         [JsName("protocol")]
-        public string Protocol { get; set; }
+        public string Protocol
+        {
+            get => GetProperty<string>("protocol");
+            set => SetProperty("protocol", value);
+        }
 
         [JsName("username")]
-        public string Username { get; set; }
+        public string Username
+        {
+            get => GetProperty<string>("username");
+            set => SetProperty("username", value);
+        }
 
         [JsName("password")]
-        public string Password { get; set; }
+        public string Password
+        {
+            get => GetProperty<string>("password");
+            set => SetProperty("password", value);
+        }
 
         [JsName("host")]
-        public string Host { get; set; }
+        public string Host
+        {
+            get => GetProperty<string>("host");
+            set => SetProperty("host", value);
+        }
 
         [JsName("hostname")]
-        public string Hostname { get; set; }
+        public string Hostname
+        {
+            get => GetProperty<string>("hostname");
+            set => SetProperty("hostname", value);
+        }
 
         [JsName("port")]
-        public string Port { get; set; }
+        public string Port
+        {
+            get => GetProperty<string>("port");
+            set => SetProperty("port", value);
+        }
 
         [JsName("pathname")]
-        public string Pathname { get; set; }
+        public string Pathname
+        {
+            get => GetProperty<string>("pathname");
+            set => SetProperty("pathname", value);
+        }
 
         [JsName("search")]
-        public string Search { get; set; }
+        public string Search
+        {
+            get => GetProperty<string>("search");
+            set => SetProperty("search", value);
+        }
 
         [JsName("searchParams")]
-        public UrlSearchParams SearchParams { get; }
+        public UrlSearchParams SearchParams => GetProperty<UrlSearchParams>("searchParams");
 
         [JsName("hash")]
-        public string Hash { get; set; }
+        public string Hash
+        {
+            get => GetProperty<string>("hash");
+            set => SetProperty("hash", value);
+        }
 
         [JsName("parse")]
         public static Url? Parse(string url, string? @base = null) => throw new NotImplementedException();
@@ -78,7 +118,7 @@ namespace BrowserApi.Url
         public static bool CanParse(string url, string? @base = null) => throw new NotImplementedException();
 
         [JsName("toJSON")]
-        public string ToJsOn() => throw new NotImplementedException();
+        public string ToJsOn() => Invoke<string>("toJSON");
 
         [JsName("createObjectURL")]
         public static string CreateObjectUrl(object obj) => throw new NotImplementedException();

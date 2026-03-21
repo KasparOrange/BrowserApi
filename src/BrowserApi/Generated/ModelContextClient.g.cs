@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ModelContextClient
+    public partial class ModelContextClient : JsObject
     {
         [JsName("requestUserInteraction")]
-        public Task<object> RequestUserInteractionAsync(UserInteractionCallback callback) => throw new NotImplementedException();
+        public Task<object> RequestUserInteractionAsync(UserInteractionCallback callback) => InvokeAsync<object>("requestUserInteraction", callback);
     }
 }

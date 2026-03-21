@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Observers
 {
-    public partial class ResizeObserverSize
+    public partial class ResizeObserverSize : JsObject
     {
         [JsName("inlineSize")]
-        public double InlineSize { get; }
+        public double InlineSize => GetProperty<double>("inlineSize");
 
         [JsName("blockSize")]
-        public double BlockSize { get; }
+        public double BlockSize => GetProperty<double>("blockSize");
     }
 }

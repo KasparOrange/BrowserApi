@@ -36,21 +36,21 @@ namespace BrowserApi
     public partial class SvgRectElement : SvgGeometryElement
     {
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("rx")]
-        public SvgAnimatedLength Rx { get; }
+        public SvgAnimatedLength Rx => GetProperty<SvgAnimatedLength>("rx");
 
         [JsName("ry")]
-        public SvgAnimatedLength Ry { get; }
+        public SvgAnimatedLength Ry => GetProperty<SvgAnimatedLength>("ry");
     }
 }

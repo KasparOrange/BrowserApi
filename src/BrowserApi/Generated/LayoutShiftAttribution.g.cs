@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class LayoutShiftAttribution
+    public partial class LayoutShiftAttribution : JsObject
     {
         [JsName("node")]
-        public Node? Node { get; }
+        public Node? Node => GetProperty<Node?>("node");
 
         [JsName("previousRect")]
-        public DomRectReadOnly PreviousRect { get; }
+        public DomRectReadOnly PreviousRect => GetProperty<DomRectReadOnly>("previousRect");
 
         [JsName("currentRect")]
-        public DomRectReadOnly CurrentRect { get; }
+        public DomRectReadOnly CurrentRect => GetProperty<DomRectReadOnly>("currentRect");
     }
 }

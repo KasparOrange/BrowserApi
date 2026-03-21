@@ -36,12 +36,16 @@ namespace BrowserApi.Css
     public partial class CssStyleRule : CssGroupingRule
     {
         [JsName("selectorText")]
-        public string SelectorText { get; set; }
+        public string SelectorText
+        {
+            get => GetProperty<string>("selectorText");
+            set => SetProperty("selectorText", value);
+        }
 
         [JsName("style")]
-        public CssStyleProperties Style { get; }
+        public CssStyleProperties Style => GetProperty<CssStyleProperties>("style");
 
         [JsName("styleMap")]
-        public StylePropertyMap StyleMap { get; }
+        public StylePropertyMap StyleMap => GetProperty<StylePropertyMap>("styleMap");
     }
 }

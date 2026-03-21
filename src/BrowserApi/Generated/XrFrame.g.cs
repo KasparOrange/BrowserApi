@@ -33,54 +33,54 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRFrame")]
-    public partial class XrFrame
+    public partial class XrFrame : JsObject
     {
         [JsName("session")]
-        public XrSession Session { get; }
+        public XrSession Session => GetProperty<XrSession>("session");
 
         [JsName("predictedDisplayTime")]
-        public double PredictedDisplayTime { get; }
+        public double PredictedDisplayTime => GetProperty<double>("predictedDisplayTime");
 
         [JsName("trackedAnchors")]
-        public XrAnchorSet TrackedAnchors { get; }
+        public XrAnchorSet TrackedAnchors => GetProperty<XrAnchorSet>("trackedAnchors");
 
         [JsName("body")]
-        public XrBody? Body { get; }
+        public XrBody? Body => GetProperty<XrBody?>("body");
 
         [JsName("detectedMeshes")]
-        public XrMeshSet DetectedMeshes { get; }
+        public XrMeshSet DetectedMeshes => GetProperty<XrMeshSet>("detectedMeshes");
 
         [JsName("detectedPlanes")]
-        public XrPlaneSet DetectedPlanes { get; }
+        public XrPlaneSet DetectedPlanes => GetProperty<XrPlaneSet>("detectedPlanes");
 
         [JsName("getViewerPose")]
-        public XrViewerPose? GetViewerPose(XrReferenceSpace referenceSpace) => throw new NotImplementedException();
+        public XrViewerPose? GetViewerPose(XrReferenceSpace referenceSpace) => Invoke<XrViewerPose?>("getViewerPose", referenceSpace);
 
         [JsName("getPose")]
-        public XrPose? GetPose(XrSpace space, XrSpace baseSpace) => throw new NotImplementedException();
+        public XrPose? GetPose(XrSpace space, XrSpace baseSpace) => Invoke<XrPose?>("getPose", space, baseSpace);
 
         [JsName("createAnchor")]
-        public Task<XrAnchor> CreateAnchorAsync(XrRigidTransform pose, XrSpace space) => throw new NotImplementedException();
+        public Task<XrAnchor> CreateAnchorAsync(XrRigidTransform pose, XrSpace space) => InvokeAsync<XrAnchor>("createAnchor", pose, space);
 
         [JsName("getDepthInformation")]
-        public XrCpudepthInformation? GetDepthInformation(XrView view) => throw new NotImplementedException();
+        public XrCpudepthInformation? GetDepthInformation(XrView view) => Invoke<XrCpudepthInformation?>("getDepthInformation", view);
 
         [JsName("getJointPose")]
-        public XrJointPose? GetJointPose(XrJointSpace joint, XrSpace baseSpace) => throw new NotImplementedException();
+        public XrJointPose? GetJointPose(XrJointSpace joint, XrSpace baseSpace) => Invoke<XrJointPose?>("getJointPose", joint, baseSpace);
 
         [JsName("fillJointRadii")]
-        public bool FillJointRadii(IReadOnlyList<XrJointSpace> jointSpaces, float[] radii) => throw new NotImplementedException();
+        public bool FillJointRadii(IReadOnlyList<XrJointSpace> jointSpaces, float[] radii) => Invoke<bool>("fillJointRadii", jointSpaces, radii);
 
         [JsName("fillPoses")]
-        public bool FillPoses(IReadOnlyList<XrSpace> spaces, XrSpace baseSpace, float[] transforms) => throw new NotImplementedException();
+        public bool FillPoses(IReadOnlyList<XrSpace> spaces, XrSpace baseSpace, float[] transforms) => Invoke<bool>("fillPoses", spaces, baseSpace, transforms);
 
         [JsName("getHitTestResults")]
-        public IReadOnlyList<XrHitTestResult> GetHitTestResults(XrHitTestSource hitTestSource) => throw new NotImplementedException();
+        public IReadOnlyList<XrHitTestResult> GetHitTestResults(XrHitTestSource hitTestSource) => Invoke<IReadOnlyList<XrHitTestResult>>("getHitTestResults", hitTestSource);
 
         [JsName("getHitTestResultsForTransientInput")]
-        public IReadOnlyList<XrTransientInputHitTestResult> GetHitTestResultsForTransientInput(XrTransientInputHitTestSource hitTestSource) => throw new NotImplementedException();
+        public IReadOnlyList<XrTransientInputHitTestResult> GetHitTestResultsForTransientInput(XrTransientInputHitTestSource hitTestSource) => Invoke<IReadOnlyList<XrTransientInputHitTestResult>>("getHitTestResultsForTransientInput", hitTestSource);
 
         [JsName("getLightEstimate")]
-        public XrLightEstimate? GetLightEstimate(XrLightProbe lightProbe) => throw new NotImplementedException();
+        public XrLightEstimate? GetLightEstimate(XrLightProbe lightProbe) => Invoke<XrLightEstimate?>("getLightEstimate", lightProbe);
     }
 }

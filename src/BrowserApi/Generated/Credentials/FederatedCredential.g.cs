@@ -35,15 +35,15 @@ namespace BrowserApi.Credentials
     public partial class FederatedCredential : Credential
     {
         [JsName("provider")]
-        public string Provider { get; }
+        public string Provider => GetProperty<string>("provider");
 
         [JsName("protocol")]
-        public string? Protocol { get; }
+        public string? Protocol => GetProperty<string?>("protocol");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("iconURL")]
-        public string IconUrl { get; }
+        public string IconUrl => GetProperty<string>("iconURL");
     }
 }

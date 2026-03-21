@@ -33,33 +33,33 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGLengthList")]
-    public partial class SvgLengthList
+    public partial class SvgLengthList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("numberOfItems")]
-        public uint NumberOfItems { get; }
+        public uint NumberOfItems => GetProperty<uint>("numberOfItems");
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
 
         [JsName("initialize")]
-        public SvgLength Initialize(SvgLength newItem) => throw new NotImplementedException();
+        public SvgLength Initialize(SvgLength newItem) => Invoke<SvgLength>("initialize", newItem);
 
         [JsName("getItem")]
-        public SvgLength GetItem(uint index) => throw new NotImplementedException();
+        public SvgLength GetItem(uint index) => Invoke<SvgLength>("getItem", index);
 
         [JsName("insertItemBefore")]
-        public SvgLength InsertItemBefore(SvgLength newItem, uint index) => throw new NotImplementedException();
+        public SvgLength InsertItemBefore(SvgLength newItem, uint index) => Invoke<SvgLength>("insertItemBefore", newItem, index);
 
         [JsName("replaceItem")]
-        public SvgLength ReplaceItem(SvgLength newItem, uint index) => throw new NotImplementedException();
+        public SvgLength ReplaceItem(SvgLength newItem, uint index) => Invoke<SvgLength>("replaceItem", newItem, index);
 
         [JsName("removeItem")]
-        public SvgLength RemoveItem(uint index) => throw new NotImplementedException();
+        public SvgLength RemoveItem(uint index) => Invoke<SvgLength>("removeItem", index);
 
         [JsName("appendItem")]
-        public SvgLength AppendItem(SvgLength newItem) => throw new NotImplementedException();
+        public SvgLength AppendItem(SvgLength newItem) => Invoke<SvgLength>("appendItem", newItem);
     }
 }

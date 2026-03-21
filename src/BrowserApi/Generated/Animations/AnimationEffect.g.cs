@@ -32,36 +32,36 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Animations
 {
-    public partial class AnimationEffect
+    public partial class AnimationEffect : JsObject
     {
         [JsName("parent")]
-        public GroupEffect? Parent { get; }
+        public GroupEffect? Parent => GetProperty<GroupEffect?>("parent");
 
         [JsName("previousSibling")]
-        public AnimationEffect? PreviousSibling { get; }
+        public AnimationEffect? PreviousSibling => GetProperty<AnimationEffect?>("previousSibling");
 
         [JsName("nextSibling")]
-        public AnimationEffect? NextSibling { get; }
+        public AnimationEffect? NextSibling => GetProperty<AnimationEffect?>("nextSibling");
 
         [JsName("getTiming")]
-        public EffectTiming GetTiming() => throw new NotImplementedException();
+        public EffectTiming GetTiming() => Invoke<EffectTiming>("getTiming");
 
         [JsName("getComputedTiming")]
-        public ComputedEffectTiming GetComputedTiming() => throw new NotImplementedException();
+        public ComputedEffectTiming GetComputedTiming() => Invoke<ComputedEffectTiming>("getComputedTiming");
 
         [JsName("updateTiming")]
-        public void UpdateTiming(OptionalEffectTiming? timing = null) => throw new NotImplementedException();
+        public void UpdateTiming(OptionalEffectTiming? timing = null) => InvokeVoid("updateTiming", timing);
 
         [JsName("before")]
-        public void Before(params object[] effects) => throw new NotImplementedException();
+        public void Before(params object[] effects) => InvokeVoid("before", effects);
 
         [JsName("after")]
-        public void After(params object[] effects) => throw new NotImplementedException();
+        public void After(params object[] effects) => InvokeVoid("after", effects);
 
         [JsName("replace")]
-        public void Replace(params object[] effects) => throw new NotImplementedException();
+        public void Replace(params object[] effects) => InvokeVoid("replace", effects);
 
         [JsName("remove")]
-        public void Remove() => throw new NotImplementedException();
+        public void Remove() => InvokeVoid("remove");
     }
 }

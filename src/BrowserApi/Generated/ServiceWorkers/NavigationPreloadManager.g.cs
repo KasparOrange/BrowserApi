@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.ServiceWorkers
 {
-    public partial class NavigationPreloadManager
+    public partial class NavigationPreloadManager : JsObject
     {
         [JsName("enable")]
-        public Task EnableAsync() => throw new NotImplementedException();
+        public Task EnableAsync() => InvokeVoidAsync("enable");
 
         [JsName("disable")]
-        public Task DisableAsync() => throw new NotImplementedException();
+        public Task DisableAsync() => InvokeVoidAsync("disable");
 
         [JsName("setHeaderValue")]
-        public Task SetHeaderValueAsync(string value) => throw new NotImplementedException();
+        public Task SetHeaderValueAsync(string value) => InvokeVoidAsync("setHeaderValue", value);
 
         [JsName("getState")]
-        public Task<NavigationPreloadState> GetStateAsync() => throw new NotImplementedException();
+        public Task<NavigationPreloadState> GetStateAsync() => InvokeAsync<NavigationPreloadState>("getState");
     }
 }

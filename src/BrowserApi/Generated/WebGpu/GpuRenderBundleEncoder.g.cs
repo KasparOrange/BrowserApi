@@ -33,48 +33,52 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPURenderBundleEncoder")]
-    public partial class GpuRenderBundleEncoder
+    public partial class GpuRenderBundleEncoder : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("finish")]
-        public GpuRenderBundle Finish(GpuRenderBundleDescriptor? descriptor = null) => throw new NotImplementedException();
+        public GpuRenderBundle Finish(GpuRenderBundleDescriptor? descriptor = null) => Invoke<GpuRenderBundle>("finish", descriptor);
 
         [JsName("pushDebugGroup")]
-        public void PushDebugGroup(string groupLabel) => throw new NotImplementedException();
+        public void PushDebugGroup(string groupLabel) => InvokeVoid("pushDebugGroup", groupLabel);
 
         [JsName("popDebugGroup")]
-        public void PopDebugGroup() => throw new NotImplementedException();
+        public void PopDebugGroup() => InvokeVoid("popDebugGroup");
 
         [JsName("insertDebugMarker")]
-        public void InsertDebugMarker(string markerLabel) => throw new NotImplementedException();
+        public void InsertDebugMarker(string markerLabel) => InvokeVoid("insertDebugMarker", markerLabel);
 
         [JsName("setBindGroup")]
-        public void SetBindGroup(uint index, GpuBindGroup? bindGroup, IReadOnlyList<uint>? dynamicOffsets = null) => throw new NotImplementedException();
+        public void SetBindGroup(uint index, GpuBindGroup? bindGroup, IReadOnlyList<uint>? dynamicOffsets = null) => InvokeVoid("setBindGroup", index, bindGroup, dynamicOffsets);
 
         [JsName("setBindGroup")]
-        public void SetBindGroup(uint index, GpuBindGroup? bindGroup, uint[] dynamicOffsetsData, ulong dynamicOffsetsDataStart, uint dynamicOffsetsDataLength) => throw new NotImplementedException();
+        public void SetBindGroup(uint index, GpuBindGroup? bindGroup, uint[] dynamicOffsetsData, ulong dynamicOffsetsDataStart, uint dynamicOffsetsDataLength) => InvokeVoid("setBindGroup", index, bindGroup, dynamicOffsetsData, dynamicOffsetsDataStart, dynamicOffsetsDataLength);
 
         [JsName("setPipeline")]
-        public void SetPipeline(GpuRenderPipeline pipeline) => throw new NotImplementedException();
+        public void SetPipeline(GpuRenderPipeline pipeline) => InvokeVoid("setPipeline", pipeline);
 
         [JsName("setIndexBuffer")]
-        public void SetIndexBuffer(GpuBuffer buffer, GpuIndexFormat indexFormat, ulong offset = 0, ulong? size = null) => throw new NotImplementedException();
+        public void SetIndexBuffer(GpuBuffer buffer, GpuIndexFormat indexFormat, ulong offset = 0, ulong? size = null) => InvokeVoid("setIndexBuffer", buffer, indexFormat, offset, size);
 
         [JsName("setVertexBuffer")]
-        public void SetVertexBuffer(uint slot, GpuBuffer? buffer, ulong offset = 0, ulong? size = null) => throw new NotImplementedException();
+        public void SetVertexBuffer(uint slot, GpuBuffer? buffer, ulong offset = 0, ulong? size = null) => InvokeVoid("setVertexBuffer", slot, buffer, offset, size);
 
         [JsName("draw")]
-        public void Draw(uint vertexCount, uint instanceCount = 1, uint firstVertex = 0, uint firstInstance = 0) => throw new NotImplementedException();
+        public void Draw(uint vertexCount, uint instanceCount = 1, uint firstVertex = 0, uint firstInstance = 0) => InvokeVoid("draw", vertexCount, instanceCount, firstVertex, firstInstance);
 
         [JsName("drawIndexed")]
-        public void DrawIndexed(uint indexCount, uint instanceCount = 1, uint firstIndex = 0, int baseVertex = 0, uint firstInstance = 0) => throw new NotImplementedException();
+        public void DrawIndexed(uint indexCount, uint instanceCount = 1, uint firstIndex = 0, int baseVertex = 0, uint firstInstance = 0) => InvokeVoid("drawIndexed", indexCount, instanceCount, firstIndex, baseVertex, firstInstance);
 
         [JsName("drawIndirect")]
-        public void DrawIndirect(GpuBuffer indirectBuffer, ulong indirectOffset) => throw new NotImplementedException();
+        public void DrawIndirect(GpuBuffer indirectBuffer, ulong indirectOffset) => InvokeVoid("drawIndirect", indirectBuffer, indirectOffset);
 
         [JsName("drawIndexedIndirect")]
-        public void DrawIndexedIndirect(GpuBuffer indirectBuffer, ulong indirectOffset) => throw new NotImplementedException();
+        public void DrawIndexedIndirect(GpuBuffer indirectBuffer, ulong indirectOffset) => InvokeVoid("drawIndexedIndirect", indirectBuffer, indirectOffset);
     }
 }

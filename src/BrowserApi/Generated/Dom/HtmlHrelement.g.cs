@@ -36,18 +36,38 @@ namespace BrowserApi.Dom
     public partial class HtmlHrelement : HtmlElement
     {
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("color")]
-        public string Color { get; set; }
+        public string Color
+        {
+            get => GetProperty<string>("color");
+            set => SetProperty("color", value);
+        }
 
         [JsName("noShade")]
-        public bool NoShade { get; set; }
+        public bool NoShade
+        {
+            get => GetProperty<bool>("noShade");
+            set => SetProperty("noShade", value);
+        }
 
         [JsName("size")]
-        public string Size { get; set; }
+        public string Size
+        {
+            get => GetProperty<string>("size");
+            set => SetProperty("size", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
     }
 }

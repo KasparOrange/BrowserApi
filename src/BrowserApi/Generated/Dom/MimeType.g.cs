@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class MimeType
+    public partial class MimeType : JsObject
     {
         [JsName("type")]
-        public string Type { get; }
+        public string Type => GetProperty<string>("type");
 
         [JsName("description")]
-        public string Description { get; }
+        public string Description => GetProperty<string>("description");
 
         [JsName("suffixes")]
-        public string Suffixes { get; }
+        public string Suffixes => GetProperty<string>("suffixes");
 
         [JsName("enabledPlugin")]
-        public Plugin EnabledPlugin { get; }
+        public Plugin EnabledPlugin => GetProperty<Plugin>("enabledPlugin");
     }
 }

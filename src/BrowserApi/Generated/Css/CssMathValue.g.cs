@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssMathValue : CssNumericValue
     {
         [JsName("operator")]
-        public CssMathOperator Operator { get; }
+        public CssMathOperator Operator => GetProperty<CssMathOperator>("operator");
     }
 }

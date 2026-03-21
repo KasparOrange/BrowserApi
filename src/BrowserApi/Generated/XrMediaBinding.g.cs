@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRMediaBinding")]
-    public partial class XrMediaBinding
+    public partial class XrMediaBinding : JsObject
     {
         [JsName("createQuadLayer")]
-        public XrQuadLayer CreateQuadLayer(HtmlVideoElement video, XrMediaQuadLayerInit? init = null) => throw new NotImplementedException();
+        public XrQuadLayer CreateQuadLayer(HtmlVideoElement video, XrMediaQuadLayerInit? init = null) => Invoke<XrQuadLayer>("createQuadLayer", video, init);
 
         [JsName("createCylinderLayer")]
-        public XrCylinderLayer CreateCylinderLayer(HtmlVideoElement video, XrMediaCylinderLayerInit? init = null) => throw new NotImplementedException();
+        public XrCylinderLayer CreateCylinderLayer(HtmlVideoElement video, XrMediaCylinderLayerInit? init = null) => Invoke<XrCylinderLayer>("createCylinderLayer", video, init);
 
         [JsName("createEquirectLayer")]
-        public XrEquirectLayer CreateEquirectLayer(HtmlVideoElement video, XrMediaEquirectLayerInit? init = null) => throw new NotImplementedException();
+        public XrEquirectLayer CreateEquirectLayer(HtmlVideoElement video, XrMediaEquirectLayerInit? init = null) => Invoke<XrEquirectLayer>("createEquirectLayer", video, init);
     }
 }

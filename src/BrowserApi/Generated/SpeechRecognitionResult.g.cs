@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class SpeechRecognitionResult
+    public partial class SpeechRecognitionResult : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("isFinal")]
-        public bool IsFinal { get; }
+        public bool IsFinal => GetProperty<bool>("isFinal");
 
         [JsName("item")]
-        public SpeechRecognitionAlternative Item(uint index) => throw new NotImplementedException();
+        public SpeechRecognitionAlternative Item(uint index) => Invoke<SpeechRecognitionAlternative>("item", index);
     }
 }

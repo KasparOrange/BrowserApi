@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class NotRestoredReasons
+    public partial class NotRestoredReasons : JsObject
     {
         [JsName("src")]
-        public string? Src { get; }
+        public string? Src => GetProperty<string?>("src");
 
         [JsName("id")]
-        public string? Id { get; }
+        public string? Id => GetProperty<string?>("id");
 
         [JsName("name")]
-        public string? Name { get; }
+        public string? Name => GetProperty<string?>("name");
 
         [JsName("url")]
-        public string? Url { get; }
+        public string? Url => GetProperty<string?>("url");
 
         [JsName("reasons")]
-        public IReadOnlyList<NotRestoredReasonDetails>? Reasons { get; }
+        public IReadOnlyList<NotRestoredReasonDetails>? Reasons => GetProperty<IReadOnlyList<NotRestoredReasonDetails>?>("reasons");
 
         [JsName("children")]
-        public IReadOnlyList<NotRestoredReasons>? Children { get; }
+        public IReadOnlyList<NotRestoredReasons>? Children => GetProperty<IReadOnlyList<NotRestoredReasons>?>("children");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

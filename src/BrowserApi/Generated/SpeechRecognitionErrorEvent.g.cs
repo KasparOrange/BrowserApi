@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class SpeechRecognitionErrorEvent : Event
     {
         [JsName("error")]
-        public SpeechRecognitionErrorCode Error { get; }
+        public SpeechRecognitionErrorCode Error => GetProperty<SpeechRecognitionErrorCode>("error");
 
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
     }
 }

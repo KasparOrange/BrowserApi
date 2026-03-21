@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("EXT_color_buffer_half_float")]
-    public partial class ExtColorBufferHalfFloat
+    public partial class ExtColorBufferHalfFloat : JsObject
     {
         public const uint Rgba16FExt = 0x881A;
 

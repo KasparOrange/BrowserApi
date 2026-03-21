@@ -36,15 +36,19 @@ namespace BrowserApi
     public partial class MidiAccess : EventTarget
     {
         [JsName("inputs")]
-        public MidiInputMap Inputs { get; }
+        public MidiInputMap Inputs => GetProperty<MidiInputMap>("inputs");
 
         [JsName("outputs")]
-        public MidiOutputMap Outputs { get; }
+        public MidiOutputMap Outputs => GetProperty<MidiOutputMap>("outputs");
 
         [JsName("onstatechange")]
-        public object Onstatechange { get; set; }
+        public object Onstatechange
+        {
+            get => GetProperty<object>("onstatechange");
+            set => SetProperty("onstatechange", value);
+        }
 
         [JsName("sysexEnabled")]
-        public bool SysexEnabled { get; }
+        public bool SysexEnabled => GetProperty<bool>("sysexEnabled");
     }
 }

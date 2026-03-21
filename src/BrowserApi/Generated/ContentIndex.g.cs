@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class ContentIndex
+    public partial class ContentIndex : JsObject
     {
         [JsName("add")]
-        public Task AddAsync(ContentDescription description) => throw new NotImplementedException();
+        public Task AddAsync(ContentDescription description) => InvokeVoidAsync("add", description);
 
         [JsName("delete")]
-        public Task DeleteAsync(string id) => throw new NotImplementedException();
+        public Task DeleteAsync(string id) => InvokeVoidAsync("delete", id);
 
         [JsName("getAll")]
-        public Task<IReadOnlyList<ContentDescription>> GetAllAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<ContentDescription>> GetAllAsync() => InvokeAsync<IReadOnlyList<ContentDescription>>("getAll");
     }
 }

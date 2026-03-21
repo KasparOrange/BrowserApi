@@ -32,12 +32,20 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class SpeechGrammar
+    public partial class SpeechGrammar : JsObject
     {
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("weight")]
-        public float Weight { get; set; }
+        public float Weight
+        {
+            get => GetProperty<float>("weight");
+            set => SetProperty("weight", value);
+        }
     }
 }

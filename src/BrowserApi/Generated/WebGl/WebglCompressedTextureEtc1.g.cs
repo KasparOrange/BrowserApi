@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_compressed_texture_etc1")]
-    public partial class WebglCompressedTextureEtc1
+    public partial class WebglCompressedTextureEtc1 : JsObject
     {
         public const uint CompressedRgbEtc1Webgl = 0x8D64;
     }

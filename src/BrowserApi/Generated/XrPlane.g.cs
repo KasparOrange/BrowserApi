@@ -33,21 +33,21 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRPlane")]
-    public partial class XrPlane
+    public partial class XrPlane : JsObject
     {
         [JsName("planeSpace")]
-        public XrSpace PlaneSpace { get; }
+        public XrSpace PlaneSpace => GetProperty<XrSpace>("planeSpace");
 
         [JsName("polygon")]
-        public IReadOnlyList<DomPointReadOnly> Polygon { get; }
+        public IReadOnlyList<DomPointReadOnly> Polygon => GetProperty<IReadOnlyList<DomPointReadOnly>>("polygon");
 
         [JsName("orientation")]
-        public XrPlaneOrientation? Orientation { get; }
+        public XrPlaneOrientation? Orientation => GetProperty<XrPlaneOrientation?>("orientation");
 
         [JsName("lastChangedTime")]
-        public double LastChangedTime { get; }
+        public double LastChangedTime => GetProperty<double>("lastChangedTime");
 
         [JsName("semanticLabel")]
-        public string? SemanticLabel { get; }
+        public string? SemanticLabel => GetProperty<string?>("semanticLabel");
     }
 }

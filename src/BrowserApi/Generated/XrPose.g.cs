@@ -33,18 +33,18 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRPose")]
-    public partial class XrPose
+    public partial class XrPose : JsObject
     {
         [JsName("transform")]
-        public XrRigidTransform Transform { get; }
+        public XrRigidTransform Transform => GetProperty<XrRigidTransform>("transform");
 
         [JsName("linearVelocity")]
-        public DomPointReadOnly? LinearVelocity { get; }
+        public DomPointReadOnly? LinearVelocity => GetProperty<DomPointReadOnly?>("linearVelocity");
 
         [JsName("angularVelocity")]
-        public DomPointReadOnly? AngularVelocity { get; }
+        public DomPointReadOnly? AngularVelocity => GetProperty<DomPointReadOnly?>("angularVelocity");
 
         [JsName("emulatedPosition")]
-        public bool EmulatedPosition { get; }
+        public bool EmulatedPosition => GetProperty<bool>("emulatedPosition");
     }
 }

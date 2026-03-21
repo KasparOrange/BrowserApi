@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Animations
 {
-    public partial class GroupEffect
+    public partial class GroupEffect : JsObject
     {
         [JsName("children")]
-        public AnimationNodeList Children { get; }
+        public AnimationNodeList Children => GetProperty<AnimationNodeList>("children");
 
         [JsName("firstChild")]
-        public AnimationEffect? FirstChild { get; }
+        public AnimationEffect? FirstChild => GetProperty<AnimationEffect?>("firstChild");
 
         [JsName("lastChild")]
-        public AnimationEffect? LastChild { get; }
+        public AnimationEffect? LastChild => GetProperty<AnimationEffect?>("lastChild");
 
         [JsName("clone")]
-        public GroupEffect Clone() => throw new NotImplementedException();
+        public GroupEffect Clone() => Invoke<GroupEffect>("clone");
 
         [JsName("prepend")]
-        public void Prepend(params object[] effects) => throw new NotImplementedException();
+        public void Prepend(params object[] effects) => InvokeVoid("prepend", effects);
 
         [JsName("append")]
-        public void Append(params object[] effects) => throw new NotImplementedException();
+        public void Append(params object[] effects) => InvokeVoid("append", effects);
     }
 }

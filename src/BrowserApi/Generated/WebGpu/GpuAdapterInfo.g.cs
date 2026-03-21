@@ -33,27 +33,27 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUAdapterInfo")]
-    public partial class GpuAdapterInfo
+    public partial class GpuAdapterInfo : JsObject
     {
         [JsName("vendor")]
-        public string Vendor { get; }
+        public string Vendor => GetProperty<string>("vendor");
 
         [JsName("architecture")]
-        public string Architecture { get; }
+        public string Architecture => GetProperty<string>("architecture");
 
         [JsName("device")]
-        public string Device { get; }
+        public string Device => GetProperty<string>("device");
 
         [JsName("description")]
-        public string Description { get; }
+        public string Description => GetProperty<string>("description");
 
         [JsName("subgroupMinSize")]
-        public uint SubgroupMinSize { get; }
+        public uint SubgroupMinSize => GetProperty<uint>("subgroupMinSize");
 
         [JsName("subgroupMaxSize")]
-        public uint SubgroupMaxSize { get; }
+        public uint SubgroupMaxSize => GetProperty<uint>("subgroupMaxSize");
 
         [JsName("isFallbackAdapter")]
-        public bool IsFallbackAdapter { get; }
+        public bool IsFallbackAdapter => GetProperty<bool>("isFallbackAdapter");
     }
 }

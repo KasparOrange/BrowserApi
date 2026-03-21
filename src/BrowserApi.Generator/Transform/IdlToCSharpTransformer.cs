@@ -44,7 +44,7 @@ public sealed class IdlToCSharpTransformer {
         var csClass = new CSharpClass {
             Name = csName,
             Namespace = ns,
-            BaseClass = iface.Inheritance != null ? NamingConventions.ToPascalCase(iface.Inheritance) : null,
+            BaseClass = iface.Inheritance != null ? NamingConventions.ToPascalCase(iface.Inheritance) : "JsObject",
             JsName = jsName,
             Kind = iface.Kind
         };
@@ -152,7 +152,6 @@ public sealed class IdlToCSharpTransformer {
     private CSharpProperty TransformAttribute(IdlAttribute attr) {
         var propType = _typeMapper.MapPropertyType(attr.Type);
         var propName = NamingConventions.ToPascalCase(attr.Name ?? "");
-        var jsName = propName != attr.Name ? attr.Name : null;
 
         return new CSharpProperty {
             Name = propName,
@@ -160,7 +159,7 @@ public sealed class IdlToCSharpTransformer {
             IsReadOnly = attr.IsReadOnly,
             IsNullable = attr.Type.IsNullable,
             IsStatic = attr.Special == "static",
-            JsName = jsName
+            JsName = attr.Name
         };
     }
 
@@ -170,19 +169,12 @@ public sealed class IdlToCSharpTransformer {
         if (isAsync && !methodName.EndsWith("Async"))
             methodName += "Async";
 
-        var jsName = methodName != op.Name && !isAsync ? op.Name : null;
-        if (isAsync) {
-            // For async methods the JS name is the original name (without Async suffix)
-            var originalPascal = NamingConventions.ToPascalCase(op.Name ?? "");
-            jsName = originalPascal != op.Name ? op.Name : null;
-        }
-
         return new CSharpMethod {
             Name = methodName,
             ReturnType = returnType,
             IsAsync = isAsync,
             IsStatic = op.Special == "static",
-            JsName = jsName,
+            JsName = op.Name,
             Parameters = op.Arguments.Select(TransformArgument).ToList()
         };
     }

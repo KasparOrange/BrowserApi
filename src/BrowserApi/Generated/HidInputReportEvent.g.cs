@@ -36,12 +36,12 @@ namespace BrowserApi
     public partial class HidInputReportEvent : Event
     {
         [JsName("device")]
-        public HidDevice Device { get; }
+        public HidDevice Device => GetProperty<HidDevice>("device");
 
         [JsName("reportId")]
-        public byte ReportId { get; }
+        public byte ReportId => GetProperty<byte>("reportId");
 
         [JsName("data")]
-        public byte[] Data { get; }
+        public byte[] Data => GetProperty<byte[]>("data");
     }
 }

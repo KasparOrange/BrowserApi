@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("OVR_multiview2")]
-    public partial class OvrMultiview2
+    public partial class OvrMultiview2 : JsObject
     {
         public const uint FramebufferAttachmentTextureNumViewsOvr = 0x9630;
 
@@ -44,6 +44,6 @@ namespace BrowserApi.WebGl
         public const uint FramebufferIncompleteViewTargetsOvr = 0x9633;
 
         [JsName("framebufferTextureMultiviewOVR")]
-        public void FramebufferTextureMultiviewOvr(uint target, uint attachment, WebGlTexture? texture, int level, int baseViewIndex, int numViews) => throw new NotImplementedException();
+        public void FramebufferTextureMultiviewOvr(uint target, uint attachment, WebGlTexture? texture, int level, int baseViewIndex, int numViews) => InvokeVoid("framebufferTextureMultiviewOVR", target, attachment, texture, level, baseViewIndex, numViews);
     }
 }

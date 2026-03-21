@@ -35,9 +35,13 @@ namespace BrowserApi.Dom
     public partial class SharedWorker : EventTarget
     {
         [JsName("port")]
-        public MessagePort Port { get; }
+        public MessagePort Port => GetProperty<MessagePort>("port");
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
     }
 }

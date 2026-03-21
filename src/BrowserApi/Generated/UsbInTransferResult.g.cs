@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("USBInTransferResult")]
-    public partial class UsbInTransferResult
+    public partial class UsbInTransferResult : JsObject
     {
         [JsName("data")]
-        public byte[]? Data { get; }
+        public byte[]? Data => GetProperty<byte[]?>("data");
 
         [JsName("status")]
-        public UsbTransferStatus Status { get; }
+        public UsbTransferStatus Status => GetProperty<UsbTransferStatus>("status");
     }
 }

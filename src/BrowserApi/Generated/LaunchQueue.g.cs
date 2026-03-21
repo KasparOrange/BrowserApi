@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class LaunchQueue
+    public partial class LaunchQueue : JsObject
     {
         [JsName("setConsumer")]
-        public void SetConsumer(LaunchConsumer consumer) => throw new NotImplementedException();
+        public void SetConsumer(LaunchConsumer consumer) => InvokeVoid("setConsumer", consumer);
     }
 }

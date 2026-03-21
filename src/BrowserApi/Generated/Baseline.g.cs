@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Baseline
+    public partial class Baseline : JsObject
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("value")]
-        public double Value { get; }
+        public double Value => GetProperty<double>("value");
     }
 }

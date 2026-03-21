@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGTransform")]
-    public partial class SvgTransform
+    public partial class SvgTransform : JsObject
     {
         public const ushort SvgTransformUnknown = 0;
 
@@ -50,30 +50,30 @@ namespace BrowserApi
         public const ushort SvgTransformSkewy = 6;
 
         [JsName("type")]
-        public ushort Type { get; }
+        public ushort Type => GetProperty<ushort>("type");
 
         [JsName("matrix")]
-        public DomMatrix Matrix { get; }
+        public DomMatrix Matrix => GetProperty<DomMatrix>("matrix");
 
         [JsName("angle")]
-        public float Angle { get; }
+        public float Angle => GetProperty<float>("angle");
 
         [JsName("setMatrix")]
-        public void SetMatrix(DomMatrix2Dinit? matrix = null) => throw new NotImplementedException();
+        public void SetMatrix(DomMatrix2Dinit? matrix = null) => InvokeVoid("setMatrix", matrix);
 
         [JsName("setTranslate")]
-        public void SetTranslate(float tx, float ty) => throw new NotImplementedException();
+        public void SetTranslate(float tx, float ty) => InvokeVoid("setTranslate", tx, ty);
 
         [JsName("setScale")]
-        public void SetScale(float sx, float sy) => throw new NotImplementedException();
+        public void SetScale(float sx, float sy) => InvokeVoid("setScale", sx, sy);
 
         [JsName("setRotate")]
-        public void SetRotate(float angle, float cx, float cy) => throw new NotImplementedException();
+        public void SetRotate(float angle, float cx, float cy) => InvokeVoid("setRotate", angle, cx, cy);
 
         [JsName("setSkewX")]
-        public void SetSkewX(float angle) => throw new NotImplementedException();
+        public void SetSkewX(float angle) => InvokeVoid("setSkewX", angle);
 
         [JsName("setSkewY")]
-        public void SetSkewY(float angle) => throw new NotImplementedException();
+        public void SetSkewY(float angle) => InvokeVoid("setSkewY", angle);
     }
 }

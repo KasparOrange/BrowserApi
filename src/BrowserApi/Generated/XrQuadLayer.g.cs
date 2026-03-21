@@ -36,18 +36,38 @@ namespace BrowserApi
     public partial class XrQuadLayer : XrCompositionLayer
     {
         [JsName("space")]
-        public XrSpace Space { get; set; }
+        public XrSpace Space
+        {
+            get => GetProperty<XrSpace>("space");
+            set => SetProperty("space", value);
+        }
 
         [JsName("transform")]
-        public XrRigidTransform Transform { get; set; }
+        public XrRigidTransform Transform
+        {
+            get => GetProperty<XrRigidTransform>("transform");
+            set => SetProperty("transform", value);
+        }
 
         [JsName("width")]
-        public float Width { get; set; }
+        public float Width
+        {
+            get => GetProperty<float>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public float Height { get; set; }
+        public float Height
+        {
+            get => GetProperty<float>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("onredraw")]
-        public object Onredraw { get; set; }
+        public object Onredraw
+        {
+            get => GetProperty<object>("onredraw");
+            set => SetProperty("onredraw", value);
+        }
     }
 }

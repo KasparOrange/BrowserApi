@@ -33,27 +33,27 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Geometry
 {
     [JsName("DOMPointReadOnly")]
-    public partial class DomPointReadOnly
+    public partial class DomPointReadOnly : JsObject
     {
         [JsName("x")]
-        public double X { get; }
+        public double X => GetProperty<double>("x");
 
         [JsName("y")]
-        public double Y { get; }
+        public double Y => GetProperty<double>("y");
 
         [JsName("z")]
-        public double Z { get; }
+        public double Z => GetProperty<double>("z");
 
         [JsName("w")]
-        public double W { get; }
+        public double W => GetProperty<double>("w");
 
         [JsName("fromPoint")]
         public static DomPointReadOnly FromPoint(DomPointInit? other = null) => throw new NotImplementedException();
 
         [JsName("matrixTransform")]
-        public DomPoint MatrixTransform(DomMatrixInit? matrix = null) => throw new NotImplementedException();
+        public DomPoint MatrixTransform(DomMatrixInit? matrix = null) => Invoke<DomPoint>("matrixTransform", matrix);
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

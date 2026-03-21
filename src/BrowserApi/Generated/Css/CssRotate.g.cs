@@ -36,15 +36,31 @@ namespace BrowserApi.Css
     public partial class CssRotate : CssTransformComponent
     {
         [JsName("x")]
-        public object X { get; set; }
+        public object X
+        {
+            get => GetProperty<object>("x");
+            set => SetProperty("x", value);
+        }
 
         [JsName("y")]
-        public object Y { get; set; }
+        public object Y
+        {
+            get => GetProperty<object>("y");
+            set => SetProperty("y", value);
+        }
 
         [JsName("z")]
-        public object Z { get; set; }
+        public object Z
+        {
+            get => GetProperty<object>("z");
+            set => SetProperty("z", value);
+        }
 
         [JsName("angle")]
-        public CssNumericValue Angle { get; set; }
+        public CssNumericValue Angle
+        {
+            get => GetProperty<CssNumericValue>("angle");
+            set => SetProperty("angle", value);
+        }
     }
 }

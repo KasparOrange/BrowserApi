@@ -32,27 +32,27 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class WebAssembly
+    public partial class WebAssembly : JsObject
     {
         [JsName("JSTag")]
-        public Tag JsTag { get; }
+        public Tag JsTag => GetProperty<Tag>("JSTag");
 
         [JsName("validate")]
-        public bool Validate(byte[] bytes, WebAssemblyCompileOptions? options = null) => throw new NotImplementedException();
+        public bool Validate(byte[] bytes, WebAssemblyCompileOptions? options = null) => Invoke<bool>("validate", bytes, options);
 
         [JsName("compile")]
-        public Task<Module> CompileAsync(byte[] bytes, WebAssemblyCompileOptions? options = null) => throw new NotImplementedException();
+        public Task<Module> CompileAsync(byte[] bytes, WebAssemblyCompileOptions? options = null) => InvokeAsync<Module>("compile", bytes, options);
 
         [JsName("instantiate")]
-        public Task<WebAssemblyInstantiatedSource> InstantiateAsync(byte[] bytes, object? importObject = null, WebAssemblyCompileOptions? options = null) => throw new NotImplementedException();
+        public Task<WebAssemblyInstantiatedSource> InstantiateAsync(byte[] bytes, object? importObject = null, WebAssemblyCompileOptions? options = null) => InvokeAsync<WebAssemblyInstantiatedSource>("instantiate", bytes, importObject, options);
 
         [JsName("instantiate")]
-        public Task<Instance> InstantiateAsync(Module moduleObject, object? importObject = null) => throw new NotImplementedException();
+        public Task<Instance> InstantiateAsync(Module moduleObject, object? importObject = null) => InvokeAsync<Instance>("instantiate", moduleObject, importObject);
 
         [JsName("compileStreaming")]
-        public Task<Module> CompileStreamingAsync(Task<Response> source, WebAssemblyCompileOptions? options = null) => throw new NotImplementedException();
+        public Task<Module> CompileStreamingAsync(Task<Response> source, WebAssemblyCompileOptions? options = null) => InvokeAsync<Module>("compileStreaming", source, options);
 
         [JsName("instantiateStreaming")]
-        public Task<WebAssemblyInstantiatedSource> InstantiateStreamingAsync(Task<Response> source, object? importObject = null, WebAssemblyCompileOptions? options = null) => throw new NotImplementedException();
+        public Task<WebAssemblyInstantiatedSource> InstantiateStreamingAsync(Task<Response> source, object? importObject = null, WebAssemblyCompileOptions? options = null) => InvokeAsync<WebAssemblyInstantiatedSource>("instantiateStreaming", source, importObject, options);
     }
 }

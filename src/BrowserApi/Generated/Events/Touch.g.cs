@@ -32,51 +32,51 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Events
 {
-    public partial class Touch
+    public partial class Touch : JsObject
     {
         [JsName("identifier")]
-        public int Identifier { get; }
+        public int Identifier => GetProperty<int>("identifier");
 
         [JsName("target")]
-        public EventTarget Target { get; }
+        public EventTarget Target => GetProperty<EventTarget>("target");
 
         [JsName("screenX")]
-        public double ScreenX { get; }
+        public double ScreenX => GetProperty<double>("screenX");
 
         [JsName("screenY")]
-        public double ScreenY { get; }
+        public double ScreenY => GetProperty<double>("screenY");
 
         [JsName("clientX")]
-        public double ClientX { get; }
+        public double ClientX => GetProperty<double>("clientX");
 
         [JsName("clientY")]
-        public double ClientY { get; }
+        public double ClientY => GetProperty<double>("clientY");
 
         [JsName("pageX")]
-        public double PageX { get; }
+        public double PageX => GetProperty<double>("pageX");
 
         [JsName("pageY")]
-        public double PageY { get; }
+        public double PageY => GetProperty<double>("pageY");
 
         [JsName("radiusX")]
-        public float RadiusX { get; }
+        public float RadiusX => GetProperty<float>("radiusX");
 
         [JsName("radiusY")]
-        public float RadiusY { get; }
+        public float RadiusY => GetProperty<float>("radiusY");
 
         [JsName("rotationAngle")]
-        public float RotationAngle { get; }
+        public float RotationAngle => GetProperty<float>("rotationAngle");
 
         [JsName("force")]
-        public float Force { get; }
+        public float Force => GetProperty<float>("force");
 
         [JsName("altitudeAngle")]
-        public float AltitudeAngle { get; }
+        public float AltitudeAngle => GetProperty<float>("altitudeAngle");
 
         [JsName("azimuthAngle")]
-        public float AzimuthAngle { get; }
+        public float AzimuthAngle => GetProperty<float>("azimuthAngle");
 
         [JsName("touchType")]
-        public TouchType TouchType { get; }
+        public TouchType TouchType => GetProperty<TouchType>("touchType");
     }
 }

@@ -35,6 +35,10 @@ namespace BrowserApi
     public partial class BluetoothPermissionResult : PermissionStatus
     {
         [JsName("devices")]
-        public IReadOnlyList<BluetoothDevice> Devices { get; set; }
+        public IReadOnlyList<BluetoothDevice> Devices
+        {
+            get => GetProperty<IReadOnlyList<BluetoothDevice>>("devices");
+            set => SetProperty("devices", value);
+        }
     }
 }

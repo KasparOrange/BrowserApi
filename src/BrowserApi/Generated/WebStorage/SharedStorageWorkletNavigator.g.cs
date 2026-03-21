@@ -32,9 +32,9 @@ using BrowserApi.WebSockets;
 
 namespace BrowserApi.WebStorage
 {
-    public partial class SharedStorageWorkletNavigator
+    public partial class SharedStorageWorkletNavigator : JsObject
     {
         [JsName("locks")]
-        public LockManager Locks { get; }
+        public LockManager Locks => GetProperty<LockManager>("locks");
     }
 }

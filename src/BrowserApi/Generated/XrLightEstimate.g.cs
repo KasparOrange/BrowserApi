@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRLightEstimate")]
-    public partial class XrLightEstimate
+    public partial class XrLightEstimate : JsObject
     {
         [JsName("sphericalHarmonicsCoefficients")]
-        public float[] SphericalHarmonicsCoefficients { get; }
+        public float[] SphericalHarmonicsCoefficients => GetProperty<float[]>("sphericalHarmonicsCoefficients");
 
         [JsName("primaryLightDirection")]
-        public DomPointReadOnly PrimaryLightDirection { get; }
+        public DomPointReadOnly PrimaryLightDirection => GetProperty<DomPointReadOnly>("primaryLightDirection");
 
         [JsName("primaryLightIntensity")]
-        public DomPointReadOnly PrimaryLightIntensity { get; }
+        public DomPointReadOnly PrimaryLightIntensity => GetProperty<DomPointReadOnly>("primaryLightIntensity");
     }
 }

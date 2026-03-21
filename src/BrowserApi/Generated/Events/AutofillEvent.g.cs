@@ -35,9 +35,9 @@ namespace BrowserApi.Events
     public partial class AutofillEvent : Event
     {
         [JsName("autofillValues")]
-        public IReadOnlyList<IReadOnlyList<object>> AutofillValues { get; }
+        public IReadOnlyList<IReadOnlyList<object>> AutofillValues => GetProperty<IReadOnlyList<IReadOnlyList<object>>>("autofillValues");
 
         [JsName("refill")]
-        public RefillCallback? Refill { get; }
+        public RefillCallback? Refill => GetProperty<RefillCallback?>("refill");
     }
 }

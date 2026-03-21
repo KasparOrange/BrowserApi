@@ -36,39 +36,43 @@ namespace BrowserApi
     public partial class HidDevice : EventTarget
     {
         [JsName("oninputreport")]
-        public object Oninputreport { get; set; }
+        public object Oninputreport
+        {
+            get => GetProperty<object>("oninputreport");
+            set => SetProperty("oninputreport", value);
+        }
 
         [JsName("opened")]
-        public bool Opened { get; }
+        public bool Opened => GetProperty<bool>("opened");
 
         [JsName("vendorId")]
-        public ushort VendorId { get; }
+        public ushort VendorId => GetProperty<ushort>("vendorId");
 
         [JsName("productId")]
-        public ushort ProductId { get; }
+        public ushort ProductId => GetProperty<ushort>("productId");
 
         [JsName("productName")]
-        public string ProductName { get; }
+        public string ProductName => GetProperty<string>("productName");
 
         [JsName("collections")]
-        public IReadOnlyList<HidCollectionInfo> Collections { get; }
+        public IReadOnlyList<HidCollectionInfo> Collections => GetProperty<IReadOnlyList<HidCollectionInfo>>("collections");
 
         [JsName("open")]
-        public Task OpenAsync() => throw new NotImplementedException();
+        public Task OpenAsync() => InvokeVoidAsync("open");
 
         [JsName("close")]
-        public Task CloseAsync() => throw new NotImplementedException();
+        public Task CloseAsync() => InvokeVoidAsync("close");
 
         [JsName("forget")]
-        public Task ForgetAsync() => throw new NotImplementedException();
+        public Task ForgetAsync() => InvokeVoidAsync("forget");
 
         [JsName("sendReport")]
-        public Task SendReportAsync(byte reportId, byte[] data) => throw new NotImplementedException();
+        public Task SendReportAsync(byte reportId, byte[] data) => InvokeVoidAsync("sendReport", reportId, data);
 
         [JsName("sendFeatureReport")]
-        public Task SendFeatureReportAsync(byte reportId, byte[] data) => throw new NotImplementedException();
+        public Task SendFeatureReportAsync(byte reportId, byte[] data) => InvokeVoidAsync("sendFeatureReport", reportId, data);
 
         [JsName("receiveFeatureReport")]
-        public Task<byte[]> ReceiveFeatureReportAsync(byte reportId) => throw new NotImplementedException();
+        public Task<byte[]> ReceiveFeatureReportAsync(byte reportId) => InvokeAsync<byte[]>("receiveFeatureReport", reportId);
     }
 }

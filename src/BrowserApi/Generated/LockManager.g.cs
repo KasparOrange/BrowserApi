@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class LockManager
+    public partial class LockManager : JsObject
     {
         [JsName("request")]
-        public Task<object> RequestAsync(string name, LockGrantedCallback callback) => throw new NotImplementedException();
+        public Task<object> RequestAsync(string name, LockGrantedCallback callback) => InvokeAsync<object>("request", name, callback);
 
         [JsName("request")]
-        public Task<object> RequestAsync(string name, LockOptions options, LockGrantedCallback callback) => throw new NotImplementedException();
+        public Task<object> RequestAsync(string name, LockOptions options, LockGrantedCallback callback) => InvokeAsync<object>("request", name, options, callback);
 
         [JsName("query")]
-        public Task<LockManagerSnapshot> QueryAsync() => throw new NotImplementedException();
+        public Task<LockManagerSnapshot> QueryAsync() => InvokeAsync<LockManagerSnapshot>("query");
     }
 }

@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Fetch
 {
-    public partial class FetchLaterResult
+    public partial class FetchLaterResult : JsObject
     {
         [JsName("activated")]
-        public bool Activated { get; }
+        public bool Activated => GetProperty<bool>("activated");
     }
 }

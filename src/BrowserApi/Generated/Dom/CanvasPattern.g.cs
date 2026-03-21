@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class CanvasPattern
+    public partial class CanvasPattern : JsObject
     {
         [JsName("setTransform")]
-        public void SetTransform(DomMatrix2Dinit? transform = null) => throw new NotImplementedException();
+        public void SetTransform(DomMatrix2Dinit? transform = null) => InvokeVoid("setTransform", transform);
     }
 }

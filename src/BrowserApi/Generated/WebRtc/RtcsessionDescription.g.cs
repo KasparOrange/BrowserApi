@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCSessionDescription")]
-    public partial class RtcsessionDescription
+    public partial class RtcsessionDescription : JsObject
     {
         [JsName("type")]
-        public RtcsdpType Type { get; }
+        public RtcsdpType Type => GetProperty<RtcsdpType>("type");
 
         [JsName("sdp")]
-        public string Sdp { get; }
+        public string Sdp => GetProperty<string>("sdp");
 
         [JsName("toJSON")]
-        public RtcsessionDescriptionInit ToJsOn() => throw new NotImplementedException();
+        public RtcsessionDescriptionInit ToJsOn() => Invoke<RtcsessionDescriptionInit>("toJSON");
     }
 }

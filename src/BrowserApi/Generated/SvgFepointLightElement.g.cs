@@ -36,12 +36,12 @@ namespace BrowserApi
     public partial class SvgFepointLightElement : SvgElement
     {
         [JsName("x")]
-        public SvgAnimatedNumber X { get; }
+        public SvgAnimatedNumber X => GetProperty<SvgAnimatedNumber>("x");
 
         [JsName("y")]
-        public SvgAnimatedNumber Y { get; }
+        public SvgAnimatedNumber Y => GetProperty<SvgAnimatedNumber>("y");
 
         [JsName("z")]
-        public SvgAnimatedNumber Z { get; }
+        public SvgAnimatedNumber Z => GetProperty<SvgAnimatedNumber>("z");
     }
 }

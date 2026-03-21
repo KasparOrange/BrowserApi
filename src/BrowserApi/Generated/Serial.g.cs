@@ -35,15 +35,23 @@ namespace BrowserApi
     public partial class Serial : EventTarget
     {
         [JsName("onconnect")]
-        public object Onconnect { get; set; }
+        public object Onconnect
+        {
+            get => GetProperty<object>("onconnect");
+            set => SetProperty("onconnect", value);
+        }
 
         [JsName("ondisconnect")]
-        public object Ondisconnect { get; set; }
+        public object Ondisconnect
+        {
+            get => GetProperty<object>("ondisconnect");
+            set => SetProperty("ondisconnect", value);
+        }
 
         [JsName("getPorts")]
-        public Task<IReadOnlyList<SerialPort>> GetPortsAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<SerialPort>> GetPortsAsync() => InvokeAsync<IReadOnlyList<SerialPort>>("getPorts");
 
         [JsName("requestPort")]
-        public Task<SerialPort> RequestPortAsync(SerialPortRequestOptions? options = null) => throw new NotImplementedException();
+        public Task<SerialPort> RequestPortAsync(SerialPortRequestOptions? options = null) => InvokeAsync<SerialPort>("requestPort", options);
     }
 }

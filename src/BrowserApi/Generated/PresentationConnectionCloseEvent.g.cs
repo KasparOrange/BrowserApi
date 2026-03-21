@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class PresentationConnectionCloseEvent : Event
     {
         [JsName("reason")]
-        public PresentationConnectionCloseReason Reason { get; }
+        public PresentationConnectionCloseReason Reason => GetProperty<PresentationConnectionCloseReason>("reason");
 
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
     }
 }

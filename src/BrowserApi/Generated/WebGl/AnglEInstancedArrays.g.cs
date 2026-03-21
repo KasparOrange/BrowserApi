@@ -33,17 +33,17 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("ANGLE_instanced_arrays")]
-    public partial class AnglEInstancedArrays
+    public partial class AnglEInstancedArrays : JsObject
     {
         public const uint VertexAttribArrayDivisorAnglE = 0x88FE;
 
         [JsName("drawArraysInstancedANGLE")]
-        public void DrawArraysInstancedAnglE(uint mode, int first, int count, int primcount) => throw new NotImplementedException();
+        public void DrawArraysInstancedAnglE(uint mode, int first, int count, int primcount) => InvokeVoid("drawArraysInstancedANGLE", mode, first, count, primcount);
 
         [JsName("drawElementsInstancedANGLE")]
-        public void DrawElementsInstancedAnglE(uint mode, int count, uint type, long offset, int primcount) => throw new NotImplementedException();
+        public void DrawElementsInstancedAnglE(uint mode, int count, uint type, long offset, int primcount) => InvokeVoid("drawElementsInstancedANGLE", mode, count, type, offset, primcount);
 
         [JsName("vertexAttribDivisorANGLE")]
-        public void VertexAttribDivisorAnglE(uint index, uint divisor) => throw new NotImplementedException();
+        public void VertexAttribDivisorAnglE(uint index, uint divisor) => InvokeVoid("vertexAttribDivisorANGLE", index, divisor);
     }
 }

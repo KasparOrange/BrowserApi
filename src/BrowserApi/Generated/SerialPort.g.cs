@@ -35,36 +35,44 @@ namespace BrowserApi
     public partial class SerialPort : EventTarget
     {
         [JsName("onconnect")]
-        public object Onconnect { get; set; }
+        public object Onconnect
+        {
+            get => GetProperty<object>("onconnect");
+            set => SetProperty("onconnect", value);
+        }
 
         [JsName("ondisconnect")]
-        public object Ondisconnect { get; set; }
+        public object Ondisconnect
+        {
+            get => GetProperty<object>("ondisconnect");
+            set => SetProperty("ondisconnect", value);
+        }
 
         [JsName("connected")]
-        public bool Connected { get; }
+        public bool Connected => GetProperty<bool>("connected");
 
         [JsName("readable")]
-        public ReadableStream? Readable { get; }
+        public ReadableStream? Readable => GetProperty<ReadableStream?>("readable");
 
         [JsName("writable")]
-        public WritableStream? Writable { get; }
+        public WritableStream? Writable => GetProperty<WritableStream?>("writable");
 
         [JsName("getInfo")]
-        public SerialPortInfo GetInfo() => throw new NotImplementedException();
+        public SerialPortInfo GetInfo() => Invoke<SerialPortInfo>("getInfo");
 
         [JsName("open")]
-        public Task OpenAsync(SerialOptions options) => throw new NotImplementedException();
+        public Task OpenAsync(SerialOptions options) => InvokeVoidAsync("open", options);
 
         [JsName("setSignals")]
-        public Task SetSignalsAsync(SerialOutputSignals? signals = null) => throw new NotImplementedException();
+        public Task SetSignalsAsync(SerialOutputSignals? signals = null) => InvokeVoidAsync("setSignals", signals);
 
         [JsName("getSignals")]
-        public Task<SerialInputSignals> GetSignalsAsync() => throw new NotImplementedException();
+        public Task<SerialInputSignals> GetSignalsAsync() => InvokeAsync<SerialInputSignals>("getSignals");
 
         [JsName("close")]
-        public Task CloseAsync() => throw new NotImplementedException();
+        public Task CloseAsync() => InvokeVoidAsync("close");
 
         [JsName("forget")]
-        public Task ForgetAsync() => throw new NotImplementedException();
+        public Task ForgetAsync() => InvokeVoidAsync("forget");
     }
 }

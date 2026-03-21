@@ -36,70 +36,158 @@ namespace BrowserApi.Geometry
     public partial class DomMatrix : DomMatrixReadOnly
     {
         [JsName("a")]
-        public double A { get; set; }
+        public double A
+        {
+            get => GetProperty<double>("a");
+            set => SetProperty("a", value);
+        }
 
         [JsName("b")]
-        public double B { get; set; }
+        public double B
+        {
+            get => GetProperty<double>("b");
+            set => SetProperty("b", value);
+        }
 
         [JsName("c")]
-        public double C { get; set; }
+        public double C
+        {
+            get => GetProperty<double>("c");
+            set => SetProperty("c", value);
+        }
 
         [JsName("d")]
-        public double D { get; set; }
+        public double D
+        {
+            get => GetProperty<double>("d");
+            set => SetProperty("d", value);
+        }
 
         [JsName("e")]
-        public double E { get; set; }
+        public double E
+        {
+            get => GetProperty<double>("e");
+            set => SetProperty("e", value);
+        }
 
         [JsName("f")]
-        public double F { get; set; }
+        public double F
+        {
+            get => GetProperty<double>("f");
+            set => SetProperty("f", value);
+        }
 
         [JsName("m11")]
-        public double M11 { get; set; }
+        public double M11
+        {
+            get => GetProperty<double>("m11");
+            set => SetProperty("m11", value);
+        }
 
         [JsName("m12")]
-        public double M12 { get; set; }
+        public double M12
+        {
+            get => GetProperty<double>("m12");
+            set => SetProperty("m12", value);
+        }
 
         [JsName("m13")]
-        public double M13 { get; set; }
+        public double M13
+        {
+            get => GetProperty<double>("m13");
+            set => SetProperty("m13", value);
+        }
 
         [JsName("m14")]
-        public double M14 { get; set; }
+        public double M14
+        {
+            get => GetProperty<double>("m14");
+            set => SetProperty("m14", value);
+        }
 
         [JsName("m21")]
-        public double M21 { get; set; }
+        public double M21
+        {
+            get => GetProperty<double>("m21");
+            set => SetProperty("m21", value);
+        }
 
         [JsName("m22")]
-        public double M22 { get; set; }
+        public double M22
+        {
+            get => GetProperty<double>("m22");
+            set => SetProperty("m22", value);
+        }
 
         [JsName("m23")]
-        public double M23 { get; set; }
+        public double M23
+        {
+            get => GetProperty<double>("m23");
+            set => SetProperty("m23", value);
+        }
 
         [JsName("m24")]
-        public double M24 { get; set; }
+        public double M24
+        {
+            get => GetProperty<double>("m24");
+            set => SetProperty("m24", value);
+        }
 
         [JsName("m31")]
-        public double M31 { get; set; }
+        public double M31
+        {
+            get => GetProperty<double>("m31");
+            set => SetProperty("m31", value);
+        }
 
         [JsName("m32")]
-        public double M32 { get; set; }
+        public double M32
+        {
+            get => GetProperty<double>("m32");
+            set => SetProperty("m32", value);
+        }
 
         [JsName("m33")]
-        public double M33 { get; set; }
+        public double M33
+        {
+            get => GetProperty<double>("m33");
+            set => SetProperty("m33", value);
+        }
 
         [JsName("m34")]
-        public double M34 { get; set; }
+        public double M34
+        {
+            get => GetProperty<double>("m34");
+            set => SetProperty("m34", value);
+        }
 
         [JsName("m41")]
-        public double M41 { get; set; }
+        public double M41
+        {
+            get => GetProperty<double>("m41");
+            set => SetProperty("m41", value);
+        }
 
         [JsName("m42")]
-        public double M42 { get; set; }
+        public double M42
+        {
+            get => GetProperty<double>("m42");
+            set => SetProperty("m42", value);
+        }
 
         [JsName("m43")]
-        public double M43 { get; set; }
+        public double M43
+        {
+            get => GetProperty<double>("m43");
+            set => SetProperty("m43", value);
+        }
 
         [JsName("m44")]
-        public double M44 { get; set; }
+        public double M44
+        {
+            get => GetProperty<double>("m44");
+            set => SetProperty("m44", value);
+        }
 
         [JsName("fromMatrix")]
         public static DomMatrix FromMatrix(DomMatrixInit? other = null) => throw new NotImplementedException();
@@ -111,39 +199,39 @@ namespace BrowserApi.Geometry
         public static DomMatrix FromFloat64Array(double[] array64) => throw new NotImplementedException();
 
         [JsName("multiplySelf")]
-        public DomMatrix MultiplySelf(DomMatrixInit? other = null) => throw new NotImplementedException();
+        public DomMatrix MultiplySelf(DomMatrixInit? other = null) => Invoke<DomMatrix>("multiplySelf", other);
 
         [JsName("preMultiplySelf")]
-        public DomMatrix PreMultiplySelf(DomMatrixInit? other = null) => throw new NotImplementedException();
+        public DomMatrix PreMultiplySelf(DomMatrixInit? other = null) => Invoke<DomMatrix>("preMultiplySelf", other);
 
         [JsName("translateSelf")]
-        public DomMatrix TranslateSelf(double tx = 0, double ty = 0, double tz = 0) => throw new NotImplementedException();
+        public DomMatrix TranslateSelf(double tx = 0, double ty = 0, double tz = 0) => Invoke<DomMatrix>("translateSelf", tx, ty, tz);
 
         [JsName("scaleSelf")]
-        public DomMatrix ScaleSelf(double scaleX = 1, double? scaleY = null, double scaleZ = 1, double originX = 0, double originY = 0, double originZ = 0) => throw new NotImplementedException();
+        public DomMatrix ScaleSelf(double scaleX = 1, double? scaleY = null, double scaleZ = 1, double originX = 0, double originY = 0, double originZ = 0) => Invoke<DomMatrix>("scaleSelf", scaleX, scaleY, scaleZ, originX, originY, originZ);
 
         [JsName("scale3dSelf")]
-        public DomMatrix Scale3dSelf(double scale = 1, double originX = 0, double originY = 0, double originZ = 0) => throw new NotImplementedException();
+        public DomMatrix Scale3dSelf(double scale = 1, double originX = 0, double originY = 0, double originZ = 0) => Invoke<DomMatrix>("scale3dSelf", scale, originX, originY, originZ);
 
         [JsName("rotateSelf")]
-        public DomMatrix RotateSelf(double rotX = 0, double? rotY = null, double? rotZ = null) => throw new NotImplementedException();
+        public DomMatrix RotateSelf(double rotX = 0, double? rotY = null, double? rotZ = null) => Invoke<DomMatrix>("rotateSelf", rotX, rotY, rotZ);
 
         [JsName("rotateFromVectorSelf")]
-        public DomMatrix RotateFromVectorSelf(double x = 0, double y = 0) => throw new NotImplementedException();
+        public DomMatrix RotateFromVectorSelf(double x = 0, double y = 0) => Invoke<DomMatrix>("rotateFromVectorSelf", x, y);
 
         [JsName("rotateAxisAngleSelf")]
-        public DomMatrix RotateAxisAngleSelf(double x = 0, double y = 0, double z = 0, double angle = 0) => throw new NotImplementedException();
+        public DomMatrix RotateAxisAngleSelf(double x = 0, double y = 0, double z = 0, double angle = 0) => Invoke<DomMatrix>("rotateAxisAngleSelf", x, y, z, angle);
 
         [JsName("skewXSelf")]
-        public DomMatrix SkewXself(double sx = 0) => throw new NotImplementedException();
+        public DomMatrix SkewXself(double sx = 0) => Invoke<DomMatrix>("skewXSelf", sx);
 
         [JsName("skewYSelf")]
-        public DomMatrix SkewYself(double sy = 0) => throw new NotImplementedException();
+        public DomMatrix SkewYself(double sy = 0) => Invoke<DomMatrix>("skewYSelf", sy);
 
         [JsName("invertSelf")]
-        public DomMatrix InvertSelf() => throw new NotImplementedException();
+        public DomMatrix InvertSelf() => Invoke<DomMatrix>("invertSelf");
 
         [JsName("setMatrixValue")]
-        public DomMatrix SetMatrixValue(string transformList) => throw new NotImplementedException();
+        public DomMatrix SetMatrixValue(string transformList) => Invoke<DomMatrix>("setMatrixValue", transformList);
     }
 }

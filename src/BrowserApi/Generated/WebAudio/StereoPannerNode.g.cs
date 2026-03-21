@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class StereoPannerNode : AudioNode
     {
         [JsName("pan")]
-        public AudioParam Pan { get; }
+        public AudioParam Pan => GetProperty<AudioParam>("pan");
     }
 }

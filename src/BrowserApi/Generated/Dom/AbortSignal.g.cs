@@ -35,13 +35,17 @@ namespace BrowserApi.Dom
     public partial class AbortSignal : EventTarget
     {
         [JsName("aborted")]
-        public bool Aborted { get; }
+        public bool Aborted => GetProperty<bool>("aborted");
 
         [JsName("reason")]
-        public object Reason { get; }
+        public object Reason => GetProperty<object>("reason");
 
         [JsName("onabort")]
-        public object Onabort { get; set; }
+        public object Onabort
+        {
+            get => GetProperty<object>("onabort");
+            set => SetProperty("onabort", value);
+        }
 
         [JsName("abort")]
         public static AbortSignal Abort(object? reason = null) => throw new NotImplementedException();
@@ -53,6 +57,6 @@ namespace BrowserApi.Dom
         public static AbortSignal Any(IReadOnlyList<AbortSignal> signals) => throw new NotImplementedException();
 
         [JsName("throwIfAborted")]
-        public void ThrowIfAborted() => throw new NotImplementedException();
+        public void ThrowIfAborted() => InvokeVoid("throwIfAborted");
     }
 }

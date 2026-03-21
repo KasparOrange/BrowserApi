@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class XrJointPose : XrPose
     {
         [JsName("radius")]
-        public float Radius { get; }
+        public float Radius => GetProperty<float>("radius");
     }
 }

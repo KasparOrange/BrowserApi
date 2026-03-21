@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class InterestGroupScriptRunnerGlobalScope
+    public partial class InterestGroupScriptRunnerGlobalScope : JsObject
     {
         [JsName("privateAggregation")]
-        public PrivateAggregation? PrivateAggregation { get; }
+        public PrivateAggregation? PrivateAggregation => GetProperty<PrivateAggregation?>("privateAggregation");
 
         [JsName("protectedAudience")]
-        public ProtectedAudienceUtilities ProtectedAudience { get; }
+        public ProtectedAudienceUtilities ProtectedAudience => GetProperty<ProtectedAudienceUtilities>("protectedAudience");
     }
 }

@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("XPathNSResolver")]
-    public partial class XpathNsresolver
+    public partial class XpathNsresolver : JsObject
     {
         [JsName("lookupNamespaceURI")]
-        public string? LookupNamespaceUri(string? prefix) => throw new NotImplementedException();
+        public string? LookupNamespaceUri(string? prefix) => Invoke<string?>("lookupNamespaceURI", prefix);
     }
 }

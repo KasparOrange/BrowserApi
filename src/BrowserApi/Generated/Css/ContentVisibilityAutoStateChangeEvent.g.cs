@@ -35,6 +35,6 @@ namespace BrowserApi.Css
     public partial class ContentVisibilityAutoStateChangeEvent : Event
     {
         [JsName("skipped")]
-        public bool Skipped { get; }
+        public bool Skipped => GetProperty<bool>("skipped");
     }
 }

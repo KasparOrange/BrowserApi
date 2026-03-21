@@ -33,12 +33,16 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Css
 {
     [JsName("CSSVariableReferenceValue")]
-    public partial class CssVariableReferenceValue
+    public partial class CssVariableReferenceValue : JsObject
     {
         [JsName("variable")]
-        public string Variable { get; set; }
+        public string Variable
+        {
+            get => GetProperty<string>("variable");
+            set => SetProperty("variable", value);
+        }
 
         [JsName("fallback")]
-        public CssUnparsedValue? Fallback { get; }
+        public CssUnparsedValue? Fallback => GetProperty<CssUnparsedValue?>("fallback");
     }
 }

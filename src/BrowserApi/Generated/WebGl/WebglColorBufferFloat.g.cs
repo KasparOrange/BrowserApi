@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_color_buffer_float")]
-    public partial class WebglColorBufferFloat
+    public partial class WebglColorBufferFloat : JsObject
     {
         public const uint Rgba32FExt = 0x8814;
 

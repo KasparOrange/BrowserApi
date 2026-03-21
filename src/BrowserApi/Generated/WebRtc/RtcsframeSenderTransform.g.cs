@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCSFrameSenderTransform")]
-    public partial class RtcsframeSenderTransform
+    public partial class RtcsframeSenderTransform : JsObject
     {
         [JsName("setEncryptionKey")]
-        public Task SetEncryptionKeyAsync(CryptoKey key, object keyId) => throw new NotImplementedException();
+        public Task SetEncryptionKeyAsync(CryptoKey key, object keyId) => InvokeVoidAsync("setEncryptionKey", key, keyId);
     }
 }

@@ -35,27 +35,39 @@ namespace BrowserApi
     public partial class Sensor : EventTarget
     {
         [JsName("activated")]
-        public bool Activated { get; }
+        public bool Activated => GetProperty<bool>("activated");
 
         [JsName("hasReading")]
-        public bool HasReading { get; }
+        public bool HasReading => GetProperty<bool>("hasReading");
 
         [JsName("timestamp")]
-        public double? Timestamp { get; }
+        public double? Timestamp => GetProperty<double?>("timestamp");
 
         [JsName("onreading")]
-        public object Onreading { get; set; }
+        public object Onreading
+        {
+            get => GetProperty<object>("onreading");
+            set => SetProperty("onreading", value);
+        }
 
         [JsName("onactivate")]
-        public object Onactivate { get; set; }
+        public object Onactivate
+        {
+            get => GetProperty<object>("onactivate");
+            set => SetProperty("onactivate", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("start")]
-        public void Start() => throw new NotImplementedException();
+        public void Start() => InvokeVoid("start");
 
         [JsName("stop")]
-        public void Stop() => throw new NotImplementedException();
+        public void Stop() => InvokeVoid("stop");
     }
 }

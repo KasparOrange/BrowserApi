@@ -36,18 +36,26 @@ namespace BrowserApi.WebRtc
     public partial class RtcdtlsTransport : EventTarget
     {
         [JsName("iceTransport")]
-        public RtciceTransport IceTransport { get; }
+        public RtciceTransport IceTransport => GetProperty<RtciceTransport>("iceTransport");
 
         [JsName("state")]
-        public RtcdtlsTransportState State { get; }
+        public RtcdtlsTransportState State => GetProperty<RtcdtlsTransportState>("state");
 
         [JsName("onstatechange")]
-        public object Onstatechange { get; set; }
+        public object Onstatechange
+        {
+            get => GetProperty<object>("onstatechange");
+            set => SetProperty("onstatechange", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("getRemoteCertificates")]
-        public IReadOnlyList<byte[]> GetRemoteCertificates() => throw new NotImplementedException();
+        public IReadOnlyList<byte[]> GetRemoteCertificates() => Invoke<IReadOnlyList<byte[]>>("getRemoteCertificates");
     }
 }

@@ -35,18 +35,18 @@ namespace BrowserApi
     public partial class LayoutShift : PerformanceEntry
     {
         [JsName("value")]
-        public double Value { get; }
+        public double Value => GetProperty<double>("value");
 
         [JsName("hadRecentInput")]
-        public bool HadRecentInput { get; }
+        public bool HadRecentInput => GetProperty<bool>("hadRecentInput");
 
         [JsName("lastInputTime")]
-        public double LastInputTime { get; }
+        public double LastInputTime => GetProperty<double>("lastInputTime");
 
         [JsName("sources")]
-        public IReadOnlyList<LayoutShiftAttribution> Sources { get; }
+        public IReadOnlyList<LayoutShiftAttribution> Sources => GetProperty<IReadOnlyList<LayoutShiftAttribution>>("sources");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

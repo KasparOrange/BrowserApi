@@ -35,72 +35,72 @@ namespace BrowserApi.Events
     public partial class MouseEvent : Uievent
     {
         [JsName("screenX")]
-        public int ScreenX { get; }
+        public int ScreenX => GetProperty<int>("screenX");
 
         [JsName("screenY")]
-        public int ScreenY { get; }
+        public int ScreenY => GetProperty<int>("screenY");
 
         [JsName("clientX")]
-        public int ClientX { get; }
+        public int ClientX => GetProperty<int>("clientX");
 
         [JsName("clientY")]
-        public int ClientY { get; }
+        public int ClientY => GetProperty<int>("clientY");
 
         [JsName("layerX")]
-        public int LayerX { get; }
+        public int LayerX => GetProperty<int>("layerX");
 
         [JsName("layerY")]
-        public int LayerY { get; }
+        public int LayerY => GetProperty<int>("layerY");
 
         [JsName("ctrlKey")]
-        public bool CtrlKey { get; }
+        public bool CtrlKey => GetProperty<bool>("ctrlKey");
 
         [JsName("shiftKey")]
-        public bool ShiftKey { get; }
+        public bool ShiftKey => GetProperty<bool>("shiftKey");
 
         [JsName("altKey")]
-        public bool AltKey { get; }
+        public bool AltKey => GetProperty<bool>("altKey");
 
         [JsName("metaKey")]
-        public bool MetaKey { get; }
+        public bool MetaKey => GetProperty<bool>("metaKey");
 
         [JsName("button")]
-        public short Button { get; }
+        public short Button => GetProperty<short>("button");
 
         [JsName("buttons")]
-        public ushort Buttons { get; }
+        public ushort Buttons => GetProperty<ushort>("buttons");
 
         [JsName("relatedTarget")]
-        public EventTarget? RelatedTarget { get; }
+        public EventTarget? RelatedTarget => GetProperty<EventTarget?>("relatedTarget");
 
         [JsName("pageX")]
-        public double PageX { get; }
+        public double PageX => GetProperty<double>("pageX");
 
         [JsName("pageY")]
-        public double PageY { get; }
+        public double PageY => GetProperty<double>("pageY");
 
         [JsName("x")]
-        public double X { get; }
+        public double X => GetProperty<double>("x");
 
         [JsName("y")]
-        public double Y { get; }
+        public double Y => GetProperty<double>("y");
 
         [JsName("offsetX")]
-        public double OffsetX { get; }
+        public double OffsetX => GetProperty<double>("offsetX");
 
         [JsName("offsetY")]
-        public double OffsetY { get; }
+        public double OffsetY => GetProperty<double>("offsetY");
 
         [JsName("movementX")]
-        public double MovementX { get; }
+        public double MovementX => GetProperty<double>("movementX");
 
         [JsName("movementY")]
-        public double MovementY { get; }
+        public double MovementY => GetProperty<double>("movementY");
 
         [JsName("getModifierState")]
-        public bool GetModifierState(string keyArg) => throw new NotImplementedException();
+        public bool GetModifierState(string keyArg) => Invoke<bool>("getModifierState", keyArg);
 
         [JsName("initMouseEvent")]
-        public void InitMouseEvent(string typeArg, bool bubblesArg = false, bool cancelableArg = false, Window? viewArg = null, int detailArg = 0, int screenXarg = 0, int screenYarg = 0, int clientXarg = 0, int clientYarg = 0, bool ctrlKeyArg = false, bool altKeyArg = false, bool shiftKeyArg = false, bool metaKeyArg = false, short buttonArg = 0, EventTarget? relatedTargetArg = null) => throw new NotImplementedException();
+        public void InitMouseEvent(string typeArg, bool bubblesArg = false, bool cancelableArg = false, Window? viewArg = null, int detailArg = 0, int screenXarg = 0, int screenYarg = 0, int clientXarg = 0, int clientYarg = 0, bool ctrlKeyArg = false, bool altKeyArg = false, bool shiftKeyArg = false, bool metaKeyArg = false, short buttonArg = 0, EventTarget? relatedTargetArg = null) => InvokeVoid("initMouseEvent", typeArg, bubblesArg, cancelableArg, viewArg, detailArg, screenXarg, screenYarg, clientXarg, clientYarg, ctrlKeyArg, altKeyArg, shiftKeyArg, metaKeyArg, buttonArg, relatedTargetArg);
     }
 }

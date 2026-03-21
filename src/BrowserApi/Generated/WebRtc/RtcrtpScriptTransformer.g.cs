@@ -36,21 +36,25 @@ namespace BrowserApi.WebRtc
     public partial class RtcrtpScriptTransformer : EventTarget
     {
         [JsName("readable")]
-        public ReadableStream Readable { get; }
+        public ReadableStream Readable => GetProperty<ReadableStream>("readable");
 
         [JsName("writable")]
-        public WritableStream Writable { get; }
+        public WritableStream Writable => GetProperty<WritableStream>("writable");
 
         [JsName("onkeyframerequest")]
-        public object Onkeyframerequest { get; set; }
+        public object Onkeyframerequest
+        {
+            get => GetProperty<object>("onkeyframerequest");
+            set => SetProperty("onkeyframerequest", value);
+        }
 
         [JsName("options")]
-        public object Options { get; }
+        public object Options => GetProperty<object>("options");
 
         [JsName("generateKeyFrame")]
-        public Task GenerateKeyFrameAsync(string? rid = null) => throw new NotImplementedException();
+        public Task GenerateKeyFrameAsync(string? rid = null) => InvokeVoidAsync("generateKeyFrame", rid);
 
         [JsName("sendKeyFrameRequest")]
-        public Task SendKeyFrameRequestAsync() => throw new NotImplementedException();
+        public Task SendKeyFrameRequestAsync() => InvokeVoidAsync("sendKeyFrameRequest");
     }
 }

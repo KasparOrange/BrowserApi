@@ -35,9 +35,9 @@ namespace BrowserApi.Events
     public partial class ClipboardChangeEvent : Event
     {
         [JsName("types")]
-        public IReadOnlyList<string> Types { get; }
+        public IReadOnlyList<string> Types => GetProperty<IReadOnlyList<string>>("types");
 
         [JsName("changeId")]
-        public long ChangeId { get; }
+        public long ChangeId => GetProperty<long>("changeId");
     }
 }

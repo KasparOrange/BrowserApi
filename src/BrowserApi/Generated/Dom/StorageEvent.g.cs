@@ -35,21 +35,21 @@ namespace BrowserApi.Dom
     public partial class StorageEvent : Event
     {
         [JsName("key")]
-        public string? Key { get; }
+        public string? Key => GetProperty<string?>("key");
 
         [JsName("oldValue")]
-        public string? OldValue { get; }
+        public string? OldValue => GetProperty<string?>("oldValue");
 
         [JsName("newValue")]
-        public string? NewValue { get; }
+        public string? NewValue => GetProperty<string?>("newValue");
 
         [JsName("url")]
-        public string Url { get; }
+        public string Url => GetProperty<string>("url");
 
         [JsName("storageArea")]
-        public Storage? StorageArea { get; }
+        public Storage? StorageArea => GetProperty<Storage?>("storageArea");
 
         [JsName("initStorageEvent")]
-        public void InitStorageEvent(string type, bool bubbles = false, bool cancelable = false, string? key = null, string? oldValue = null, string? newValue = null, string url = "", Storage? storageArea = null) => throw new NotImplementedException();
+        public void InitStorageEvent(string type, bool bubbles = false, bool cancelable = false, string? key = null, string? oldValue = null, string? newValue = null, string url = "", Storage? storageArea = null) => InvokeVoid("initStorageEvent", type, bubbles, cancelable, key, oldValue, newValue, url, storageArea);
     }
 }

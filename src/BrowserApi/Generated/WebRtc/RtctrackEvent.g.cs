@@ -36,15 +36,15 @@ namespace BrowserApi.WebRtc
     public partial class RtctrackEvent : Event
     {
         [JsName("receiver")]
-        public RtcrtpReceiver Receiver { get; }
+        public RtcrtpReceiver Receiver => GetProperty<RtcrtpReceiver>("receiver");
 
         [JsName("track")]
-        public MediaStreamTrack Track { get; }
+        public MediaStreamTrack Track => GetProperty<MediaStreamTrack>("track");
 
         [JsName("streams")]
-        public IReadOnlyList<MediaStream> Streams { get; }
+        public IReadOnlyList<MediaStream> Streams => GetProperty<IReadOnlyList<MediaStream>>("streams");
 
         [JsName("transceiver")]
-        public RtcrtpTransceiver Transceiver { get; }
+        public RtcrtpTransceiver Transceiver => GetProperty<RtcrtpTransceiver>("transceiver");
     }
 }

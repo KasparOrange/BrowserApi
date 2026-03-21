@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class AudioWorklet : Worklet
     {
         [JsName("port")]
-        public MessagePort Port { get; }
+        public MessagePort Port => GetProperty<MessagePort>("port");
     }
 }

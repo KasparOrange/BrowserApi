@@ -36,21 +36,21 @@ namespace BrowserApi
     public partial class SvgPathElement : SvgGeometryElement
     {
         [JsName("pathLength")]
-        public SvgAnimatedNumber PathLength { get; }
+        public SvgAnimatedNumber PathLength => GetProperty<SvgAnimatedNumber>("pathLength");
 
         [JsName("getTotalLength")]
-        public float GetTotalLength() => throw new NotImplementedException();
+        public float GetTotalLength() => Invoke<float>("getTotalLength");
 
         [JsName("getPointAtLength")]
-        public DomPoint GetPointAtLength(float distance) => throw new NotImplementedException();
+        public DomPoint GetPointAtLength(float distance) => Invoke<DomPoint>("getPointAtLength", distance);
 
         [JsName("getPathSegmentAtLength")]
-        public SvgPathSegment? GetPathSegmentAtLength(float distance) => throw new NotImplementedException();
+        public SvgPathSegment? GetPathSegmentAtLength(float distance) => Invoke<SvgPathSegment?>("getPathSegmentAtLength", distance);
 
         [JsName("getPathData")]
-        public IReadOnlyList<SvgPathSegment> GetPathData(SvgPathDataSettings? settings = null) => throw new NotImplementedException();
+        public IReadOnlyList<SvgPathSegment> GetPathData(SvgPathDataSettings? settings = null) => Invoke<IReadOnlyList<SvgPathSegment>>("getPathData", settings);
 
         [JsName("setPathData")]
-        public void SetPathData(IReadOnlyList<SvgPathSegment> pathData) => throw new NotImplementedException();
+        public void SetPathData(IReadOnlyList<SvgPathSegment> pathData) => InvokeVoid("setPathData", pathData);
     }
 }

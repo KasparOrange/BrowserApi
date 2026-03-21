@@ -36,42 +36,54 @@ namespace BrowserApi.Animations
     public partial class SvgAnimationElement : SvgElement
     {
         [JsName("targetElement")]
-        public SvgElement? TargetElement { get; }
+        public SvgElement? TargetElement => GetProperty<SvgElement?>("targetElement");
 
         [JsName("onbegin")]
-        public object Onbegin { get; set; }
+        public object Onbegin
+        {
+            get => GetProperty<object>("onbegin");
+            set => SetProperty("onbegin", value);
+        }
 
         [JsName("onend")]
-        public object Onend { get; set; }
+        public object Onend
+        {
+            get => GetProperty<object>("onend");
+            set => SetProperty("onend", value);
+        }
 
         [JsName("onrepeat")]
-        public object Onrepeat { get; set; }
+        public object Onrepeat
+        {
+            get => GetProperty<object>("onrepeat");
+            set => SetProperty("onrepeat", value);
+        }
 
         [JsName("requiredExtensions")]
-        public SvgStringList RequiredExtensions { get; }
+        public SvgStringList RequiredExtensions => GetProperty<SvgStringList>("requiredExtensions");
 
         [JsName("systemLanguage")]
-        public SvgStringList SystemLanguage { get; }
+        public SvgStringList SystemLanguage => GetProperty<SvgStringList>("systemLanguage");
 
         [JsName("getStartTime")]
-        public float GetStartTime() => throw new NotImplementedException();
+        public float GetStartTime() => Invoke<float>("getStartTime");
 
         [JsName("getCurrentTime")]
-        public float GetCurrentTime() => throw new NotImplementedException();
+        public float GetCurrentTime() => Invoke<float>("getCurrentTime");
 
         [JsName("getSimpleDuration")]
-        public float GetSimpleDuration() => throw new NotImplementedException();
+        public float GetSimpleDuration() => Invoke<float>("getSimpleDuration");
 
         [JsName("beginElement")]
-        public void BeginElement() => throw new NotImplementedException();
+        public void BeginElement() => InvokeVoid("beginElement");
 
         [JsName("beginElementAt")]
-        public void BeginElementAt(float offset) => throw new NotImplementedException();
+        public void BeginElementAt(float offset) => InvokeVoid("beginElementAt", offset);
 
         [JsName("endElement")]
-        public void EndElement() => throw new NotImplementedException();
+        public void EndElement() => InvokeVoid("endElement");
 
         [JsName("endElementAt")]
-        public void EndElementAt(float offset) => throw new NotImplementedException();
+        public void EndElementAt(float offset) => InvokeVoid("endElementAt", offset);
     }
 }

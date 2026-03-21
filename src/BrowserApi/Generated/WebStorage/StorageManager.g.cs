@@ -32,18 +32,18 @@ using BrowserApi.WebSockets;
 
 namespace BrowserApi.WebStorage
 {
-    public partial class StorageManager
+    public partial class StorageManager : JsObject
     {
         [JsName("persisted")]
-        public Task<bool> PersistedAsync() => throw new NotImplementedException();
+        public Task<bool> PersistedAsync() => InvokeAsync<bool>("persisted");
 
         [JsName("persist")]
-        public Task<bool> PersistAsync() => throw new NotImplementedException();
+        public Task<bool> PersistAsync() => InvokeAsync<bool>("persist");
 
         [JsName("estimate")]
-        public Task<StorageEstimate> EstimateAsync() => throw new NotImplementedException();
+        public Task<StorageEstimate> EstimateAsync() => InvokeAsync<StorageEstimate>("estimate");
 
         [JsName("getDirectory")]
-        public Task<FileSystemDirectoryHandle> GetDirectoryAsync() => throw new NotImplementedException();
+        public Task<FileSystemDirectoryHandle> GetDirectoryAsync() => InvokeAsync<FileSystemDirectoryHandle>("getDirectory");
     }
 }

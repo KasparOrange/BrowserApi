@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class XrSessionEvent : Event
     {
         [JsName("session")]
-        public XrSession Session { get; }
+        public XrSession Session => GetProperty<XrSession>("session");
     }
 }

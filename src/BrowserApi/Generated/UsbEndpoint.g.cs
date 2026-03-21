@@ -33,18 +33,18 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("USBEndpoint")]
-    public partial class UsbEndpoint
+    public partial class UsbEndpoint : JsObject
     {
         [JsName("endpointNumber")]
-        public byte EndpointNumber { get; }
+        public byte EndpointNumber => GetProperty<byte>("endpointNumber");
 
         [JsName("direction")]
-        public UsbDirection Direction { get; }
+        public UsbDirection Direction => GetProperty<UsbDirection>("direction");
 
         [JsName("type")]
-        public UsbEndpointType Type { get; }
+        public UsbEndpointType Type => GetProperty<UsbEndpointType>("type");
 
         [JsName("packetSize")]
-        public uint PacketSize { get; }
+        public uint PacketSize => GetProperty<uint>("packetSize");
     }
 }

@@ -35,9 +35,9 @@ namespace BrowserApi.Animations
     public partial class AnimationPlaybackEvent : Event
     {
         [JsName("currentTime")]
-        public object CurrentTime { get; }
+        public object CurrentTime => GetProperty<object>("currentTime");
 
         [JsName("timelineTime")]
-        public object TimelineTime { get; }
+        public object TimelineTime => GetProperty<object>("timelineTime");
     }
 }

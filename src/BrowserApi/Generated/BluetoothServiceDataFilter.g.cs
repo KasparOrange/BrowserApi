@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class BluetoothServiceDataFilter
+    public partial class BluetoothServiceDataFilter : JsObject
     {
     }
 }

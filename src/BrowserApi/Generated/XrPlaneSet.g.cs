@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRPlaneSet")]
-    public partial class XrPlaneSet
+    public partial class XrPlaneSet : JsObject
     {
     }
 }

@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PushSubscription
+    public partial class PushSubscription : JsObject
     {
         [JsName("endpoint")]
-        public string Endpoint { get; }
+        public string Endpoint => GetProperty<string>("endpoint");
 
         [JsName("expirationTime")]
-        public long? ExpirationTime { get; }
+        public long? ExpirationTime => GetProperty<long?>("expirationTime");
 
         [JsName("options")]
-        public PushSubscriptionOptions Options { get; }
+        public PushSubscriptionOptions Options => GetProperty<PushSubscriptionOptions>("options");
 
         [JsName("getKey")]
-        public byte[]? GetKey(PushEncryptionKeyName name) => throw new NotImplementedException();
+        public byte[]? GetKey(PushEncryptionKeyName name) => Invoke<byte[]?>("getKey", name);
 
         [JsName("unsubscribe")]
-        public Task<bool> UnsubscribeAsync() => throw new NotImplementedException();
+        public Task<bool> UnsubscribeAsync() => InvokeAsync<bool>("unsubscribe");
 
         [JsName("toJSON")]
-        public PushSubscriptionJsOn ToJsOn() => throw new NotImplementedException();
+        public PushSubscriptionJsOn ToJsOn() => Invoke<PushSubscriptionJsOn>("toJSON");
     }
 }

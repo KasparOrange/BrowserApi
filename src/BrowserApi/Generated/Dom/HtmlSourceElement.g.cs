@@ -36,24 +36,52 @@ namespace BrowserApi.Dom
     public partial class HtmlSourceElement : HtmlElement
     {
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("srcset")]
-        public string Srcset { get; set; }
+        public string Srcset
+        {
+            get => GetProperty<string>("srcset");
+            set => SetProperty("srcset", value);
+        }
 
         [JsName("sizes")]
-        public string Sizes { get; set; }
+        public string Sizes
+        {
+            get => GetProperty<string>("sizes");
+            set => SetProperty("sizes", value);
+        }
 
         [JsName("media")]
-        public string Media { get; set; }
+        public string Media
+        {
+            get => GetProperty<string>("media");
+            set => SetProperty("media", value);
+        }
 
         [JsName("width")]
-        public uint Width { get; set; }
+        public uint Width
+        {
+            get => GetProperty<uint>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public uint Height { get; set; }
+        public uint Height
+        {
+            get => GetProperty<uint>("height");
+            set => SetProperty("height", value);
+        }
     }
 }

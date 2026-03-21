@@ -35,15 +35,15 @@ namespace BrowserApi.Dom
     public partial class VisibilityStateEntry : PerformanceEntry
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("entryType")]
-        public string EntryType { get; }
+        public string EntryType => GetProperty<string>("entryType");
 
         [JsName("startTime")]
-        public double StartTime { get; }
+        public double StartTime => GetProperty<double>("startTime");
 
         [JsName("duration")]
-        public uint Duration { get; }
+        public uint Duration => GetProperty<uint>("duration");
     }
 }

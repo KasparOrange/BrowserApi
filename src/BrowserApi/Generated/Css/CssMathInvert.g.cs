@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssMathInvert : CssMathValue
     {
         [JsName("value")]
-        public CssNumericValue Value { get; }
+        public CssNumericValue Value => GetProperty<CssNumericValue>("value");
     }
 }

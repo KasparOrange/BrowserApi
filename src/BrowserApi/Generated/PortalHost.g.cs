@@ -35,12 +35,20 @@ namespace BrowserApi
     public partial class PortalHost : EventTarget
     {
         [JsName("onmessage")]
-        public object Onmessage { get; set; }
+        public object Onmessage
+        {
+            get => GetProperty<object>("onmessage");
+            set => SetProperty("onmessage", value);
+        }
 
         [JsName("onmessageerror")]
-        public object Onmessageerror { get; set; }
+        public object Onmessageerror
+        {
+            get => GetProperty<object>("onmessageerror");
+            set => SetProperty("onmessageerror", value);
+        }
 
         [JsName("postMessage")]
-        public void PostMessage(object message, object? options = null) => throw new NotImplementedException();
+        public void PostMessage(object message, object? options = null) => InvokeVoid("postMessage", message, options);
     }
 }

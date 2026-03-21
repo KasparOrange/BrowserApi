@@ -36,36 +36,48 @@ namespace BrowserApi
     public partial class IdbTransaction : EventTarget
     {
         [JsName("objectStoreNames")]
-        public DomStringList ObjectStoreNames { get; }
+        public DomStringList ObjectStoreNames => GetProperty<DomStringList>("objectStoreNames");
 
         [JsName("mode")]
-        public IdbTransactionMode Mode { get; }
+        public IdbTransactionMode Mode => GetProperty<IdbTransactionMode>("mode");
 
         [JsName("durability")]
-        public IdbTransactionDurability Durability { get; }
+        public IdbTransactionDurability Durability => GetProperty<IdbTransactionDurability>("durability");
 
         [JsName("db")]
-        public IdbDatabase Db { get; }
+        public IdbDatabase Db => GetProperty<IdbDatabase>("db");
 
         [JsName("error")]
-        public DomException? Error { get; }
+        public DomException? Error => GetProperty<DomException?>("error");
 
         [JsName("onabort")]
-        public object Onabort { get; set; }
+        public object Onabort
+        {
+            get => GetProperty<object>("onabort");
+            set => SetProperty("onabort", value);
+        }
 
         [JsName("oncomplete")]
-        public object Oncomplete { get; set; }
+        public object Oncomplete
+        {
+            get => GetProperty<object>("oncomplete");
+            set => SetProperty("oncomplete", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("objectStore")]
-        public IdbObjectStore ObjectStore(string name) => throw new NotImplementedException();
+        public IdbObjectStore ObjectStore(string name) => Invoke<IdbObjectStore>("objectStore", name);
 
         [JsName("commit")]
-        public void Commit() => throw new NotImplementedException();
+        public void Commit() => InvokeVoid("commit");
 
         [JsName("abort")]
-        public void Abort() => throw new NotImplementedException();
+        public void Abort() => InvokeVoid("abort");
     }
 }

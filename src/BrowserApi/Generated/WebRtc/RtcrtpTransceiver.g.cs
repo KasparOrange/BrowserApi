@@ -33,27 +33,31 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCRtpTransceiver")]
-    public partial class RtcrtpTransceiver
+    public partial class RtcrtpTransceiver : JsObject
     {
         [JsName("mid")]
-        public string? Mid { get; }
+        public string? Mid => GetProperty<string?>("mid");
 
         [JsName("sender")]
-        public RtcrtpSender Sender { get; }
+        public RtcrtpSender Sender => GetProperty<RtcrtpSender>("sender");
 
         [JsName("receiver")]
-        public RtcrtpReceiver Receiver { get; }
+        public RtcrtpReceiver Receiver => GetProperty<RtcrtpReceiver>("receiver");
 
         [JsName("direction")]
-        public RtcrtpTransceiverDirection Direction { get; set; }
+        public RtcrtpTransceiverDirection Direction
+        {
+            get => GetProperty<RtcrtpTransceiverDirection>("direction");
+            set => SetProperty("direction", value);
+        }
 
         [JsName("currentDirection")]
-        public RtcrtpTransceiverDirection? CurrentDirection { get; }
+        public RtcrtpTransceiverDirection? CurrentDirection => GetProperty<RtcrtpTransceiverDirection?>("currentDirection");
 
         [JsName("stop")]
-        public void Stop() => throw new NotImplementedException();
+        public void Stop() => InvokeVoid("stop");
 
         [JsName("setCodecPreferences")]
-        public void SetCodecPreferences(IReadOnlyList<RtcrtpCodec> codecs) => throw new NotImplementedException();
+        public void SetCodecPreferences(IReadOnlyList<RtcrtpCodec> codecs) => InvokeVoid("setCodecPreferences", codecs);
     }
 }

@@ -35,12 +35,12 @@ namespace BrowserApi.WebSockets
     public partial class CloseEvent : Event
     {
         [JsName("wasClean")]
-        public bool WasClean { get; }
+        public bool WasClean => GetProperty<bool>("wasClean");
 
         [JsName("code")]
-        public ushort Code { get; }
+        public ushort Code => GetProperty<ushort>("code");
 
         [JsName("reason")]
-        public string Reason { get; }
+        public string Reason => GetProperty<string>("reason");
     }
 }

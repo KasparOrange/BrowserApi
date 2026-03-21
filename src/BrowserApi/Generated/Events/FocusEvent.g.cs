@@ -35,6 +35,6 @@ namespace BrowserApi.Events
     public partial class FocusEvent : Uievent
     {
         [JsName("relatedTarget")]
-        public EventTarget? RelatedTarget { get; }
+        public EventTarget? RelatedTarget => GetProperty<EventTarget?>("relatedTarget");
     }
 }

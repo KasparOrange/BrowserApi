@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("GetSVGDocument")]
-    public partial class GetSvgDocument
+    public partial class GetSvgDocument : JsObject
     {
     }
 }

@@ -36,6 +36,10 @@ namespace BrowserApi
     public partial class BluetoothLescanPermissionResult : PermissionStatus
     {
         [JsName("scans")]
-        public IReadOnlyList<BluetoothLescan> Scans { get; set; }
+        public IReadOnlyList<BluetoothLescan> Scans
+        {
+            get => GetProperty<IReadOnlyList<BluetoothLescan>>("scans");
+            set => SetProperty("scans", value);
+        }
     }
 }

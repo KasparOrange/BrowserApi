@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class SvgFemergeNodeElement : SvgElement
     {
         [JsName("in1")]
-        public SvgAnimatedString In1 { get; }
+        public SvgAnimatedString In1 => GetProperty<SvgAnimatedString>("in1");
     }
 }

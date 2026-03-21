@@ -32,63 +32,71 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class WebTransport
+    public partial class WebTransport : JsObject
     {
         [JsName("ready")]
-        public Task Ready { get; }
+        public Task Ready => GetProperty<Task>("ready");
 
         [JsName("reliability")]
-        public WebTransportReliabilityMode Reliability { get; }
+        public WebTransportReliabilityMode Reliability => GetProperty<WebTransportReliabilityMode>("reliability");
 
         [JsName("congestionControl")]
-        public WebTransportCongestionControl CongestionControl { get; }
+        public WebTransportCongestionControl CongestionControl => GetProperty<WebTransportCongestionControl>("congestionControl");
 
         [JsName("anticipatedConcurrentIncomingUnidirectionalStreams")]
-        public ushort? AnticipatedConcurrentIncomingUnidirectionalStreams { get; set; }
+        public ushort? AnticipatedConcurrentIncomingUnidirectionalStreams
+        {
+            get => GetProperty<ushort?>("anticipatedConcurrentIncomingUnidirectionalStreams");
+            set => SetProperty("anticipatedConcurrentIncomingUnidirectionalStreams", value);
+        }
 
         [JsName("anticipatedConcurrentIncomingBidirectionalStreams")]
-        public ushort? AnticipatedConcurrentIncomingBidirectionalStreams { get; set; }
+        public ushort? AnticipatedConcurrentIncomingBidirectionalStreams
+        {
+            get => GetProperty<ushort?>("anticipatedConcurrentIncomingBidirectionalStreams");
+            set => SetProperty("anticipatedConcurrentIncomingBidirectionalStreams", value);
+        }
 
         [JsName("responseHeaders")]
-        public Headers? ResponseHeaders { get; }
+        public Headers? ResponseHeaders => GetProperty<Headers?>("responseHeaders");
 
         [JsName("protocol")]
-        public string Protocol { get; }
+        public string Protocol => GetProperty<string>("protocol");
 
         [JsName("closed")]
-        public Task<WebTransportCloseInfo> Closed { get; }
+        public Task<WebTransportCloseInfo> Closed => GetProperty<Task<WebTransportCloseInfo>>("closed");
 
         [JsName("draining")]
-        public Task Draining { get; }
+        public Task Draining => GetProperty<Task>("draining");
 
         [JsName("datagrams")]
-        public WebTransportDatagramDuplexStream Datagrams { get; }
+        public WebTransportDatagramDuplexStream Datagrams => GetProperty<WebTransportDatagramDuplexStream>("datagrams");
 
         [JsName("incomingBidirectionalStreams")]
-        public ReadableStream IncomingBidirectionalStreams { get; }
+        public ReadableStream IncomingBidirectionalStreams => GetProperty<ReadableStream>("incomingBidirectionalStreams");
 
         [JsName("incomingUnidirectionalStreams")]
-        public ReadableStream IncomingUnidirectionalStreams { get; }
+        public ReadableStream IncomingUnidirectionalStreams => GetProperty<ReadableStream>("incomingUnidirectionalStreams");
 
         [JsName("supportsReliableOnly")]
         public static bool SupportsReliableOnly { get; }
 
         [JsName("getStats")]
-        public Task<WebTransportConnectionStats> GetStatsAsync() => throw new NotImplementedException();
+        public Task<WebTransportConnectionStats> GetStatsAsync() => InvokeAsync<WebTransportConnectionStats>("getStats");
 
         [JsName("exportKeyingMaterial")]
-        public Task<byte[]> ExportKeyingMaterialAsync(byte[] label, byte[]? context = null) => throw new NotImplementedException();
+        public Task<byte[]> ExportKeyingMaterialAsync(byte[] label, byte[]? context = null) => InvokeAsync<byte[]>("exportKeyingMaterial", label, context);
 
         [JsName("close")]
-        public void Close(WebTransportCloseInfo? closeInfo = null) => throw new NotImplementedException();
+        public void Close(WebTransportCloseInfo? closeInfo = null) => InvokeVoid("close", closeInfo);
 
         [JsName("createBidirectionalStream")]
-        public Task<WebTransportBidirectionalStream> CreateBidirectionalStreamAsync(WebTransportSendStreamOptions? options = null) => throw new NotImplementedException();
+        public Task<WebTransportBidirectionalStream> CreateBidirectionalStreamAsync(WebTransportSendStreamOptions? options = null) => InvokeAsync<WebTransportBidirectionalStream>("createBidirectionalStream", options);
 
         [JsName("createUnidirectionalStream")]
-        public Task<WebTransportSendStream> CreateUnidirectionalStreamAsync(WebTransportSendStreamOptions? options = null) => throw new NotImplementedException();
+        public Task<WebTransportSendStream> CreateUnidirectionalStreamAsync(WebTransportSendStreamOptions? options = null) => InvokeAsync<WebTransportSendStream>("createUnidirectionalStream", options);
 
         [JsName("createSendGroup")]
-        public WebTransportSendGroup CreateSendGroup() => throw new NotImplementedException();
+        public WebTransportSendGroup CreateSendGroup() => Invoke<WebTransportSendGroup>("createSendGroup");
     }
 }

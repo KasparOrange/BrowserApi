@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.ServiceWorkers
 {
-    public partial class Clients
+    public partial class Clients : JsObject
     {
         [JsName("get")]
-        public Task<object> GetAsync(string id) => throw new NotImplementedException();
+        public Task<object> GetAsync(string id) => InvokeAsync<object>("get", id);
 
         [JsName("matchAll")]
-        public Task<IReadOnlyList<Client>> MatchAllAsync(ClientQueryOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<Client>> MatchAllAsync(ClientQueryOptions? options = null) => InvokeAsync<IReadOnlyList<Client>>("matchAll", options);
 
         [JsName("openWindow")]
-        public Task<WindowClient?> OpenWindowAsync(string url) => throw new NotImplementedException();
+        public Task<WindowClient?> OpenWindowAsync(string url) => InvokeAsync<WindowClient?>("openWindow", url);
 
         [JsName("claim")]
-        public Task ClaimAsync() => throw new NotImplementedException();
+        public Task ClaimAsync() => InvokeVoidAsync("claim");
     }
 }

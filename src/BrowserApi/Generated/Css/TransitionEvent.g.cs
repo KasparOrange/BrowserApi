@@ -35,12 +35,12 @@ namespace BrowserApi.Css
     public partial class TransitionEvent : Event
     {
         [JsName("propertyName")]
-        public string PropertyName { get; }
+        public string PropertyName => GetProperty<string>("propertyName");
 
         [JsName("elapsedTime")]
-        public double ElapsedTime { get; }
+        public double ElapsedTime => GetProperty<double>("elapsedTime");
 
         [JsName("pseudoElement")]
-        public string PseudoElement { get; }
+        public string PseudoElement => GetProperty<string>("pseudoElement");
     }
 }

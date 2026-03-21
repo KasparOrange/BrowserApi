@@ -44,15 +44,15 @@ namespace BrowserApi
         public const ushort SvgSpreadmethodRepeat = 3;
 
         [JsName("gradientUnits")]
-        public SvgAnimatedEnumeration GradientUnits { get; }
+        public SvgAnimatedEnumeration GradientUnits => GetProperty<SvgAnimatedEnumeration>("gradientUnits");
 
         [JsName("gradientTransform")]
-        public SvgAnimatedTransformList GradientTransform { get; }
+        public SvgAnimatedTransformList GradientTransform => GetProperty<SvgAnimatedTransformList>("gradientTransform");
 
         [JsName("spreadMethod")]
-        public SvgAnimatedEnumeration SpreadMethod { get; }
+        public SvgAnimatedEnumeration SpreadMethod => GetProperty<SvgAnimatedEnumeration>("spreadMethod");
 
         [JsName("href")]
-        public SvgAnimatedString Href { get; }
+        public SvgAnimatedString Href => GetProperty<SvgAnimatedString>("href");
     }
 }

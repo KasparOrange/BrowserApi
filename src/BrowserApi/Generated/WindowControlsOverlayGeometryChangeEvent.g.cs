@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class WindowControlsOverlayGeometryChangeEvent : Event
     {
         [JsName("titlebarAreaRect")]
-        public DomRect TitlebarAreaRect { get; }
+        public DomRect TitlebarAreaRect => GetProperty<DomRect>("titlebarAreaRect");
 
         [JsName("visible")]
-        public bool Visible { get; }
+        public bool Visible => GetProperty<bool>("visible");
     }
 }

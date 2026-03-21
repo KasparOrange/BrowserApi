@@ -36,24 +36,52 @@ namespace BrowserApi.Fetch
     public partial class XmlHttpRequestEventTarget : EventTarget
     {
         [JsName("onloadstart")]
-        public object Onloadstart { get; set; }
+        public object Onloadstart
+        {
+            get => GetProperty<object>("onloadstart");
+            set => SetProperty("onloadstart", value);
+        }
 
         [JsName("onprogress")]
-        public object Onprogress { get; set; }
+        public object Onprogress
+        {
+            get => GetProperty<object>("onprogress");
+            set => SetProperty("onprogress", value);
+        }
 
         [JsName("onabort")]
-        public object Onabort { get; set; }
+        public object Onabort
+        {
+            get => GetProperty<object>("onabort");
+            set => SetProperty("onabort", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onload")]
-        public object Onload { get; set; }
+        public object Onload
+        {
+            get => GetProperty<object>("onload");
+            set => SetProperty("onload", value);
+        }
 
         [JsName("ontimeout")]
-        public object Ontimeout { get; set; }
+        public object Ontimeout
+        {
+            get => GetProperty<object>("ontimeout");
+            set => SetProperty("ontimeout", value);
+        }
 
         [JsName("onloadend")]
-        public object Onloadend { get; set; }
+        public object Onloadend
+        {
+            get => GetProperty<object>("onloadend");
+            set => SetProperty("onloadend", value);
+        }
     }
 }

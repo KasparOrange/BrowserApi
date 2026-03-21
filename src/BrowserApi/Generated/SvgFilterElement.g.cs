@@ -36,24 +36,24 @@ namespace BrowserApi
     public partial class SvgFilterElement : SvgElement
     {
         [JsName("filterUnits")]
-        public SvgAnimatedEnumeration FilterUnits { get; }
+        public SvgAnimatedEnumeration FilterUnits => GetProperty<SvgAnimatedEnumeration>("filterUnits");
 
         [JsName("primitiveUnits")]
-        public SvgAnimatedEnumeration PrimitiveUnits { get; }
+        public SvgAnimatedEnumeration PrimitiveUnits => GetProperty<SvgAnimatedEnumeration>("primitiveUnits");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("href")]
-        public SvgAnimatedString Href { get; }
+        public SvgAnimatedString Href => GetProperty<SvgAnimatedString>("href");
     }
 }

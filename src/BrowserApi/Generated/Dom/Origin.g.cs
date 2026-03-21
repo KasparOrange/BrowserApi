@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Origin
+    public partial class Origin : JsObject
     {
         [JsName("opaque")]
-        public bool Opaque { get; }
+        public bool Opaque => GetProperty<bool>("opaque");
 
         [JsName("from")]
         public static Origin From(object value) => throw new NotImplementedException();
 
         [JsName("isSameOrigin")]
-        public bool IsSameOrigin(Origin other) => throw new NotImplementedException();
+        public bool IsSameOrigin(Origin other) => Invoke<bool>("isSameOrigin", other);
 
         [JsName("isSameSite")]
-        public bool IsSameSite(Origin other) => throw new NotImplementedException();
+        public bool IsSameSite(Origin other) => Invoke<bool>("isSameSite", other);
     }
 }

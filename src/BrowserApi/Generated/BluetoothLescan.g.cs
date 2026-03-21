@@ -33,21 +33,21 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("BluetoothLEScan")]
-    public partial class BluetoothLescan
+    public partial class BluetoothLescan : JsObject
     {
         [JsName("filters")]
-        public IReadOnlyList<BluetoothLescanFilter> Filters { get; }
+        public IReadOnlyList<BluetoothLescanFilter> Filters => GetProperty<IReadOnlyList<BluetoothLescanFilter>>("filters");
 
         [JsName("keepRepeatedDevices")]
-        public bool KeepRepeatedDevices { get; }
+        public bool KeepRepeatedDevices => GetProperty<bool>("keepRepeatedDevices");
 
         [JsName("acceptAllAdvertisements")]
-        public bool AcceptAllAdvertisements { get; }
+        public bool AcceptAllAdvertisements => GetProperty<bool>("acceptAllAdvertisements");
 
         [JsName("active")]
-        public bool Active { get; }
+        public bool Active => GetProperty<bool>("active");
 
         [JsName("stop")]
-        public void Stop() => throw new NotImplementedException();
+        public void Stop() => InvokeVoid("stop");
     }
 }

@@ -33,18 +33,18 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("IDBFactory")]
-    public partial class IdbFactory
+    public partial class IdbFactory : JsObject
     {
         [JsName("open")]
-        public IdbOpenDbrequest Open(string name, ulong? version = null) => throw new NotImplementedException();
+        public IdbOpenDbrequest Open(string name, ulong? version = null) => Invoke<IdbOpenDbrequest>("open", name, version);
 
         [JsName("deleteDatabase")]
-        public IdbOpenDbrequest DeleteDatabase(string name) => throw new NotImplementedException();
+        public IdbOpenDbrequest DeleteDatabase(string name) => Invoke<IdbOpenDbrequest>("deleteDatabase", name);
 
         [JsName("databases")]
-        public Task<IReadOnlyList<IdbDatabaseInfo>> DatabasesAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<IdbDatabaseInfo>> DatabasesAsync() => InvokeAsync<IReadOnlyList<IdbDatabaseInfo>>("databases");
 
         [JsName("cmp")]
-        public short Cmp(object first, object second) => throw new NotImplementedException();
+        public short Cmp(object first, object second) => Invoke<short>("cmp", first, second);
     }
 }

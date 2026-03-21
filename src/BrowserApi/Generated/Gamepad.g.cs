@@ -32,42 +32,42 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Gamepad
+    public partial class Gamepad : JsObject
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("index")]
-        public int Index { get; }
+        public int Index => GetProperty<int>("index");
 
         [JsName("connected")]
-        public bool Connected { get; }
+        public bool Connected => GetProperty<bool>("connected");
 
         [JsName("timestamp")]
-        public double Timestamp { get; }
+        public double Timestamp => GetProperty<double>("timestamp");
 
         [JsName("mapping")]
-        public GamepadMappingType Mapping { get; }
+        public GamepadMappingType Mapping => GetProperty<GamepadMappingType>("mapping");
 
         [JsName("axes")]
-        public IReadOnlyList<double> Axes { get; }
+        public IReadOnlyList<double> Axes => GetProperty<IReadOnlyList<double>>("axes");
 
         [JsName("buttons")]
-        public IReadOnlyList<GamepadButton> Buttons { get; }
+        public IReadOnlyList<GamepadButton> Buttons => GetProperty<IReadOnlyList<GamepadButton>>("buttons");
 
         [JsName("touches")]
-        public IReadOnlyList<GamepadTouch> Touches { get; }
+        public IReadOnlyList<GamepadTouch> Touches => GetProperty<IReadOnlyList<GamepadTouch>>("touches");
 
         [JsName("vibrationActuator")]
-        public GamepadHapticActuator VibrationActuator { get; }
+        public GamepadHapticActuator VibrationActuator => GetProperty<GamepadHapticActuator>("vibrationActuator");
 
         [JsName("hand")]
-        public GamepadHand Hand { get; }
+        public GamepadHand Hand => GetProperty<GamepadHand>("hand");
 
         [JsName("hapticActuators")]
-        public IReadOnlyList<GamepadHapticActuator> HapticActuators { get; }
+        public IReadOnlyList<GamepadHapticActuator> HapticActuators => GetProperty<IReadOnlyList<GamepadHapticActuator>>("hapticActuators");
 
         [JsName("pose")]
-        public GamepadPose? Pose { get; }
+        public GamepadPose? Pose => GetProperty<GamepadPose?>("pose");
     }
 }

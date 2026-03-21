@@ -32,24 +32,48 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Animations
 {
-    public partial class AnimationTrigger
+    public partial class AnimationTrigger : JsObject
     {
         [JsName("timeline")]
-        public AnimationTimeline Timeline { get; set; }
+        public AnimationTimeline Timeline
+        {
+            get => GetProperty<AnimationTimeline>("timeline");
+            set => SetProperty("timeline", value);
+        }
 
         [JsName("behavior")]
-        public AnimationTriggerBehavior Behavior { get; set; }
+        public AnimationTriggerBehavior Behavior
+        {
+            get => GetProperty<AnimationTriggerBehavior>("behavior");
+            set => SetProperty("behavior", value);
+        }
 
         [JsName("rangeStart")]
-        public object RangeStart { get; set; }
+        public object RangeStart
+        {
+            get => GetProperty<object>("rangeStart");
+            set => SetProperty("rangeStart", value);
+        }
 
         [JsName("rangeEnd")]
-        public object RangeEnd { get; set; }
+        public object RangeEnd
+        {
+            get => GetProperty<object>("rangeEnd");
+            set => SetProperty("rangeEnd", value);
+        }
 
         [JsName("exitRangeStart")]
-        public object ExitRangeStart { get; set; }
+        public object ExitRangeStart
+        {
+            get => GetProperty<object>("exitRangeStart");
+            set => SetProperty("exitRangeStart", value);
+        }
 
         [JsName("exitRangeEnd")]
-        public object ExitRangeEnd { get; set; }
+        public object ExitRangeEnd
+        {
+            get => GetProperty<object>("exitRangeEnd");
+            set => SetProperty("exitRangeEnd", value);
+        }
     }
 }

@@ -35,6 +35,6 @@ namespace BrowserApi.Css
     public partial class FontFaceSetLoadEvent : Event
     {
         [JsName("fontfaces")]
-        public IReadOnlyList<FontFace> Fontfaces { get; }
+        public IReadOnlyList<FontFace> Fontfaces => GetProperty<IReadOnlyList<FontFace>>("fontfaces");
     }
 }

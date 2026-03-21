@@ -36,15 +36,23 @@ namespace BrowserApi
     public partial class Hid : EventTarget
     {
         [JsName("onconnect")]
-        public object Onconnect { get; set; }
+        public object Onconnect
+        {
+            get => GetProperty<object>("onconnect");
+            set => SetProperty("onconnect", value);
+        }
 
         [JsName("ondisconnect")]
-        public object Ondisconnect { get; set; }
+        public object Ondisconnect
+        {
+            get => GetProperty<object>("ondisconnect");
+            set => SetProperty("ondisconnect", value);
+        }
 
         [JsName("getDevices")]
-        public Task<IReadOnlyList<HidDevice>> GetDevicesAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<HidDevice>> GetDevicesAsync() => InvokeAsync<IReadOnlyList<HidDevice>>("getDevices");
 
         [JsName("requestDevice")]
-        public Task<IReadOnlyList<HidDevice>> RequestDeviceAsync(HidDeviceRequestOptions options) => throw new NotImplementedException();
+        public Task<IReadOnlyList<HidDevice>> RequestDeviceAsync(HidDeviceRequestOptions options) => InvokeAsync<IReadOnlyList<HidDevice>>("requestDevice", options);
     }
 }

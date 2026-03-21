@@ -35,12 +35,12 @@ namespace BrowserApi.Credentials
     public partial class AuthenticatorAssertionResponse : AuthenticatorResponse
     {
         [JsName("authenticatorData")]
-        public byte[] AuthenticatorData { get; }
+        public byte[] AuthenticatorData => GetProperty<byte[]>("authenticatorData");
 
         [JsName("signature")]
-        public byte[] Signature { get; }
+        public byte[] Signature => GetProperty<byte[]>("signature");
 
         [JsName("userHandle")]
-        public byte[]? UserHandle { get; }
+        public byte[]? UserHandle => GetProperty<byte[]?>("userHandle");
     }
 }

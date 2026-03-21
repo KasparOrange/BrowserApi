@@ -35,24 +35,28 @@ namespace BrowserApi
     public partial class NavigatorManagedData : EventTarget
     {
         [JsName("onmanagedconfigurationchange")]
-        public object Onmanagedconfigurationchange { get; set; }
+        public object Onmanagedconfigurationchange
+        {
+            get => GetProperty<object>("onmanagedconfigurationchange");
+            set => SetProperty("onmanagedconfigurationchange", value);
+        }
 
         [JsName("getManagedConfiguration")]
-        public Task<IReadOnlyDictionary<string, object>> GetManagedConfigurationAsync(IReadOnlyList<string> keys) => throw new NotImplementedException();
+        public Task<IReadOnlyDictionary<string, object>> GetManagedConfigurationAsync(IReadOnlyList<string> keys) => InvokeAsync<IReadOnlyDictionary<string, object>>("getManagedConfiguration", keys);
 
         [JsName("getAnnotatedAssetId")]
-        public Task<string> GetAnnotatedAssetIdAsync() => throw new NotImplementedException();
+        public Task<string> GetAnnotatedAssetIdAsync() => InvokeAsync<string>("getAnnotatedAssetId");
 
         [JsName("getAnnotatedLocation")]
-        public Task<string> GetAnnotatedLocationAsync() => throw new NotImplementedException();
+        public Task<string> GetAnnotatedLocationAsync() => InvokeAsync<string>("getAnnotatedLocation");
 
         [JsName("getDirectoryId")]
-        public Task<string> GetDirectoryIdAsync() => throw new NotImplementedException();
+        public Task<string> GetDirectoryIdAsync() => InvokeAsync<string>("getDirectoryId");
 
         [JsName("getHostname")]
-        public Task<string> GetHostnameAsync() => throw new NotImplementedException();
+        public Task<string> GetHostnameAsync() => InvokeAsync<string>("getHostname");
 
         [JsName("getSerialNumber")]
-        public Task<string> GetSerialNumberAsync() => throw new NotImplementedException();
+        public Task<string> GetSerialNumberAsync() => InvokeAsync<string>("getSerialNumber");
     }
 }

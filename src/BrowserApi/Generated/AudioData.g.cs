@@ -32,36 +32,36 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class AudioData
+    public partial class AudioData : JsObject
     {
         [JsName("format")]
-        public AudioSampleFormat? Format { get; }
+        public AudioSampleFormat? Format => GetProperty<AudioSampleFormat?>("format");
 
         [JsName("sampleRate")]
-        public float SampleRate { get; }
+        public float SampleRate => GetProperty<float>("sampleRate");
 
         [JsName("numberOfFrames")]
-        public uint NumberOfFrames { get; }
+        public uint NumberOfFrames => GetProperty<uint>("numberOfFrames");
 
         [JsName("numberOfChannels")]
-        public uint NumberOfChannels { get; }
+        public uint NumberOfChannels => GetProperty<uint>("numberOfChannels");
 
         [JsName("duration")]
-        public ulong Duration { get; }
+        public ulong Duration => GetProperty<ulong>("duration");
 
         [JsName("timestamp")]
-        public long Timestamp { get; }
+        public long Timestamp => GetProperty<long>("timestamp");
 
         [JsName("allocationSize")]
-        public uint AllocationSize(AudioDataCopyToOptions options) => throw new NotImplementedException();
+        public uint AllocationSize(AudioDataCopyToOptions options) => Invoke<uint>("allocationSize", options);
 
         [JsName("copyTo")]
-        public void CopyTo(object destination, AudioDataCopyToOptions options) => throw new NotImplementedException();
+        public void CopyTo(object destination, AudioDataCopyToOptions options) => InvokeVoid("copyTo", destination, options);
 
         [JsName("clone")]
-        public AudioData Clone() => throw new NotImplementedException();
+        public AudioData Clone() => Invoke<AudioData>("clone");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
     }
 }

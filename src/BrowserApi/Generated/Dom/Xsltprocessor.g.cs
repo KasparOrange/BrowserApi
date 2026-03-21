@@ -33,30 +33,30 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("XSLTProcessor")]
-    public partial class Xsltprocessor
+    public partial class Xsltprocessor : JsObject
     {
         [JsName("importStylesheet")]
-        public void ImportStylesheet(Node style) => throw new NotImplementedException();
+        public void ImportStylesheet(Node style) => InvokeVoid("importStylesheet", style);
 
         [JsName("transformToFragment")]
-        public DocumentFragment TransformToFragment(Node source, Document output) => throw new NotImplementedException();
+        public DocumentFragment TransformToFragment(Node source, Document output) => Invoke<DocumentFragment>("transformToFragment", source, output);
 
         [JsName("transformToDocument")]
-        public Document TransformToDocument(Node source) => throw new NotImplementedException();
+        public Document TransformToDocument(Node source) => Invoke<Document>("transformToDocument", source);
 
         [JsName("setParameter")]
-        public void SetParameter(string namespaceUri, string localName, object value) => throw new NotImplementedException();
+        public void SetParameter(string namespaceUri, string localName, object value) => InvokeVoid("setParameter", namespaceUri, localName, value);
 
         [JsName("getParameter")]
-        public object GetParameter(string namespaceUri, string localName) => throw new NotImplementedException();
+        public object GetParameter(string namespaceUri, string localName) => Invoke<object>("getParameter", namespaceUri, localName);
 
         [JsName("removeParameter")]
-        public void RemoveParameter(string namespaceUri, string localName) => throw new NotImplementedException();
+        public void RemoveParameter(string namespaceUri, string localName) => InvokeVoid("removeParameter", namespaceUri, localName);
 
         [JsName("clearParameters")]
-        public void ClearParameters() => throw new NotImplementedException();
+        public void ClearParameters() => InvokeVoid("clearParameters");
 
         [JsName("reset")]
-        public void Reset() => throw new NotImplementedException();
+        public void Reset() => InvokeVoid("reset");
     }
 }

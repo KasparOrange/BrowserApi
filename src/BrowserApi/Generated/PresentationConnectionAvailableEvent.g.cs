@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class PresentationConnectionAvailableEvent : Event
     {
         [JsName("connection")]
-        public PresentationConnection Connection { get; }
+        public PresentationConnection Connection => GetProperty<PresentationConnection>("connection");
     }
 }

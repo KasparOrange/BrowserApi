@@ -36,90 +36,178 @@ namespace BrowserApi.Dom
     public partial class HtmlImageElement : HtmlElement
     {
         [JsName("alt")]
-        public string Alt { get; set; }
+        public string Alt
+        {
+            get => GetProperty<string>("alt");
+            set => SetProperty("alt", value);
+        }
 
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("srcset")]
-        public string Srcset { get; set; }
+        public string Srcset
+        {
+            get => GetProperty<string>("srcset");
+            set => SetProperty("srcset", value);
+        }
 
         [JsName("sizes")]
-        public string Sizes { get; set; }
+        public string Sizes
+        {
+            get => GetProperty<string>("sizes");
+            set => SetProperty("sizes", value);
+        }
 
         [JsName("crossOrigin")]
-        public string? CrossOrigin { get; set; }
+        public string? CrossOrigin
+        {
+            get => GetProperty<string?>("crossOrigin");
+            set => SetProperty("crossOrigin", value);
+        }
 
         [JsName("useMap")]
-        public string UseMap { get; set; }
+        public string UseMap
+        {
+            get => GetProperty<string>("useMap");
+            set => SetProperty("useMap", value);
+        }
 
         [JsName("isMap")]
-        public bool IsMap { get; set; }
+        public bool IsMap
+        {
+            get => GetProperty<bool>("isMap");
+            set => SetProperty("isMap", value);
+        }
 
         [JsName("width")]
-        public uint Width { get; set; }
+        public uint Width
+        {
+            get => GetProperty<uint>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public uint Height { get; set; }
+        public uint Height
+        {
+            get => GetProperty<uint>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("naturalWidth")]
-        public uint NaturalWidth { get; }
+        public uint NaturalWidth => GetProperty<uint>("naturalWidth");
 
         [JsName("naturalHeight")]
-        public uint NaturalHeight { get; }
+        public uint NaturalHeight => GetProperty<uint>("naturalHeight");
 
         [JsName("complete")]
-        public bool Complete { get; }
+        public bool Complete => GetProperty<bool>("complete");
 
         [JsName("currentSrc")]
-        public string CurrentSrc { get; }
+        public string CurrentSrc => GetProperty<string>("currentSrc");
 
         [JsName("referrerPolicy")]
-        public string ReferrerPolicy { get; set; }
+        public string ReferrerPolicy
+        {
+            get => GetProperty<string>("referrerPolicy");
+            set => SetProperty("referrerPolicy", value);
+        }
 
         [JsName("decoding")]
-        public string Decoding { get; set; }
+        public string Decoding
+        {
+            get => GetProperty<string>("decoding");
+            set => SetProperty("decoding", value);
+        }
 
         [JsName("loading")]
-        public string Loading { get; set; }
+        public string Loading
+        {
+            get => GetProperty<string>("loading");
+            set => SetProperty("loading", value);
+        }
 
         [JsName("fetchPriority")]
-        public string FetchPriority { get; set; }
+        public string FetchPriority
+        {
+            get => GetProperty<string>("fetchPriority");
+            set => SetProperty("fetchPriority", value);
+        }
 
         [JsName("x")]
-        public int X { get; }
+        public int X => GetProperty<int>("x");
 
         [JsName("y")]
-        public int Y { get; }
+        public int Y => GetProperty<int>("y");
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("lowsrc")]
-        public string Lowsrc { get; set; }
+        public string Lowsrc
+        {
+            get => GetProperty<string>("lowsrc");
+            set => SetProperty("lowsrc", value);
+        }
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("hspace")]
-        public uint Hspace { get; set; }
+        public uint Hspace
+        {
+            get => GetProperty<uint>("hspace");
+            set => SetProperty("hspace", value);
+        }
 
         [JsName("vspace")]
-        public uint Vspace { get; set; }
+        public uint Vspace
+        {
+            get => GetProperty<uint>("vspace");
+            set => SetProperty("vspace", value);
+        }
 
         [JsName("longDesc")]
-        public string LongDesc { get; set; }
+        public string LongDesc
+        {
+            get => GetProperty<string>("longDesc");
+            set => SetProperty("longDesc", value);
+        }
 
         [JsName("border")]
-        public string Border { get; set; }
+        public string Border
+        {
+            get => GetProperty<string>("border");
+            set => SetProperty("border", value);
+        }
 
         [JsName("attributionSrc")]
-        public string AttributionSrc { get; set; }
+        public string AttributionSrc
+        {
+            get => GetProperty<string>("attributionSrc");
+            set => SetProperty("attributionSrc", value);
+        }
 
         [JsName("sharedStorageWritable")]
-        public bool SharedStorageWritable { get; set; }
+        public bool SharedStorageWritable
+        {
+            get => GetProperty<bool>("sharedStorageWritable");
+            set => SetProperty("sharedStorageWritable", value);
+        }
 
         [JsName("decode")]
-        public Task DecodeAsync() => throw new NotImplementedException();
+        public Task DecodeAsync() => InvokeVoidAsync("decode");
     }
 }

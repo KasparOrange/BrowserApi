@@ -33,15 +33,15 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Dom
 {
     [JsName("DOMStringList")]
-    public partial class DomStringList
+    public partial class DomStringList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public string? Item(uint index) => throw new NotImplementedException();
+        public string? Item(uint index) => Invoke<string?>("item", index);
 
         [JsName("contains")]
-        public bool Contains(string @string) => throw new NotImplementedException();
+        public bool Contains(string @string) => Invoke<bool>("contains", @string);
     }
 }

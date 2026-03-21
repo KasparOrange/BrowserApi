@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssLayerStatementRule : CssRule
     {
         [JsName("nameList")]
-        public IReadOnlyList<string> NameList { get; }
+        public IReadOnlyList<string> NameList => GetProperty<IReadOnlyList<string>>("nameList");
     }
 }

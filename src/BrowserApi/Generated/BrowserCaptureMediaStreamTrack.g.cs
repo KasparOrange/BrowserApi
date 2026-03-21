@@ -35,12 +35,12 @@ namespace BrowserApi
     public partial class BrowserCaptureMediaStreamTrack : MediaStreamTrack
     {
         [JsName("cropTo")]
-        public Task CropToAsync(CropTarget? cropTarget) => throw new NotImplementedException();
+        public Task CropToAsync(CropTarget? cropTarget) => InvokeVoidAsync("cropTo", cropTarget);
 
         [JsName("clone")]
-        public BrowserCaptureMediaStreamTrack Clone() => throw new NotImplementedException();
+        public BrowserCaptureMediaStreamTrack Clone() => Invoke<BrowserCaptureMediaStreamTrack>("clone");
 
         [JsName("restrictTo")]
-        public Task RestrictToAsync(RestrictionTarget? restrictionTarget) => throw new NotImplementedException();
+        public Task RestrictToAsync(RestrictionTarget? restrictionTarget) => InvokeVoidAsync("restrictTo", restrictionTarget);
     }
 }

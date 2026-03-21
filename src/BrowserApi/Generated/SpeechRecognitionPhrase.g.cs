@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class SpeechRecognitionPhrase
+    public partial class SpeechRecognitionPhrase : JsObject
     {
         [JsName("phrase")]
-        public string Phrase { get; }
+        public string Phrase => GetProperty<string>("phrase");
 
         [JsName("boost")]
-        public float Boost { get; }
+        public float Boost => GetProperty<float>("boost");
     }
 }

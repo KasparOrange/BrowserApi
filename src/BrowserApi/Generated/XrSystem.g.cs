@@ -36,12 +36,16 @@ namespace BrowserApi
     public partial class XrSystem : EventTarget
     {
         [JsName("ondevicechange")]
-        public object Ondevicechange { get; set; }
+        public object Ondevicechange
+        {
+            get => GetProperty<object>("ondevicechange");
+            set => SetProperty("ondevicechange", value);
+        }
 
         [JsName("isSessionSupported")]
-        public Task<bool> IsSessionSupportedAsync(XrSessionMode mode) => throw new NotImplementedException();
+        public Task<bool> IsSessionSupportedAsync(XrSessionMode mode) => InvokeAsync<bool>("isSessionSupported", mode);
 
         [JsName("requestSession")]
-        public Task<XrSession> RequestSessionAsync(XrSessionMode mode, XrSessionInit? options = null) => throw new NotImplementedException();
+        public Task<XrSession> RequestSessionAsync(XrSessionMode mode, XrSessionInit? options = null) => InvokeAsync<XrSession>("requestSession", mode, options);
     }
 }

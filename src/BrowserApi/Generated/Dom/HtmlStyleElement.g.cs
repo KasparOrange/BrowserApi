@@ -36,18 +36,30 @@ namespace BrowserApi.Dom
     public partial class HtmlStyleElement : HtmlElement
     {
         [JsName("disabled")]
-        public bool Disabled { get; set; }
+        public bool Disabled
+        {
+            get => GetProperty<bool>("disabled");
+            set => SetProperty("disabled", value);
+        }
 
         [JsName("media")]
-        public string Media { get; set; }
+        public string Media
+        {
+            get => GetProperty<string>("media");
+            set => SetProperty("media", value);
+        }
 
         [JsName("blocking")]
-        public DomTokenList Blocking { get; }
+        public DomTokenList Blocking => GetProperty<DomTokenList>("blocking");
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("sheet")]
-        public CssStyleSheet? Sheet { get; }
+        public CssStyleSheet? Sheet => GetProperty<CssStyleSheet?>("sheet");
     }
 }

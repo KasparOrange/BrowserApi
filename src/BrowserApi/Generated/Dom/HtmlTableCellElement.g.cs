@@ -36,48 +36,104 @@ namespace BrowserApi.Dom
     public partial class HtmlTableCellElement : HtmlElement
     {
         [JsName("colSpan")]
-        public uint ColSpan { get; set; }
+        public uint ColSpan
+        {
+            get => GetProperty<uint>("colSpan");
+            set => SetProperty("colSpan", value);
+        }
 
         [JsName("rowSpan")]
-        public uint RowSpan { get; set; }
+        public uint RowSpan
+        {
+            get => GetProperty<uint>("rowSpan");
+            set => SetProperty("rowSpan", value);
+        }
 
         [JsName("headers")]
-        public string Headers { get; set; }
+        public string Headers
+        {
+            get => GetProperty<string>("headers");
+            set => SetProperty("headers", value);
+        }
 
         [JsName("cellIndex")]
-        public int CellIndex { get; }
+        public int CellIndex => GetProperty<int>("cellIndex");
 
         [JsName("scope")]
-        public string Scope { get; set; }
+        public string Scope
+        {
+            get => GetProperty<string>("scope");
+            set => SetProperty("scope", value);
+        }
 
         [JsName("abbr")]
-        public string Abbr { get; set; }
+        public string Abbr
+        {
+            get => GetProperty<string>("abbr");
+            set => SetProperty("abbr", value);
+        }
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("axis")]
-        public string Axis { get; set; }
+        public string Axis
+        {
+            get => GetProperty<string>("axis");
+            set => SetProperty("axis", value);
+        }
 
         [JsName("height")]
-        public string Height { get; set; }
+        public string Height
+        {
+            get => GetProperty<string>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("ch")]
-        public string Ch { get; set; }
+        public string Ch
+        {
+            get => GetProperty<string>("ch");
+            set => SetProperty("ch", value);
+        }
 
         [JsName("chOff")]
-        public string ChOff { get; set; }
+        public string ChOff
+        {
+            get => GetProperty<string>("chOff");
+            set => SetProperty("chOff", value);
+        }
 
         [JsName("noWrap")]
-        public bool NoWrap { get; set; }
+        public bool NoWrap
+        {
+            get => GetProperty<bool>("noWrap");
+            set => SetProperty("noWrap", value);
+        }
 
         [JsName("vAlign")]
-        public string VAlign { get; set; }
+        public string VAlign
+        {
+            get => GetProperty<string>("vAlign");
+            set => SetProperty("vAlign", value);
+        }
 
         [JsName("bgColor")]
-        public string BgColor { get; set; }
+        public string BgColor
+        {
+            get => GetProperty<string>("bgColor");
+            set => SetProperty("bgColor", value);
+        }
     }
 }

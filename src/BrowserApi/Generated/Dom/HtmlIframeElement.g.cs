@@ -36,78 +36,158 @@ namespace BrowserApi.Dom
     public partial class HtmlIframeElement : HtmlElement
     {
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("srcdoc")]
-        public object Srcdoc { get; set; }
+        public object Srcdoc
+        {
+            get => GetProperty<object>("srcdoc");
+            set => SetProperty("srcdoc", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("sandbox")]
-        public DomTokenList Sandbox { get; }
+        public DomTokenList Sandbox => GetProperty<DomTokenList>("sandbox");
 
         [JsName("allow")]
-        public string Allow { get; set; }
+        public string Allow
+        {
+            get => GetProperty<string>("allow");
+            set => SetProperty("allow", value);
+        }
 
         [JsName("allowFullscreen")]
-        public bool AllowFullscreen { get; set; }
+        public bool AllowFullscreen
+        {
+            get => GetProperty<bool>("allowFullscreen");
+            set => SetProperty("allowFullscreen", value);
+        }
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public string Height { get; set; }
+        public string Height
+        {
+            get => GetProperty<string>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("referrerPolicy")]
-        public string ReferrerPolicy { get; set; }
+        public string ReferrerPolicy
+        {
+            get => GetProperty<string>("referrerPolicy");
+            set => SetProperty("referrerPolicy", value);
+        }
 
         [JsName("loading")]
-        public string Loading { get; set; }
+        public string Loading
+        {
+            get => GetProperty<string>("loading");
+            set => SetProperty("loading", value);
+        }
 
         [JsName("contentDocument")]
-        public Document? ContentDocument { get; }
+        public Document? ContentDocument => GetProperty<Document?>("contentDocument");
 
         [JsName("contentWindow")]
-        public object ContentWindow { get; }
+        public object ContentWindow => GetProperty<object>("contentWindow");
 
         [JsName("credentialless")]
-        public bool Credentialless { get; set; }
+        public bool Credentialless
+        {
+            get => GetProperty<bool>("credentialless");
+            set => SetProperty("credentialless", value);
+        }
 
         [JsName("csp")]
-        public string Csp { get; set; }
+        public string Csp
+        {
+            get => GetProperty<string>("csp");
+            set => SetProperty("csp", value);
+        }
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("scrolling")]
-        public string Scrolling { get; set; }
+        public string Scrolling
+        {
+            get => GetProperty<string>("scrolling");
+            set => SetProperty("scrolling", value);
+        }
 
         [JsName("frameBorder")]
-        public string FrameBorder { get; set; }
+        public string FrameBorder
+        {
+            get => GetProperty<string>("frameBorder");
+            set => SetProperty("frameBorder", value);
+        }
 
         [JsName("longDesc")]
-        public string LongDesc { get; set; }
+        public string LongDesc
+        {
+            get => GetProperty<string>("longDesc");
+            set => SetProperty("longDesc", value);
+        }
 
         [JsName("marginHeight")]
-        public string MarginHeight { get; set; }
+        public string MarginHeight
+        {
+            get => GetProperty<string>("marginHeight");
+            set => SetProperty("marginHeight", value);
+        }
 
         [JsName("marginWidth")]
-        public string MarginWidth { get; set; }
+        public string MarginWidth
+        {
+            get => GetProperty<string>("marginWidth");
+            set => SetProperty("marginWidth", value);
+        }
 
         [JsName("permissionsPolicy")]
-        public PermissionsPolicy PermissionsPolicy { get; }
+        public PermissionsPolicy PermissionsPolicy => GetProperty<PermissionsPolicy>("permissionsPolicy");
 
         [JsName("privateToken")]
-        public string PrivateToken { get; set; }
+        public string PrivateToken
+        {
+            get => GetProperty<string>("privateToken");
+            set => SetProperty("privateToken", value);
+        }
 
         [JsName("adAuctionHeaders")]
-        public bool AdAuctionHeaders { get; set; }
+        public bool AdAuctionHeaders
+        {
+            get => GetProperty<bool>("adAuctionHeaders");
+            set => SetProperty("adAuctionHeaders", value);
+        }
 
         [JsName("sharedStorageWritable")]
-        public bool SharedStorageWritable { get; set; }
+        public bool SharedStorageWritable
+        {
+            get => GetProperty<bool>("sharedStorageWritable");
+            set => SetProperty("sharedStorageWritable", value);
+        }
 
         [JsName("getSVGDocument")]
-        public Document? GetSvgDocument() => throw new NotImplementedException();
+        public Document? GetSvgDocument() => Invoke<Document?>("getSVGDocument");
     }
 }

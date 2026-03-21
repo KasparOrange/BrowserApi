@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUSupportedFeatures")]
-    public partial class GpuSupportedFeatures
+    public partial class GpuSupportedFeatures : JsObject
     {
     }
 }

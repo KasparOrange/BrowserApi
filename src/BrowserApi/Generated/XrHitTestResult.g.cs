@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRHitTestResult")]
-    public partial class XrHitTestResult
+    public partial class XrHitTestResult : JsObject
     {
         [JsName("getPose")]
-        public XrPose? GetPose(XrSpace baseSpace) => throw new NotImplementedException();
+        public XrPose? GetPose(XrSpace baseSpace) => Invoke<XrPose?>("getPose", baseSpace);
 
         [JsName("createAnchor")]
-        public Task<XrAnchor> CreateAnchorAsync() => throw new NotImplementedException();
+        public Task<XrAnchor> CreateAnchorAsync() => InvokeAsync<XrAnchor>("createAnchor");
     }
 }

@@ -35,42 +35,94 @@ namespace BrowserApi
     public partial class SpeechSynthesisUtterance : EventTarget
     {
         [JsName("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get => GetProperty<string>("text");
+            set => SetProperty("text", value);
+        }
 
         [JsName("lang")]
-        public string Lang { get; set; }
+        public string Lang
+        {
+            get => GetProperty<string>("lang");
+            set => SetProperty("lang", value);
+        }
 
         [JsName("voice")]
-        public SpeechSynthesisVoice? Voice { get; set; }
+        public SpeechSynthesisVoice? Voice
+        {
+            get => GetProperty<SpeechSynthesisVoice?>("voice");
+            set => SetProperty("voice", value);
+        }
 
         [JsName("volume")]
-        public float Volume { get; set; }
+        public float Volume
+        {
+            get => GetProperty<float>("volume");
+            set => SetProperty("volume", value);
+        }
 
         [JsName("rate")]
-        public float Rate { get; set; }
+        public float Rate
+        {
+            get => GetProperty<float>("rate");
+            set => SetProperty("rate", value);
+        }
 
         [JsName("pitch")]
-        public float Pitch { get; set; }
+        public float Pitch
+        {
+            get => GetProperty<float>("pitch");
+            set => SetProperty("pitch", value);
+        }
 
         [JsName("onstart")]
-        public object Onstart { get; set; }
+        public object Onstart
+        {
+            get => GetProperty<object>("onstart");
+            set => SetProperty("onstart", value);
+        }
 
         [JsName("onend")]
-        public object Onend { get; set; }
+        public object Onend
+        {
+            get => GetProperty<object>("onend");
+            set => SetProperty("onend", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onpause")]
-        public object Onpause { get; set; }
+        public object Onpause
+        {
+            get => GetProperty<object>("onpause");
+            set => SetProperty("onpause", value);
+        }
 
         [JsName("onresume")]
-        public object Onresume { get; set; }
+        public object Onresume
+        {
+            get => GetProperty<object>("onresume");
+            set => SetProperty("onresume", value);
+        }
 
         [JsName("onmark")]
-        public object Onmark { get; set; }
+        public object Onmark
+        {
+            get => GetProperty<object>("onmark");
+            set => SetProperty("onmark", value);
+        }
 
         [JsName("onboundary")]
-        public object Onboundary { get; set; }
+        public object Onboundary
+        {
+            get => GetProperty<object>("onboundary");
+            set => SetProperty("onboundary", value);
+        }
     }
 }

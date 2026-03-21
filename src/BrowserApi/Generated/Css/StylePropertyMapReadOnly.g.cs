@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class StylePropertyMapReadOnly
+    public partial class StylePropertyMapReadOnly : JsObject
     {
         [JsName("size")]
-        public uint Size { get; }
+        public uint Size => GetProperty<uint>("size");
 
         [JsName("get")]
-        public object Get(string property) => throw new NotImplementedException();
+        public object Get(string property) => Invoke<object>("get", property);
 
         [JsName("getAll")]
-        public IReadOnlyList<CssStyleValue> GetAll(string property) => throw new NotImplementedException();
+        public IReadOnlyList<CssStyleValue> GetAll(string property) => Invoke<IReadOnlyList<CssStyleValue>>("getAll", property);
 
         [JsName("has")]
-        public bool Has(string property) => throw new NotImplementedException();
+        public bool Has(string property) => Invoke<bool>("has", property);
     }
 }

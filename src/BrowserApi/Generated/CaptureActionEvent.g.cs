@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class CaptureActionEvent : Event
     {
         [JsName("action")]
-        public CaptureAction Action { get; }
+        public CaptureAction Action => GetProperty<CaptureAction>("action");
     }
 }

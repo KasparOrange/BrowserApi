@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class FontFaceVariations
+    public partial class FontFaceVariations : JsObject
     {
     }
 }

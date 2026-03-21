@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class GamepadButton
+    public partial class GamepadButton : JsObject
     {
         [JsName("pressed")]
-        public bool Pressed { get; }
+        public bool Pressed => GetProperty<bool>("pressed");
 
         [JsName("touched")]
-        public bool Touched { get; }
+        public bool Touched => GetProperty<bool>("touched");
 
         [JsName("value")]
-        public double Value { get; }
+        public double Value => GetProperty<double>("value");
     }
 }

@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class ReadableStreamDefaultController
+    public partial class ReadableStreamDefaultController : JsObject
     {
         [JsName("desiredSize")]
-        public double? DesiredSize { get; }
+        public double? DesiredSize => GetProperty<double?>("desiredSize");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
 
         [JsName("enqueue")]
-        public void Enqueue(object? chunk = null) => throw new NotImplementedException();
+        public void Enqueue(object? chunk = null) => InvokeVoid("enqueue", chunk);
 
         [JsName("error")]
-        public void Error(object? e = null) => throw new NotImplementedException();
+        public void Error(object? e = null) => InvokeVoid("error", e);
     }
 }

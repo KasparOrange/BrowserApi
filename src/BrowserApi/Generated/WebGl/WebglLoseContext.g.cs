@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_lose_context")]
-    public partial class WebglLoseContext
+    public partial class WebglLoseContext : JsObject
     {
         [JsName("loseContext")]
-        public void LoseContext() => throw new NotImplementedException();
+        public void LoseContext() => InvokeVoid("loseContext");
 
         [JsName("restoreContext")]
-        public void RestoreContext() => throw new NotImplementedException();
+        public void RestoreContext() => InvokeVoid("restoreContext");
     }
 }

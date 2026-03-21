@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class XrBoundedReferenceSpace : XrReferenceSpace
     {
         [JsName("boundsGeometry")]
-        public IReadOnlyList<DomPointReadOnly> BoundsGeometry { get; }
+        public IReadOnlyList<DomPointReadOnly> BoundsGeometry => GetProperty<IReadOnlyList<DomPointReadOnly>>("boundsGeometry");
     }
 }

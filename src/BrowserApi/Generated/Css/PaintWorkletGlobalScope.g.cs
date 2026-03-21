@@ -35,9 +35,9 @@ namespace BrowserApi.Css
     public partial class PaintWorkletGlobalScope : WorkletGlobalScope
     {
         [JsName("devicePixelRatio")]
-        public double DevicePixelRatio { get; }
+        public double DevicePixelRatio => GetProperty<double>("devicePixelRatio");
 
         [JsName("registerPaint")]
-        public void RegisterPaint(string name, VoidFunction paintCtor) => throw new NotImplementedException();
+        public void RegisterPaint(string name, VoidFunction paintCtor) => InvokeVoid("registerPaint", name, paintCtor);
     }
 }

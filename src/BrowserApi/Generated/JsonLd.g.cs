@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class JsonLd
+    public partial class JsonLd : JsObject
     {
     }
 }

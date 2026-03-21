@@ -36,15 +36,15 @@ namespace BrowserApi
     public partial class SvgLinearGradientElement : SvgGradientElement
     {
         [JsName("x1")]
-        public SvgAnimatedLength X1 { get; }
+        public SvgAnimatedLength X1 => GetProperty<SvgAnimatedLength>("x1");
 
         [JsName("y1")]
-        public SvgAnimatedLength Y1 { get; }
+        public SvgAnimatedLength Y1 => GetProperty<SvgAnimatedLength>("y1");
 
         [JsName("x2")]
-        public SvgAnimatedLength X2 { get; }
+        public SvgAnimatedLength X2 => GetProperty<SvgAnimatedLength>("x2");
 
         [JsName("y2")]
-        public SvgAnimatedLength Y2 { get; }
+        public SvgAnimatedLength Y2 => GetProperty<SvgAnimatedLength>("y2");
     }
 }

@@ -70,27 +70,27 @@ namespace BrowserApi
         public const ushort SvgFeblendModeLuminosity = 16;
 
         [JsName("in1")]
-        public SvgAnimatedString In1 { get; }
+        public SvgAnimatedString In1 => GetProperty<SvgAnimatedString>("in1");
 
         [JsName("in2")]
-        public SvgAnimatedString In2 { get; }
+        public SvgAnimatedString In2 => GetProperty<SvgAnimatedString>("in2");
 
         [JsName("mode")]
-        public SvgAnimatedEnumeration Mode { get; }
+        public SvgAnimatedEnumeration Mode => GetProperty<SvgAnimatedEnumeration>("mode");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
     }
 }

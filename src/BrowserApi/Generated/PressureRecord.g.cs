@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PressureRecord
+    public partial class PressureRecord : JsObject
     {
         [JsName("source")]
-        public PressureSource Source { get; }
+        public PressureSource Source => GetProperty<PressureSource>("source");
 
         [JsName("state")]
-        public PressureState State { get; }
+        public PressureState State => GetProperty<PressureState>("state");
 
         [JsName("time")]
-        public double Time { get; }
+        public double Time => GetProperty<double>("time");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

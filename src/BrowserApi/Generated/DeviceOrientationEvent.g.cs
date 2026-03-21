@@ -35,16 +35,16 @@ namespace BrowserApi
     public partial class DeviceOrientationEvent : Event
     {
         [JsName("alpha")]
-        public double? Alpha { get; }
+        public double? Alpha => GetProperty<double?>("alpha");
 
         [JsName("beta")]
-        public double? Beta { get; }
+        public double? Beta => GetProperty<double?>("beta");
 
         [JsName("gamma")]
-        public double? Gamma { get; }
+        public double? Gamma => GetProperty<double?>("gamma");
 
         [JsName("absolute")]
-        public bool Absolute { get; }
+        public bool Absolute => GetProperty<bool>("absolute");
 
         [JsName("requestPermission")]
         public static Task<PermissionState> RequestPermissionAsync(bool absolute = false) => throw new NotImplementedException();

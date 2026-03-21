@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class MediaStreamTrackHandle
+    public partial class MediaStreamTrackHandle : JsObject
     {
     }
 }

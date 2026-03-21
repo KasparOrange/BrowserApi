@@ -36,9 +36,13 @@ namespace BrowserApi.Css
     public partial class CssKeyframeRule : CssRule
     {
         [JsName("keyText")]
-        public string KeyText { get; set; }
+        public string KeyText
+        {
+            get => GetProperty<string>("keyText");
+            set => SetProperty("keyText", value);
+        }
 
         [JsName("style")]
-        public CssStyleProperties Style { get; }
+        public CssStyleProperties Style => GetProperty<CssStyleProperties>("style");
     }
 }

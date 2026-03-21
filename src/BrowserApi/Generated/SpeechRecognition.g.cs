@@ -35,70 +35,142 @@ namespace BrowserApi
     public partial class SpeechRecognition : EventTarget
     {
         [JsName("grammars")]
-        public SpeechGrammarList Grammars { get; set; }
+        public SpeechGrammarList Grammars
+        {
+            get => GetProperty<SpeechGrammarList>("grammars");
+            set => SetProperty("grammars", value);
+        }
 
         [JsName("lang")]
-        public string Lang { get; set; }
+        public string Lang
+        {
+            get => GetProperty<string>("lang");
+            set => SetProperty("lang", value);
+        }
 
         [JsName("continuous")]
-        public bool Continuous { get; set; }
+        public bool Continuous
+        {
+            get => GetProperty<bool>("continuous");
+            set => SetProperty("continuous", value);
+        }
 
         [JsName("interimResults")]
-        public bool InterimResults { get; set; }
+        public bool InterimResults
+        {
+            get => GetProperty<bool>("interimResults");
+            set => SetProperty("interimResults", value);
+        }
 
         [JsName("maxAlternatives")]
-        public uint MaxAlternatives { get; set; }
+        public uint MaxAlternatives
+        {
+            get => GetProperty<uint>("maxAlternatives");
+            set => SetProperty("maxAlternatives", value);
+        }
 
         [JsName("processLocally")]
-        public bool ProcessLocally { get; set; }
+        public bool ProcessLocally
+        {
+            get => GetProperty<bool>("processLocally");
+            set => SetProperty("processLocally", value);
+        }
 
         [JsName("phrases")]
-        public IReadOnlyList<SpeechRecognitionPhrase> Phrases { get; set; }
+        public IReadOnlyList<SpeechRecognitionPhrase> Phrases
+        {
+            get => GetProperty<IReadOnlyList<SpeechRecognitionPhrase>>("phrases");
+            set => SetProperty("phrases", value);
+        }
 
         [JsName("onaudiostart")]
-        public object Onaudiostart { get; set; }
+        public object Onaudiostart
+        {
+            get => GetProperty<object>("onaudiostart");
+            set => SetProperty("onaudiostart", value);
+        }
 
         [JsName("onsoundstart")]
-        public object Onsoundstart { get; set; }
+        public object Onsoundstart
+        {
+            get => GetProperty<object>("onsoundstart");
+            set => SetProperty("onsoundstart", value);
+        }
 
         [JsName("onspeechstart")]
-        public object Onspeechstart { get; set; }
+        public object Onspeechstart
+        {
+            get => GetProperty<object>("onspeechstart");
+            set => SetProperty("onspeechstart", value);
+        }
 
         [JsName("onspeechend")]
-        public object Onspeechend { get; set; }
+        public object Onspeechend
+        {
+            get => GetProperty<object>("onspeechend");
+            set => SetProperty("onspeechend", value);
+        }
 
         [JsName("onsoundend")]
-        public object Onsoundend { get; set; }
+        public object Onsoundend
+        {
+            get => GetProperty<object>("onsoundend");
+            set => SetProperty("onsoundend", value);
+        }
 
         [JsName("onaudioend")]
-        public object Onaudioend { get; set; }
+        public object Onaudioend
+        {
+            get => GetProperty<object>("onaudioend");
+            set => SetProperty("onaudioend", value);
+        }
 
         [JsName("onresult")]
-        public object Onresult { get; set; }
+        public object Onresult
+        {
+            get => GetProperty<object>("onresult");
+            set => SetProperty("onresult", value);
+        }
 
         [JsName("onnomatch")]
-        public object Onnomatch { get; set; }
+        public object Onnomatch
+        {
+            get => GetProperty<object>("onnomatch");
+            set => SetProperty("onnomatch", value);
+        }
 
         [JsName("onerror")]
-        public object Onerror { get; set; }
+        public object Onerror
+        {
+            get => GetProperty<object>("onerror");
+            set => SetProperty("onerror", value);
+        }
 
         [JsName("onstart")]
-        public object Onstart { get; set; }
+        public object Onstart
+        {
+            get => GetProperty<object>("onstart");
+            set => SetProperty("onstart", value);
+        }
 
         [JsName("onend")]
-        public object Onend { get; set; }
+        public object Onend
+        {
+            get => GetProperty<object>("onend");
+            set => SetProperty("onend", value);
+        }
 
         [JsName("start")]
-        public void Start() => throw new NotImplementedException();
+        public void Start() => InvokeVoid("start");
 
         [JsName("start")]
-        public void Start(MediaStreamTrack audioTrack) => throw new NotImplementedException();
+        public void Start(MediaStreamTrack audioTrack) => InvokeVoid("start", audioTrack);
 
         [JsName("stop")]
-        public void Stop() => throw new NotImplementedException();
+        public void Stop() => InvokeVoid("stop");
 
         [JsName("abort")]
-        public void Abort() => throw new NotImplementedException();
+        public void Abort() => InvokeVoid("abort");
 
         [JsName("available")]
         public static Task<AvailabilityStatus> AvailableAsync(SpeechRecognitionOptions options) => throw new NotImplementedException();

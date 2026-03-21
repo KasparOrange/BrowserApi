@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Events
 {
-    public partial class Scheduling
+    public partial class Scheduling : JsObject
     {
         [JsName("isInputPending")]
-        public bool IsInputPending(IsInputPendingOptions? isInputPendingOptions = null) => throw new NotImplementedException();
+        public bool IsInputPending(IsInputPendingOptions? isInputPendingOptions = null) => Invoke<bool>("isInputPending", isInputPendingOptions);
     }
 }

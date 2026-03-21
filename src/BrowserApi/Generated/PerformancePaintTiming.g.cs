@@ -35,12 +35,12 @@ namespace BrowserApi
     public partial class PerformancePaintTiming : PerformanceEntry
     {
         [JsName("paintTime")]
-        public double PaintTime { get; }
+        public double PaintTime => GetProperty<double>("paintTime");
 
         [JsName("presentationTime")]
-        public double? PresentationTime { get; }
+        public double? PresentationTime => GetProperty<double?>("presentationTime");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

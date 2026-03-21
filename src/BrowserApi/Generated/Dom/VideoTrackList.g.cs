@@ -35,21 +35,33 @@ namespace BrowserApi.Dom
     public partial class VideoTrackList : EventTarget
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("selectedIndex")]
-        public int SelectedIndex { get; }
+        public int SelectedIndex => GetProperty<int>("selectedIndex");
 
         [JsName("onchange")]
-        public object Onchange { get; set; }
+        public object Onchange
+        {
+            get => GetProperty<object>("onchange");
+            set => SetProperty("onchange", value);
+        }
 
         [JsName("onaddtrack")]
-        public object Onaddtrack { get; set; }
+        public object Onaddtrack
+        {
+            get => GetProperty<object>("onaddtrack");
+            set => SetProperty("onaddtrack", value);
+        }
 
         [JsName("onremovetrack")]
-        public object Onremovetrack { get; set; }
+        public object Onremovetrack
+        {
+            get => GetProperty<object>("onremovetrack");
+            set => SetProperty("onremovetrack", value);
+        }
 
         [JsName("getTrackById")]
-        public VideoTrack? GetTrackById(string id) => throw new NotImplementedException();
+        public VideoTrack? GetTrackById(string id) => Invoke<VideoTrack?>("getTrackById", id);
     }
 }

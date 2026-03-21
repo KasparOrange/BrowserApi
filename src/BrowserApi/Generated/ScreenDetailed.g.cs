@@ -35,27 +35,27 @@ namespace BrowserApi
     public partial class ScreenDetailed : Screen
     {
         [JsName("availLeft")]
-        public int AvailLeft { get; }
+        public int AvailLeft => GetProperty<int>("availLeft");
 
         [JsName("availTop")]
-        public int AvailTop { get; }
+        public int AvailTop => GetProperty<int>("availTop");
 
         [JsName("left")]
-        public int Left { get; }
+        public int Left => GetProperty<int>("left");
 
         [JsName("top")]
-        public int Top { get; }
+        public int Top => GetProperty<int>("top");
 
         [JsName("isPrimary")]
-        public bool IsPrimary { get; }
+        public bool IsPrimary => GetProperty<bool>("isPrimary");
 
         [JsName("isInternal")]
-        public bool IsInternal { get; }
+        public bool IsInternal => GetProperty<bool>("isInternal");
 
         [JsName("devicePixelRatio")]
-        public float DevicePixelRatio { get; }
+        public float DevicePixelRatio => GetProperty<float>("devicePixelRatio");
 
         [JsName("label")]
-        public string Label { get; }
+        public string Label => GetProperty<string>("label");
     }
 }

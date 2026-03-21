@@ -32,39 +32,39 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class Path2D
+    public partial class Path2D : JsObject
     {
         [JsName("addPath")]
-        public void AddPath(Path2D path, DomMatrix2Dinit? transform = null) => throw new NotImplementedException();
+        public void AddPath(Path2D path, DomMatrix2Dinit? transform = null) => InvokeVoid("addPath", path, transform);
 
         [JsName("closePath")]
-        public void ClosePath() => throw new NotImplementedException();
+        public void ClosePath() => InvokeVoid("closePath");
 
         [JsName("moveTo")]
-        public void MoveTo(double x, double y) => throw new NotImplementedException();
+        public void MoveTo(double x, double y) => InvokeVoid("moveTo", x, y);
 
         [JsName("lineTo")]
-        public void LineTo(double x, double y) => throw new NotImplementedException();
+        public void LineTo(double x, double y) => InvokeVoid("lineTo", x, y);
 
         [JsName("quadraticCurveTo")]
-        public void QuadraticCurveTo(double cpx, double cpy, double x, double y) => throw new NotImplementedException();
+        public void QuadraticCurveTo(double cpx, double cpy, double x, double y) => InvokeVoid("quadraticCurveTo", cpx, cpy, x, y);
 
         [JsName("bezierCurveTo")]
-        public void BezierCurveTo(double cp1x, double cp1y, double cp2x, double cp2y, double x, double y) => throw new NotImplementedException();
+        public void BezierCurveTo(double cp1x, double cp1y, double cp2x, double cp2y, double x, double y) => InvokeVoid("bezierCurveTo", cp1x, cp1y, cp2x, cp2y, x, y);
 
         [JsName("arcTo")]
-        public void ArcTo(double x1, double y1, double x2, double y2, double radius) => throw new NotImplementedException();
+        public void ArcTo(double x1, double y1, double x2, double y2, double radius) => InvokeVoid("arcTo", x1, y1, x2, y2, radius);
 
         [JsName("rect")]
-        public void Rect(double x, double y, double w, double h) => throw new NotImplementedException();
+        public void Rect(double x, double y, double w, double h) => InvokeVoid("rect", x, y, w, h);
 
         [JsName("roundRect")]
-        public void RoundRect(double x, double y, double w, double h, object? radii = null) => throw new NotImplementedException();
+        public void RoundRect(double x, double y, double w, double h, object? radii = null) => InvokeVoid("roundRect", x, y, w, h, radii);
 
         [JsName("arc")]
-        public void Arc(double x, double y, double radius, double startAngle, double endAngle, bool counterclockwise = false) => throw new NotImplementedException();
+        public void Arc(double x, double y, double radius, double startAngle, double endAngle, bool counterclockwise = false) => InvokeVoid("arc", x, y, radius, startAngle, endAngle, counterclockwise);
 
         [JsName("ellipse")]
-        public void Ellipse(double x, double y, double radiusX, double radiusY, double rotation, double startAngle, double endAngle, bool counterclockwise = false) => throw new NotImplementedException();
+        public void Ellipse(double x, double y, double radiusX, double radiusY, double rotation, double startAngle, double endAngle, bool counterclockwise = false) => InvokeVoid("ellipse", x, y, radiusX, radiusY, rotation, startAngle, endAngle, counterclockwise);
     }
 }

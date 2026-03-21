@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.FileApi
 {
-    public partial class FileReaderSync
+    public partial class FileReaderSync : JsObject
     {
         [JsName("readAsArrayBuffer")]
-        public byte[] ReadAsArrayBuffer(Blob blob) => throw new NotImplementedException();
+        public byte[] ReadAsArrayBuffer(Blob blob) => Invoke<byte[]>("readAsArrayBuffer", blob);
 
         [JsName("readAsBinaryString")]
-        public string ReadAsBinaryString(Blob blob) => throw new NotImplementedException();
+        public string ReadAsBinaryString(Blob blob) => Invoke<string>("readAsBinaryString", blob);
 
         [JsName("readAsText")]
-        public string ReadAsText(Blob blob, string? encoding = null) => throw new NotImplementedException();
+        public string ReadAsText(Blob blob, string? encoding = null) => Invoke<string>("readAsText", blob, encoding);
 
         [JsName("readAsDataURL")]
-        public string ReadAsDataUrl(Blob blob) => throw new NotImplementedException();
+        public string ReadAsDataUrl(Blob blob) => Invoke<string>("readAsDataURL", blob);
     }
 }

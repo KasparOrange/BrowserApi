@@ -32,16 +32,16 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Translator
+    public partial class Translator : JsObject
     {
         [JsName("sourceLanguage")]
-        public string SourceLanguage { get; }
+        public string SourceLanguage => GetProperty<string>("sourceLanguage");
 
         [JsName("targetLanguage")]
-        public string TargetLanguage { get; }
+        public string TargetLanguage => GetProperty<string>("targetLanguage");
 
         [JsName("inputQuota")]
-        public double InputQuota { get; }
+        public double InputQuota => GetProperty<double>("inputQuota");
 
         [JsName("create")]
         public static Task<Translator> CreateAsync(TranslatorCreateOptions options) => throw new NotImplementedException();
@@ -50,15 +50,15 @@ namespace BrowserApi
         public static Task<Availability> AvailabilityAsync(TranslatorCreateCoreOptions options) => throw new NotImplementedException();
 
         [JsName("translate")]
-        public Task<string> TranslateAsync(string input, TranslatorTranslateOptions? options = null) => throw new NotImplementedException();
+        public Task<string> TranslateAsync(string input, TranslatorTranslateOptions? options = null) => InvokeAsync<string>("translate", input, options);
 
         [JsName("translateStreaming")]
-        public ReadableStream TranslateStreaming(string input, TranslatorTranslateOptions? options = null) => throw new NotImplementedException();
+        public ReadableStream TranslateStreaming(string input, TranslatorTranslateOptions? options = null) => Invoke<ReadableStream>("translateStreaming", input, options);
 
         [JsName("measureInputUsage")]
-        public Task<double> MeasureInputUsageAsync(string input, TranslatorTranslateOptions? options = null) => throw new NotImplementedException();
+        public Task<double> MeasureInputUsageAsync(string input, TranslatorTranslateOptions? options = null) => InvokeAsync<double>("measureInputUsage", input, options);
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

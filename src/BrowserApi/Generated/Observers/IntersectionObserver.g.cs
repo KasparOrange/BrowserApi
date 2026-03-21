@@ -32,36 +32,36 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Observers
 {
-    public partial class IntersectionObserver
+    public partial class IntersectionObserver : JsObject
     {
         [JsName("root")]
-        public object Root { get; }
+        public object Root => GetProperty<object>("root");
 
         [JsName("rootMargin")]
-        public string RootMargin { get; }
+        public string RootMargin => GetProperty<string>("rootMargin");
 
         [JsName("scrollMargin")]
-        public string ScrollMargin { get; }
+        public string ScrollMargin => GetProperty<string>("scrollMargin");
 
         [JsName("thresholds")]
-        public IReadOnlyList<double> Thresholds { get; }
+        public IReadOnlyList<double> Thresholds => GetProperty<IReadOnlyList<double>>("thresholds");
 
         [JsName("delay")]
-        public int Delay { get; }
+        public int Delay => GetProperty<int>("delay");
 
         [JsName("trackVisibility")]
-        public bool TrackVisibility { get; }
+        public bool TrackVisibility => GetProperty<bool>("trackVisibility");
 
         [JsName("observe")]
-        public void Observe(Element target) => throw new NotImplementedException();
+        public void Observe(Element target) => InvokeVoid("observe", target);
 
         [JsName("unobserve")]
-        public void Unobserve(Element target) => throw new NotImplementedException();
+        public void Unobserve(Element target) => InvokeVoid("unobserve", target);
 
         [JsName("disconnect")]
-        public void Disconnect() => throw new NotImplementedException();
+        public void Disconnect() => InvokeVoid("disconnect");
 
         [JsName("takeRecords")]
-        public IReadOnlyList<IntersectionObserverEntry> TakeRecords() => throw new NotImplementedException();
+        public IReadOnlyList<IntersectionObserverEntry> TakeRecords() => Invoke<IReadOnlyList<IntersectionObserverEntry>>("takeRecords");
     }
 }

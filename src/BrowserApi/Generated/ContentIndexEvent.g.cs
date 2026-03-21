@@ -35,6 +35,6 @@ namespace BrowserApi
     public partial class ContentIndexEvent : ExtendableEvent
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
     }
 }

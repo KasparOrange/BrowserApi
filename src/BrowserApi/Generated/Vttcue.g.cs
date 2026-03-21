@@ -36,36 +36,76 @@ namespace BrowserApi
     public partial class Vttcue : TextTrackCue
     {
         [JsName("region")]
-        public Vttregion? Region { get; set; }
+        public Vttregion? Region
+        {
+            get => GetProperty<Vttregion?>("region");
+            set => SetProperty("region", value);
+        }
 
         [JsName("vertical")]
-        public DirectionSetting Vertical { get; set; }
+        public DirectionSetting Vertical
+        {
+            get => GetProperty<DirectionSetting>("vertical");
+            set => SetProperty("vertical", value);
+        }
 
         [JsName("snapToLines")]
-        public bool SnapToLines { get; set; }
+        public bool SnapToLines
+        {
+            get => GetProperty<bool>("snapToLines");
+            set => SetProperty("snapToLines", value);
+        }
 
         [JsName("line")]
-        public object Line { get; set; }
+        public object Line
+        {
+            get => GetProperty<object>("line");
+            set => SetProperty("line", value);
+        }
 
         [JsName("lineAlign")]
-        public LineAlignSetting LineAlign { get; set; }
+        public LineAlignSetting LineAlign
+        {
+            get => GetProperty<LineAlignSetting>("lineAlign");
+            set => SetProperty("lineAlign", value);
+        }
 
         [JsName("position")]
-        public object Position { get; set; }
+        public object Position
+        {
+            get => GetProperty<object>("position");
+            set => SetProperty("position", value);
+        }
 
         [JsName("positionAlign")]
-        public PositionAlignSetting PositionAlign { get; set; }
+        public PositionAlignSetting PositionAlign
+        {
+            get => GetProperty<PositionAlignSetting>("positionAlign");
+            set => SetProperty("positionAlign", value);
+        }
 
         [JsName("size")]
-        public double Size { get; set; }
+        public double Size
+        {
+            get => GetProperty<double>("size");
+            set => SetProperty("size", value);
+        }
 
         [JsName("align")]
-        public AlignSetting Align { get; set; }
+        public AlignSetting Align
+        {
+            get => GetProperty<AlignSetting>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get => GetProperty<string>("text");
+            set => SetProperty("text", value);
+        }
 
         [JsName("getCueAsHTML")]
-        public DocumentFragment GetCueAsHtml() => throw new NotImplementedException();
+        public DocumentFragment GetCueAsHtml() => Invoke<DocumentFragment>("getCueAsHTML");
     }
 }

@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Subscriber
+    public partial class Subscriber : JsObject
     {
         [JsName("active")]
-        public bool Active { get; }
+        public bool Active => GetProperty<bool>("active");
 
         [JsName("signal")]
-        public AbortSignal Signal { get; }
+        public AbortSignal Signal => GetProperty<AbortSignal>("signal");
 
         [JsName("next")]
-        public void Next(object value) => throw new NotImplementedException();
+        public void Next(object value) => InvokeVoid("next", value);
 
         [JsName("error")]
-        public void Error(object error) => throw new NotImplementedException();
+        public void Error(object error) => InvokeVoid("error", error);
 
         [JsName("complete")]
-        public void Complete() => throw new NotImplementedException();
+        public void Complete() => InvokeVoid("complete");
 
         [JsName("addTeardown")]
-        public void AddTeardown(VoidFunction teardown) => throw new NotImplementedException();
+        public void AddTeardown(VoidFunction teardown) => InvokeVoid("addTeardown", teardown);
     }
 }

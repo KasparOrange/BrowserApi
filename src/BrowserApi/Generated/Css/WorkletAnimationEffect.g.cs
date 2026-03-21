@@ -32,15 +32,19 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class WorkletAnimationEffect
+    public partial class WorkletAnimationEffect : JsObject
     {
         [JsName("localTime")]
-        public double? LocalTime { get; set; }
+        public double? LocalTime
+        {
+            get => GetProperty<double?>("localTime");
+            set => SetProperty("localTime", value);
+        }
 
         [JsName("getTiming")]
-        public EffectTiming GetTiming() => throw new NotImplementedException();
+        public EffectTiming GetTiming() => Invoke<EffectTiming>("getTiming");
 
         [JsName("getComputedTiming")]
-        public ComputedEffectTiming GetComputedTiming() => throw new NotImplementedException();
+        public ComputedEffectTiming GetComputedTiming() => Invoke<ComputedEffectTiming>("getComputedTiming");
     }
 }

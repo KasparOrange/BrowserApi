@@ -36,6 +36,10 @@ namespace BrowserApi.Dom
     public partial class HtmlPreElement : HtmlElement
     {
         [JsName("width")]
-        public int Width { get; set; }
+        public int Width
+        {
+            get => GetProperty<int>("width");
+            set => SetProperty("width", value);
+        }
     }
 }

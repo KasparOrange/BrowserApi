@@ -32,21 +32,21 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PushMessageData
+    public partial class PushMessageData : JsObject
     {
         [JsName("arrayBuffer")]
-        public byte[] ArrayBuffer() => throw new NotImplementedException();
+        public byte[] ArrayBuffer() => Invoke<byte[]>("arrayBuffer");
 
         [JsName("blob")]
-        public Blob Blob() => throw new NotImplementedException();
+        public Blob Blob() => Invoke<Blob>("blob");
 
         [JsName("bytes")]
-        public byte[] Bytes() => throw new NotImplementedException();
+        public byte[] Bytes() => Invoke<byte[]>("bytes");
 
         [JsName("json")]
-        public object Json() => throw new NotImplementedException();
+        public object Json() => Invoke<object>("json");
 
         [JsName("text")]
-        public string Text() => throw new NotImplementedException();
+        public string Text() => Invoke<string>("text");
     }
 }

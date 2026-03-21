@@ -36,6 +36,10 @@ namespace BrowserApi.Dom
     public partial class HtmlHtmlElement : HtmlElement
     {
         [JsName("version")]
-        public string Version { get; set; }
+        public string Version
+        {
+            get => GetProperty<string>("version");
+            set => SetProperty("version", value);
+        }
     }
 }

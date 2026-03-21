@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_provoking_vertex")]
-    public partial class WebglProvokingVertex
+    public partial class WebglProvokingVertex : JsObject
     {
         public const uint FirstVertexConventionWebgl = 0x8E4D;
 

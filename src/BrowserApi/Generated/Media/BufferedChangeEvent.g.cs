@@ -35,9 +35,9 @@ namespace BrowserApi.Media
     public partial class BufferedChangeEvent : Event
     {
         [JsName("addedRanges")]
-        public TimeRanges AddedRanges { get; }
+        public TimeRanges AddedRanges => GetProperty<TimeRanges>("addedRanges");
 
         [JsName("removedRanges")]
-        public TimeRanges RemovedRanges { get; }
+        public TimeRanges RemovedRanges => GetProperty<TimeRanges>("removedRanges");
     }
 }

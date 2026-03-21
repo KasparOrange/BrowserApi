@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class PushManager
+    public partial class PushManager : JsObject
     {
         [JsName("supportedContentEncodings")]
         public static IReadOnlyList<string> SupportedContentEncodings { get; }
 
         [JsName("subscribe")]
-        public Task<PushSubscription> SubscribeAsync(PushSubscriptionOptionsInit? options = null) => throw new NotImplementedException();
+        public Task<PushSubscription> SubscribeAsync(PushSubscriptionOptionsInit? options = null) => InvokeAsync<PushSubscription>("subscribe", options);
 
         [JsName("getSubscription")]
-        public Task<PushSubscription?> GetSubscriptionAsync() => throw new NotImplementedException();
+        public Task<PushSubscription?> GetSubscriptionAsync() => InvokeAsync<PushSubscription?>("getSubscription");
 
         [JsName("permissionState")]
-        public Task<PermissionState> PermissionStateAsync(PushSubscriptionOptionsInit? options = null) => throw new NotImplementedException();
+        public Task<PermissionState> PermissionStateAsync(PushSubscriptionOptionsInit? options = null) => InvokeAsync<PermissionState>("permissionState", options);
     }
 }

@@ -35,9 +35,9 @@ namespace BrowserApi.Media
     public partial class MediaKeyMessageEvent : Event
     {
         [JsName("messageType")]
-        public MediaKeyMessageType MessageType { get; }
+        public MediaKeyMessageType MessageType => GetProperty<MediaKeyMessageType>("messageType");
 
         [JsName("message")]
-        public byte[] Message { get; }
+        public byte[] Message => GetProperty<byte[]>("message");
     }
 }

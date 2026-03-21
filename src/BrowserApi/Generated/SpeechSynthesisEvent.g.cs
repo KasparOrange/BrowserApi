@@ -35,18 +35,18 @@ namespace BrowserApi
     public partial class SpeechSynthesisEvent : Event
     {
         [JsName("utterance")]
-        public SpeechSynthesisUtterance Utterance { get; }
+        public SpeechSynthesisUtterance Utterance => GetProperty<SpeechSynthesisUtterance>("utterance");
 
         [JsName("charIndex")]
-        public uint CharIndex { get; }
+        public uint CharIndex => GetProperty<uint>("charIndex");
 
         [JsName("charLength")]
-        public uint CharLength { get; }
+        public uint CharLength => GetProperty<uint>("charLength");
 
         [JsName("elapsedTime")]
-        public float ElapsedTime { get; }
+        public float ElapsedTime => GetProperty<float>("elapsedTime");
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
     }
 }

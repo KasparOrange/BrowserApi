@@ -33,36 +33,36 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("MLContext")]
-    public partial class Mlcontext
+    public partial class Mlcontext : JsObject
     {
         [JsName("accelerated")]
-        public bool Accelerated { get; }
+        public bool Accelerated => GetProperty<bool>("accelerated");
 
         [JsName("lost")]
-        public Task<MlcontextLostInfo> Lost { get; }
+        public Task<MlcontextLostInfo> Lost => GetProperty<Task<MlcontextLostInfo>>("lost");
 
         [JsName("dispatch")]
-        public void Dispatch(Mlgraph graph, IReadOnlyDictionary<string, Mltensor> inputs, IReadOnlyDictionary<string, Mltensor> outputs) => throw new NotImplementedException();
+        public void Dispatch(Mlgraph graph, IReadOnlyDictionary<string, Mltensor> inputs, IReadOnlyDictionary<string, Mltensor> outputs) => InvokeVoid("dispatch", graph, inputs, outputs);
 
         [JsName("createTensor")]
-        public Task<Mltensor> CreateTensorAsync(MltensorDescriptor descriptor) => throw new NotImplementedException();
+        public Task<Mltensor> CreateTensorAsync(MltensorDescriptor descriptor) => InvokeAsync<Mltensor>("createTensor", descriptor);
 
         [JsName("createConstantTensor")]
-        public Task<Mltensor> CreateConstantTensorAsync(MloperandDescriptor descriptor, object inputData) => throw new NotImplementedException();
+        public Task<Mltensor> CreateConstantTensorAsync(MloperandDescriptor descriptor, object inputData) => InvokeAsync<Mltensor>("createConstantTensor", descriptor, inputData);
 
         [JsName("readTensor")]
-        public Task<byte[]> ReadTensorAsync(Mltensor tensor) => throw new NotImplementedException();
+        public Task<byte[]> ReadTensorAsync(Mltensor tensor) => InvokeAsync<byte[]>("readTensor", tensor);
 
         [JsName("readTensor")]
-        public Task ReadTensorAsync(Mltensor tensor, object outputData) => throw new NotImplementedException();
+        public Task ReadTensorAsync(Mltensor tensor, object outputData) => InvokeVoidAsync("readTensor", tensor, outputData);
 
         [JsName("writeTensor")]
-        public void WriteTensor(Mltensor tensor, object inputData) => throw new NotImplementedException();
+        public void WriteTensor(Mltensor tensor, object inputData) => InvokeVoid("writeTensor", tensor, inputData);
 
         [JsName("opSupportLimits")]
-        public MlopSupportLimits OpSupportLimits() => throw new NotImplementedException();
+        public MlopSupportLimits OpSupportLimits() => Invoke<MlopSupportLimits>("opSupportLimits");
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

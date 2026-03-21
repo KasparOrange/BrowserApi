@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_multi_draw_instanced_base_vertex_base_instance")]
-    public partial class WebglMultiDrawInstancedBaseVertexBaseInstance
+    public partial class WebglMultiDrawInstancedBaseVertexBaseInstance : JsObject
     {
         [JsName("multiDrawArraysInstancedBaseInstanceWEBGL")]
-        public void MultiDrawArraysInstancedBaseInstanceWebgl(uint mode, object firstsList, ulong firstsOffset, object countsList, ulong countsOffset, object instanceCountsList, ulong instanceCountsOffset, object baseInstancesList, ulong baseInstancesOffset, int drawcount) => throw new NotImplementedException();
+        public void MultiDrawArraysInstancedBaseInstanceWebgl(uint mode, object firstsList, ulong firstsOffset, object countsList, ulong countsOffset, object instanceCountsList, ulong instanceCountsOffset, object baseInstancesList, ulong baseInstancesOffset, int drawcount) => InvokeVoid("multiDrawArraysInstancedBaseInstanceWEBGL", mode, firstsList, firstsOffset, countsList, countsOffset, instanceCountsList, instanceCountsOffset, baseInstancesList, baseInstancesOffset, drawcount);
 
         [JsName("multiDrawElementsInstancedBaseVertexBaseInstanceWEBGL")]
-        public void MultiDrawElementsInstancedBaseVertexBaseInstanceWebgl(uint mode, object countsList, ulong countsOffset, uint type, object offsetsList, ulong offsetsOffset, object instanceCountsList, ulong instanceCountsOffset, object baseVerticesList, ulong baseVerticesOffset, object baseInstancesList, ulong baseInstancesOffset, int drawcount) => throw new NotImplementedException();
+        public void MultiDrawElementsInstancedBaseVertexBaseInstanceWebgl(uint mode, object countsList, ulong countsOffset, uint type, object offsetsList, ulong offsetsOffset, object instanceCountsList, ulong instanceCountsOffset, object baseVerticesList, ulong baseVerticesOffset, object baseInstancesList, ulong baseInstancesOffset, int drawcount) => InvokeVoid("multiDrawElementsInstancedBaseVertexBaseInstanceWEBGL", mode, countsList, countsOffset, type, offsetsList, offsetsOffset, instanceCountsList, instanceCountsOffset, baseVerticesList, baseVerticesOffset, baseInstancesList, baseInstancesOffset, drawcount);
     }
 }

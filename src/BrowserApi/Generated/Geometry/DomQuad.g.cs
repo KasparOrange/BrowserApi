@@ -33,19 +33,19 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Geometry
 {
     [JsName("DOMQuad")]
-    public partial class DomQuad
+    public partial class DomQuad : JsObject
     {
         [JsName("p1")]
-        public DomPoint P1 { get; }
+        public DomPoint P1 => GetProperty<DomPoint>("p1");
 
         [JsName("p2")]
-        public DomPoint P2 { get; }
+        public DomPoint P2 => GetProperty<DomPoint>("p2");
 
         [JsName("p3")]
-        public DomPoint P3 { get; }
+        public DomPoint P3 => GetProperty<DomPoint>("p3");
 
         [JsName("p4")]
-        public DomPoint P4 { get; }
+        public DomPoint P4 => GetProperty<DomPoint>("p4");
 
         [JsName("fromRect")]
         public static DomQuad FromRect(DomRectInit? other = null) => throw new NotImplementedException();
@@ -54,9 +54,9 @@ namespace BrowserApi.Geometry
         public static DomQuad FromQuad(DomQuadInit? other = null) => throw new NotImplementedException();
 
         [JsName("getBounds")]
-        public DomRect GetBounds() => throw new NotImplementedException();
+        public DomRect GetBounds() => Invoke<DomRect>("getBounds");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

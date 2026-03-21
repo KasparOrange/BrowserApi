@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Credentials
 {
-    public partial class IdentityProvider
+    public partial class IdentityProvider : JsObject
     {
         [JsName("close")]
         public static void Close() => throw new NotImplementedException();

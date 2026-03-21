@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("DOMException")]
-    public partial class DomException
+    public partial class DomException : JsObject
     {
         public const ushort IndexSizeErr = 1;
 
@@ -86,12 +86,12 @@ namespace BrowserApi
         public const ushort DataCloneErr = 25;
 
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
 
         [JsName("code")]
-        public ushort Code { get; }
+        public ushort Code => GetProperty<ushort>("code");
     }
 }

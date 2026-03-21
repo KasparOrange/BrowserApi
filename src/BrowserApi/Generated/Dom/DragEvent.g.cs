@@ -35,6 +35,6 @@ namespace BrowserApi.Dom
     public partial class DragEvent : MouseEvent
     {
         [JsName("dataTransfer")]
-        public DataTransfer? DataTransfer { get; }
+        public DataTransfer? DataTransfer => GetProperty<DataTransfer?>("dataTransfer");
     }
 }

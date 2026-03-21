@@ -32,7 +32,7 @@ using BrowserApi.WebSockets;
 
 namespace BrowserApi.WebStorage
 {
-    public partial class SharedStorageModifierMethod
+    public partial class SharedStorageModifierMethod : JsObject
     {
     }
 }

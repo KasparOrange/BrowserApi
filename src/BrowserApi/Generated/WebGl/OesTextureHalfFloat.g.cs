@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("OES_texture_half_float")]
-    public partial class OesTextureHalfFloat
+    public partial class OesTextureHalfFloat : JsObject
     {
         public const uint HalfFloatOes = 0x8D61;
     }

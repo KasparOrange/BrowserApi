@@ -36,9 +36,17 @@ namespace BrowserApi.Dom
     public partial class HtmlLielement : HtmlElement
     {
         [JsName("value")]
-        public int Value { get; set; }
+        public int Value
+        {
+            get => GetProperty<int>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
     }
 }

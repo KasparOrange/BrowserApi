@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Url
 {
-    public partial class FragmentDirective
+    public partial class FragmentDirective : JsObject
     {
     }
 }

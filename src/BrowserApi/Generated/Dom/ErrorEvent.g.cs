@@ -35,18 +35,18 @@ namespace BrowserApi.Dom
     public partial class ErrorEvent : Event
     {
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
 
         [JsName("filename")]
-        public string Filename { get; }
+        public string Filename => GetProperty<string>("filename");
 
         [JsName("lineno")]
-        public uint Lineno { get; }
+        public uint Lineno => GetProperty<uint>("lineno");
 
         [JsName("colno")]
-        public uint Colno { get; }
+        public uint Colno => GetProperty<uint>("colno");
 
         [JsName("error")]
-        public object Error { get; }
+        public object Error => GetProperty<object>("error");
     }
 }

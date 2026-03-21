@@ -36,6 +36,6 @@ namespace BrowserApi.Animations
     public partial class SvgMpathElement : SvgElement
     {
         [JsName("href")]
-        public SvgAnimatedString Href { get; }
+        public SvgAnimatedString Href => GetProperty<SvgAnimatedString>("href");
     }
 }

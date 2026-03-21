@@ -36,9 +36,9 @@ namespace BrowserApi.Css
     public partial class CssParserBlock : CssParserValue
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("body")]
-        public IReadOnlyList<CssParserValue> Body { get; }
+        public IReadOnlyList<CssParserValue> Body => GetProperty<IReadOnlyList<CssParserValue>>("body");
     }
 }

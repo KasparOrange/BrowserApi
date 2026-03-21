@@ -36,24 +36,40 @@ namespace BrowserApi.Dom
     public partial class HtmlTableSectionElement : HtmlElement
     {
         [JsName("rows")]
-        public HtmlCollection Rows { get; }
+        public HtmlCollection Rows => GetProperty<HtmlCollection>("rows");
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("ch")]
-        public string Ch { get; set; }
+        public string Ch
+        {
+            get => GetProperty<string>("ch");
+            set => SetProperty("ch", value);
+        }
 
         [JsName("chOff")]
-        public string ChOff { get; set; }
+        public string ChOff
+        {
+            get => GetProperty<string>("chOff");
+            set => SetProperty("chOff", value);
+        }
 
         [JsName("vAlign")]
-        public string VAlign { get; set; }
+        public string VAlign
+        {
+            get => GetProperty<string>("vAlign");
+            set => SetProperty("vAlign", value);
+        }
 
         [JsName("insertRow")]
-        public HtmlTableRowElement InsertRow(int index = -1) => throw new NotImplementedException();
+        public HtmlTableRowElement InsertRow(int index = -1) => Invoke<HtmlTableRowElement>("insertRow", index);
 
         [JsName("deleteRow")]
-        public void DeleteRow(int index) => throw new NotImplementedException();
+        public void DeleteRow(int index) => InvokeVoid("deleteRow", index);
     }
 }

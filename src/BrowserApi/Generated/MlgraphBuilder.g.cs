@@ -33,306 +33,306 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("MLGraphBuilder")]
-    public partial class MlgraphBuilder
+    public partial class MlgraphBuilder : JsObject
     {
         [JsName("input")]
-        public Mloperand Input(string name, MloperandDescriptor descriptor) => throw new NotImplementedException();
+        public Mloperand Input(string name, MloperandDescriptor descriptor) => Invoke<Mloperand>("input", name, descriptor);
 
         [JsName("constant")]
-        public Mloperand Constant(MloperandDescriptor descriptor, object buffer) => throw new NotImplementedException();
+        public Mloperand Constant(MloperandDescriptor descriptor, object buffer) => Invoke<Mloperand>("constant", descriptor, buffer);
 
         [JsName("constant")]
-        public Mloperand Constant(MloperandDataType dataType, object value) => throw new NotImplementedException();
+        public Mloperand Constant(MloperandDataType dataType, object value) => Invoke<Mloperand>("constant", dataType, value);
 
         [JsName("constant")]
-        public Mloperand Constant(Mltensor tensor) => throw new NotImplementedException();
+        public Mloperand Constant(Mltensor tensor) => Invoke<Mloperand>("constant", tensor);
 
         [JsName("build")]
-        public Task<Mlgraph> BuildAsync(IReadOnlyDictionary<string, Mloperand> outputs) => throw new NotImplementedException();
+        public Task<Mlgraph> BuildAsync(IReadOnlyDictionary<string, Mloperand> outputs) => InvokeAsync<Mlgraph>("build", outputs);
 
         [JsName("argMin")]
-        public Mloperand ArgMin(Mloperand input, uint axis, MlargMinMaxOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ArgMin(Mloperand input, uint axis, MlargMinMaxOptions? options = null) => Invoke<Mloperand>("argMin", input, axis, options);
 
         [JsName("argMax")]
-        public Mloperand ArgMax(Mloperand input, uint axis, MlargMinMaxOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ArgMax(Mloperand input, uint axis, MlargMinMaxOptions? options = null) => Invoke<Mloperand>("argMax", input, axis, options);
 
         [JsName("batchNormalization")]
-        public Mloperand BatchNormalization(Mloperand input, Mloperand mean, Mloperand variance, MlbatchNormalizationOptions? options = null) => throw new NotImplementedException();
+        public Mloperand BatchNormalization(Mloperand input, Mloperand mean, Mloperand variance, MlbatchNormalizationOptions? options = null) => Invoke<Mloperand>("batchNormalization", input, mean, variance, options);
 
         [JsName("cast")]
-        public Mloperand Cast(Mloperand input, MloperandDataType dataType, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Cast(Mloperand input, MloperandDataType dataType, MloperatorOptions? options = null) => Invoke<Mloperand>("cast", input, dataType, options);
 
         [JsName("clamp")]
-        public Mloperand Clamp(Mloperand input, MlclampOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Clamp(Mloperand input, MlclampOptions? options = null) => Invoke<Mloperand>("clamp", input, options);
 
         [JsName("concat")]
-        public Mloperand Concat(IReadOnlyList<Mloperand> inputs, uint axis, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Concat(IReadOnlyList<Mloperand> inputs, uint axis, MloperatorOptions? options = null) => Invoke<Mloperand>("concat", inputs, axis, options);
 
         [JsName("conv2d")]
-        public Mloperand Conv2d(Mloperand input, Mloperand filter, Mlconv2dOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Conv2d(Mloperand input, Mloperand filter, Mlconv2dOptions? options = null) => Invoke<Mloperand>("conv2d", input, filter, options);
 
         [JsName("convTranspose2d")]
-        public Mloperand ConvTranspose2d(Mloperand input, Mloperand filter, MlconvTranspose2dOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ConvTranspose2d(Mloperand input, Mloperand filter, MlconvTranspose2dOptions? options = null) => Invoke<Mloperand>("convTranspose2d", input, filter, options);
 
         [JsName("cumulativeSum")]
-        public Mloperand CumulativeSum(Mloperand input, uint axis, MlcumulativeSumOptions? options = null) => throw new NotImplementedException();
+        public Mloperand CumulativeSum(Mloperand input, uint axis, MlcumulativeSumOptions? options = null) => Invoke<Mloperand>("cumulativeSum", input, axis, options);
 
         [JsName("add")]
-        public Mloperand Add(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Add(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("add", a, b, options);
 
         [JsName("sub")]
-        public Mloperand Sub(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Sub(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("sub", a, b, options);
 
         [JsName("mul")]
-        public Mloperand Mul(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Mul(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("mul", a, b, options);
 
         [JsName("div")]
-        public Mloperand Div(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Div(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("div", a, b, options);
 
         [JsName("max")]
-        public Mloperand Max(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Max(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("max", a, b, options);
 
         [JsName("min")]
-        public Mloperand Min(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Min(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("min", a, b, options);
 
         [JsName("pow")]
-        public Mloperand Pow(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Pow(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("pow", a, b, options);
 
         [JsName("equal")]
-        public Mloperand Equal(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Equal(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("equal", a, b, options);
 
         [JsName("notEqual")]
-        public Mloperand NotEqual(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand NotEqual(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("notEqual", a, b, options);
 
         [JsName("greater")]
-        public Mloperand Greater(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Greater(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("greater", a, b, options);
 
         [JsName("greaterOrEqual")]
-        public Mloperand GreaterOrEqual(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand GreaterOrEqual(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("greaterOrEqual", a, b, options);
 
         [JsName("lesser")]
-        public Mloperand Lesser(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Lesser(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("lesser", a, b, options);
 
         [JsName("lesserOrEqual")]
-        public Mloperand LesserOrEqual(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand LesserOrEqual(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("lesserOrEqual", a, b, options);
 
         [JsName("logicalNot")]
-        public Mloperand LogicalNot(Mloperand a, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand LogicalNot(Mloperand a, MloperatorOptions? options = null) => Invoke<Mloperand>("logicalNot", a, options);
 
         [JsName("logicalAnd")]
-        public Mloperand LogicalAnd(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand LogicalAnd(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("logicalAnd", a, b, options);
 
         [JsName("logicalOr")]
-        public Mloperand LogicalOr(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand LogicalOr(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("logicalOr", a, b, options);
 
         [JsName("logicalXor")]
-        public Mloperand LogicalXor(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand LogicalXor(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("logicalXor", a, b, options);
 
         [JsName("isNaN")]
-        public Mloperand IsNaN(Mloperand a, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand IsNaN(Mloperand a, MloperatorOptions? options = null) => Invoke<Mloperand>("isNaN", a, options);
 
         [JsName("isInfinite")]
-        public Mloperand IsInfinite(Mloperand a, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand IsInfinite(Mloperand a, MloperatorOptions? options = null) => Invoke<Mloperand>("isInfinite", a, options);
 
         [JsName("abs")]
-        public Mloperand Abs(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Abs(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("abs", input, options);
 
         [JsName("ceil")]
-        public Mloperand Ceil(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Ceil(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("ceil", input, options);
 
         [JsName("cos")]
-        public Mloperand Cos(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Cos(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("cos", input, options);
 
         [JsName("erf")]
-        public Mloperand Erf(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Erf(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("erf", input, options);
 
         [JsName("exp")]
-        public Mloperand Exp(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Exp(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("exp", input, options);
 
         [JsName("floor")]
-        public Mloperand Floor(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Floor(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("floor", input, options);
 
         [JsName("identity")]
-        public Mloperand Identity(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Identity(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("identity", input, options);
 
         [JsName("log")]
-        public Mloperand Log(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Log(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("log", input, options);
 
         [JsName("neg")]
-        public Mloperand Neg(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Neg(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("neg", input, options);
 
         [JsName("reciprocal")]
-        public Mloperand Reciprocal(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Reciprocal(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("reciprocal", input, options);
 
         [JsName("roundEven")]
-        public Mloperand RoundEven(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand RoundEven(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("roundEven", input, options);
 
         [JsName("sin")]
-        public Mloperand Sin(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Sin(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("sin", input, options);
 
         [JsName("sign")]
-        public Mloperand Sign(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Sign(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("sign", input, options);
 
         [JsName("sqrt")]
-        public Mloperand Sqrt(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Sqrt(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("sqrt", input, options);
 
         [JsName("tan")]
-        public Mloperand Tan(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Tan(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("tan", input, options);
 
         [JsName("dequantizeLinear")]
-        public Mloperand DequantizeLinear(Mloperand input, Mloperand scale, Mloperand zeroPoint, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand DequantizeLinear(Mloperand input, Mloperand scale, Mloperand zeroPoint, MloperatorOptions? options = null) => Invoke<Mloperand>("dequantizeLinear", input, scale, zeroPoint, options);
 
         [JsName("quantizeLinear")]
-        public Mloperand QuantizeLinear(Mloperand input, Mloperand scale, Mloperand zeroPoint, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand QuantizeLinear(Mloperand input, Mloperand scale, Mloperand zeroPoint, MloperatorOptions? options = null) => Invoke<Mloperand>("quantizeLinear", input, scale, zeroPoint, options);
 
         [JsName("elu")]
-        public Mloperand Elu(Mloperand input, MleluOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Elu(Mloperand input, MleluOptions? options = null) => Invoke<Mloperand>("elu", input, options);
 
         [JsName("expand")]
-        public Mloperand Expand(Mloperand input, IReadOnlyList<uint> newShape, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Expand(Mloperand input, IReadOnlyList<uint> newShape, MloperatorOptions? options = null) => Invoke<Mloperand>("expand", input, newShape, options);
 
         [JsName("gather")]
-        public Mloperand Gather(Mloperand input, Mloperand indices, MlgatherOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Gather(Mloperand input, Mloperand indices, MlgatherOptions? options = null) => Invoke<Mloperand>("gather", input, indices, options);
 
         [JsName("gatherElements")]
-        public Mloperand GatherElements(Mloperand input, Mloperand indices, MlgatherOptions? options = null) => throw new NotImplementedException();
+        public Mloperand GatherElements(Mloperand input, Mloperand indices, MlgatherOptions? options = null) => Invoke<Mloperand>("gatherElements", input, indices, options);
 
         [JsName("gatherND")]
-        public Mloperand GatherNd(Mloperand input, Mloperand indices, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand GatherNd(Mloperand input, Mloperand indices, MloperatorOptions? options = null) => Invoke<Mloperand>("gatherND", input, indices, options);
 
         [JsName("gelu")]
-        public Mloperand Gelu(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Gelu(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("gelu", input, options);
 
         [JsName("gemm")]
-        public Mloperand Gemm(Mloperand a, Mloperand b, MlgemmOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Gemm(Mloperand a, Mloperand b, MlgemmOptions? options = null) => Invoke<Mloperand>("gemm", a, b, options);
 
         [JsName("gru")]
-        public IReadOnlyList<Mloperand> Gru(Mloperand input, Mloperand weight, Mloperand recurrentWeight, uint steps, uint hiddenSize, MlgruOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<Mloperand> Gru(Mloperand input, Mloperand weight, Mloperand recurrentWeight, uint steps, uint hiddenSize, MlgruOptions? options = null) => Invoke<IReadOnlyList<Mloperand>>("gru", input, weight, recurrentWeight, steps, hiddenSize, options);
 
         [JsName("gruCell")]
-        public Mloperand GruCell(Mloperand input, Mloperand weight, Mloperand recurrentWeight, Mloperand hiddenState, uint hiddenSize, MlgruCellOptions? options = null) => throw new NotImplementedException();
+        public Mloperand GruCell(Mloperand input, Mloperand weight, Mloperand recurrentWeight, Mloperand hiddenState, uint hiddenSize, MlgruCellOptions? options = null) => Invoke<Mloperand>("gruCell", input, weight, recurrentWeight, hiddenState, hiddenSize, options);
 
         [JsName("hardSigmoid")]
-        public Mloperand HardSigmoid(Mloperand input, MlhardSigmoidOptions? options = null) => throw new NotImplementedException();
+        public Mloperand HardSigmoid(Mloperand input, MlhardSigmoidOptions? options = null) => Invoke<Mloperand>("hardSigmoid", input, options);
 
         [JsName("hardSwish")]
-        public Mloperand HardSwish(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand HardSwish(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("hardSwish", input, options);
 
         [JsName("instanceNormalization")]
-        public Mloperand InstanceNormalization(Mloperand input, MlinstanceNormalizationOptions? options = null) => throw new NotImplementedException();
+        public Mloperand InstanceNormalization(Mloperand input, MlinstanceNormalizationOptions? options = null) => Invoke<Mloperand>("instanceNormalization", input, options);
 
         [JsName("layerNormalization")]
-        public Mloperand LayerNormalization(Mloperand input, MllayerNormalizationOptions? options = null) => throw new NotImplementedException();
+        public Mloperand LayerNormalization(Mloperand input, MllayerNormalizationOptions? options = null) => Invoke<Mloperand>("layerNormalization", input, options);
 
         [JsName("leakyRelu")]
-        public Mloperand LeakyRelu(Mloperand input, MlleakyReluOptions? options = null) => throw new NotImplementedException();
+        public Mloperand LeakyRelu(Mloperand input, MlleakyReluOptions? options = null) => Invoke<Mloperand>("leakyRelu", input, options);
 
         [JsName("linear")]
-        public Mloperand Linear(Mloperand input, MllinearOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Linear(Mloperand input, MllinearOptions? options = null) => Invoke<Mloperand>("linear", input, options);
 
         [JsName("lstm")]
-        public IReadOnlyList<Mloperand> Lstm(Mloperand input, Mloperand weight, Mloperand recurrentWeight, uint steps, uint hiddenSize, MllstmOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<Mloperand> Lstm(Mloperand input, Mloperand weight, Mloperand recurrentWeight, uint steps, uint hiddenSize, MllstmOptions? options = null) => Invoke<IReadOnlyList<Mloperand>>("lstm", input, weight, recurrentWeight, steps, hiddenSize, options);
 
         [JsName("lstmCell")]
-        public IReadOnlyList<Mloperand> LstmCell(Mloperand input, Mloperand weight, Mloperand recurrentWeight, Mloperand hiddenState, Mloperand cellState, uint hiddenSize, MllstmCellOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<Mloperand> LstmCell(Mloperand input, Mloperand weight, Mloperand recurrentWeight, Mloperand hiddenState, Mloperand cellState, uint hiddenSize, MllstmCellOptions? options = null) => Invoke<IReadOnlyList<Mloperand>>("lstmCell", input, weight, recurrentWeight, hiddenState, cellState, hiddenSize, options);
 
         [JsName("matmul")]
-        public Mloperand Matmul(Mloperand a, Mloperand b, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Matmul(Mloperand a, Mloperand b, MloperatorOptions? options = null) => Invoke<Mloperand>("matmul", a, b, options);
 
         [JsName("pad")]
-        public Mloperand Pad(Mloperand input, IReadOnlyList<uint> beginningPadding, IReadOnlyList<uint> endingPadding, MlpadOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Pad(Mloperand input, IReadOnlyList<uint> beginningPadding, IReadOnlyList<uint> endingPadding, MlpadOptions? options = null) => Invoke<Mloperand>("pad", input, beginningPadding, endingPadding, options);
 
         [JsName("averagePool2d")]
-        public Mloperand AveragePool2d(Mloperand input, Mlpool2dOptions? options = null) => throw new NotImplementedException();
+        public Mloperand AveragePool2d(Mloperand input, Mlpool2dOptions? options = null) => Invoke<Mloperand>("averagePool2d", input, options);
 
         [JsName("l2Pool2d")]
-        public Mloperand L2Pool2d(Mloperand input, Mlpool2dOptions? options = null) => throw new NotImplementedException();
+        public Mloperand L2Pool2d(Mloperand input, Mlpool2dOptions? options = null) => Invoke<Mloperand>("l2Pool2d", input, options);
 
         [JsName("maxPool2d")]
-        public Mloperand MaxPool2d(Mloperand input, Mlpool2dOptions? options = null) => throw new NotImplementedException();
+        public Mloperand MaxPool2d(Mloperand input, Mlpool2dOptions? options = null) => Invoke<Mloperand>("maxPool2d", input, options);
 
         [JsName("prelu")]
-        public Mloperand Prelu(Mloperand input, Mloperand slope, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Prelu(Mloperand input, Mloperand slope, MloperatorOptions? options = null) => Invoke<Mloperand>("prelu", input, slope, options);
 
         [JsName("reduceL1")]
-        public Mloperand ReduceL1(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceL1(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceL1", input, options);
 
         [JsName("reduceL2")]
-        public Mloperand ReduceL2(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceL2(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceL2", input, options);
 
         [JsName("reduceLogSum")]
-        public Mloperand ReduceLogSum(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceLogSum(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceLogSum", input, options);
 
         [JsName("reduceLogSumExp")]
-        public Mloperand ReduceLogSumExp(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceLogSumExp(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceLogSumExp", input, options);
 
         [JsName("reduceMax")]
-        public Mloperand ReduceMax(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceMax(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceMax", input, options);
 
         [JsName("reduceMean")]
-        public Mloperand ReduceMean(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceMean(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceMean", input, options);
 
         [JsName("reduceMin")]
-        public Mloperand ReduceMin(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceMin(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceMin", input, options);
 
         [JsName("reduceProduct")]
-        public Mloperand ReduceProduct(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceProduct(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceProduct", input, options);
 
         [JsName("reduceSum")]
-        public Mloperand ReduceSum(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceSum(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceSum", input, options);
 
         [JsName("reduceSumSquare")]
-        public Mloperand ReduceSumSquare(Mloperand input, MlreduceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ReduceSumSquare(Mloperand input, MlreduceOptions? options = null) => Invoke<Mloperand>("reduceSumSquare", input, options);
 
         [JsName("relu")]
-        public Mloperand Relu(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Relu(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("relu", input, options);
 
         [JsName("resample2d")]
-        public Mloperand Resample2d(Mloperand input, Mlresample2dOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Resample2d(Mloperand input, Mlresample2dOptions? options = null) => Invoke<Mloperand>("resample2d", input, options);
 
         [JsName("reshape")]
-        public Mloperand Reshape(Mloperand input, IReadOnlyList<uint> newShape, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Reshape(Mloperand input, IReadOnlyList<uint> newShape, MloperatorOptions? options = null) => Invoke<Mloperand>("reshape", input, newShape, options);
 
         [JsName("reverse")]
-        public Mloperand Reverse(Mloperand input, MlreverseOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Reverse(Mloperand input, MlreverseOptions? options = null) => Invoke<Mloperand>("reverse", input, options);
 
         [JsName("scatterElements")]
-        public Mloperand ScatterElements(Mloperand input, Mloperand indices, Mloperand updates, MlscatterOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ScatterElements(Mloperand input, Mloperand indices, Mloperand updates, MlscatterOptions? options = null) => Invoke<Mloperand>("scatterElements", input, indices, updates, options);
 
         [JsName("scatterND")]
-        public Mloperand ScatterNd(Mloperand input, Mloperand indices, Mloperand updates, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand ScatterNd(Mloperand input, Mloperand indices, Mloperand updates, MloperatorOptions? options = null) => Invoke<Mloperand>("scatterND", input, indices, updates, options);
 
         [JsName("sigmoid")]
-        public Mloperand Sigmoid(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Sigmoid(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("sigmoid", input, options);
 
         [JsName("slice")]
-        public Mloperand Slice(Mloperand input, IReadOnlyList<uint> starts, IReadOnlyList<uint> sizes, MlsliceOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Slice(Mloperand input, IReadOnlyList<uint> starts, IReadOnlyList<uint> sizes, MlsliceOptions? options = null) => Invoke<Mloperand>("slice", input, starts, sizes, options);
 
         [JsName("softmax")]
-        public Mloperand Softmax(Mloperand input, uint axis, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Softmax(Mloperand input, uint axis, MloperatorOptions? options = null) => Invoke<Mloperand>("softmax", input, axis, options);
 
         [JsName("softplus")]
-        public Mloperand Softplus(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Softplus(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("softplus", input, options);
 
         [JsName("softsign")]
-        public Mloperand Softsign(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Softsign(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("softsign", input, options);
 
         [JsName("split")]
-        public IReadOnlyList<Mloperand> Split(Mloperand input, object splits, MlsplitOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<Mloperand> Split(Mloperand input, object splits, MlsplitOptions? options = null) => Invoke<IReadOnlyList<Mloperand>>("split", input, splits, options);
 
         [JsName("tanh")]
-        public Mloperand Tanh(Mloperand input, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Tanh(Mloperand input, MloperatorOptions? options = null) => Invoke<Mloperand>("tanh", input, options);
 
         [JsName("tile")]
-        public Mloperand Tile(Mloperand input, IReadOnlyList<uint> repetitions, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Tile(Mloperand input, IReadOnlyList<uint> repetitions, MloperatorOptions? options = null) => Invoke<Mloperand>("tile", input, repetitions, options);
 
         [JsName("transpose")]
-        public Mloperand Transpose(Mloperand input, MltransposeOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Transpose(Mloperand input, MltransposeOptions? options = null) => Invoke<Mloperand>("transpose", input, options);
 
         [JsName("triangular")]
-        public Mloperand Triangular(Mloperand input, MltriangularOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Triangular(Mloperand input, MltriangularOptions? options = null) => Invoke<Mloperand>("triangular", input, options);
 
         [JsName("where")]
-        public Mloperand Where(Mloperand condition, Mloperand trueValue, Mloperand falseValue, MloperatorOptions? options = null) => throw new NotImplementedException();
+        public Mloperand Where(Mloperand condition, Mloperand trueValue, Mloperand falseValue, MloperatorOptions? options = null) => Invoke<Mloperand>("where", condition, trueValue, falseValue, options);
     }
 }

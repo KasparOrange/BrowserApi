@@ -32,33 +32,33 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class TrustedTypePolicyFactory
+    public partial class TrustedTypePolicyFactory : JsObject
     {
         [JsName("emptyHTML")]
-        public TrustedHtml EmptyHtml { get; }
+        public TrustedHtml EmptyHtml => GetProperty<TrustedHtml>("emptyHTML");
 
         [JsName("emptyScript")]
-        public TrustedScript EmptyScript { get; }
+        public TrustedScript EmptyScript => GetProperty<TrustedScript>("emptyScript");
 
         [JsName("defaultPolicy")]
-        public TrustedTypePolicy? DefaultPolicy { get; }
+        public TrustedTypePolicy? DefaultPolicy => GetProperty<TrustedTypePolicy?>("defaultPolicy");
 
         [JsName("createPolicy")]
-        public TrustedTypePolicy CreatePolicy(string policyName, TrustedTypePolicyOptions? policyOptions = null) => throw new NotImplementedException();
+        public TrustedTypePolicy CreatePolicy(string policyName, TrustedTypePolicyOptions? policyOptions = null) => Invoke<TrustedTypePolicy>("createPolicy", policyName, policyOptions);
 
         [JsName("isHTML")]
-        public bool IsHtml(object value) => throw new NotImplementedException();
+        public bool IsHtml(object value) => Invoke<bool>("isHTML", value);
 
         [JsName("isScript")]
-        public bool IsScript(object value) => throw new NotImplementedException();
+        public bool IsScript(object value) => Invoke<bool>("isScript", value);
 
         [JsName("isScriptURL")]
-        public bool IsScriptUrl(object value) => throw new NotImplementedException();
+        public bool IsScriptUrl(object value) => Invoke<bool>("isScriptURL", value);
 
         [JsName("getAttributeType")]
-        public string? GetAttributeType(string tagName, string attribute, string? elementNs = "", string? attrNs = "") => throw new NotImplementedException();
+        public string? GetAttributeType(string tagName, string attribute, string? elementNs = "", string? attrNs = "") => Invoke<string?>("getAttributeType", tagName, attribute, elementNs, attrNs);
 
         [JsName("getPropertyType")]
-        public string? GetPropertyType(string tagName, string property, string? elementNs = "") => throw new NotImplementedException();
+        public string? GetPropertyType(string tagName, string property, string? elementNs = "") => Invoke<string?>("getPropertyType", tagName, property, elementNs);
     }
 }

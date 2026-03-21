@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCStatsReport")]
-    public partial class RtcstatsReport
+    public partial class RtcstatsReport : JsObject
     {
     }
 }

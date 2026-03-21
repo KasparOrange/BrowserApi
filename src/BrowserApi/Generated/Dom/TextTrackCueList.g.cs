@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class TextTrackCueList
+    public partial class TextTrackCueList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("getCueById")]
-        public TextTrackCue? GetCueById(string id) => throw new NotImplementedException();
+        public TextTrackCue? GetCueById(string id) => Invoke<TextTrackCue?>("getCueById", id);
     }
 }

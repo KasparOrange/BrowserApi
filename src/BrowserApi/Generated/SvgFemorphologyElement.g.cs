@@ -42,30 +42,30 @@ namespace BrowserApi
         public const ushort SvgMorphologyOperatorDilate = 2;
 
         [JsName("in1")]
-        public SvgAnimatedString In1 { get; }
+        public SvgAnimatedString In1 => GetProperty<SvgAnimatedString>("in1");
 
         [JsName("operator")]
-        public SvgAnimatedEnumeration Operator { get; }
+        public SvgAnimatedEnumeration Operator => GetProperty<SvgAnimatedEnumeration>("operator");
 
         [JsName("radiusX")]
-        public SvgAnimatedNumber RadiusX { get; }
+        public SvgAnimatedNumber RadiusX => GetProperty<SvgAnimatedNumber>("radiusX");
 
         [JsName("radiusY")]
-        public SvgAnimatedNumber RadiusY { get; }
+        public SvgAnimatedNumber RadiusY => GetProperty<SvgAnimatedNumber>("radiusY");
 
         [JsName("x")]
-        public SvgAnimatedLength X { get; }
+        public SvgAnimatedLength X => GetProperty<SvgAnimatedLength>("x");
 
         [JsName("y")]
-        public SvgAnimatedLength Y { get; }
+        public SvgAnimatedLength Y => GetProperty<SvgAnimatedLength>("y");
 
         [JsName("width")]
-        public SvgAnimatedLength Width { get; }
+        public SvgAnimatedLength Width => GetProperty<SvgAnimatedLength>("width");
 
         [JsName("height")]
-        public SvgAnimatedLength Height { get; }
+        public SvgAnimatedLength Height => GetProperty<SvgAnimatedLength>("height");
 
         [JsName("result")]
-        public SvgAnimatedString Result { get; }
+        public SvgAnimatedString Result => GetProperty<SvgAnimatedString>("result");
     }
 }

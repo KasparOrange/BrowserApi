@@ -36,6 +36,6 @@ namespace BrowserApi.Css
     public partial class CssFunctionDeclarations : CssRule
     {
         [JsName("style")]
-        public CssFunctionDescriptors Style { get; }
+        public CssFunctionDescriptors Style => GetProperty<CssFunctionDescriptors>("style");
     }
 }

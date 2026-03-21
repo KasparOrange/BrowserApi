@@ -33,12 +33,16 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPURenderPipeline")]
-    public partial class GpuRenderPipeline
+    public partial class GpuRenderPipeline : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("getBindGroupLayout")]
-        public GpuBindGroupLayout GetBindGroupLayout(uint index) => throw new NotImplementedException();
+        public GpuBindGroupLayout GetBindGroupLayout(uint index) => Invoke<GpuBindGroupLayout>("getBindGroupLayout", index);
     }
 }

@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Instance
+    public partial class Instance : JsObject
     {
         [JsName("exports")]
-        public object Exports { get; }
+        public object Exports => GetProperty<object>("exports");
     }
 }

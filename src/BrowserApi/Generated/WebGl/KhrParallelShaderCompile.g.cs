@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("KHR_parallel_shader_compile")]
-    public partial class KhrParallelShaderCompile
+    public partial class KhrParallelShaderCompile : JsObject
     {
         public const uint CompletionStatusKhr = 0x91B1;
     }

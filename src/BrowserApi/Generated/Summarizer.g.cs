@@ -32,34 +32,34 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class Summarizer
+    public partial class Summarizer : JsObject
     {
         [JsName("sharedContext")]
-        public string SharedContext { get; }
+        public string SharedContext => GetProperty<string>("sharedContext");
 
         [JsName("type")]
-        public SummarizerType Type { get; }
+        public SummarizerType Type => GetProperty<SummarizerType>("type");
 
         [JsName("format")]
-        public SummarizerFormat Format { get; }
+        public SummarizerFormat Format => GetProperty<SummarizerFormat>("format");
 
         [JsName("length")]
-        public SummarizerLength Length { get; }
+        public SummarizerLength Length => GetProperty<SummarizerLength>("length");
 
         [JsName("preference")]
-        public PerformancePreference Preference { get; }
+        public PerformancePreference Preference => GetProperty<PerformancePreference>("preference");
 
         [JsName("expectedInputLanguages")]
-        public IReadOnlyList<string>? ExpectedInputLanguages { get; }
+        public IReadOnlyList<string>? ExpectedInputLanguages => GetProperty<IReadOnlyList<string>?>("expectedInputLanguages");
 
         [JsName("expectedContextLanguages")]
-        public IReadOnlyList<string>? ExpectedContextLanguages { get; }
+        public IReadOnlyList<string>? ExpectedContextLanguages => GetProperty<IReadOnlyList<string>?>("expectedContextLanguages");
 
         [JsName("outputLanguage")]
-        public string? OutputLanguage { get; }
+        public string? OutputLanguage => GetProperty<string?>("outputLanguage");
 
         [JsName("inputQuota")]
-        public double InputQuota { get; }
+        public double InputQuota => GetProperty<double>("inputQuota");
 
         [JsName("create")]
         public static Task<Summarizer> CreateAsync(SummarizerCreateOptions? options = null) => throw new NotImplementedException();
@@ -68,15 +68,15 @@ namespace BrowserApi
         public static Task<Availability> AvailabilityAsync(SummarizerCreateCoreOptions? options = null) => throw new NotImplementedException();
 
         [JsName("summarize")]
-        public Task<string> SummarizeAsync(string input, SummarizerSummarizeOptions? options = null) => throw new NotImplementedException();
+        public Task<string> SummarizeAsync(string input, SummarizerSummarizeOptions? options = null) => InvokeAsync<string>("summarize", input, options);
 
         [JsName("summarizeStreaming")]
-        public ReadableStream SummarizeStreaming(string input, SummarizerSummarizeOptions? options = null) => throw new NotImplementedException();
+        public ReadableStream SummarizeStreaming(string input, SummarizerSummarizeOptions? options = null) => Invoke<ReadableStream>("summarizeStreaming", input, options);
 
         [JsName("measureInputUsage")]
-        public Task<double> MeasureInputUsageAsync(string input, SummarizerSummarizeOptions? options = null) => throw new NotImplementedException();
+        public Task<double> MeasureInputUsageAsync(string input, SummarizerSummarizeOptions? options = null) => InvokeAsync<double>("measureInputUsage", input, options);
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

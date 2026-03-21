@@ -36,18 +36,18 @@ namespace BrowserApi.Events
     public partial class Uievent : Event
     {
         [JsName("view")]
-        public Window? View { get; }
+        public Window? View => GetProperty<Window?>("view");
 
         [JsName("detail")]
-        public int Detail { get; }
+        public int Detail => GetProperty<int>("detail");
 
         [JsName("sourceCapabilities")]
-        public InputDeviceCapabilities? SourceCapabilities { get; }
+        public InputDeviceCapabilities? SourceCapabilities => GetProperty<InputDeviceCapabilities?>("sourceCapabilities");
 
         [JsName("which")]
-        public uint Which { get; }
+        public uint Which => GetProperty<uint>("which");
 
         [JsName("initUIEvent")]
-        public void InitUievent(string typeArg, bool bubblesArg = false, bool cancelableArg = false, Window? viewArg = null, int detailArg = 0) => throw new NotImplementedException();
+        public void InitUievent(string typeArg, bool bubblesArg = false, bool cancelableArg = false, Window? viewArg = null, int detailArg = 0) => InvokeVoid("initUIEvent", typeArg, bubblesArg, cancelableArg, viewArg, detailArg);
     }
 }

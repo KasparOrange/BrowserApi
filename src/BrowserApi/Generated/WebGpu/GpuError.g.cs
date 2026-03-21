@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUError")]
-    public partial class GpuError
+    public partial class GpuError : JsObject
     {
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
     }
 }

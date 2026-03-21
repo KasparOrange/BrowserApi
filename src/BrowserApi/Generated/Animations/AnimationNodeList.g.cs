@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Animations
 {
-    public partial class AnimationNodeList
+    public partial class AnimationNodeList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public AnimationEffect? Item(uint index) => throw new NotImplementedException();
+        public AnimationEffect? Item(uint index) => Invoke<AnimationEffect?>("item", index);
     }
 }

@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebRtc
 {
     [JsName("RTCCertificate")]
-    public partial class Rtccertificate
+    public partial class Rtccertificate : JsObject
     {
         [JsName("expires")]
-        public long Expires { get; }
+        public long Expires => GetProperty<long>("expires");
 
         [JsName("getFingerprints")]
-        public IReadOnlyList<RtcdtlsFingerprint> GetFingerprints() => throw new NotImplementedException();
+        public IReadOnlyList<RtcdtlsFingerprint> GetFingerprints() => Invoke<IReadOnlyList<RtcdtlsFingerprint>>("getFingerprints");
     }
 }

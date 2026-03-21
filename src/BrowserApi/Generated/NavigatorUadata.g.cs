@@ -33,21 +33,21 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("NavigatorUAData")]
-    public partial class NavigatorUadata
+    public partial class NavigatorUadata : JsObject
     {
         [JsName("brands")]
-        public IReadOnlyList<NavigatorUabrandVersion> Brands { get; }
+        public IReadOnlyList<NavigatorUabrandVersion> Brands => GetProperty<IReadOnlyList<NavigatorUabrandVersion>>("brands");
 
         [JsName("mobile")]
-        public bool Mobile { get; }
+        public bool Mobile => GetProperty<bool>("mobile");
 
         [JsName("platform")]
-        public string Platform { get; }
+        public string Platform => GetProperty<string>("platform");
 
         [JsName("getHighEntropyValues")]
-        public Task<UadataValues> GetHighEntropyValuesAsync(IReadOnlyList<string> hints) => throw new NotImplementedException();
+        public Task<UadataValues> GetHighEntropyValuesAsync(IReadOnlyList<string> hints) => InvokeAsync<UadataValues>("getHighEntropyValues", hints);
 
         [JsName("toJSON")]
-        public UalowEntropyJsOn ToJsOn() => throw new NotImplementedException();
+        public UalowEntropyJsOn ToJsOn() => Invoke<UalowEntropyJsOn>("toJSON");
     }
 }

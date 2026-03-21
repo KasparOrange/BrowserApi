@@ -32,13 +32,13 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class LanguageDetector
+    public partial class LanguageDetector : JsObject
     {
         [JsName("expectedInputLanguages")]
-        public IReadOnlyList<string>? ExpectedInputLanguages { get; }
+        public IReadOnlyList<string>? ExpectedInputLanguages => GetProperty<IReadOnlyList<string>?>("expectedInputLanguages");
 
         [JsName("inputQuota")]
-        public double InputQuota { get; }
+        public double InputQuota => GetProperty<double>("inputQuota");
 
         [JsName("create")]
         public static Task<LanguageDetector> CreateAsync(LanguageDetectorCreateOptions? options = null) => throw new NotImplementedException();
@@ -47,12 +47,12 @@ namespace BrowserApi
         public static Task<Availability> AvailabilityAsync(LanguageDetectorCreateCoreOptions? options = null) => throw new NotImplementedException();
 
         [JsName("detect")]
-        public Task<IReadOnlyList<LanguageDetectionResult>> DetectAsync(string input, LanguageDetectorDetectOptions? options = null) => throw new NotImplementedException();
+        public Task<IReadOnlyList<LanguageDetectionResult>> DetectAsync(string input, LanguageDetectorDetectOptions? options = null) => InvokeAsync<IReadOnlyList<LanguageDetectionResult>>("detect", input, options);
 
         [JsName("measureInputUsage")]
-        public Task<double> MeasureInputUsageAsync(string input, LanguageDetectorDetectOptions? options = null) => throw new NotImplementedException();
+        public Task<double> MeasureInputUsageAsync(string input, LanguageDetectorDetectOptions? options = null) => InvokeAsync<double>("measureInputUsage", input, options);
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

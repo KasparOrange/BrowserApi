@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Media
 {
-    public partial class VideoPlaybackQuality
+    public partial class VideoPlaybackQuality : JsObject
     {
         [JsName("creationTime")]
-        public double CreationTime { get; }
+        public double CreationTime => GetProperty<double>("creationTime");
 
         [JsName("droppedVideoFrames")]
-        public uint DroppedVideoFrames { get; }
+        public uint DroppedVideoFrames => GetProperty<uint>("droppedVideoFrames");
 
         [JsName("totalVideoFrames")]
-        public uint TotalVideoFrames { get; }
+        public uint TotalVideoFrames => GetProperty<uint>("totalVideoFrames");
 
         [JsName("corruptedVideoFrames")]
-        public uint CorruptedVideoFrames { get; }
+        public uint CorruptedVideoFrames => GetProperty<uint>("corruptedVideoFrames");
     }
 }

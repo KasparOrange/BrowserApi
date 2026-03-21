@@ -36,6 +36,6 @@ namespace BrowserApi.Dom
     public partial class HtmlDataListElement : HtmlElement
     {
         [JsName("options")]
-        public HtmlCollection Options { get; }
+        public HtmlCollection Options => GetProperty<HtmlCollection>("options");
     }
 }

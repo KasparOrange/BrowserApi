@@ -33,79 +33,79 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.Geometry
 {
     [JsName("DOMMatrixReadOnly")]
-    public partial class DomMatrixReadOnly
+    public partial class DomMatrixReadOnly : JsObject
     {
         [JsName("a")]
-        public double A { get; }
+        public double A => GetProperty<double>("a");
 
         [JsName("b")]
-        public double B { get; }
+        public double B => GetProperty<double>("b");
 
         [JsName("c")]
-        public double C { get; }
+        public double C => GetProperty<double>("c");
 
         [JsName("d")]
-        public double D { get; }
+        public double D => GetProperty<double>("d");
 
         [JsName("e")]
-        public double E { get; }
+        public double E => GetProperty<double>("e");
 
         [JsName("f")]
-        public double F { get; }
+        public double F => GetProperty<double>("f");
 
         [JsName("m11")]
-        public double M11 { get; }
+        public double M11 => GetProperty<double>("m11");
 
         [JsName("m12")]
-        public double M12 { get; }
+        public double M12 => GetProperty<double>("m12");
 
         [JsName("m13")]
-        public double M13 { get; }
+        public double M13 => GetProperty<double>("m13");
 
         [JsName("m14")]
-        public double M14 { get; }
+        public double M14 => GetProperty<double>("m14");
 
         [JsName("m21")]
-        public double M21 { get; }
+        public double M21 => GetProperty<double>("m21");
 
         [JsName("m22")]
-        public double M22 { get; }
+        public double M22 => GetProperty<double>("m22");
 
         [JsName("m23")]
-        public double M23 { get; }
+        public double M23 => GetProperty<double>("m23");
 
         [JsName("m24")]
-        public double M24 { get; }
+        public double M24 => GetProperty<double>("m24");
 
         [JsName("m31")]
-        public double M31 { get; }
+        public double M31 => GetProperty<double>("m31");
 
         [JsName("m32")]
-        public double M32 { get; }
+        public double M32 => GetProperty<double>("m32");
 
         [JsName("m33")]
-        public double M33 { get; }
+        public double M33 => GetProperty<double>("m33");
 
         [JsName("m34")]
-        public double M34 { get; }
+        public double M34 => GetProperty<double>("m34");
 
         [JsName("m41")]
-        public double M41 { get; }
+        public double M41 => GetProperty<double>("m41");
 
         [JsName("m42")]
-        public double M42 { get; }
+        public double M42 => GetProperty<double>("m42");
 
         [JsName("m43")]
-        public double M43 { get; }
+        public double M43 => GetProperty<double>("m43");
 
         [JsName("m44")]
-        public double M44 { get; }
+        public double M44 => GetProperty<double>("m44");
 
         [JsName("is2D")]
-        public bool Is2D { get; }
+        public bool Is2D => GetProperty<bool>("is2D");
 
         [JsName("isIdentity")]
-        public bool IsIdentity { get; }
+        public bool IsIdentity => GetProperty<bool>("isIdentity");
 
         [JsName("fromMatrix")]
         public static DomMatrixReadOnly FromMatrix(DomMatrixInit? other = null) => throw new NotImplementedException();
@@ -117,54 +117,54 @@ namespace BrowserApi.Geometry
         public static DomMatrixReadOnly FromFloat64Array(double[] array64) => throw new NotImplementedException();
 
         [JsName("translate")]
-        public DomMatrix Translate(double tx = 0, double ty = 0, double tz = 0) => throw new NotImplementedException();
+        public DomMatrix Translate(double tx = 0, double ty = 0, double tz = 0) => Invoke<DomMatrix>("translate", tx, ty, tz);
 
         [JsName("scale")]
-        public DomMatrix Scale(double scaleX = 1, double? scaleY = null, double scaleZ = 1, double originX = 0, double originY = 0, double originZ = 0) => throw new NotImplementedException();
+        public DomMatrix Scale(double scaleX = 1, double? scaleY = null, double scaleZ = 1, double originX = 0, double originY = 0, double originZ = 0) => Invoke<DomMatrix>("scale", scaleX, scaleY, scaleZ, originX, originY, originZ);
 
         [JsName("scaleNonUniform")]
-        public DomMatrix ScaleNonUniform(double scaleX = 1, double scaleY = 1) => throw new NotImplementedException();
+        public DomMatrix ScaleNonUniform(double scaleX = 1, double scaleY = 1) => Invoke<DomMatrix>("scaleNonUniform", scaleX, scaleY);
 
         [JsName("scale3d")]
-        public DomMatrix Scale3d(double scale = 1, double originX = 0, double originY = 0, double originZ = 0) => throw new NotImplementedException();
+        public DomMatrix Scale3d(double scale = 1, double originX = 0, double originY = 0, double originZ = 0) => Invoke<DomMatrix>("scale3d", scale, originX, originY, originZ);
 
         [JsName("rotate")]
-        public DomMatrix Rotate(double rotX = 0, double? rotY = null, double? rotZ = null) => throw new NotImplementedException();
+        public DomMatrix Rotate(double rotX = 0, double? rotY = null, double? rotZ = null) => Invoke<DomMatrix>("rotate", rotX, rotY, rotZ);
 
         [JsName("rotateFromVector")]
-        public DomMatrix RotateFromVector(double x = 0, double y = 0) => throw new NotImplementedException();
+        public DomMatrix RotateFromVector(double x = 0, double y = 0) => Invoke<DomMatrix>("rotateFromVector", x, y);
 
         [JsName("rotateAxisAngle")]
-        public DomMatrix RotateAxisAngle(double x = 0, double y = 0, double z = 0, double angle = 0) => throw new NotImplementedException();
+        public DomMatrix RotateAxisAngle(double x = 0, double y = 0, double z = 0, double angle = 0) => Invoke<DomMatrix>("rotateAxisAngle", x, y, z, angle);
 
         [JsName("skewX")]
-        public DomMatrix SkewX(double sx = 0) => throw new NotImplementedException();
+        public DomMatrix SkewX(double sx = 0) => Invoke<DomMatrix>("skewX", sx);
 
         [JsName("skewY")]
-        public DomMatrix SkewY(double sy = 0) => throw new NotImplementedException();
+        public DomMatrix SkewY(double sy = 0) => Invoke<DomMatrix>("skewY", sy);
 
         [JsName("multiply")]
-        public DomMatrix Multiply(DomMatrixInit? other = null) => throw new NotImplementedException();
+        public DomMatrix Multiply(DomMatrixInit? other = null) => Invoke<DomMatrix>("multiply", other);
 
         [JsName("flipX")]
-        public DomMatrix FlipX() => throw new NotImplementedException();
+        public DomMatrix FlipX() => Invoke<DomMatrix>("flipX");
 
         [JsName("flipY")]
-        public DomMatrix FlipY() => throw new NotImplementedException();
+        public DomMatrix FlipY() => Invoke<DomMatrix>("flipY");
 
         [JsName("inverse")]
-        public DomMatrix Inverse() => throw new NotImplementedException();
+        public DomMatrix Inverse() => Invoke<DomMatrix>("inverse");
 
         [JsName("transformPoint")]
-        public DomPoint TransformPoint(DomPointInit? point = null) => throw new NotImplementedException();
+        public DomPoint TransformPoint(DomPointInit? point = null) => Invoke<DomPoint>("transformPoint", point);
 
         [JsName("toFloat32Array")]
-        public float[] ToFloat32Array() => throw new NotImplementedException();
+        public float[] ToFloat32Array() => Invoke<float[]>("toFloat32Array");
 
         [JsName("toFloat64Array")]
-        public double[] ToFloat64Array() => throw new NotImplementedException();
+        public double[] ToFloat64Array() => Invoke<double[]>("toFloat64Array");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

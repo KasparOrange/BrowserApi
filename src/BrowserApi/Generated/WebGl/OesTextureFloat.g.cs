@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("OES_texture_float")]
-    public partial class OesTextureFloat
+    public partial class OesTextureFloat : JsObject
     {
     }
 }

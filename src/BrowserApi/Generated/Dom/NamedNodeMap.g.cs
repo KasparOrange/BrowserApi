@@ -32,30 +32,30 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class NamedNodeMap
+    public partial class NamedNodeMap : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public Attr? Item(uint index) => throw new NotImplementedException();
+        public Attr? Item(uint index) => Invoke<Attr?>("item", index);
 
         [JsName("getNamedItem")]
-        public Attr? GetNamedItem(string qualifiedName) => throw new NotImplementedException();
+        public Attr? GetNamedItem(string qualifiedName) => Invoke<Attr?>("getNamedItem", qualifiedName);
 
         [JsName("getNamedItemNS")]
-        public Attr? GetNamedItemNs(string? @namespace, string localName) => throw new NotImplementedException();
+        public Attr? GetNamedItemNs(string? @namespace, string localName) => Invoke<Attr?>("getNamedItemNS", @namespace, localName);
 
         [JsName("setNamedItem")]
-        public Attr? SetNamedItem(Attr attr) => throw new NotImplementedException();
+        public Attr? SetNamedItem(Attr attr) => Invoke<Attr?>("setNamedItem", attr);
 
         [JsName("setNamedItemNS")]
-        public Attr? SetNamedItemNs(Attr attr) => throw new NotImplementedException();
+        public Attr? SetNamedItemNs(Attr attr) => Invoke<Attr?>("setNamedItemNS", attr);
 
         [JsName("removeNamedItem")]
-        public Attr RemoveNamedItem(string qualifiedName) => throw new NotImplementedException();
+        public Attr RemoveNamedItem(string qualifiedName) => Invoke<Attr>("removeNamedItem", qualifiedName);
 
         [JsName("removeNamedItemNS")]
-        public Attr RemoveNamedItemNs(string? @namespace, string localName) => throw new NotImplementedException();
+        public Attr RemoveNamedItemNs(string? @namespace, string localName) => Invoke<Attr>("removeNamedItemNS", @namespace, localName);
     }
 }

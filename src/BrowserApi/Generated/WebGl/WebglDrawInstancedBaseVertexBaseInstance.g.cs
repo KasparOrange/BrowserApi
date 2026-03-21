@@ -33,12 +33,12 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_draw_instanced_base_vertex_base_instance")]
-    public partial class WebglDrawInstancedBaseVertexBaseInstance
+    public partial class WebglDrawInstancedBaseVertexBaseInstance : JsObject
     {
         [JsName("drawArraysInstancedBaseInstanceWEBGL")]
-        public void DrawArraysInstancedBaseInstanceWebgl(uint mode, int first, int count, int instanceCount, uint baseInstance) => throw new NotImplementedException();
+        public void DrawArraysInstancedBaseInstanceWebgl(uint mode, int first, int count, int instanceCount, uint baseInstance) => InvokeVoid("drawArraysInstancedBaseInstanceWEBGL", mode, first, count, instanceCount, baseInstance);
 
         [JsName("drawElementsInstancedBaseVertexBaseInstanceWEBGL")]
-        public void DrawElementsInstancedBaseVertexBaseInstanceWebgl(uint mode, int count, uint type, long offset, int instanceCount, int baseVertex, uint baseInstance) => throw new NotImplementedException();
+        public void DrawElementsInstancedBaseVertexBaseInstanceWebgl(uint mode, int count, uint type, long offset, int instanceCount, int baseVertex, uint baseInstance) => InvokeVoid("drawElementsInstancedBaseVertexBaseInstanceWEBGL", mode, count, type, offset, instanceCount, baseVertex, baseInstance);
     }
 }

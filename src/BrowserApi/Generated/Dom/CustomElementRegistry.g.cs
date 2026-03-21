@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class CustomElementRegistry
+    public partial class CustomElementRegistry : JsObject
     {
         [JsName("define")]
-        public void Define(string name, CustomElementConstructor constructor, ElementDefinitionOptions? options = null) => throw new NotImplementedException();
+        public void Define(string name, CustomElementConstructor constructor, ElementDefinitionOptions? options = null) => InvokeVoid("define", name, constructor, options);
 
         [JsName("get")]
-        public object Get(string name) => throw new NotImplementedException();
+        public object Get(string name) => Invoke<object>("get", name);
 
         [JsName("getName")]
-        public string? GetName(CustomElementConstructor constructor) => throw new NotImplementedException();
+        public string? GetName(CustomElementConstructor constructor) => Invoke<string?>("getName", constructor);
 
         [JsName("whenDefined")]
-        public Task<CustomElementConstructor> WhenDefinedAsync(string name) => throw new NotImplementedException();
+        public Task<CustomElementConstructor> WhenDefinedAsync(string name) => InvokeAsync<CustomElementConstructor>("whenDefined", name);
 
         [JsName("upgrade")]
-        public void Upgrade(Node root) => throw new NotImplementedException();
+        public void Upgrade(Node root) => InvokeVoid("upgrade", root);
 
         [JsName("initialize")]
-        public void Initialize(Node root) => throw new NotImplementedException();
+        public void Initialize(Node root) => InvokeVoid("initialize", root);
     }
 }

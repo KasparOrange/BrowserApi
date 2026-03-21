@@ -116,19 +116,25 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 
 ## Phase 4: Interop Backend
 
-### Session 4.1 — IBrowserBackend + JsObject base class
-- [ ] `IBrowserBackend` interface (get property, set property, invoke method, subscribe event)
-- [ ] `JsObject` base class wrapping a JS object reference
-- [ ] Property get/set via backend
-- [ ] Method invoke via backend (sync and async)
-- [ ] Unit tests with mock backend
-
-### Session 4.2 — JSInteropBackend implementation
-- [ ] Implement `IBrowserBackend` using `IJSRuntime`
-- [ ] Wire up `InvokeAsync` for method calls
-- [ ] Wire up property access via JS eval or helper functions
-- [ ] Event subscription via `addEventListener` / `removeEventListener`
-- [ ] JS-side helper script for property access and event bridging
+### Session 4.1+4.2 — IBrowserBackend + JsObject + JSInteropBackend (combined)
+- [x] `JsHandle` opaque wrapper struct in `src/BrowserApi/Common/`
+- [x] `IBrowserBackend` interface (get/set property, invoke sync/async, construct, events)
+- [x] `JsObject` base class with delegation helpers + type conversion (ConvertToJs/ConvertFromJs)
+- [x] `InternalsVisibleTo` for JSInterop and Tests projects
+- [x] Generator: ClassEmitter emits delegation bodies (GetProperty, SetProperty, Invoke, InvokeVoid, InvokeAsync, InvokeVoidAsync)
+- [x] Generator: IdlToCSharpTransformer injects JsObject base class + always sets JsName
+- [x] Fixed CSS emitter file collision (CssStyleDeclaration.CssProperties.g.cs)
+- [x] Regenerated all 2,552 types with delegation bodies
+- [x] `MockBrowserBackend` for testing without a browser
+- [x] `JsObjectTests` — property/method delegation, type conversion, JsHandle equality
+- [x] `InteropIntegrationTests` — Node.AppendChild, Element.GetAttribute/SetAttribute, property delegation
+- [x] Updated `ClassEmitterTests` — all assertions updated for new delegation output
+- [x] Updated `DomHierarchyTests` — added EventTarget extends JsObject assertion
+- [x] `JSInteropBackend` using `IJSRuntime`/`IJSInProcessRuntime`
+- [x] `browserapi.js` helper module (getProperty, setProperty, invoke, construct, addEventListener)
+- [x] JSInterop csproj switched to Razor SDK for static web asset embedding
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 418 passing (126 generator + 292 core)
 
 ---
 

@@ -36,6 +36,6 @@ namespace BrowserApi
     public partial class HidConnectionEvent : Event
     {
         [JsName("device")]
-        public HidDevice Device { get; }
+        public HidDevice Device => GetProperty<HidDevice>("device");
     }
 }

@@ -44,24 +44,44 @@ namespace BrowserApi.Dom
         public const ushort Error = 3;
 
         [JsName("kind")]
-        public string Kind { get; set; }
+        public string Kind
+        {
+            get => GetProperty<string>("kind");
+            set => SetProperty("kind", value);
+        }
 
         [JsName("src")]
-        public string Src { get; set; }
+        public string Src
+        {
+            get => GetProperty<string>("src");
+            set => SetProperty("src", value);
+        }
 
         [JsName("srclang")]
-        public string Srclang { get; set; }
+        public string Srclang
+        {
+            get => GetProperty<string>("srclang");
+            set => SetProperty("srclang", value);
+        }
 
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("default")]
-        public bool Default { get; set; }
+        public bool Default
+        {
+            get => GetProperty<bool>("default");
+            set => SetProperty("default", value);
+        }
 
         [JsName("readyState")]
-        public ushort ReadyState { get; }
+        public ushort ReadyState => GetProperty<ushort>("readyState");
 
         [JsName("track")]
-        public TextTrack Track { get; }
+        public TextTrack Track => GetProperty<TextTrack>("track");
     }
 }

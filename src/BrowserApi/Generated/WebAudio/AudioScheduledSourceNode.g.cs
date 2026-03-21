@@ -35,12 +35,16 @@ namespace BrowserApi.WebAudio
     public partial class AudioScheduledSourceNode : AudioNode
     {
         [JsName("onended")]
-        public object Onended { get; set; }
+        public object Onended
+        {
+            get => GetProperty<object>("onended");
+            set => SetProperty("onended", value);
+        }
 
         [JsName("start")]
-        public void Start(double when = 0) => throw new NotImplementedException();
+        public void Start(double when = 0) => InvokeVoid("start", when);
 
         [JsName("stop")]
-        public void Stop(double when = 0) => throw new NotImplementedException();
+        public void Stop(double when = 0) => InvokeVoid("stop", when);
     }
 }

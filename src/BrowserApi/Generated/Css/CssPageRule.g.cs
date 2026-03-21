@@ -36,9 +36,13 @@ namespace BrowserApi.Css
     public partial class CssPageRule : CssGroupingRule
     {
         [JsName("selectorText")]
-        public string SelectorText { get; set; }
+        public string SelectorText
+        {
+            get => GetProperty<string>("selectorText");
+            set => SetProperty("selectorText", value);
+        }
 
         [JsName("style")]
-        public CssPageDescriptors Style { get; }
+        public CssPageDescriptors Style => GetProperty<CssPageDescriptors>("style");
     }
 }

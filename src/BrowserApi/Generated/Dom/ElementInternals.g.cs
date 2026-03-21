@@ -32,195 +32,403 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class ElementInternals
+    public partial class ElementInternals : JsObject
     {
         [JsName("shadowRoot")]
-        public ShadowRoot? ShadowRoot { get; }
+        public ShadowRoot? ShadowRoot => GetProperty<ShadowRoot?>("shadowRoot");
 
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("willValidate")]
-        public bool WillValidate { get; }
+        public bool WillValidate => GetProperty<bool>("willValidate");
 
         [JsName("validity")]
-        public ValidityState Validity { get; }
+        public ValidityState Validity => GetProperty<ValidityState>("validity");
 
         [JsName("validationMessage")]
-        public string ValidationMessage { get; }
+        public string ValidationMessage => GetProperty<string>("validationMessage");
 
         [JsName("labels")]
-        public NodeList Labels { get; }
+        public NodeList Labels => GetProperty<NodeList>("labels");
 
         [JsName("states")]
-        public CustomStateSet States { get; }
+        public CustomStateSet States => GetProperty<CustomStateSet>("states");
 
         [JsName("role")]
-        public string? Role { get; set; }
+        public string? Role
+        {
+            get => GetProperty<string?>("role");
+            set => SetProperty("role", value);
+        }
 
         [JsName("ariaActiveDescendantElement")]
-        public Element? AriaActiveDescendantElement { get; set; }
+        public Element? AriaActiveDescendantElement
+        {
+            get => GetProperty<Element?>("ariaActiveDescendantElement");
+            set => SetProperty("ariaActiveDescendantElement", value);
+        }
 
         [JsName("ariaAtomic")]
-        public string? AriaAtomic { get; set; }
+        public string? AriaAtomic
+        {
+            get => GetProperty<string?>("ariaAtomic");
+            set => SetProperty("ariaAtomic", value);
+        }
 
         [JsName("ariaAutoComplete")]
-        public string? AriaAutoComplete { get; set; }
+        public string? AriaAutoComplete
+        {
+            get => GetProperty<string?>("ariaAutoComplete");
+            set => SetProperty("ariaAutoComplete", value);
+        }
 
         [JsName("ariaBrailleLabel")]
-        public string? AriaBrailleLabel { get; set; }
+        public string? AriaBrailleLabel
+        {
+            get => GetProperty<string?>("ariaBrailleLabel");
+            set => SetProperty("ariaBrailleLabel", value);
+        }
 
         [JsName("ariaBrailleRoleDescription")]
-        public string? AriaBrailleRoleDescription { get; set; }
+        public string? AriaBrailleRoleDescription
+        {
+            get => GetProperty<string?>("ariaBrailleRoleDescription");
+            set => SetProperty("ariaBrailleRoleDescription", value);
+        }
 
         [JsName("ariaBusy")]
-        public string? AriaBusy { get; set; }
+        public string? AriaBusy
+        {
+            get => GetProperty<string?>("ariaBusy");
+            set => SetProperty("ariaBusy", value);
+        }
 
         [JsName("ariaChecked")]
-        public string? AriaChecked { get; set; }
+        public string? AriaChecked
+        {
+            get => GetProperty<string?>("ariaChecked");
+            set => SetProperty("ariaChecked", value);
+        }
 
         [JsName("ariaColCount")]
-        public string? AriaColCount { get; set; }
+        public string? AriaColCount
+        {
+            get => GetProperty<string?>("ariaColCount");
+            set => SetProperty("ariaColCount", value);
+        }
 
         [JsName("ariaColIndex")]
-        public string? AriaColIndex { get; set; }
+        public string? AriaColIndex
+        {
+            get => GetProperty<string?>("ariaColIndex");
+            set => SetProperty("ariaColIndex", value);
+        }
 
         [JsName("ariaColIndexText")]
-        public string? AriaColIndexText { get; set; }
+        public string? AriaColIndexText
+        {
+            get => GetProperty<string?>("ariaColIndexText");
+            set => SetProperty("ariaColIndexText", value);
+        }
 
         [JsName("ariaColSpan")]
-        public string? AriaColSpan { get; set; }
+        public string? AriaColSpan
+        {
+            get => GetProperty<string?>("ariaColSpan");
+            set => SetProperty("ariaColSpan", value);
+        }
 
         [JsName("ariaControlsElements")]
-        public IReadOnlyList<Element>? AriaControlsElements { get; set; }
+        public IReadOnlyList<Element>? AriaControlsElements
+        {
+            get => GetProperty<IReadOnlyList<Element>?>("ariaControlsElements");
+            set => SetProperty("ariaControlsElements", value);
+        }
 
         [JsName("ariaCurrent")]
-        public string? AriaCurrent { get; set; }
+        public string? AriaCurrent
+        {
+            get => GetProperty<string?>("ariaCurrent");
+            set => SetProperty("ariaCurrent", value);
+        }
 
         [JsName("ariaDescribedByElements")]
-        public IReadOnlyList<Element>? AriaDescribedByElements { get; set; }
+        public IReadOnlyList<Element>? AriaDescribedByElements
+        {
+            get => GetProperty<IReadOnlyList<Element>?>("ariaDescribedByElements");
+            set => SetProperty("ariaDescribedByElements", value);
+        }
 
         [JsName("ariaDescription")]
-        public string? AriaDescription { get; set; }
+        public string? AriaDescription
+        {
+            get => GetProperty<string?>("ariaDescription");
+            set => SetProperty("ariaDescription", value);
+        }
 
         [JsName("ariaDetailsElements")]
-        public IReadOnlyList<Element>? AriaDetailsElements { get; set; }
+        public IReadOnlyList<Element>? AriaDetailsElements
+        {
+            get => GetProperty<IReadOnlyList<Element>?>("ariaDetailsElements");
+            set => SetProperty("ariaDetailsElements", value);
+        }
 
         [JsName("ariaDisabled")]
-        public string? AriaDisabled { get; set; }
+        public string? AriaDisabled
+        {
+            get => GetProperty<string?>("ariaDisabled");
+            set => SetProperty("ariaDisabled", value);
+        }
 
         [JsName("ariaErrorMessageElements")]
-        public IReadOnlyList<Element>? AriaErrorMessageElements { get; set; }
+        public IReadOnlyList<Element>? AriaErrorMessageElements
+        {
+            get => GetProperty<IReadOnlyList<Element>?>("ariaErrorMessageElements");
+            set => SetProperty("ariaErrorMessageElements", value);
+        }
 
         [JsName("ariaExpanded")]
-        public string? AriaExpanded { get; set; }
+        public string? AriaExpanded
+        {
+            get => GetProperty<string?>("ariaExpanded");
+            set => SetProperty("ariaExpanded", value);
+        }
 
         [JsName("ariaFlowToElements")]
-        public IReadOnlyList<Element>? AriaFlowToElements { get; set; }
+        public IReadOnlyList<Element>? AriaFlowToElements
+        {
+            get => GetProperty<IReadOnlyList<Element>?>("ariaFlowToElements");
+            set => SetProperty("ariaFlowToElements", value);
+        }
 
         [JsName("ariaHasPopup")]
-        public string? AriaHasPopup { get; set; }
+        public string? AriaHasPopup
+        {
+            get => GetProperty<string?>("ariaHasPopup");
+            set => SetProperty("ariaHasPopup", value);
+        }
 
         [JsName("ariaHidden")]
-        public string? AriaHidden { get; set; }
+        public string? AriaHidden
+        {
+            get => GetProperty<string?>("ariaHidden");
+            set => SetProperty("ariaHidden", value);
+        }
 
         [JsName("ariaInvalid")]
-        public string? AriaInvalid { get; set; }
+        public string? AriaInvalid
+        {
+            get => GetProperty<string?>("ariaInvalid");
+            set => SetProperty("ariaInvalid", value);
+        }
 
         [JsName("ariaKeyShortcuts")]
-        public string? AriaKeyShortcuts { get; set; }
+        public string? AriaKeyShortcuts
+        {
+            get => GetProperty<string?>("ariaKeyShortcuts");
+            set => SetProperty("ariaKeyShortcuts", value);
+        }
 
         [JsName("ariaLabel")]
-        public string? AriaLabel { get; set; }
+        public string? AriaLabel
+        {
+            get => GetProperty<string?>("ariaLabel");
+            set => SetProperty("ariaLabel", value);
+        }
 
         [JsName("ariaLabelledByElements")]
-        public IReadOnlyList<Element>? AriaLabelledByElements { get; set; }
+        public IReadOnlyList<Element>? AriaLabelledByElements
+        {
+            get => GetProperty<IReadOnlyList<Element>?>("ariaLabelledByElements");
+            set => SetProperty("ariaLabelledByElements", value);
+        }
 
         [JsName("ariaLevel")]
-        public string? AriaLevel { get; set; }
+        public string? AriaLevel
+        {
+            get => GetProperty<string?>("ariaLevel");
+            set => SetProperty("ariaLevel", value);
+        }
 
         [JsName("ariaLive")]
-        public string? AriaLive { get; set; }
+        public string? AriaLive
+        {
+            get => GetProperty<string?>("ariaLive");
+            set => SetProperty("ariaLive", value);
+        }
 
         [JsName("ariaModal")]
-        public string? AriaModal { get; set; }
+        public string? AriaModal
+        {
+            get => GetProperty<string?>("ariaModal");
+            set => SetProperty("ariaModal", value);
+        }
 
         [JsName("ariaMultiLine")]
-        public string? AriaMultiLine { get; set; }
+        public string? AriaMultiLine
+        {
+            get => GetProperty<string?>("ariaMultiLine");
+            set => SetProperty("ariaMultiLine", value);
+        }
 
         [JsName("ariaMultiSelectable")]
-        public string? AriaMultiSelectable { get; set; }
+        public string? AriaMultiSelectable
+        {
+            get => GetProperty<string?>("ariaMultiSelectable");
+            set => SetProperty("ariaMultiSelectable", value);
+        }
 
         [JsName("ariaOrientation")]
-        public string? AriaOrientation { get; set; }
+        public string? AriaOrientation
+        {
+            get => GetProperty<string?>("ariaOrientation");
+            set => SetProperty("ariaOrientation", value);
+        }
 
         [JsName("ariaOwnsElements")]
-        public IReadOnlyList<Element>? AriaOwnsElements { get; set; }
+        public IReadOnlyList<Element>? AriaOwnsElements
+        {
+            get => GetProperty<IReadOnlyList<Element>?>("ariaOwnsElements");
+            set => SetProperty("ariaOwnsElements", value);
+        }
 
         [JsName("ariaPlaceholder")]
-        public string? AriaPlaceholder { get; set; }
+        public string? AriaPlaceholder
+        {
+            get => GetProperty<string?>("ariaPlaceholder");
+            set => SetProperty("ariaPlaceholder", value);
+        }
 
         [JsName("ariaPosInSet")]
-        public string? AriaPosInSet { get; set; }
+        public string? AriaPosInSet
+        {
+            get => GetProperty<string?>("ariaPosInSet");
+            set => SetProperty("ariaPosInSet", value);
+        }
 
         [JsName("ariaPressed")]
-        public string? AriaPressed { get; set; }
+        public string? AriaPressed
+        {
+            get => GetProperty<string?>("ariaPressed");
+            set => SetProperty("ariaPressed", value);
+        }
 
         [JsName("ariaReadOnly")]
-        public string? AriaReadOnly { get; set; }
+        public string? AriaReadOnly
+        {
+            get => GetProperty<string?>("ariaReadOnly");
+            set => SetProperty("ariaReadOnly", value);
+        }
 
         [JsName("ariaRelevant")]
-        public string? AriaRelevant { get; set; }
+        public string? AriaRelevant
+        {
+            get => GetProperty<string?>("ariaRelevant");
+            set => SetProperty("ariaRelevant", value);
+        }
 
         [JsName("ariaRequired")]
-        public string? AriaRequired { get; set; }
+        public string? AriaRequired
+        {
+            get => GetProperty<string?>("ariaRequired");
+            set => SetProperty("ariaRequired", value);
+        }
 
         [JsName("ariaRoleDescription")]
-        public string? AriaRoleDescription { get; set; }
+        public string? AriaRoleDescription
+        {
+            get => GetProperty<string?>("ariaRoleDescription");
+            set => SetProperty("ariaRoleDescription", value);
+        }
 
         [JsName("ariaRowCount")]
-        public string? AriaRowCount { get; set; }
+        public string? AriaRowCount
+        {
+            get => GetProperty<string?>("ariaRowCount");
+            set => SetProperty("ariaRowCount", value);
+        }
 
         [JsName("ariaRowIndex")]
-        public string? AriaRowIndex { get; set; }
+        public string? AriaRowIndex
+        {
+            get => GetProperty<string?>("ariaRowIndex");
+            set => SetProperty("ariaRowIndex", value);
+        }
 
         [JsName("ariaRowIndexText")]
-        public string? AriaRowIndexText { get; set; }
+        public string? AriaRowIndexText
+        {
+            get => GetProperty<string?>("ariaRowIndexText");
+            set => SetProperty("ariaRowIndexText", value);
+        }
 
         [JsName("ariaRowSpan")]
-        public string? AriaRowSpan { get; set; }
+        public string? AriaRowSpan
+        {
+            get => GetProperty<string?>("ariaRowSpan");
+            set => SetProperty("ariaRowSpan", value);
+        }
 
         [JsName("ariaSelected")]
-        public string? AriaSelected { get; set; }
+        public string? AriaSelected
+        {
+            get => GetProperty<string?>("ariaSelected");
+            set => SetProperty("ariaSelected", value);
+        }
 
         [JsName("ariaSetSize")]
-        public string? AriaSetSize { get; set; }
+        public string? AriaSetSize
+        {
+            get => GetProperty<string?>("ariaSetSize");
+            set => SetProperty("ariaSetSize", value);
+        }
 
         [JsName("ariaSort")]
-        public string? AriaSort { get; set; }
+        public string? AriaSort
+        {
+            get => GetProperty<string?>("ariaSort");
+            set => SetProperty("ariaSort", value);
+        }
 
         [JsName("ariaValueMax")]
-        public string? AriaValueMax { get; set; }
+        public string? AriaValueMax
+        {
+            get => GetProperty<string?>("ariaValueMax");
+            set => SetProperty("ariaValueMax", value);
+        }
 
         [JsName("ariaValueMin")]
-        public string? AriaValueMin { get; set; }
+        public string? AriaValueMin
+        {
+            get => GetProperty<string?>("ariaValueMin");
+            set => SetProperty("ariaValueMin", value);
+        }
 
         [JsName("ariaValueNow")]
-        public string? AriaValueNow { get; set; }
+        public string? AriaValueNow
+        {
+            get => GetProperty<string?>("ariaValueNow");
+            set => SetProperty("ariaValueNow", value);
+        }
 
         [JsName("ariaValueText")]
-        public string? AriaValueText { get; set; }
+        public string? AriaValueText
+        {
+            get => GetProperty<string?>("ariaValueText");
+            set => SetProperty("ariaValueText", value);
+        }
 
         [JsName("setFormValue")]
-        public void SetFormValue(object value, object? state = null) => throw new NotImplementedException();
+        public void SetFormValue(object value, object? state = null) => InvokeVoid("setFormValue", value, state);
 
         [JsName("setValidity")]
-        public void SetValidity(ValidityStateFlags? flags = null, string? message = null, HtmlElement? anchor = null) => throw new NotImplementedException();
+        public void SetValidity(ValidityStateFlags? flags = null, string? message = null, HtmlElement? anchor = null) => InvokeVoid("setValidity", flags, message, anchor);
 
         [JsName("checkValidity")]
-        public bool CheckValidity() => throw new NotImplementedException();
+        public bool CheckValidity() => Invoke<bool>("checkValidity");
 
         [JsName("reportValidity")]
-        public bool ReportValidity() => throw new NotImplementedException();
+        public bool ReportValidity() => Invoke<bool>("reportValidity");
     }
 }

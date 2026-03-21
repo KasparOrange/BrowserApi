@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class HashChangeEvent : Event
     {
         [JsName("oldURL")]
-        public string OldUrl { get; }
+        public string OldUrl => GetProperty<string>("oldURL");
 
         [JsName("newURL")]
-        public string NewUrl { get; }
+        public string NewUrl => GetProperty<string>("newURL");
     }
 }

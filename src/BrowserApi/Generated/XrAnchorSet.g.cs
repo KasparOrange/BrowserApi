@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRAnchorSet")]
-    public partial class XrAnchorSet
+    public partial class XrAnchorSet : JsObject
     {
     }
 }

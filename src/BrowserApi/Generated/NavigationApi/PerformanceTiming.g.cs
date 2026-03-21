@@ -32,72 +32,72 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.NavigationApi
 {
-    public partial class PerformanceTiming
+    public partial class PerformanceTiming : JsObject
     {
         [JsName("navigationStart")]
-        public ulong NavigationStart { get; }
+        public ulong NavigationStart => GetProperty<ulong>("navigationStart");
 
         [JsName("unloadEventStart")]
-        public ulong UnloadEventStart { get; }
+        public ulong UnloadEventStart => GetProperty<ulong>("unloadEventStart");
 
         [JsName("unloadEventEnd")]
-        public ulong UnloadEventEnd { get; }
+        public ulong UnloadEventEnd => GetProperty<ulong>("unloadEventEnd");
 
         [JsName("redirectStart")]
-        public ulong RedirectStart { get; }
+        public ulong RedirectStart => GetProperty<ulong>("redirectStart");
 
         [JsName("redirectEnd")]
-        public ulong RedirectEnd { get; }
+        public ulong RedirectEnd => GetProperty<ulong>("redirectEnd");
 
         [JsName("fetchStart")]
-        public ulong FetchStart { get; }
+        public ulong FetchStart => GetProperty<ulong>("fetchStart");
 
         [JsName("domainLookupStart")]
-        public ulong DomainLookupStart { get; }
+        public ulong DomainLookupStart => GetProperty<ulong>("domainLookupStart");
 
         [JsName("domainLookupEnd")]
-        public ulong DomainLookupEnd { get; }
+        public ulong DomainLookupEnd => GetProperty<ulong>("domainLookupEnd");
 
         [JsName("connectStart")]
-        public ulong ConnectStart { get; }
+        public ulong ConnectStart => GetProperty<ulong>("connectStart");
 
         [JsName("connectEnd")]
-        public ulong ConnectEnd { get; }
+        public ulong ConnectEnd => GetProperty<ulong>("connectEnd");
 
         [JsName("secureConnectionStart")]
-        public ulong SecureConnectionStart { get; }
+        public ulong SecureConnectionStart => GetProperty<ulong>("secureConnectionStart");
 
         [JsName("requestStart")]
-        public ulong RequestStart { get; }
+        public ulong RequestStart => GetProperty<ulong>("requestStart");
 
         [JsName("responseStart")]
-        public ulong ResponseStart { get; }
+        public ulong ResponseStart => GetProperty<ulong>("responseStart");
 
         [JsName("responseEnd")]
-        public ulong ResponseEnd { get; }
+        public ulong ResponseEnd => GetProperty<ulong>("responseEnd");
 
         [JsName("domLoading")]
-        public ulong DomLoading { get; }
+        public ulong DomLoading => GetProperty<ulong>("domLoading");
 
         [JsName("domInteractive")]
-        public ulong DomInteractive { get; }
+        public ulong DomInteractive => GetProperty<ulong>("domInteractive");
 
         [JsName("domContentLoadedEventStart")]
-        public ulong DomContentLoadedEventStart { get; }
+        public ulong DomContentLoadedEventStart => GetProperty<ulong>("domContentLoadedEventStart");
 
         [JsName("domContentLoadedEventEnd")]
-        public ulong DomContentLoadedEventEnd { get; }
+        public ulong DomContentLoadedEventEnd => GetProperty<ulong>("domContentLoadedEventEnd");
 
         [JsName("domComplete")]
-        public ulong DomComplete { get; }
+        public ulong DomComplete => GetProperty<ulong>("domComplete");
 
         [JsName("loadEventStart")]
-        public ulong LoadEventStart { get; }
+        public ulong LoadEventStart => GetProperty<ulong>("loadEventStart");
 
         [JsName("loadEventEnd")]
-        public ulong LoadEventEnd { get; }
+        public ulong LoadEventEnd => GetProperty<ulong>("loadEventEnd");
 
         [JsName("toJSON")]
-        public object ToJsOn() => throw new NotImplementedException();
+        public object ToJsOn() => Invoke<object>("toJSON");
     }
 }

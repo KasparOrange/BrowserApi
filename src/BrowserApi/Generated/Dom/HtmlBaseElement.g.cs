@@ -36,9 +36,17 @@ namespace BrowserApi.Dom
     public partial class HtmlBaseElement : HtmlElement
     {
         [JsName("href")]
-        public string Href { get; set; }
+        public string Href
+        {
+            get => GetProperty<string>("href");
+            set => SetProperty("href", value);
+        }
 
         [JsName("target")]
-        public string Target { get; set; }
+        public string Target
+        {
+            get => GetProperty<string>("target");
+            set => SetProperty("target", value);
+        }
     }
 }

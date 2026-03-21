@@ -33,12 +33,16 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("SVGAnimatedBoolean")]
-    public partial class SvgAnimatedBoolean
+    public partial class SvgAnimatedBoolean : JsObject
     {
         [JsName("baseVal")]
-        public bool BaseVal { get; set; }
+        public bool BaseVal
+        {
+            get => GetProperty<bool>("baseVal");
+            set => SetProperty("baseVal", value);
+        }
 
         [JsName("animVal")]
-        public bool AnimVal { get; }
+        public bool AnimVal => GetProperty<bool>("animVal");
     }
 }

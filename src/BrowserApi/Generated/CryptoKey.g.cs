@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class CryptoKey
+    public partial class CryptoKey : JsObject
     {
         [JsName("type")]
-        public KeyType Type { get; }
+        public KeyType Type => GetProperty<KeyType>("type");
 
         [JsName("extractable")]
-        public bool Extractable { get; }
+        public bool Extractable => GetProperty<bool>("extractable");
 
         [JsName("algorithm")]
-        public object Algorithm { get; }
+        public object Algorithm => GetProperty<object>("algorithm");
 
         [JsName("usages")]
-        public object Usages { get; }
+        public object Usages => GetProperty<object>("usages");
     }
 }

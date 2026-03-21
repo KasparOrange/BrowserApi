@@ -33,36 +33,40 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUComputePassEncoder")]
-    public partial class GpuComputePassEncoder
+    public partial class GpuComputePassEncoder : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("setPipeline")]
-        public void SetPipeline(GpuComputePipeline pipeline) => throw new NotImplementedException();
+        public void SetPipeline(GpuComputePipeline pipeline) => InvokeVoid("setPipeline", pipeline);
 
         [JsName("dispatchWorkgroups")]
-        public void DispatchWorkgroups(uint workgroupCountX, uint workgroupCountY = 1, uint workgroupCountZ = 1) => throw new NotImplementedException();
+        public void DispatchWorkgroups(uint workgroupCountX, uint workgroupCountY = 1, uint workgroupCountZ = 1) => InvokeVoid("dispatchWorkgroups", workgroupCountX, workgroupCountY, workgroupCountZ);
 
         [JsName("dispatchWorkgroupsIndirect")]
-        public void DispatchWorkgroupsIndirect(GpuBuffer indirectBuffer, ulong indirectOffset) => throw new NotImplementedException();
+        public void DispatchWorkgroupsIndirect(GpuBuffer indirectBuffer, ulong indirectOffset) => InvokeVoid("dispatchWorkgroupsIndirect", indirectBuffer, indirectOffset);
 
         [JsName("end")]
-        public void End() => throw new NotImplementedException();
+        public void End() => InvokeVoid("end");
 
         [JsName("pushDebugGroup")]
-        public void PushDebugGroup(string groupLabel) => throw new NotImplementedException();
+        public void PushDebugGroup(string groupLabel) => InvokeVoid("pushDebugGroup", groupLabel);
 
         [JsName("popDebugGroup")]
-        public void PopDebugGroup() => throw new NotImplementedException();
+        public void PopDebugGroup() => InvokeVoid("popDebugGroup");
 
         [JsName("insertDebugMarker")]
-        public void InsertDebugMarker(string markerLabel) => throw new NotImplementedException();
+        public void InsertDebugMarker(string markerLabel) => InvokeVoid("insertDebugMarker", markerLabel);
 
         [JsName("setBindGroup")]
-        public void SetBindGroup(uint index, GpuBindGroup? bindGroup, IReadOnlyList<uint>? dynamicOffsets = null) => throw new NotImplementedException();
+        public void SetBindGroup(uint index, GpuBindGroup? bindGroup, IReadOnlyList<uint>? dynamicOffsets = null) => InvokeVoid("setBindGroup", index, bindGroup, dynamicOffsets);
 
         [JsName("setBindGroup")]
-        public void SetBindGroup(uint index, GpuBindGroup? bindGroup, uint[] dynamicOffsetsData, ulong dynamicOffsetsDataStart, uint dynamicOffsetsDataLength) => throw new NotImplementedException();
+        public void SetBindGroup(uint index, GpuBindGroup? bindGroup, uint[] dynamicOffsetsData, ulong dynamicOffsetsDataStart, uint dynamicOffsetsDataLength) => InvokeVoid("setBindGroup", index, bindGroup, dynamicOffsetsData, dynamicOffsetsDataStart, dynamicOffsetsDataLength);
     }
 }

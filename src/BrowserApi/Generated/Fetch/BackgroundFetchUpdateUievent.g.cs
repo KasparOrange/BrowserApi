@@ -36,6 +36,6 @@ namespace BrowserApi.Fetch
     public partial class BackgroundFetchUpdateUievent : BackgroundFetchEvent
     {
         [JsName("updateUI")]
-        public Task UpdateUiAsync(BackgroundFetchUioptions? options = null) => throw new NotImplementedException();
+        public Task UpdateUiAsync(BackgroundFetchUioptions? options = null) => InvokeVoidAsync("updateUI", options);
     }
 }

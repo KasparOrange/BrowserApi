@@ -33,9 +33,9 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUCompilationInfo")]
-    public partial class GpuCompilationInfo
+    public partial class GpuCompilationInfo : JsObject
     {
         [JsName("messages")]
-        public IReadOnlyList<GpuCompilationMessage> Messages { get; }
+        public IReadOnlyList<GpuCompilationMessage> Messages => GetProperty<IReadOnlyList<GpuCompilationMessage>>("messages");
     }
 }

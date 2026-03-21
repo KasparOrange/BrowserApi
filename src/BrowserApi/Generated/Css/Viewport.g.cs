@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class Viewport
+    public partial class Viewport : JsObject
     {
         [JsName("segments")]
-        public IReadOnlyList<DomRect>? Segments { get; }
+        public IReadOnlyList<DomRect>? Segments => GetProperty<IReadOnlyList<DomRect>?>("segments");
     }
 }

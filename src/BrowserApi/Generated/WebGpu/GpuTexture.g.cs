@@ -33,42 +33,46 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUTexture")]
-    public partial class GpuTexture
+    public partial class GpuTexture : JsObject
     {
         [JsName("width")]
-        public uint Width { get; }
+        public uint Width => GetProperty<uint>("width");
 
         [JsName("height")]
-        public uint Height { get; }
+        public uint Height => GetProperty<uint>("height");
 
         [JsName("depthOrArrayLayers")]
-        public uint DepthOrArrayLayers { get; }
+        public uint DepthOrArrayLayers => GetProperty<uint>("depthOrArrayLayers");
 
         [JsName("mipLevelCount")]
-        public uint MipLevelCount { get; }
+        public uint MipLevelCount => GetProperty<uint>("mipLevelCount");
 
         [JsName("sampleCount")]
-        public uint SampleCount { get; }
+        public uint SampleCount => GetProperty<uint>("sampleCount");
 
         [JsName("dimension")]
-        public GpuTextureDimension Dimension { get; }
+        public GpuTextureDimension Dimension => GetProperty<GpuTextureDimension>("dimension");
 
         [JsName("format")]
-        public GpuTextureFormat Format { get; }
+        public GpuTextureFormat Format => GetProperty<GpuTextureFormat>("format");
 
         [JsName("usage")]
-        public uint Usage { get; }
+        public uint Usage => GetProperty<uint>("usage");
 
         [JsName("textureBindingViewDimension")]
-        public object TextureBindingViewDimension { get; }
+        public object TextureBindingViewDimension => GetProperty<object>("textureBindingViewDimension");
 
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("createView")]
-        public GpuTextureView CreateView(GpuTextureViewDescriptor? descriptor = null) => throw new NotImplementedException();
+        public GpuTextureView CreateView(GpuTextureViewDescriptor? descriptor = null) => Invoke<GpuTextureView>("createView", descriptor);
 
         [JsName("destroy")]
-        public void Destroy() => throw new NotImplementedException();
+        public void Destroy() => InvokeVoid("destroy");
     }
 }

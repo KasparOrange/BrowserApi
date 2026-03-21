@@ -33,24 +33,28 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUQueue")]
-    public partial class GpuQueue
+    public partial class GpuQueue : JsObject
     {
         [JsName("label")]
-        public string Label { get; set; }
+        public string Label
+        {
+            get => GetProperty<string>("label");
+            set => SetProperty("label", value);
+        }
 
         [JsName("submit")]
-        public void Submit(IReadOnlyList<GpuCommandBuffer> commandBuffers) => throw new NotImplementedException();
+        public void Submit(IReadOnlyList<GpuCommandBuffer> commandBuffers) => InvokeVoid("submit", commandBuffers);
 
         [JsName("onSubmittedWorkDone")]
-        public Task OnSubmittedWorkDoneAsync() => throw new NotImplementedException();
+        public Task OnSubmittedWorkDoneAsync() => InvokeVoidAsync("onSubmittedWorkDone");
 
         [JsName("writeBuffer")]
-        public void WriteBuffer(GpuBuffer buffer, ulong bufferOffset, object data, ulong dataOffset = 0, ulong? size = null) => throw new NotImplementedException();
+        public void WriteBuffer(GpuBuffer buffer, ulong bufferOffset, object data, ulong dataOffset = 0, ulong? size = null) => InvokeVoid("writeBuffer", buffer, bufferOffset, data, dataOffset, size);
 
         [JsName("writeTexture")]
-        public void WriteTexture(GpuTexelCopyTextureInfo destination, object data, GpuTexelCopyBufferLayout dataLayout, object size) => throw new NotImplementedException();
+        public void WriteTexture(GpuTexelCopyTextureInfo destination, object data, GpuTexelCopyBufferLayout dataLayout, object size) => InvokeVoid("writeTexture", destination, data, dataLayout, size);
 
         [JsName("copyExternalImageToTexture")]
-        public void CopyExternalImageToTexture(GpuCopyExternalImageSourceInfo source, GpuCopyExternalImageDestInfo destination, object copySize) => throw new NotImplementedException();
+        public void CopyExternalImageToTexture(GpuCopyExternalImageSourceInfo source, GpuCopyExternalImageDestInfo destination, object copySize) => InvokeVoid("copyExternalImageToTexture", source, destination, copySize);
     }
 }

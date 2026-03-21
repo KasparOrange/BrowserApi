@@ -35,9 +35,17 @@ namespace BrowserApi.WebAudio
     public partial class ConvolverNode : AudioNode
     {
         [JsName("buffer")]
-        public AudioBuffer? Buffer { get; set; }
+        public AudioBuffer? Buffer
+        {
+            get => GetProperty<AudioBuffer?>("buffer");
+            set => SetProperty("buffer", value);
+        }
 
         [JsName("normalize")]
-        public bool Normalize { get; set; }
+        public bool Normalize
+        {
+            get => GetProperty<bool>("normalize");
+            set => SetProperty("normalize", value);
+        }
     }
 }

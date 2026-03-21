@@ -32,24 +32,24 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.FileApi
 {
-    public partial class FileSystemSyncAccessHandle
+    public partial class FileSystemSyncAccessHandle : JsObject
     {
         [JsName("read")]
-        public ulong Read(object buffer, FileSystemReadWriteOptions? options = null) => throw new NotImplementedException();
+        public ulong Read(object buffer, FileSystemReadWriteOptions? options = null) => Invoke<ulong>("read", buffer, options);
 
         [JsName("write")]
-        public ulong Write(object buffer, FileSystemReadWriteOptions? options = null) => throw new NotImplementedException();
+        public ulong Write(object buffer, FileSystemReadWriteOptions? options = null) => Invoke<ulong>("write", buffer, options);
 
         [JsName("truncate")]
-        public void Truncate(ulong newSize) => throw new NotImplementedException();
+        public void Truncate(ulong newSize) => InvokeVoid("truncate", newSize);
 
         [JsName("getSize")]
-        public ulong GetSize() => throw new NotImplementedException();
+        public ulong GetSize() => Invoke<ulong>("getSize");
 
         [JsName("flush")]
-        public void Flush() => throw new NotImplementedException();
+        public void Flush() => InvokeVoid("flush");
 
         [JsName("close")]
-        public void Close() => throw new NotImplementedException();
+        public void Close() => InvokeVoid("close");
     }
 }

@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class QuotaExceededError : DomException
     {
         [JsName("quota")]
-        public double? Quota { get; }
+        public double? Quota => GetProperty<double?>("quota");
 
         [JsName("requested")]
-        public double? Requested { get; }
+        public double? Requested => GetProperty<double?>("requested");
     }
 }

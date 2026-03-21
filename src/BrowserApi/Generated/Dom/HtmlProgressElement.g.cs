@@ -36,15 +36,23 @@ namespace BrowserApi.Dom
     public partial class HtmlProgressElement : HtmlElement
     {
         [JsName("value")]
-        public double Value { get; set; }
+        public double Value
+        {
+            get => GetProperty<double>("value");
+            set => SetProperty("value", value);
+        }
 
         [JsName("max")]
-        public double Max { get; set; }
+        public double Max
+        {
+            get => GetProperty<double>("max");
+            set => SetProperty("max", value);
+        }
 
         [JsName("position")]
-        public double Position { get; }
+        public double Position => GetProperty<double>("position");
 
         [JsName("labels")]
-        public NodeList Labels { get; }
+        public NodeList Labels => GetProperty<NodeList>("labels");
     }
 }

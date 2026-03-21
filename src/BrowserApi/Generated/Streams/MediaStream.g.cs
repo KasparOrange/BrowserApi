@@ -35,36 +35,44 @@ namespace BrowserApi.Streams
     public partial class MediaStream : EventTarget
     {
         [JsName("id")]
-        public string Id { get; }
+        public string Id => GetProperty<string>("id");
 
         [JsName("active")]
-        public bool Active { get; }
+        public bool Active => GetProperty<bool>("active");
 
         [JsName("onaddtrack")]
-        public object Onaddtrack { get; set; }
+        public object Onaddtrack
+        {
+            get => GetProperty<object>("onaddtrack");
+            set => SetProperty("onaddtrack", value);
+        }
 
         [JsName("onremovetrack")]
-        public object Onremovetrack { get; set; }
+        public object Onremovetrack
+        {
+            get => GetProperty<object>("onremovetrack");
+            set => SetProperty("onremovetrack", value);
+        }
 
         [JsName("getAudioTracks")]
-        public IReadOnlyList<MediaStreamTrack> GetAudioTracks() => throw new NotImplementedException();
+        public IReadOnlyList<MediaStreamTrack> GetAudioTracks() => Invoke<IReadOnlyList<MediaStreamTrack>>("getAudioTracks");
 
         [JsName("getVideoTracks")]
-        public IReadOnlyList<MediaStreamTrack> GetVideoTracks() => throw new NotImplementedException();
+        public IReadOnlyList<MediaStreamTrack> GetVideoTracks() => Invoke<IReadOnlyList<MediaStreamTrack>>("getVideoTracks");
 
         [JsName("getTracks")]
-        public IReadOnlyList<MediaStreamTrack> GetTracks() => throw new NotImplementedException();
+        public IReadOnlyList<MediaStreamTrack> GetTracks() => Invoke<IReadOnlyList<MediaStreamTrack>>("getTracks");
 
         [JsName("getTrackById")]
-        public MediaStreamTrack? GetTrackById(string trackId) => throw new NotImplementedException();
+        public MediaStreamTrack? GetTrackById(string trackId) => Invoke<MediaStreamTrack?>("getTrackById", trackId);
 
         [JsName("addTrack")]
-        public void AddTrack(MediaStreamTrack track) => throw new NotImplementedException();
+        public void AddTrack(MediaStreamTrack track) => InvokeVoid("addTrack", track);
 
         [JsName("removeTrack")]
-        public void RemoveTrack(MediaStreamTrack track) => throw new NotImplementedException();
+        public void RemoveTrack(MediaStreamTrack track) => InvokeVoid("removeTrack", track);
 
         [JsName("clone")]
-        public MediaStream Clone() => throw new NotImplementedException();
+        public MediaStream Clone() => Invoke<MediaStream>("clone");
     }
 }

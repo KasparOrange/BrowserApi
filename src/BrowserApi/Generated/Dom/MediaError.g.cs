@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Dom
 {
-    public partial class MediaError
+    public partial class MediaError : JsObject
     {
         public const ushort MediaErrAborted = 1;
 
@@ -43,9 +43,9 @@ namespace BrowserApi.Dom
         public const ushort MediaErrSrcNotSupported = 4;
 
         [JsName("code")]
-        public ushort Code { get; }
+        public ushort Code => GetProperty<ushort>("code");
 
         [JsName("message")]
-        public string Message { get; }
+        public string Message => GetProperty<string>("message");
     }
 }

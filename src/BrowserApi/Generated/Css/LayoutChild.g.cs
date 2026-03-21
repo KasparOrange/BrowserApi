@@ -32,15 +32,15 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class LayoutChild
+    public partial class LayoutChild : JsObject
     {
         [JsName("styleMap")]
-        public StylePropertyMapReadOnly StyleMap { get; }
+        public StylePropertyMapReadOnly StyleMap => GetProperty<StylePropertyMapReadOnly>("styleMap");
 
         [JsName("intrinsicSizes")]
-        public Task<IntrinsicSizes> IntrinsicSizesAsync() => throw new NotImplementedException();
+        public Task<IntrinsicSizes> IntrinsicSizesAsync() => InvokeAsync<IntrinsicSizes>("intrinsicSizes");
 
         [JsName("layoutNextFragment")]
-        public Task<LayoutFragment> LayoutNextFragmentAsync(LayoutConstraintsOptions constraints, ChildBreakToken breakToken) => throw new NotImplementedException();
+        public Task<LayoutFragment> LayoutNextFragmentAsync(LayoutConstraintsOptions constraints, ChildBreakToken breakToken) => InvokeAsync<LayoutFragment>("layoutNextFragment", constraints, breakToken);
     }
 }

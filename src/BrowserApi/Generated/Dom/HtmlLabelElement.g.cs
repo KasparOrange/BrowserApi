@@ -36,12 +36,16 @@ namespace BrowserApi.Dom
     public partial class HtmlLabelElement : HtmlElement
     {
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("htmlFor")]
-        public string HtmlFor { get; set; }
+        public string HtmlFor
+        {
+            get => GetProperty<string>("htmlFor");
+            set => SetProperty("htmlFor", value);
+        }
 
         [JsName("control")]
-        public HtmlElement? Control { get; }
+        public HtmlElement? Control => GetProperty<HtmlElement?>("control");
     }
 }

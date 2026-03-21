@@ -35,6 +35,6 @@ namespace BrowserApi.WebAudio
     public partial class DelayNode : AudioNode
     {
         [JsName("delayTime")]
-        public AudioParam DelayTime { get; }
+        public AudioParam DelayTime => GetProperty<AudioParam>("delayTime");
     }
 }

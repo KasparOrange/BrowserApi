@@ -35,15 +35,15 @@ namespace BrowserApi.Events
     public partial class Clipboard : EventTarget
     {
         [JsName("read")]
-        public Task<object[]> ReadAsync(ClipboardUnsanitizedFormats? formats = null) => throw new NotImplementedException();
+        public Task<object[]> ReadAsync(ClipboardUnsanitizedFormats? formats = null) => InvokeAsync<object[]>("read", formats);
 
         [JsName("readText")]
-        public Task<string> ReadTextAsync() => throw new NotImplementedException();
+        public Task<string> ReadTextAsync() => InvokeAsync<string>("readText");
 
         [JsName("write")]
-        public Task WriteAsync(object[] data) => throw new NotImplementedException();
+        public Task WriteAsync(object[] data) => InvokeVoidAsync("write", data);
 
         [JsName("writeText")]
-        public Task WriteTextAsync(string data) => throw new NotImplementedException();
+        public Task WriteTextAsync(string data) => InvokeVoidAsync("writeText", data);
     }
 }

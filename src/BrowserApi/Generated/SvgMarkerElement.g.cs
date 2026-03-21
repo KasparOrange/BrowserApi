@@ -50,39 +50,43 @@ namespace BrowserApi
         public const ushort SvgMarkerOrientAutoStartReverse = 3;
 
         [JsName("refX")]
-        public SvgAnimatedLength RefX { get; }
+        public SvgAnimatedLength RefX => GetProperty<SvgAnimatedLength>("refX");
 
         [JsName("refY")]
-        public SvgAnimatedLength RefY { get; }
+        public SvgAnimatedLength RefY => GetProperty<SvgAnimatedLength>("refY");
 
         [JsName("markerUnits")]
-        public SvgAnimatedEnumeration MarkerUnits { get; }
+        public SvgAnimatedEnumeration MarkerUnits => GetProperty<SvgAnimatedEnumeration>("markerUnits");
 
         [JsName("markerWidth")]
-        public SvgAnimatedLength MarkerWidth { get; }
+        public SvgAnimatedLength MarkerWidth => GetProperty<SvgAnimatedLength>("markerWidth");
 
         [JsName("markerHeight")]
-        public SvgAnimatedLength MarkerHeight { get; }
+        public SvgAnimatedLength MarkerHeight => GetProperty<SvgAnimatedLength>("markerHeight");
 
         [JsName("orientType")]
-        public SvgAnimatedEnumeration OrientType { get; }
+        public SvgAnimatedEnumeration OrientType => GetProperty<SvgAnimatedEnumeration>("orientType");
 
         [JsName("orientAngle")]
-        public SvgAnimatedAngle OrientAngle { get; }
+        public SvgAnimatedAngle OrientAngle => GetProperty<SvgAnimatedAngle>("orientAngle");
 
         [JsName("orient")]
-        public string Orient { get; set; }
+        public string Orient
+        {
+            get => GetProperty<string>("orient");
+            set => SetProperty("orient", value);
+        }
 
         [JsName("viewBox")]
-        public SvgAnimatedRect ViewBox { get; }
+        public SvgAnimatedRect ViewBox => GetProperty<SvgAnimatedRect>("viewBox");
 
         [JsName("preserveAspectRatio")]
-        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio { get; }
+        public SvgAnimatedPreserveAspectRatio PreserveAspectRatio => GetProperty<SvgAnimatedPreserveAspectRatio>("preserveAspectRatio");
 
         [JsName("setOrientToAuto")]
-        public void SetOrientToAuto() => throw new NotImplementedException();
+        public void SetOrientToAuto() => InvokeVoid("setOrientToAuto");
 
         [JsName("setOrientToAngle")]
-        public void SetOrientToAngle(SvgAngle angle) => throw new NotImplementedException();
+        public void SetOrientToAngle(SvgAngle angle) => InvokeVoid("setOrientToAngle", angle);
     }
 }

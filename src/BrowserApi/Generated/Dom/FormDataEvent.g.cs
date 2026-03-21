@@ -35,6 +35,6 @@ namespace BrowserApi.Dom
     public partial class FormDataEvent : Event
     {
         [JsName("formData")]
-        public FormData FormData { get; }
+        public FormData FormData => GetProperty<FormData>("formData");
     }
 }

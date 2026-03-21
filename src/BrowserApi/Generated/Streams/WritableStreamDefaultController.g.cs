@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Streams
 {
-    public partial class WritableStreamDefaultController
+    public partial class WritableStreamDefaultController : JsObject
     {
         [JsName("signal")]
-        public AbortSignal Signal { get; }
+        public AbortSignal Signal => GetProperty<AbortSignal>("signal");
 
         [JsName("error")]
-        public void Error(object? e = null) => throw new NotImplementedException();
+        public void Error(object? e = null) => InvokeVoid("error", e);
     }
 }

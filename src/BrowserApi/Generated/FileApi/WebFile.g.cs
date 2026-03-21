@@ -36,12 +36,12 @@ namespace BrowserApi.FileApi
     public partial class WebFile : Blob
     {
         [JsName("name")]
-        public string Name { get; }
+        public string Name => GetProperty<string>("name");
 
         [JsName("lastModified")]
-        public long LastModified { get; }
+        public long LastModified => GetProperty<long>("lastModified");
 
         [JsName("webkitRelativePath")]
-        public string WebkitRelativePath { get; }
+        public string WebkitRelativePath => GetProperty<string>("webkitRelativePath");
     }
 }

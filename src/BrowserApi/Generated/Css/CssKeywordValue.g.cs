@@ -36,6 +36,10 @@ namespace BrowserApi.Css
     public partial class CssKeywordValue : CssStyleValue
     {
         [JsName("value")]
-        public string Value { get; set; }
+        public string Value
+        {
+            get => GetProperty<string>("value");
+            set => SetProperty("value", value);
+        }
     }
 }

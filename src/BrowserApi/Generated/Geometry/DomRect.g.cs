@@ -36,16 +36,32 @@ namespace BrowserApi.Geometry
     public partial class DomRect : DomRectReadOnly
     {
         [JsName("x")]
-        public double X { get; set; }
+        public double X
+        {
+            get => GetProperty<double>("x");
+            set => SetProperty("x", value);
+        }
 
         [JsName("y")]
-        public double Y { get; set; }
+        public double Y
+        {
+            get => GetProperty<double>("y");
+            set => SetProperty("y", value);
+        }
 
         [JsName("width")]
-        public double Width { get; set; }
+        public double Width
+        {
+            get => GetProperty<double>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public double Height { get; set; }
+        public double Height
+        {
+            get => GetProperty<double>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("fromRect")]
         public static DomRect FromRect(DomRectInit? other = null) => throw new NotImplementedException();

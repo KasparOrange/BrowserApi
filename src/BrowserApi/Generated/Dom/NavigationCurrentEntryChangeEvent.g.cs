@@ -35,9 +35,9 @@ namespace BrowserApi.Dom
     public partial class NavigationCurrentEntryChangeEvent : Event
     {
         [JsName("navigationType")]
-        public NavigationType? NavigationType { get; }
+        public NavigationType? NavigationType => GetProperty<NavigationType?>("navigationType");
 
         [JsName("from")]
-        public NavigationHistoryEntry From { get; }
+        public NavigationHistoryEntry From => GetProperty<NavigationHistoryEntry>("from");
     }
 }

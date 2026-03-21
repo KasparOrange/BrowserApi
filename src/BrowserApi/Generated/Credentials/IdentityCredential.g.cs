@@ -35,13 +35,13 @@ namespace BrowserApi.Credentials
     public partial class IdentityCredential : Credential
     {
         [JsName("token")]
-        public object Token { get; }
+        public object Token => GetProperty<object>("token");
 
         [JsName("isAutoSelected")]
-        public bool IsAutoSelected { get; }
+        public bool IsAutoSelected => GetProperty<bool>("isAutoSelected");
 
         [JsName("configURL")]
-        public string ConfigUrl { get; }
+        public string ConfigUrl => GetProperty<string>("configURL");
 
         [JsName("disconnect")]
         public static Task DisconnectAsync(IdentityCredentialDisconnectOptions options) => throw new NotImplementedException();

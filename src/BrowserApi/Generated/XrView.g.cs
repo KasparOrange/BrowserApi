@@ -33,30 +33,30 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("XRView")]
-    public partial class XrView
+    public partial class XrView : JsObject
     {
         [JsName("eye")]
-        public XrEye Eye { get; }
+        public XrEye Eye => GetProperty<XrEye>("eye");
 
         [JsName("index")]
-        public uint Index { get; }
+        public uint Index => GetProperty<uint>("index");
 
         [JsName("recommendedViewportScale")]
-        public double? RecommendedViewportScale { get; }
+        public double? RecommendedViewportScale => GetProperty<double?>("recommendedViewportScale");
 
         [JsName("camera")]
-        public XrCamera? Camera { get; }
+        public XrCamera? Camera => GetProperty<XrCamera?>("camera");
 
         [JsName("isFirstPersonObserver")]
-        public bool IsFirstPersonObserver { get; }
+        public bool IsFirstPersonObserver => GetProperty<bool>("isFirstPersonObserver");
 
         [JsName("projectionMatrix")]
-        public float[] ProjectionMatrix { get; }
+        public float[] ProjectionMatrix => GetProperty<float[]>("projectionMatrix");
 
         [JsName("transform")]
-        public XrRigidTransform Transform { get; }
+        public XrRigidTransform Transform => GetProperty<XrRigidTransform>("transform");
 
         [JsName("requestViewportScale")]
-        public void RequestViewportScale(double? scale) => throw new NotImplementedException();
+        public void RequestViewportScale(double? scale) => InvokeVoid("requestViewportScale", scale);
     }
 }

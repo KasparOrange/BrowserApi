@@ -33,24 +33,24 @@ using BrowserApi.WebStorage;
 namespace BrowserApi
 {
     [JsName("USBAlternateInterface")]
-    public partial class UsbAlternateInterface
+    public partial class UsbAlternateInterface : JsObject
     {
         [JsName("alternateSetting")]
-        public byte AlternateSetting { get; }
+        public byte AlternateSetting => GetProperty<byte>("alternateSetting");
 
         [JsName("interfaceClass")]
-        public byte InterfaceClass { get; }
+        public byte InterfaceClass => GetProperty<byte>("interfaceClass");
 
         [JsName("interfaceSubclass")]
-        public byte InterfaceSubclass { get; }
+        public byte InterfaceSubclass => GetProperty<byte>("interfaceSubclass");
 
         [JsName("interfaceProtocol")]
-        public byte InterfaceProtocol { get; }
+        public byte InterfaceProtocol => GetProperty<byte>("interfaceProtocol");
 
         [JsName("interfaceName")]
-        public string? InterfaceName { get; }
+        public string? InterfaceName => GetProperty<string?>("interfaceName");
 
         [JsName("endpoints")]
-        public IReadOnlyList<UsbEndpoint> Endpoints { get; }
+        public IReadOnlyList<UsbEndpoint> Endpoints => GetProperty<IReadOnlyList<UsbEndpoint>>("endpoints");
     }
 }

@@ -32,12 +32,12 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Events
 {
-    public partial class TouchList
+    public partial class TouchList : JsObject
     {
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("item")]
-        public Touch? Item(uint index) => throw new NotImplementedException();
+        public Touch? Item(uint index) => Invoke<Touch?>("item", index);
     }
 }

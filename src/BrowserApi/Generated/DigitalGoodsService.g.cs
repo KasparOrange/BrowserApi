@@ -32,18 +32,18 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class DigitalGoodsService
+    public partial class DigitalGoodsService : JsObject
     {
         [JsName("getDetails")]
-        public Task<IReadOnlyList<ItemDetails>> GetDetailsAsync(IReadOnlyList<string> itemIds) => throw new NotImplementedException();
+        public Task<IReadOnlyList<ItemDetails>> GetDetailsAsync(IReadOnlyList<string> itemIds) => InvokeAsync<IReadOnlyList<ItemDetails>>("getDetails", itemIds);
 
         [JsName("listPurchases")]
-        public Task<IReadOnlyList<PurchaseDetails>> ListPurchasesAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<PurchaseDetails>> ListPurchasesAsync() => InvokeAsync<IReadOnlyList<PurchaseDetails>>("listPurchases");
 
         [JsName("listPurchaseHistory")]
-        public Task<IReadOnlyList<PurchaseDetails>> ListPurchaseHistoryAsync() => throw new NotImplementedException();
+        public Task<IReadOnlyList<PurchaseDetails>> ListPurchaseHistoryAsync() => InvokeAsync<IReadOnlyList<PurchaseDetails>>("listPurchaseHistory");
 
         [JsName("consume")]
-        public Task ConsumeAsync(string purchaseToken) => throw new NotImplementedException();
+        public Task ConsumeAsync(string purchaseToken) => InvokeVoidAsync("consume", purchaseToken);
     }
 }

@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class WebTransportSendGroup
+    public partial class WebTransportSendGroup : JsObject
     {
         [JsName("getStats")]
-        public Task<WebTransportSendStreamStats> GetStatsAsync() => throw new NotImplementedException();
+        public Task<WebTransportSendStreamStats> GetStatsAsync() => InvokeAsync<WebTransportSendStreamStats>("getStats");
     }
 }

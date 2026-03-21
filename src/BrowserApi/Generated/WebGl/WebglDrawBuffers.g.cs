@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_draw_buffers")]
-    public partial class WebglDrawBuffers
+    public partial class WebglDrawBuffers : JsObject
     {
         public const uint ColorAttachment0Webgl = 0x8CE0;
 
@@ -104,6 +104,6 @@ namespace BrowserApi.WebGl
         public const uint MaxDrawBuffersWebgl = 0x8824;
 
         [JsName("drawBuffersWEBGL")]
-        public void DrawBuffersWebgl(IReadOnlyList<uint> buffers) => throw new NotImplementedException();
+        public void DrawBuffersWebgl(IReadOnlyList<uint> buffers) => InvokeVoid("drawBuffersWEBGL", buffers);
     }
 }

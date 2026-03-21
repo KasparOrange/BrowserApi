@@ -35,27 +35,27 @@ namespace BrowserApi.Events
     public partial class TouchEvent : Uievent
     {
         [JsName("touches")]
-        public TouchList Touches { get; }
+        public TouchList Touches => GetProperty<TouchList>("touches");
 
         [JsName("targetTouches")]
-        public TouchList TargetTouches { get; }
+        public TouchList TargetTouches => GetProperty<TouchList>("targetTouches");
 
         [JsName("changedTouches")]
-        public TouchList ChangedTouches { get; }
+        public TouchList ChangedTouches => GetProperty<TouchList>("changedTouches");
 
         [JsName("altKey")]
-        public bool AltKey { get; }
+        public bool AltKey => GetProperty<bool>("altKey");
 
         [JsName("metaKey")]
-        public bool MetaKey { get; }
+        public bool MetaKey => GetProperty<bool>("metaKey");
 
         [JsName("ctrlKey")]
-        public bool CtrlKey { get; }
+        public bool CtrlKey => GetProperty<bool>("ctrlKey");
 
         [JsName("shiftKey")]
-        public bool ShiftKey { get; }
+        public bool ShiftKey => GetProperty<bool>("shiftKey");
 
         [JsName("getModifierState")]
-        public bool GetModifierState(string keyArg) => throw new NotImplementedException();
+        public bool GetModifierState(string keyArg) => Invoke<bool>("getModifierState", keyArg);
     }
 }

@@ -36,21 +36,25 @@ namespace BrowserApi.Css
     public partial class CssKeyframesRule : CssRule
     {
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("cssRules")]
-        public CssRuleList CssRules { get; }
+        public CssRuleList CssRules => GetProperty<CssRuleList>("cssRules");
 
         [JsName("length")]
-        public uint Length { get; }
+        public uint Length => GetProperty<uint>("length");
 
         [JsName("appendRule")]
-        public void AppendRule(string rule) => throw new NotImplementedException();
+        public void AppendRule(string rule) => InvokeVoid("appendRule", rule);
 
         [JsName("deleteRule")]
-        public void DeleteRule(string select) => throw new NotImplementedException();
+        public void DeleteRule(string select) => InvokeVoid("deleteRule", select);
 
         [JsName("findRule")]
-        public CssKeyframeRule? FindRule(string select) => throw new NotImplementedException();
+        public CssKeyframeRule? FindRule(string select) => Invoke<CssKeyframeRule?>("findRule", select);
     }
 }

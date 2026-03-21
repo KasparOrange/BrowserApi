@@ -36,81 +36,145 @@ namespace BrowserApi.Dom
     public partial class HtmlObjectElement : HtmlElement
     {
         [JsName("data")]
-        public string Data { get; set; }
+        public string Data
+        {
+            get => GetProperty<string>("data");
+            set => SetProperty("data", value);
+        }
 
         [JsName("type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get => GetProperty<string>("type");
+            set => SetProperty("type", value);
+        }
 
         [JsName("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty<string>("name");
+            set => SetProperty("name", value);
+        }
 
         [JsName("form")]
-        public HtmlFormElement? Form { get; }
+        public HtmlFormElement? Form => GetProperty<HtmlFormElement?>("form");
 
         [JsName("width")]
-        public string Width { get; set; }
+        public string Width
+        {
+            get => GetProperty<string>("width");
+            set => SetProperty("width", value);
+        }
 
         [JsName("height")]
-        public string Height { get; set; }
+        public string Height
+        {
+            get => GetProperty<string>("height");
+            set => SetProperty("height", value);
+        }
 
         [JsName("contentDocument")]
-        public Document? ContentDocument { get; }
+        public Document? ContentDocument => GetProperty<Document?>("contentDocument");
 
         [JsName("contentWindow")]
-        public object ContentWindow { get; }
+        public object ContentWindow => GetProperty<object>("contentWindow");
 
         [JsName("willValidate")]
-        public bool WillValidate { get; }
+        public bool WillValidate => GetProperty<bool>("willValidate");
 
         [JsName("validity")]
-        public ValidityState Validity { get; }
+        public ValidityState Validity => GetProperty<ValidityState>("validity");
 
         [JsName("validationMessage")]
-        public string ValidationMessage { get; }
+        public string ValidationMessage => GetProperty<string>("validationMessage");
 
         [JsName("align")]
-        public string Align { get; set; }
+        public string Align
+        {
+            get => GetProperty<string>("align");
+            set => SetProperty("align", value);
+        }
 
         [JsName("archive")]
-        public string Archive { get; set; }
+        public string Archive
+        {
+            get => GetProperty<string>("archive");
+            set => SetProperty("archive", value);
+        }
 
         [JsName("code")]
-        public string Code { get; set; }
+        public string Code
+        {
+            get => GetProperty<string>("code");
+            set => SetProperty("code", value);
+        }
 
         [JsName("declare")]
-        public bool Declare { get; set; }
+        public bool Declare
+        {
+            get => GetProperty<bool>("declare");
+            set => SetProperty("declare", value);
+        }
 
         [JsName("hspace")]
-        public uint Hspace { get; set; }
+        public uint Hspace
+        {
+            get => GetProperty<uint>("hspace");
+            set => SetProperty("hspace", value);
+        }
 
         [JsName("standby")]
-        public string Standby { get; set; }
+        public string Standby
+        {
+            get => GetProperty<string>("standby");
+            set => SetProperty("standby", value);
+        }
 
         [JsName("vspace")]
-        public uint Vspace { get; set; }
+        public uint Vspace
+        {
+            get => GetProperty<uint>("vspace");
+            set => SetProperty("vspace", value);
+        }
 
         [JsName("codeBase")]
-        public string CodeBase { get; set; }
+        public string CodeBase
+        {
+            get => GetProperty<string>("codeBase");
+            set => SetProperty("codeBase", value);
+        }
 
         [JsName("codeType")]
-        public string CodeType { get; set; }
+        public string CodeType
+        {
+            get => GetProperty<string>("codeType");
+            set => SetProperty("codeType", value);
+        }
 
         [JsName("useMap")]
-        public string UseMap { get; set; }
+        public string UseMap
+        {
+            get => GetProperty<string>("useMap");
+            set => SetProperty("useMap", value);
+        }
 
         [JsName("border")]
-        public string Border { get; set; }
+        public string Border
+        {
+            get => GetProperty<string>("border");
+            set => SetProperty("border", value);
+        }
 
         [JsName("getSVGDocument")]
-        public Document? GetSvgDocument() => throw new NotImplementedException();
+        public Document? GetSvgDocument() => Invoke<Document?>("getSVGDocument");
 
         [JsName("checkValidity")]
-        public bool CheckValidity() => throw new NotImplementedException();
+        public bool CheckValidity() => Invoke<bool>("checkValidity");
 
         [JsName("reportValidity")]
-        public bool ReportValidity() => throw new NotImplementedException();
+        public bool ReportValidity() => Invoke<bool>("reportValidity");
 
         [JsName("setCustomValidity")]
-        public void SetCustomValidity(string error) => throw new NotImplementedException();
+        public void SetCustomValidity(string error) => InvokeVoid("setCustomValidity", error);
     }
 }

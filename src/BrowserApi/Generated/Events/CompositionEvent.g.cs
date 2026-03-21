@@ -35,9 +35,9 @@ namespace BrowserApi.Events
     public partial class CompositionEvent : Uievent
     {
         [JsName("data")]
-        public string Data { get; }
+        public string Data => GetProperty<string>("data");
 
         [JsName("initCompositionEvent")]
-        public void InitCompositionEvent(string typeArg, bool bubblesArg = false, bool cancelableArg = false, object? viewArg = null, string dataArg = "") => throw new NotImplementedException();
+        public void InitCompositionEvent(string typeArg, bool bubblesArg = false, bool cancelableArg = false, object? viewArg = null, string dataArg = "") => InvokeVoid("initCompositionEvent", typeArg, bubblesArg, cancelableArg, viewArg, dataArg);
     }
 }

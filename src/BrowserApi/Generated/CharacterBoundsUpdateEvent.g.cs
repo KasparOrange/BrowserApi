@@ -35,9 +35,9 @@ namespace BrowserApi
     public partial class CharacterBoundsUpdateEvent : Event
     {
         [JsName("rangeStart")]
-        public uint RangeStart { get; }
+        public uint RangeStart => GetProperty<uint>("rangeStart");
 
         [JsName("rangeEnd")]
-        public uint RangeEnd { get; }
+        public uint RangeEnd => GetProperty<uint>("rangeEnd");
     }
 }

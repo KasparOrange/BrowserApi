@@ -35,6 +35,6 @@ namespace BrowserApi.Fetch
     public partial class BackgroundFetchEvent : ExtendableEvent
     {
         [JsName("registration")]
-        public BackgroundFetchRegistration Registration { get; }
+        public BackgroundFetchRegistration Registration => GetProperty<BackgroundFetchRegistration>("registration");
     }
 }

@@ -33,7 +33,7 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGl
 {
     [JsName("WEBGL_compressed_texture_pvrtc")]
-    public partial class WebglCompressedTexturePvrtc
+    public partial class WebglCompressedTexturePvrtc : JsObject
     {
         public const uint CompressedRgbPvrtc4Bppv1Img = 0x8C00;
 

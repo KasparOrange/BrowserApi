@@ -33,18 +33,18 @@ using BrowserApi.WebStorage;
 namespace BrowserApi.WebGpu
 {
     [JsName("GPUAdapter")]
-    public partial class GpuAdapter
+    public partial class GpuAdapter : JsObject
     {
         [JsName("features")]
-        public GpuSupportedFeatures Features { get; }
+        public GpuSupportedFeatures Features => GetProperty<GpuSupportedFeatures>("features");
 
         [JsName("limits")]
-        public GpuSupportedLimits Limits { get; }
+        public GpuSupportedLimits Limits => GetProperty<GpuSupportedLimits>("limits");
 
         [JsName("info")]
-        public GpuAdapterInfo Info { get; }
+        public GpuAdapterInfo Info => GetProperty<GpuAdapterInfo>("info");
 
         [JsName("requestDevice")]
-        public Task<GpuDevice> RequestDeviceAsync(GpuDeviceDescriptor? descriptor = null) => throw new NotImplementedException();
+        public Task<GpuDevice> RequestDeviceAsync(GpuDeviceDescriptor? descriptor = null) => InvokeAsync<GpuDevice>("requestDevice", descriptor);
     }
 }

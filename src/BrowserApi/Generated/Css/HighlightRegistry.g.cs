@@ -32,9 +32,9 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi.Css
 {
-    public partial class HighlightRegistry
+    public partial class HighlightRegistry : JsObject
     {
         [JsName("highlightsFromPoint")]
-        public IReadOnlyList<HighlightHitResult> HighlightsFromPoint(float x, float y, HighlightsFromPointOptions? options = null) => throw new NotImplementedException();
+        public IReadOnlyList<HighlightHitResult> HighlightsFromPoint(float x, float y, HighlightsFromPointOptions? options = null) => Invoke<IReadOnlyList<HighlightHitResult>>("highlightsFromPoint", x, y, options);
     }
 }

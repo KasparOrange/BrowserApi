@@ -36,9 +36,9 @@ namespace BrowserApi
     public partial class MidiOutput : MidiPort
     {
         [JsName("send")]
-        public void Send(IReadOnlyList<byte> data, double timestamp = 0) => throw new NotImplementedException();
+        public void Send(IReadOnlyList<byte> data, double timestamp = 0) => InvokeVoid("send", data, timestamp);
 
         [JsName("clear")]
-        public void Clear() => throw new NotImplementedException();
+        public void Clear() => InvokeVoid("clear");
     }
 }

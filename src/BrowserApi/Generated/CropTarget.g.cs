@@ -32,7 +32,7 @@ using BrowserApi.WebStorage;
 
 namespace BrowserApi
 {
-    public partial class CropTarget
+    public partial class CropTarget : JsObject
     {
         [JsName("fromElement")]
         public static Task<CropTarget> FromElementAsync(Element element) => throw new NotImplementedException();

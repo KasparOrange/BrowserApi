@@ -36,21 +36,29 @@ namespace BrowserApi
     public partial class XrProjectionLayer : XrCompositionLayer
     {
         [JsName("textureWidth")]
-        public uint TextureWidth { get; }
+        public uint TextureWidth => GetProperty<uint>("textureWidth");
 
         [JsName("textureHeight")]
-        public uint TextureHeight { get; }
+        public uint TextureHeight => GetProperty<uint>("textureHeight");
 
         [JsName("textureArrayLength")]
-        public uint TextureArrayLength { get; }
+        public uint TextureArrayLength => GetProperty<uint>("textureArrayLength");
 
         [JsName("ignoreDepthValues")]
-        public bool IgnoreDepthValues { get; }
+        public bool IgnoreDepthValues => GetProperty<bool>("ignoreDepthValues");
 
         [JsName("fixedFoveation")]
-        public float? FixedFoveation { get; set; }
+        public float? FixedFoveation
+        {
+            get => GetProperty<float?>("fixedFoveation");
+            set => SetProperty("fixedFoveation", value);
+        }
 
         [JsName("deltaPose")]
-        public XrRigidTransform? DeltaPose { get; set; }
+        public XrRigidTransform? DeltaPose
+        {
+            get => GetProperty<XrRigidTransform?>("deltaPose");
+            set => SetProperty("deltaPose", value);
+        }
     }
 }

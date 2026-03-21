@@ -35,48 +35,60 @@ namespace BrowserApi.WebAudio
     public partial class AudioNode : EventTarget
     {
         [JsName("context")]
-        public BaseAudioContext Context { get; }
+        public BaseAudioContext Context => GetProperty<BaseAudioContext>("context");
 
         [JsName("numberOfInputs")]
-        public uint NumberOfInputs { get; }
+        public uint NumberOfInputs => GetProperty<uint>("numberOfInputs");
 
         [JsName("numberOfOutputs")]
-        public uint NumberOfOutputs { get; }
+        public uint NumberOfOutputs => GetProperty<uint>("numberOfOutputs");
 
         [JsName("channelCount")]
-        public uint ChannelCount { get; set; }
+        public uint ChannelCount
+        {
+            get => GetProperty<uint>("channelCount");
+            set => SetProperty("channelCount", value);
+        }
 
         [JsName("channelCountMode")]
-        public ChannelCountMode ChannelCountMode { get; set; }
+        public ChannelCountMode ChannelCountMode
+        {
+            get => GetProperty<ChannelCountMode>("channelCountMode");
+            set => SetProperty("channelCountMode", value);
+        }
 
         [JsName("channelInterpretation")]
-        public ChannelInterpretation ChannelInterpretation { get; set; }
+        public ChannelInterpretation ChannelInterpretation
+        {
+            get => GetProperty<ChannelInterpretation>("channelInterpretation");
+            set => SetProperty("channelInterpretation", value);
+        }
 
         [JsName("connect")]
-        public AudioNode Connect(AudioNode destinationNode, uint output = 0, uint input = 0) => throw new NotImplementedException();
+        public AudioNode Connect(AudioNode destinationNode, uint output = 0, uint input = 0) => Invoke<AudioNode>("connect", destinationNode, output, input);
 
         [JsName("connect")]
-        public void Connect(AudioParam destinationParam, uint output = 0) => throw new NotImplementedException();
+        public void Connect(AudioParam destinationParam, uint output = 0) => InvokeVoid("connect", destinationParam, output);
 
         [JsName("disconnect")]
-        public void Disconnect() => throw new NotImplementedException();
+        public void Disconnect() => InvokeVoid("disconnect");
 
         [JsName("disconnect")]
-        public void Disconnect(uint output) => throw new NotImplementedException();
+        public void Disconnect(uint output) => InvokeVoid("disconnect", output);
 
         [JsName("disconnect")]
-        public void Disconnect(AudioNode destinationNode) => throw new NotImplementedException();
+        public void Disconnect(AudioNode destinationNode) => InvokeVoid("disconnect", destinationNode);
 
         [JsName("disconnect")]
-        public void Disconnect(AudioNode destinationNode, uint output) => throw new NotImplementedException();
+        public void Disconnect(AudioNode destinationNode, uint output) => InvokeVoid("disconnect", destinationNode, output);
 
         [JsName("disconnect")]
-        public void Disconnect(AudioNode destinationNode, uint output, uint input) => throw new NotImplementedException();
+        public void Disconnect(AudioNode destinationNode, uint output, uint input) => InvokeVoid("disconnect", destinationNode, output, input);
 
         [JsName("disconnect")]
-        public void Disconnect(AudioParam destinationParam) => throw new NotImplementedException();
+        public void Disconnect(AudioParam destinationParam) => InvokeVoid("disconnect", destinationParam);
 
         [JsName("disconnect")]
-        public void Disconnect(AudioParam destinationParam, uint output) => throw new NotImplementedException();
+        public void Disconnect(AudioParam destinationParam, uint output) => InvokeVoid("disconnect", destinationParam, output);
     }
 }
