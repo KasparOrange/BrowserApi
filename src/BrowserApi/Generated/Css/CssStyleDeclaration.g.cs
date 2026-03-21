@@ -291,13 +291,13 @@ namespace BrowserApi.Css
         public string PlaceItems { get; set; }
 
         [JsName("rowGap")]
-        public string RowGap { get; set; }
+        public Length RowGap { get; set; }
 
         [JsName("columnGap")]
-        public string ColumnGap { get; set; }
+        public Length ColumnGap { get; set; }
 
         [JsName("gap")]
-        public string Gap { get; set; }
+        public Length Gap { get; set; }
 
         [JsName("gridRowGap")]
         public string GridRowGap { get; set; }
@@ -351,16 +351,16 @@ namespace BrowserApi.Css
         public string MaxHeight { get; set; }
 
         [JsName("marginTop")]
-        public string MarginTop { get; set; }
+        public Length MarginTop { get; set; }
 
         [JsName("marginLeft")]
-        public string MarginLeft { get; set; }
+        public Length MarginLeft { get; set; }
 
         [JsName("marginRight")]
-        public string MarginRight { get; set; }
+        public Length MarginRight { get; set; }
 
         [JsName("marginBottom")]
-        public string MarginBottom { get; set; }
+        public Length MarginBottom { get; set; }
 
         [JsName("positionTryFallbacks")]
         public string PositionTryFallbacks { get; set; }
@@ -375,7 +375,7 @@ namespace BrowserApi.Css
         public string PositionVisibility { get; set; }
 
         [JsName("animationDuration")]
-        public string AnimationDuration { get; set; }
+        public Duration AnimationDuration { get; set; }
 
         [JsName("animationComposition")]
         public string AnimationComposition { get; set; }
@@ -387,7 +387,7 @@ namespace BrowserApi.Css
         public string AnimationName { get; set; }
 
         [JsName("animationTimingFunction")]
-        public string AnimationTimingFunction { get; set; }
+        public Easing AnimationTimingFunction { get; set; }
 
         [JsName("animationIterationCount")]
         public string AnimationIterationCount { get; set; }
@@ -504,7 +504,7 @@ namespace BrowserApi.Css
         public string BorderLeftWidth { get; set; }
 
         [JsName("borderWidth")]
-        public string BorderWidth { get; set; }
+        public Length BorderWidth { get; set; }
 
         [JsName("borderTop")]
         public CssColor BorderTop { get; set; }
@@ -555,7 +555,7 @@ namespace BrowserApi.Css
         public string BorderImage { get; set; }
 
         [JsName("boxShadow")]
-        public string BoxShadow { get; set; }
+        public Shadow BoxShadow { get; set; }
 
         [JsName("borderBlockStartColor")]
         public CssColor BorderBlockStartColor { get; set; }
@@ -771,28 +771,28 @@ namespace BrowserApi.Css
         public string BorderLimit { get; set; }
 
         [JsName("borderTopClip")]
-        public double BorderTopClip { get; set; }
+        public Flex BorderTopClip { get; set; }
 
         [JsName("borderRightClip")]
-        public double BorderRightClip { get; set; }
+        public Flex BorderRightClip { get; set; }
 
         [JsName("borderBottomClip")]
-        public double BorderBottomClip { get; set; }
+        public Flex BorderBottomClip { get; set; }
 
         [JsName("borderLeftClip")]
-        public double BorderLeftClip { get; set; }
+        public Flex BorderLeftClip { get; set; }
 
         [JsName("borderBlockStartClip")]
-        public double BorderBlockStartClip { get; set; }
+        public Flex BorderBlockStartClip { get; set; }
 
         [JsName("borderBlockEndClip")]
-        public double BorderBlockEndClip { get; set; }
+        public Flex BorderBlockEndClip { get; set; }
 
         [JsName("borderInlineStartClip")]
-        public double BorderInlineStartClip { get; set; }
+        public Flex BorderInlineStartClip { get; set; }
 
         [JsName("borderInlineEndClip")]
-        public double BorderInlineEndClip { get; set; }
+        public Flex BorderInlineEndClip { get; set; }
 
         [JsName("borderBlockClip")]
         public string BorderBlockClip { get; set; }
@@ -828,16 +828,16 @@ namespace BrowserApi.Css
         public string MarginTrim { get; set; }
 
         [JsName("paddingTop")]
-        public string PaddingTop { get; set; }
+        public Length PaddingTop { get; set; }
 
         [JsName("paddingRight")]
-        public string PaddingRight { get; set; }
+        public Length PaddingRight { get; set; }
 
         [JsName("paddingBottom")]
-        public string PaddingBottom { get; set; }
+        public Length PaddingBottom { get; set; }
 
         [JsName("paddingLeft")]
-        public string PaddingLeft { get; set; }
+        public Length PaddingLeft { get; set; }
 
         [JsName("padding")]
         public string Padding { get; set; }
@@ -1251,7 +1251,7 @@ namespace BrowserApi.Css
         public string ObjectFit { get; set; }
 
         [JsName("imageResolution")]
-        public double ImageResolution { get; set; }
+        public Resolution ImageResolution { get; set; }
 
         [JsName("objectViewBox")]
         public string ObjectViewBox { get; set; }
@@ -2022,7 +2022,7 @@ namespace BrowserApi.Css
         public string TextEmphasisSkip { get; set; }
 
         [JsName("textShadow")]
-        public string TextShadow { get; set; }
+        public Shadow TextShadow { get; set; }
 
         [JsName("translate")]
         public Length Translate { get; set; }
@@ -2037,7 +2037,7 @@ namespace BrowserApi.Css
         public TransformStyle TransformStyle { get; set; }
 
         [JsName("perspective")]
-        public string Perspective { get; set; }
+        public Length Perspective { get; set; }
 
         [JsName("perspectiveOrigin")]
         public string PerspectiveOrigin { get; set; }
@@ -2046,7 +2046,7 @@ namespace BrowserApi.Css
         public BackfaceVisibility BackfaceVisibility { get; set; }
 
         [JsName("transform")]
-        public string Transform { get; set; }
+        public Transform Transform { get; set; }
 
         [JsName("transformOrigin")]
         public Length TransformOrigin { get; set; }
@@ -2061,16 +2061,16 @@ namespace BrowserApi.Css
         public string TransitionProperty { get; set; }
 
         [JsName("transitionDuration")]
-        public string TransitionDuration { get; set; }
+        public Duration TransitionDuration { get; set; }
 
         [JsName("transitionTimingFunction")]
-        public string TransitionTimingFunction { get; set; }
+        public Easing TransitionTimingFunction { get; set; }
 
         [JsName("transitionDelay")]
         public Duration TransitionDelay { get; set; }
 
         [JsName("transition")]
-        public string Transition { get; set; }
+        public Transition Transition { get; set; }
 
         [JsName("outline")]
         public string Outline { get; set; }

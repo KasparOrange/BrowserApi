@@ -1,16 +1,8 @@
-using BrowserApi.Common;
 using static BrowserApi.Css.CssFormatting;
 
 namespace BrowserApi.Css;
 
-public readonly partial struct Resolution : ICssValue, IEquatable<Resolution> {
-    private readonly string _value;
-
-    public Resolution(string value) => _value = value;
-
-    public string ToCss() => _value;
-    public override string ToString() => _value;
-
+public readonly partial struct Resolution : IEquatable<Resolution> {
     public static Resolution Dpi(double value) => new($"{FormatNumber(value)}dpi");
     public static Resolution Dpcm(double value) => new($"{FormatNumber(value)}dpcm");
     public static Resolution Dppx(double value) => new($"{FormatNumber(value)}dppx");

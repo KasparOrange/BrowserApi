@@ -9,6 +9,8 @@ public static class CssValueTypeStubEmitter {
         ["Duration"] = "0",
         ["Angle"] = "0",
         ["Percentage"] = "0",
+        ["Resolution"] = "0",
+        ["Flex"] = "0",
     };
 
     public static List<(string TypeName, string Code)> EmitAll() {

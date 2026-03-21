@@ -14,6 +14,16 @@ public readonly partial struct Length : IEquatable<Length> {
     public static Length Percent(double value) => new($"{FormatNumber(value)}%");
     public static Length Calc(string expression) => new($"calc({expression})");
 
+    // Implicit conversions — Px is the default unit
+    public static implicit operator Length(int value) => Px(value);
+    public static implicit operator Length(double value) => Px(value);
+
+    // Arithmetic → calc expressions
+    public static Length operator +(Length a, Length b) => new($"calc({a.ToCss()} + {b.ToCss()})");
+    public static Length operator -(Length a, Length b) => new($"calc({a.ToCss()} - {b.ToCss()})");
+    public static Length operator -(Length a) => new($"calc(-1 * {a.ToCss()})");
+
+    // Equality
     public bool Equals(Length other) => _value == other._value;
     public override bool Equals(object? obj) => obj is Length other && Equals(other);
     public override int GetHashCode() => _value?.GetHashCode() ?? 0;

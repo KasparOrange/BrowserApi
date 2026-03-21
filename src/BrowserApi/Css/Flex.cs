@@ -1,16 +1,8 @@
-using BrowserApi.Common;
 using static BrowserApi.Css.CssFormatting;
 
 namespace BrowserApi.Css;
 
-public readonly partial struct Flex : ICssValue, IEquatable<Flex> {
-    private readonly string _value;
-
-    public Flex(string value) => _value = value;
-
-    public string ToCss() => _value;
-    public override string ToString() => _value;
-
+public readonly partial struct Flex : IEquatable<Flex> {
     public static Flex Fr(double value) => new($"{FormatNumber(value)}fr");
 
     public bool Equals(Flex other) => _value == other._value;

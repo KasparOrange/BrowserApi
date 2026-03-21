@@ -16,16 +16,49 @@ public static partial class CssValueTypeMapper {
         ["<url>"] = "string",
         ["<image>"] = "string",
         ["<position>"] = "string",
-        ["<resolution>"] = "double",
+        ["<resolution>"] = "Resolution",
         ["<ratio>"] = "string",
-        ["<flex>"] = "double",
+        ["<flex>"] = "Flex",
         ["<frequency>"] = "double",
         ["<custom-ident>"] = "string",
         ["<ident>"] = "string",
         ["<dashed-ident>"] = "string",
     };
 
-    public static string MapToCSharpType(string valueGrammar) {
+    private static readonly Dictionary<string, string> PropertyNameOverrides = new() {
+        // Composite types
+        ["transform"] = "Transform",
+        ["box-shadow"] = "Shadow",
+        ["text-shadow"] = "Shadow",
+        ["transition"] = "Transition",
+        ["transition-duration"] = "Duration",
+        ["transition-delay"] = "Duration",
+        ["transition-timing-function"] = "Easing",
+        ["animation-duration"] = "Duration",
+        ["animation-delay"] = "Duration",
+        ["animation-timing-function"] = "Easing",
+        ["perspective"] = "Length",
+        // Box model sides
+        ["margin-top"] = "Length",
+        ["margin-right"] = "Length",
+        ["margin-bottom"] = "Length",
+        ["margin-left"] = "Length",
+        ["padding-top"] = "Length",
+        ["padding-right"] = "Length",
+        ["padding-bottom"] = "Length",
+        ["padding-left"] = "Length",
+        // Gap
+        ["row-gap"] = "Length",
+        ["column-gap"] = "Length",
+        ["gap"] = "Length",
+        // Border
+        ["border-width"] = "Length",
+    };
+
+    public static string MapToCSharpType(string valueGrammar, string? propertyName = null) {
+        if (propertyName is not null && PropertyNameOverrides.TryGetValue(propertyName, out var overrideType))
+            return overrideType;
+
         if (string.IsNullOrWhiteSpace(valueGrammar))
             return "string";
 

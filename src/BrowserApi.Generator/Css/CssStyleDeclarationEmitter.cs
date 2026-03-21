@@ -36,7 +36,7 @@ public static class CssStyleDeclarationEmitter {
     }
 
     private static string MapPropertyToType(CssPropertyDefinition prop) {
-        var mappedType = CssValueTypeMapper.MapToCSharpType(prop.ValueGrammar);
+        var mappedType = CssValueTypeMapper.MapToCSharpType(prop.ValueGrammar, prop.Name);
         if (mappedType == "enum") {
             return NamingConventions.ToPascalCase(prop.Name);
         }
