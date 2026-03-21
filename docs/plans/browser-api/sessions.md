@@ -141,10 +141,15 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 ## Phase 5: Blazor Integration
 
 ### Session 5.1 — DI + component base classes
-- [ ] `AddBrowserApi()` service collection extension
-- [ ] Component base class with backend injection
-- [ ] Lifecycle hooks (OnAfterRenderAsync for JS interop init)
-- [ ] Sample component demonstrating usage
+- [x] `AddBrowserApi()` service collection extension (registers `JSInteropBackend` as scoped)
+- [x] `BrowserApiComponentBase` — abstract component with `IJSRuntime` injection
+- [x] Lifecycle hooks: `OnAfterRenderAsync(firstRender)` creates backend, sets `JsObject.Backend`, obtains `Window`/`Document` via `GetGlobal()`
+- [x] Virtual `OnBrowserApiReadyAsync()` hook for subclass DOM init
+- [x] `InternalsVisibleTo` for `BrowserApi.Blazor` (enables `Handle` setting)
+- [x] `MockJSInProcessRuntime` for testing without a browser
+- [x] Tests: DI registration, component lifecycle, pre-init guards, dispose
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 427 passing (126 generator + 301 core/Blazor)
 
 ---
 

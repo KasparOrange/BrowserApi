@@ -5,7 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="../../src/BrowserApi/BrowserApi.csproj" />
+        <ProjectReference Include="../../src/BrowserApi.Blazor/BrowserApi.Blazor.csproj" />
     </ItemGroup>
 
     <ItemGroup>
