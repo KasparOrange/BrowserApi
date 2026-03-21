@@ -187,9 +187,14 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 - [x] Tests: 491 passing (126 generator + 365 core)
 
 ### Session 6.4 — Web Animations API
-- [ ] Run generator on web-animations spec
-- [ ] Hand-write keyframe builder, typed AnimationOptions
-- [ ] Easing functions
+- [x] Generated types already in place: Animation, KeyframeEffect, AnimationEffect, timelines, 51 files
+- [x] `Easing` static class — named easings (Linear, Ease, EaseIn/Out/InOut), CubicBezier(), Steps(), common curves (Sine, Quad, Cubic variants)
+- [x] `KeyframeBuilder` — fluent keyframe construction: `AddFrame(new { opacity = 0 })` with optional offset/easing
+- [x] `AnimationOptionsBuilder` — fluent options: `Duration`, `Easing`, `Fill`, `Direction`, `Iterations`, implicit conversion
+- [x] `AnimateExtensions` on Element — typed `Animate(builder, options)`, `FadeIn()`, `FadeOut()`, `SlideIn(direction)`
+- [x] Tests: 33 new Animations tests (easing, keyframes, options builder, element extensions)
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 524 passing (126 generator + 398 core)
 
 ---
 
