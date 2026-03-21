@@ -1,4 +1,4 @@
-using System.Globalization;
+using static BrowserApi.Css.CssFormatting;
 
 namespace BrowserApi.Css;
 
@@ -19,9 +19,4 @@ public readonly partial struct Length : IEquatable<Length> {
     public override int GetHashCode() => _value?.GetHashCode() ?? 0;
     public static bool operator ==(Length left, Length right) => left.Equals(right);
     public static bool operator !=(Length left, Length right) => !left.Equals(right);
-
-    private static string FormatNumber(double value) =>
-        value == (int)value
-            ? ((int)value).ToString(CultureInfo.InvariantCulture)
-            : value.ToString("0.####", CultureInfo.InvariantCulture);
 }

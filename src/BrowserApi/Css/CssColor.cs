@@ -1,4 +1,4 @@
-using System.Globalization;
+using static BrowserApi.Css.CssFormatting;
 
 namespace BrowserApi.Css;
 
@@ -48,8 +48,4 @@ public readonly partial struct CssColor : IEquatable<CssColor> {
     public static bool operator ==(CssColor left, CssColor right) => left.Equals(right);
     public static bool operator !=(CssColor left, CssColor right) => !left.Equals(right);
 
-    private static string FormatNumber(double value) =>
-        value == (int)value
-            ? ((int)value).ToString(CultureInfo.InvariantCulture)
-            : value.ToString("0.####", CultureInfo.InvariantCulture);
 }
