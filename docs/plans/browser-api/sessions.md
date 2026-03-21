@@ -177,9 +177,14 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 - [x] Tests: 478 passing (126 generator + 352 core)
 
 ### Session 6.3 — Storage API
-- [ ] Run generator on storage specs
-- [ ] Hand-write `TypedStorage<T>` generic wrapper
-- [ ] Reactive `OnChanged` event
+- [x] Generated types already in place: Storage, StorageEvent, StorageManager, IndexedDB (50+ files)
+- [x] `TypedStorage` wrapper — `Get<T>`, `Set<T>` with JSON serialization, `GetString`/`SetString` raw access, `ContainsKey`, `Count`, `Keys`
+- [x] `StorageExtensions` on Window — `TypedLocalStorage()`, `TypedSessionStorage()`, `OnStorageChanged(callback)`
+- [x] `StorageChangedEventArgs` — typed event args for cross-tab storage changes
+- [x] Namespace: `BrowserApi.WebStorage` (avoids collision with generated `Storage` class)
+- [x] Tests: 13 new Storage tests (typed get/set, raw access, containsKey, count, extensions)
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 491 passing (126 generator + 365 core)
 
 ### Session 6.4 — Web Animations API
 - [ ] Run generator on web-animations spec
