@@ -167,9 +167,14 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 - [x] Tests: 461 passing (126 generator + 335 core)
 
 ### Session 6.2 — Fetch API
-- [ ] Run generator on fetch spec
-- [ ] Hand-write fluent request builder, generic deserialization
-- [ ] Result-based error handling
+- [x] Generated types already in place: Request, Response, Headers, RequestInit, AbortController/Signal
+- [x] `Http` static entry point — `Http.Get(url)`, `Http.Post(url)`, `Http.GetAsync<T>(url)` shortcut
+- [x] `RequestBuilder` — fluent builder: `WithHeader`, `WithJsonBody`, `WithCredentials`, `WithMode`, `WithSignal`, `SendAsync`, `SendJsonAsync<T>`, `TrySendAsync`, `TrySendAsync<T>`
+- [x] `FetchResult` / `FetchResult<T>` — result types for no-throw error handling
+- [x] `ResponseExtensions` — `JsonAsync<T>()` generic deserialization, `EnsureSuccess()`
+- [x] Tests: 17 new Fetch tests (builder chaining, result types, response extensions)
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 478 passing (126 generator + 352 core)
 
 ### Session 6.3 — Storage API
 - [ ] Run generator on storage specs
