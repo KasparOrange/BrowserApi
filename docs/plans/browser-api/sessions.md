@@ -156,9 +156,15 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 ## Phase 6: Additional APIs
 
 ### Session 6.1 — Canvas 2D
-- [ ] Run generator on canvas spec
-- [ ] Hand-write fluent path building, save/restore pattern
-- [ ] Typed fill/stroke overloads, font builder, gradient builder
+- [x] Generated types already in place: CanvasRenderingContext2D (40+ methods), Path2D, CanvasGradient, CanvasPattern, TextMetrics, ImageData
+- [x] `CanvasStateScope` — save/restore via `using (ctx.SaveState()) { ... }`
+- [x] `CanvasExtensions` — typed `SetFill`/`SetStroke` with CssColor/Gradient/Pattern, `SetShadow`, `SetLineStyle`, fluent `Path()` and gradient builder entry points
+- [x] `PathBuilder` — fluent path building: `ctx.Path().MoveTo().LineTo().ClosePath().Fill()`
+- [x] `GradientBuilder` — fluent gradient: `ctx.LinearGradient().AddStop(0, color).Build()`
+- [x] `CanvasFont` — font value type with `Of(size, family).Bold().Italic()`, implicit string conversion
+- [x] Tests: 34 new Canvas tests (font, extensions, path builder, gradient builder)
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 461 passing (126 generator + 335 core)
 
 ### Session 6.2 — Fetch API
 - [ ] Run generator on fetch spec
