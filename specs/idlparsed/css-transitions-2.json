@@ -1,0 +1,99 @@
+{
+  "spec": {
+    "title": "CSS Transitions Module Level 2",
+    "url": "https://drafts.csswg.org/css-transitions-2/"
+  },
+  "idlparsed": {
+    "jsNames": {
+      "constructors": {},
+      "functions": {
+        "Window": [
+          "CSSStartingStyleRule",
+          "CSSTransition"
+        ]
+      }
+    },
+    "idlNames": {
+      "CSSStartingStyleRule": {
+        "fragment": "[Exposed=Window]\ninterface CSSStartingStyleRule : CSSGroupingRule {\n};",
+        "type": "interface",
+        "name": "CSSStartingStyleRule",
+        "inheritance": "CSSGroupingRule",
+        "members": [],
+        "extAttrs": [
+          {
+            "type": "extended-attribute",
+            "name": "Exposed",
+            "rhs": {
+              "type": "identifier",
+              "value": "Window"
+            },
+            "arguments": []
+          }
+        ],
+        "partial": false,
+        "href": "https://drafts.csswg.org/css-transitions-2/#cssstartingstylerule"
+      },
+      "CSSTransition": {
+        "fragment": "[Exposed=Window]\ninterface CSSTransition : Animation {\n  readonly attribute CSSOMString transitionProperty;\n};",
+        "type": "interface",
+        "name": "CSSTransition",
+        "inheritance": "Animation",
+        "members": [
+          {
+            "type": "attribute",
+            "name": "transitionProperty",
+            "idlType": {
+              "type": "attribute-type",
+              "extAttrs": [],
+              "generic": "",
+              "nullable": false,
+              "union": false,
+              "idlType": "CSSOMString"
+            },
+            "extAttrs": [],
+            "special": "",
+            "readonly": true,
+            "href": "https://drafts.csswg.org/css-transitions-2/#dom-csstransition-transitionproperty"
+          }
+        ],
+        "extAttrs": [
+          {
+            "type": "extended-attribute",
+            "name": "Exposed",
+            "rhs": {
+              "type": "identifier",
+              "value": "Window"
+            },
+            "arguments": []
+          }
+        ],
+        "partial": false,
+        "href": "https://drafts.csswg.org/css-transitions-2/#csstransition"
+      }
+    },
+    "idlExtendedNames": {},
+    "globals": {},
+    "exposed": {
+      "Window": [
+        "CSSStartingStyleRule",
+        "CSSTransition"
+      ]
+    },
+    "dependencies": {
+      "CSSStartingStyleRule": [
+        "CSSGroupingRule"
+      ],
+      "CSSTransition": [
+        "Animation",
+        "CSSOMString"
+      ]
+    },
+    "externalDependencies": [
+      "CSSGroupingRule",
+      "Animation",
+      "CSSOMString"
+    ],
+    "hasObsoleteIdl": false
+  }
+}
