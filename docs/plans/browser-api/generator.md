@@ -94,6 +94,15 @@ public partial class Element : Node {
 
 - Should the generator be a `dotnet tool` (installable via `dotnet tool install`)?
 
+## Implementation Notes (from Phase 1)
+
+- **Type renames** to avoid System conflicts: `File`→`WebFile`, `Range`→`DomRange`
+- **Namespace renames** to avoid type/namespace conflicts: `Storage`→`WebStorage`, `Screen`→`ScreenApi`, `Performance`→`PerformanceApi`, `Navigation`→`NavigationApi`, `Clipboard`→`ClipboardApi`
+- **Constructors not emitted** — they'll be added by the interop layer (avoids base class constructor chaining issues)
+- **Union types** → `object` with doc comment (method overloads deferred)
+- **Generated code** uses `#pragma warning disable` for edge cases (duplicate members from mixin merges, cross-namespace references, etc.)
+- **CSS value type mapping** uses pattern matching on value grammar strings, not full grammar parsing — keyword-only → enum, `<length>`→Length, complex → string fallback
+
 ## Resolved Questions
 
 - **How to parse WebIDL?** → Use pre-parsed JSON from webref. See "WebIDL Parser" section above.

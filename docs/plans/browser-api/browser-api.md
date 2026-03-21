@@ -59,13 +59,16 @@ The interop layer is behind an interface so it can be swapped:
 
 ## Implementation Phases
 
-### Phase 1: Foundation (current)
+### Phase 1: Foundation (complete)
 - [x] Project structure and solution
-- [x] Spec files downloaded (337 IDL, 124 CSS JSON)
-- [ ] WebIDL parser (read `.idl` → AST)
-- [ ] CSS data parser (read `.json` → property definitions)
-- [ ] Core type primitives (`ICssValue`, `StringValueAttribute`)
-- [ ] Basic C# emitter (interfaces, enums, records from WebIDL)
+- [x] Spec files downloaded (337 IDL, 124 CSS JSON, 331 pre-parsed IDL JSON)
+- [x] Core type primitives (`ICssValue`, `IWebIdlSerializable`, `StringValueAttribute`, `JsNameAttribute`)
+- [x] WebIDL JSON reader (`WebRefJsonReader` → internal AST)
+- [x] Cross-reference resolver (partials, mixins, includes, typedefs, inheritance chains)
+- [x] C# transformer + emitters (classes, enums, records, delegates)
+- [x] CSS data parser + CSS property/enum emission
+- [x] CLI wiring (`--idlparsed`, `--css-data`, `--output`, `--dry-run`)
+- [x] Full pipeline: 2,690 generated `.g.cs` files, 120 tests passing
 
 ### Phase 2: CSS Types
 - [ ] CSS value type system (Length, Color, etc.)
