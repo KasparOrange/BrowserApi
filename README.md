@@ -4,9 +4,12 @@
 
 [![CI](https://github.com/KasparOrange/BrowserApi/actions/workflows/ci.yml/badge.svg)](https://github.com/KasparOrange/BrowserApi/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/KasparOrange/BrowserApi/graph/badge.svg)](https://codecov.io/gh/KasparOrange/BrowserApi)
+[![NuGet](https://img.shields.io/nuget/v/BrowserApi?logo=nuget&label=BrowserApi)](https://www.nuget.org/packages/BrowserApi)
+[![NuGet](https://img.shields.io/nuget/v/BrowserApi.Blazor?logo=nuget&label=Blazor)](https://www.nuget.org/packages/BrowserApi.Blazor)
+[![NuGet](https://img.shields.io/nuget/v/BrowserApi.SourceGen?logo=nuget&label=SourceGen)](https://www.nuget.org/packages/BrowserApi.SourceGen)
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-922%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-946%20passing-brightgreen)]()
 [![GitHub stars](https://img.shields.io/github/stars/KasparOrange/BrowserApi?style=flat&logo=github)](https://github.com/KasparOrange/BrowserApi/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/KasparOrange/BrowserApi)](https://github.com/KasparOrange/BrowserApi/commits/main)
 [![API Docs](https://img.shields.io/badge/docs-kasparorange.github.io-blue?logo=github)](https://kasparorange.github.io/BrowserApi/)
