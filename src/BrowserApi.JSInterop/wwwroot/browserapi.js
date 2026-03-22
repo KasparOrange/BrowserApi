@@ -62,6 +62,28 @@
                     t[cmd.n](...(cmd.a || []));
                 }
             }
+        },
+
+        queryProperty(root, selector, propName) {
+            return Array.from(root.querySelectorAll(selector)).map(el => el[propName]);
+        },
+
+        queryProperties(root, selector, propNames) {
+            return Array.from(root.querySelectorAll(selector)).map(el => {
+                const obj = {};
+                for (const p of propNames) obj[p] = el[p];
+                return obj;
+            });
+        },
+
+        queryElements(root, selector) {
+            return Array.from(root.querySelectorAll(selector));
+        },
+
+        getProperties(target, propNames) {
+            const obj = {};
+            for (const p of propNames) obj[p] = target[p];
+            return obj;
         }
     };
 })();

@@ -212,7 +212,7 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 - [x] Build: 0 warnings, 0 errors
 - [x] Tests: 543 passing (126 generator + 417 core)
 
-### Session 7.2 — Interop batching layer
+### Session 7.2 — Interop batching + bulk queries
 - [x] `JsBatch` — multi-target command recorder, queues SetProperty/InvokeVoid commands
 - [x] `JsBatchScope` — single-target convenience with `Set()`/`Call()` chaining
 - [x] `BatchAsync` extension on JsObject — `element.BatchAsync(b => { b.Set(...); })`
@@ -220,7 +220,11 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 - [x] `browserApi.batch(targets, commands)` JS executor — iterates command array in one call
 - [x] Tests: 11 new batching tests (queuing, single call, multi-target, chaining, ConvertToJs)
 - [x] Build: 0 warnings, 0 errors
-- [x] Tests: 554 passing (126 generator + 428 core)
+- [x] `BulkQueryExtensions` — `QueryValuesAsync<T>`, `QueryPropertiesAsync`, `QueryElementsAsync` on Document/Element
+- [x] `JsObjectBulkExtensions` — `GetPropertiesAsync` (N properties in 1 call) on any JsObject
+- [x] JS-side: `queryProperty`, `queryProperties`, `queryElements`, `getProperties` functions
+- [x] Enables fetch→LINQ→batch pattern: 2 interop calls instead of N reads + N writes
+- [x] Tests: 564 passing (126 generator + 438 core)
 
 ---
 
