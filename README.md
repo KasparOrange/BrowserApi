@@ -1,129 +1,299 @@
 # BrowserApi
 
-Typed C# wrappers for browser APIs, generated from W3C/WHATWG specs.
+**Typed C# wrappers for every browser API — generated from W3C/WHATWG specs.**
 
-Turn magic strings into compile-time errors. Get IntelliSense for every CSS property, DOM method, and browser API — without leaving C#.
+[![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-599%20passing-brightgreen)]()
 
-## Why
+> Turn magic strings and untyped `IJSRuntime` calls into compile-time-checked, IntelliSense-rich C# code — without writing a single line of JavaScript.
 
-Every C# developer working with browser APIs writes code like this:
+---
+
+## The Problem
+
+Every Blazor developer writes code like this:
 
 ```csharp
-await js.InvokeVoidAsync("setStyle", element, "background-color", "rgba(255, 0, 0, 0.5)");
-await js.InvokeVoidAsync("setStyle", element, "display", "flx"); // typo — silent failure
+// Untyped, fragile, no IntelliSense
+await js.InvokeVoidAsync("eval", "document.getElementById('hero').style.display = 'flx'");
+// "flx" is a typo — but it compiles and silently does nothing.
 ```
 
-BrowserApi makes it this:
+## The Solution
 
 ```csharp
-element.Style.BackgroundColor = Color.Rgba(255, 0, 0, 0.5f);
-element.Style.Display = Display.Flex; // enum — typo is a compile error
-element.Style.Gap = Length.Rem(1.5);
+// Typed, safe, full IntelliSense
+var hero = Document.QuerySelector<HtmlDivElement>("#hero")!;
+hero.Style.Display = Display.Flex;    // enum — typo is a compile error
+hero.Style.Gap = Length.Rem(1.5);     // strongly-typed CSS value
+hero.FadeIn(500);                     // Web Animations API
 ```
 
-The types are generated directly from the same [WebIDL specs and CSS data](https://github.com/w3c/webref) that browsers implement against.
+2,693 types generated directly from the same [WebIDL specs](https://github.com/w3c/webref) that browsers implement against. Every property, method, and event — typed.
+
+---
+
+## Quick Start
+
+```csharp
+@inherits BrowserApiComponentBase
+
+<h1>@_title</h1>
+
+@code {
+    private string _title = "Loading...";
+
+    protected override async Task OnBrowserApiReadyAsync() {
+        // DOM
+        _title = Document.Title;
+        var input = Document.QuerySelector<HtmlInputElement>("#email")!;
+
+        // Events — typed, disposable
+        input.OnInput(e => _title = input.Value);
+
+        // Fetch
+        var users = await Http.GetAsync<List<User>>("/api/users");
+
+        // Canvas
+        var ctx = Document.QuerySelector<HtmlCanvasElement>("canvas")!.GetContext2D();
+        ctx.SetFill(CssColor.Red).FillRect(0, 0, 200, 100);
+        ctx.Path().MoveTo(10, 10).LineTo(190, 90).Stroke();
+
+        // Storage
+        var storage = Window.TypedLocalStorage();
+        storage.Set("users", users);
+
+        // Animations
+        input.FadeIn(500);
+
+        StateHasChanged();
+    }
+}
+```
+
+**Setup** (two lines):
+
+```csharp
+// Program.cs
+builder.Services.AddBrowserApi();
+```
+
+```html
+<!-- index.html -->
+<script src="_content/BrowserApi.JSInterop/browserapi.js"></script>
+```
+
+---
 
 ## Packages
 
-| Package | Dependencies | Purpose |
-|---------|-------------|---------|
-| **BrowserApi** | None | Core types: CSS values, DOM interfaces, enums, records. Pure C# — no browser needed. |
-| **BrowserApi.JSInterop** | Microsoft.JSInterop | Bridges typed APIs to a live browser via `IJSRuntime`. |
-| **BrowserApi.Blazor** | ASP.NET Core Components | Blazor-specific: DI registration, component base classes, lifecycle hooks. |
-| **BrowserApi.Generator** | (CLI tool) | Reads WebIDL + CSS specs, emits C# source files. |
+| Package | Dependencies | What it does |
+|---------|:---:|---|
+| **BrowserApi** | None | 2,693 generated types: DOM, CSS, Canvas, Fetch, Storage, Events, Animations. Pure C#. |
+| **BrowserApi.JSInterop** | Microsoft.JSInterop | `IJSRuntime` bridge — connects types to a live browser. |
+| **BrowserApi.Blazor** | ASP.NET Components | `AddBrowserApi()` DI, `BrowserApiComponentBase`, lifecycle hooks. |
+| **BrowserApi.Runtime** | Jint | Server-side JS execution — test DOM interactions without a browser. |
 
-## Use Cases
+---
 
-### BrowserApi (core) — no browser, no framework
+## Features
 
-The core package has **zero dependencies**. It's a typed vocabulary for web concepts.
+### Typed DOM — no casts, no magic strings
 
-- **Server-side CSS generation** — build stylesheets in C# with compile-time safety
-- **Email templates** — type-safe inline styles (no more Outlook surprises from CSS typos)
-- **Design tokens** — define a design system in C#, export to CSS variables, Tailwind config, etc.
-- **Static site generators** — typed HTML/CSS output from C# build tools
-- **Test assertions** — assert that components produce correct CSS/HTML
-- **PDF styling** — reuse the same styling vocabulary across web and PDF output
+```csharp
+var input = Document.QuerySelector<HtmlInputElement>("#email")!;
+var div = Document.CreateElement<HtmlDivElement>();
+div.TextContent = "Created from C#";
+Document.QuerySelector<Element>("body")!.AppendChild(div);
+```
 
-### BrowserApi.JSInterop — anything with IJSRuntime
+### Typed Events — not `addEventListener("clck", ...)`
 
-Works with any framework that provides `IJSRuntime`:
+```csharp
+using var sub = button.OnClick(e => {
+    Console.WriteLine($"Clicked at ({e.ClientX}, {e.ClientY})");
+});
 
-- **Blazor Server** — SignalR-based interop
-- **Blazor WebAssembly** — in-process interop
-- **MAUI Blazor Hybrid** — mobile/desktop apps with web UI
-- **Custom hosts** — anything implementing `IJSRuntime` (Electron, WebView2, CEF)
+input.OnKeyDown(e => {
+    if (e.Key == "Enter") Submit();
+});
+```
 
-### BrowserApi.Blazor — Blazor integration
+### CSS Value Types — not `"1.5rem"` strings
 
-- `services.AddBrowserApi()` DI registration
-- Component base classes with typed DOM access
-- Lifecycle-aware browser API wrappers
+```csharp
+element.Style.Margin = Length.Rem(1.5);
+element.Style.Color = CssColor.Hsl(220, 90, 56);
+element.Style.Transform = Transform.Rotate(45.Deg()).Scale(1.2);
+element.Style.Transition = Transition.All(Duration.Ms(300), Easing.EaseInOut);
+```
+
+### Fluent Fetch — not `IJSRuntime.InvokeAsync("fetch", ...)`
+
+```csharp
+var user = await Http.GetAsync<User>("/api/users/42");
+
+var created = await Http.Post("/api/users")
+    .WithJsonBody(new { Name = "Alice" })
+    .WithHeader("Authorization", "Bearer token")
+    .SendJsonAsync<User>();
+
+// Non-throwing pattern
+var result = await Http.Get("/api/data").TrySendAsync<Data>();
+if (result.IsSuccess) Use(result.Value!);
+```
+
+### Canvas 2D — fluent paths, typed fills, save/restore scoping
+
+```csharp
+var ctx = canvas.GetContext2D();
+
+using (ctx.SaveState()) {
+    ctx.SetFill(CssColor.Rgb(255, 100, 0))
+       .SetShadow(CssColor.Black, blur: 10, offsetX: 3, offsetY: 3);
+
+    ctx.Path()
+       .MoveTo(50, 50).LineTo(200, 50).LineTo(125, 150)
+       .ClosePath().Fill();
+}
+
+var gradient = ctx.LinearGradient(0, 0, 300, 0)
+    .AddStop(0, CssColor.Red)
+    .AddStop(1, CssColor.Blue)
+    .Build();
+
+ctx.Font = CanvasFont.Of(24, "Inter").Bold();
+```
+
+### Web Animations — not `element.animate({...}, {...})`
+
+```csharp
+element.FadeIn(500);
+element.SlideIn(300, "right");
+
+element.Animate(
+    new KeyframeBuilder()
+        .AddFrame(new { transform = "rotate(0deg)" })
+        .AddFrame(new { transform = "rotate(360deg)" }),
+    new AnimationOptionsBuilder()
+        .Duration(1000)
+        .Easing(Easing.EaseInOutCubic)
+        .Iterations(double.PositiveInfinity));
+```
+
+### Performance — batching & bulk queries
+
+```csharp
+// Write: N operations → 1 interop call
+await JsBatch.RunAsync(batch => {
+    batch.SetProperty(el1, "textContent", "hello");
+    batch.SetProperty(el2, "className", "active");
+    batch.InvokeVoid(ctx, "fillRect", 0, 0, 100, 100);
+});
+
+// Read: fetch all data in 1 call → LINQ in C# → batch write back
+var texts = await document.QueryValuesAsync<string>("li", "textContent");
+var sorted = texts.Where(t => t.Length > 3).OrderBy(t => t).ToList();
+```
+
+### Server-Side Testing — no browser needed
+
+```csharp
+var engine = new BrowserEngine();  // Jint + virtual DOM
+
+engine.Execute(@"
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.style.display = 'flex';
+    document.body.appendChild(card);
+");
+
+var card = engine.VirtualDocument.QuerySelector(".card");
+Assert.Equal("flex", card!.Style["display"]);
+Assert.Contains("card", engine.VirtualDocument.Body.OuterHtml);
+```
+
+---
 
 ## Architecture
 
 ```
 Your C# code
-    |
-BrowserApi (pure types, zero deps)
-    |
-    +--- used directly for CSS/HTML generation, testing, design tokens
-    |
-BrowserApi.JSInterop (Microsoft.JSInterop)
-    |
-    +--- bridges types to live browser via IJSRuntime
-    |
-BrowserApi.Blazor (ASP.NET Core Components)
-    |
-    +--- Blazor DI, components, lifecycle
+    │
+    ▼
+┌─────────────────────────────────────────────┐
+│  BrowserApi  (zero dependencies)            │
+│  2,693 types: DOM, CSS, Canvas, Fetch, ...  │
+│  Generated from W3C WebIDL + CSS specs      │
+└───────────────┬─────────────┬───────────────┘
+                │             │
+    ┌───────────▼──┐   ┌──────▼────────────┐
+    │  JSInterop   │   │  Runtime (Jint)   │
+    │  Backend     │   │  Backend          │
+    │  (browser)   │   │  (virtual DOM)    │
+    └───────┬──────┘   └──────────────────┘
+            │
+    ┌───────▼──────┐
+    │  Blazor      │
+    │  Integration │
+    └──────────────┘
 ```
 
-The interop backend is deliberately separated from the types. Today it uses `IJSRuntime`. If WebAssembly ever gets direct browser API access via the [Component Model](https://component-model.bytecodealliance.org/), a native backend can be swapped in without changing consumer code.
+The `IBrowserBackend` abstraction separates types from transport. Today: `IJSRuntime` (Blazor) and Jint (server-side). Future: native WASM Component Model imports.
+
+---
 
 ## Code Generation
 
-Types are generated from official specs, not hand-written:
-
-- **WebIDL specs** from [w3c/webref](https://github.com/w3c/webref) (337 `.idl` files)
-- **CSS property data** from [w3c/webref](https://github.com/w3c/webref) (124 CSS JSON files)
-
-The generator (`BrowserApi.Generator`) reads these specs and emits C# files. Generated code is checked in, not generated at build time — this gives full IDE support and makes changes reviewable.
+Types are generated from official W3C/WHATWG specs — not hand-written:
 
 ```
-WebIDL specs + CSS data  -->  BrowserApi.Generator  -->  src/BrowserApi/Generated/
+337 WebIDL specs + 124 CSS data files
+          │
+    BrowserApi.Generator (CLI)
+          │
+    2,693 generated .g.cs files
 ```
+
+Generated code is checked in for full IDE support and reviewable diffs.
+
+**Hand-written ergonomic layers** (fluent builders, operators, factory methods) extend the generated `partial` types without modifying them.
+
+---
 
 ## Project Structure
 
 ```
 BrowserApi/
 ├── src/
-│   ├── BrowserApi/                 # Core types (zero dependencies)
-│   │   ├── Css/                    # CSS value types, properties, selectors
-│   │   ├── Dom/                    # DOM interfaces, elements, nodes
-│   │   ├── Canvas/                 # Canvas 2D context types
-│   │   ├── Fetch/                  # Fetch, Request, Response, Headers
-│   │   ├── Storage/                # localStorage, sessionStorage
-│   │   ├── Events/                 # Event types (Pointer, Keyboard, etc.)
-│   │   ├── Animations/             # Web Animations API types
-│   │   └── Common/                 # Shared primitives (unions, callbacks)
-│   ├── BrowserApi.JSInterop/       # IJSRuntime bridge
-│   ├── BrowserApi.Blazor/          # Blazor integration
+│   ├── BrowserApi/                 # Core types (zero deps)
+│   │   ├── Common/                 # JsObject, IBrowserBackend, JsBatch
+│   │   ├── Css/                    # Length, CssColor, Transform, Shadow, ...
+│   │   ├── Dom/                    # QuerySelector<T>, EventExtensions, ...
+│   │   ├── Canvas/                 # PathBuilder, GradientBuilder, CanvasFont
+│   │   ├── Fetch/                  # Http, RequestBuilder, FetchResult
+│   │   ├── Storage/                # TypedStorage, StorageExtensions
+│   │   ├── Events/                 # Key, Modifiers, typed event extensions
+│   │   ├── Animations/             # Easing, KeyframeBuilder, AnimateExtensions
+│   │   └── Generated/              # 2,693 auto-generated .g.cs files
+│   ├── BrowserApi.JSInterop/       # IJSRuntime backend + browserapi.js
+│   ├── BrowserApi.Blazor/          # DI + BrowserApiComponentBase
+│   ├── BrowserApi.Runtime/         # Jint + VirtualDom + BrowserEngine
 │   └── BrowserApi.Generator/       # WebIDL/CSS → C# code generator
-├── tests/
-│   ├── BrowserApi.Tests/           # Pure unit tests (TDD, no browser)
-│   ├── BrowserApi.Generator.Tests/ # Generator input→output tests
-│   └── BrowserApi.BrowserTests/    # Integration tests (headless browser)
-├── specs/                          # W3C/WHATWG spec files (input to generator)
-│   ├── idl/                        # WebIDL files (.idl)
-│   └── css/                        # CSS property data (.json)
-└── docs/plans/                     # Design documents and implementation plans
+├── tests/                          # 599 tests, no browser needed
+├── specs/                          # W3C/WHATWG spec files (generator input)
+└── docs/                           # docfx API documentation
 ```
 
-## Status
+---
 
-Early stage. The project structure, spec sources, and design plans are in place. No generated code yet.
+## Documentation
+
+Full API reference with examples: **[kasparorange.github.io/BrowserApi](https://kasparorange.github.io/BrowserApi/)**
+
+---
 
 ## License
 
-TBD
+[MIT](LICENSE)
