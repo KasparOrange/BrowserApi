@@ -3,6 +3,8 @@
     <PropertyGroup>
         <RootNamespace>BrowserApi.Runtime</RootNamespace>
         <Description>Server-side browser API runtime via Jint. Enables integration tests without a browser, SSR, and sandboxed user scripts.</Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

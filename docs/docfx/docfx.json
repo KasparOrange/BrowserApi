@@ -1,0 +1,50 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "src/BrowserApi/BrowserApi.csproj",
+            "src/BrowserApi.JSInterop/BrowserApi.JSInterop.csproj",
+            "src/BrowserApi.Blazor/BrowserApi.Blazor.csproj",
+            "src/BrowserApi.Runtime/BrowserApi.Runtime.csproj"
+          ],
+          "src": "../../"
+        }
+      ],
+      "dest": "api",
+      "filter": "filterConfig.yml"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": ["api/**.yml", "api/index.md"]
+      },
+      {
+        "files": ["articles/**.md", "articles/**/toc.yml", "toc.yml", "*.md"]
+      }
+    ],
+    "resource": [
+      {
+        "files": ["images/**"]
+      }
+    ],
+    "output": "_site",
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "template": ["default", "modern"],
+    "globalMetadata": {
+      "_appTitle": "BrowserApi",
+      "_appFooter": "BrowserApi — Typed C# wrappers for every browser API",
+      "_enableSearch": true,
+      "_disableContribution": false,
+      "_gitContribute": {
+        "repo": "https://github.com/nickonometry/BrowserApi",
+        "branch": "main"
+      }
+    },
+    "postProcessors": [],
+    "noLangKeyword": false
+  }
+}

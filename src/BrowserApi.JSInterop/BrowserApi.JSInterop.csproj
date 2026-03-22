@@ -3,6 +3,8 @@
     <PropertyGroup>
         <RootNamespace>BrowserApi.JSInterop</RootNamespace>
         <Description>JavaScript interop backend for BrowserApi. Bridges typed browser API wrappers to a live browser via Microsoft.JSInterop.</Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

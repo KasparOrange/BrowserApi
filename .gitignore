@@ -43,3 +43,7 @@ TestResults/
 
 ## Build
 artifacts/
+
+# docfx output
+docs/docfx/_site/
+docs/docfx/api/

@@ -3,6 +3,8 @@
     <PropertyGroup>
         <RootNamespace>BrowserApi</RootNamespace>
         <Description>Typed C# wrappers for browser APIs. Zero dependencies — pure types, CSS values, DOM interfaces, and enums generated from W3C WebIDL specs.</Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CS1591;CS1574;CS1580;CS1584;CS0419</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

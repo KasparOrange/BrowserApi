@@ -1,0 +1,10 @@
+apiRules:
+  - exclude:
+      uidRegex: ^BrowserApi\.Generator
+      type: Namespace
+  - exclude:
+      uidRegex: \.Internal
+      type: Namespace
+  - include:
+      uidRegex: ^BrowserApi
+      type: Namespace
