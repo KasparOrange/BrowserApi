@@ -198,6 +198,22 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 
 ---
 
+## Last Mile: DOM Ergonomics
+
+### Session 7.1 — Zero-JS developer experience
+- [x] `QuerySelector<T>()` on Document and Element — typed element returns via ConvertFromJs<T>
+- [x] `CreateElement<T>()` on Document — derives tag name from JsName attribute (HTMLInputElement → input)
+- [x] `GetContext2D()`, `GetContextWebGL()`, `GetContextWebGL2()` on HtmlCanvasElement — typed canvas contexts
+- [x] Typed event handlers: `OnClick(Action<MouseEvent>)`, `OnKeyDown(Action<KeyboardEvent>)`, `OnPointerDown`, `OnFocus`, `OnInput`, etc.
+- [x] Generic `On<TEvent>(string, Action<TEvent>)` for any event type
+- [x] `EventSubscription` — IDisposable for automatic listener cleanup
+- [x] `Window.Console` property for `window.console` access
+- [x] Tests: 19 new DOM ergonomics tests
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 543 passing (126 generator + 417 core)
+
+---
+
 ## Status Key
 
 - `[ ]` — Not started
