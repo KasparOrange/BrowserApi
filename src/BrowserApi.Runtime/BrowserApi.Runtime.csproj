@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>BrowserApi.Runtime</RootNamespace>
+        <Description>Server-side browser API runtime via Jint. Enables integration tests without a browser, SSR, and sandboxed user scripts.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../BrowserApi/BrowserApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Jint" Version="4.*" />
+    </ItemGroup>
+
+</Project>

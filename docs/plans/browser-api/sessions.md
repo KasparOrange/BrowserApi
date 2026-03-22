@@ -228,6 +228,24 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 
 ---
 
+## Phase 7: Server-Side Runtime
+
+### Session 7.3 — Jint-based BrowserEngine
+- [x] `BrowserApi.Runtime` project with Jint dependency (no JSInterop/Blazor dependency)
+- [x] Virtual DOM: VirtualNode, VirtualElement, VirtualDocument, VirtualTextNode, VirtualStyle, VirtualConsole
+- [x] `IVirtualNode` interface for uniform property dispatch (GetJsProperty/SetJsProperty/InvokeJsMethod)
+- [x] `SimpleSelector` — CSS selector matching (tag, #id, .class, compound selectors)
+- [x] `JintBackend : IBrowserBackend` — dispatches to VirtualDom objects
+- [x] `JintHostObjects` — camelCase C# wrapper classes exposed to Jint (JsDocumentProxy, JsElementProxy, JsStyleProxy, JsConsoleProxy)
+- [x] `BrowserEngine` — public API: Execute(script), Evaluate<T>(expr), VirtualDocument, VirtualConsole
+- [x] HTML serialization: InnerHtml, OuterHtml on VirtualElement
+- [x] JS ↔ C# bidirectional DOM: JS creates elements, C# reads same tree
+- [x] Tests: 35 Runtime tests (VirtualDom, BrowserEngine integration, nested elements, querySelector from JS, console capture)
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 599 passing (126 generator + 438 core + 35 runtime)
+
+---
+
 ## Status Key
 
 - `[ ]` — Not started

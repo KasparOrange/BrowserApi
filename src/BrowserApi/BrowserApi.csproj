@@ -8,6 +8,7 @@
     <ItemGroup>
         <InternalsVisibleTo Include="BrowserApi.JSInterop" />
         <InternalsVisibleTo Include="BrowserApi.Blazor" />
+        <InternalsVisibleTo Include="BrowserApi.Runtime" />
         <InternalsVisibleTo Include="BrowserApi.Tests" />
     </ItemGroup>
 
