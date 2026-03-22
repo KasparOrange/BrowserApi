@@ -101,8 +101,65 @@ public class TypedStorageTests : IDisposable {
         Assert.Equal(3, _storage.Count);
     }
 
+    [Fact]
+    public void Keys_enumerates_all_keys_via_Key_index() {
+        _mock.PropertyValues["length"] = (uint)3;
+
+        // The Storage.Key(index) method calls Invoke("key", index) on the backend.
+        // We need to return different keys for each call. Since MockBrowserBackend
+        // returns the same InvokeReturnValue each time, we test the iteration pattern.
+        _mock.InvokeReturnValue = "key0";
+
+        var keys = _storage.Keys.ToList();
+
+        // Verify that Key(index) was called for each index
+        var keyCalls = _mock.Calls.Where(c => c.Name == "key").ToList();
+        Assert.Equal(3, keyCalls.Count);
+        Assert.Equal(3, keys.Count);
+    }
+
+    [Fact]
+    public void Keys_skips_null_keys() {
+        _mock.PropertyValues["length"] = (uint)2;
+        _mock.InvokeReturnValue = null;
+
+        var keys = _storage.Keys.ToList();
+
+        Assert.Empty(keys);
+    }
+
+    [Fact]
+    public void Set_then_Get_roundtrip_with_complex_object() {
+        var settings = new TestSettings {
+            Theme = "dark",
+            FontSize = 14,
+            Tags = ["c#", "blazor"]
+        };
+
+        _storage.Set("settings", settings);
+
+        // Get the JSON that was stored in the SetItem call
+        var setCall = _mock.Calls.First(c => c.Name == "setItem");
+        var storedJson = (string)setCall.Args[1]!;
+
+        // Set up the mock to return that same JSON for the Get call
+        _mock.InvokeReturnValue = storedJson;
+        var restored = _storage.Get<TestSettings>("settings");
+
+        Assert.NotNull(restored);
+        Assert.Equal("dark", restored!.Theme);
+        Assert.Equal(14, restored.FontSize);
+        Assert.Equal(new[] { "c#", "blazor" }, restored.Tags);
+    }
+
     private record TestUser {
         public string Name { get; init; } = "";
         public int Age { get; init; }
+    }
+
+    private record TestSettings {
+        public string Theme { get; init; } = "";
+        public int FontSize { get; init; }
+        public string[] Tags { get; init; } = [];
     }
 }

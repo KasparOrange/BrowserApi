@@ -44,4 +44,29 @@ public class StorageExtensionsTests : IDisposable {
 
         Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "storage");
     }
+
+    [Fact]
+    public void OnStorageChanged_callback_receives_event_args() {
+        StorageChangedEventArgs? receivedArgs = null;
+
+        _window.OnStorageChanged(args => { receivedArgs = args; });
+
+        // Extract the callback registered with AddEventListener and invoke it
+        var addCall = _mock.Calls.First(c => c.Method == "AddEventListener" && c.Name == "storage");
+        var callback = (Action<JsHandle>)addCall.Args[0]!;
+
+        // Simulate the StorageEvent properties the callback will read
+        _mock.PropertyValues["key"] = "theme";
+        _mock.PropertyValues["oldValue"] = "light";
+        _mock.PropertyValues["newValue"] = "dark";
+        _mock.PropertyValues["url"] = "https://example.com";
+
+        callback(new JsHandle(new object()));
+
+        Assert.NotNull(receivedArgs);
+        Assert.Equal("theme", receivedArgs!.Key);
+        Assert.Equal("light", receivedArgs.OldValue);
+        Assert.Equal("dark", receivedArgs.NewValue);
+        Assert.Equal("https://example.com", receivedArgs.Url);
+    }
 }

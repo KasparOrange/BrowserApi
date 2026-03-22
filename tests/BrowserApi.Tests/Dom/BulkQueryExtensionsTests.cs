@@ -108,4 +108,98 @@ public class BulkQueryExtensionsTests : IDisposable {
         // Step 3: Batch write (1 interop call) — verified separately in JsBatchTests
         // Total: 2 interop calls instead of 3 reads + 3 writes = 6
     }
+
+    // ── QueryPropertiesAsync ───────────────────────────────────────────
+
+    [Fact]
+    public async Task QueryPropertiesAsync_on_Document_returns_dictionaries() {
+        var dict1 = (IDictionary<string, object?>)new Dictionary<string, object?> {
+            ["id"] = "row1",
+            ["className"] = "active"
+        };
+        var dict2 = (IDictionary<string, object?>)new Dictionary<string, object?> {
+            ["id"] = "row2",
+            ["className"] = "inactive"
+        };
+        _mock.InvokeAsyncReturnValue = new object?[] { dict1, dict2 };
+
+        var result = await _document.QueryPropertiesAsync("tr", "id", "className");
+
+        Assert.Equal(2, result.Length);
+        Assert.Equal("row1", result[0]["id"]);
+        Assert.Equal("active", result[0]["className"]);
+        Assert.Equal("row2", result[1]["id"]);
+        Assert.Equal("inactive", result[1]["className"]);
+        Assert.Contains(_mock.Calls, c => c.Name == "queryProperties");
+    }
+
+    [Fact]
+    public async Task QueryPropertiesAsync_on_Element_returns_dictionaries() {
+        var dict1 = (IDictionary<string, object?>)new Dictionary<string, object?> {
+            ["textContent"] = "Hello"
+        };
+        _mock.InvokeAsyncReturnValue = new object?[] { dict1 };
+
+        var result = await _element.QueryPropertiesAsync("span", "textContent");
+
+        Assert.Single(result);
+        Assert.Equal("Hello", result[0]["textContent"]);
+        Assert.Contains(_mock.Calls, c => c.Name == "queryProperties");
+    }
+
+    [Fact]
+    public async Task QueryPropertiesAsync_returns_empty_for_null() {
+        _mock.InvokeAsyncReturnValue = null;
+
+        var result = await _document.QueryPropertiesAsync("tr", "id");
+
+        Assert.Empty(result);
+    }
+
+    // ── QueryElementsAsync on Element ──────────────────────────────────
+
+    [Fact]
+    public async Task QueryElementsAsync_on_Element_returns_elements_with_handles() {
+        var handle1 = new object();
+        var handle2 = new object();
+        _mock.InvokeAsyncReturnValue = new object?[] { handle1, handle2 };
+
+        var result = await _element.QueryElementsAsync("li");
+
+        Assert.Equal(2, result.Length);
+        Assert.All(result, el => Assert.IsType<Element>(el));
+        Assert.All(result, el => Assert.False(el.Handle.IsEmpty));
+        Assert.Contains(_mock.Calls, c => c.Name == "queryElements");
+    }
+
+    [Fact]
+    public async Task QueryElementsAsync_on_Element_returns_empty_for_no_matches() {
+        _mock.InvokeAsyncReturnValue = null;
+
+        var result = await _element.QueryElementsAsync(".nonexistent");
+
+        Assert.Empty(result);
+    }
+
+    // ── QueryValuesAsync on Element ────────────────────────────────────
+
+    [Fact]
+    public async Task QueryValuesAsync_on_Element_returns_typed_values() {
+        _mock.InvokeAsyncReturnValue = new object?[] { "text1", "text2" };
+
+        var result = await _element.QueryValuesAsync<string>(".child", "textContent");
+
+        Assert.Equal(2, result.Length);
+        Assert.Equal("text1", result[0]);
+        Assert.Equal("text2", result[1]);
+    }
+
+    [Fact]
+    public async Task QueryValuesAsync_on_Element_returns_empty_for_null() {
+        _mock.InvokeAsyncReturnValue = null;
+
+        var result = await _element.QueryValuesAsync<string>(".child", "textContent");
+
+        Assert.Empty(result);
+    }
 }

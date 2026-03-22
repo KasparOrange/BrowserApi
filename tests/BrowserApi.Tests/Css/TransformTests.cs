@@ -114,4 +114,81 @@ public class TransformTests {
     public void Default_struct_ToCss_returns_null() {
         Assert.Null(default(Transform).ToCss());
     }
+
+    // ── Chaining convenience methods ───────────────────────────────────
+
+    [Fact]
+    public void ThenTranslate_appends_translate() {
+        var result = Transform.Rotate(Angle.Deg(45))
+            .ThenTranslate(Length.Px(10), Length.Px(20));
+        Assert.Equal("rotate(45deg) translate(10px, 20px)", result.ToCss());
+    }
+
+    [Fact]
+    public void ThenScale_xy_appends_scale_with_two_args() {
+        var result = Transform.Rotate(Angle.Deg(45))
+            .ThenScale(1.5, 2);
+        Assert.Equal("rotate(45deg) scale(1.5, 2)", result.ToCss());
+    }
+
+    [Fact]
+    public void ThenSkewX_appends_skewX() {
+        var result = Transform.Scale(2)
+            .ThenSkewX(Angle.Deg(15));
+        Assert.Equal("scale(2) skewX(15deg)", result.ToCss());
+    }
+
+    [Fact]
+    public void ThenSkewY_appends_skewY() {
+        var result = Transform.Scale(2)
+            .ThenSkewY(Angle.Deg(30));
+        Assert.Equal("scale(2) skewY(30deg)", result.ToCss());
+    }
+
+    [Fact]
+    public void Full_chain_translate_rotate_scale() {
+        var result = Transform.Translate(Length.Px(50), Length.Px(100))
+            .ThenRotate(Angle.Deg(90))
+            .ThenScale(0.5);
+        Assert.Equal("translate(50px, 100px) rotate(90deg) scale(0.5)", result.ToCss());
+    }
+
+    // ── Equality detailed ──────────────────────────────────────────────
+
+    [Fact]
+    public void Equals_object_returns_true_for_same_value() {
+        var a = Transform.Rotate(Angle.Deg(45));
+        object b = Transform.Rotate(Angle.Deg(45));
+        Assert.True(a.Equals(b));
+    }
+
+    [Fact]
+    public void Equals_object_returns_false_for_different_type() {
+        var a = Transform.Rotate(Angle.Deg(45));
+        Assert.False(a.Equals("rotate(45deg)"));
+    }
+
+    [Fact]
+    public void GetHashCode_equal_for_same_values() {
+        var a = Transform.Rotate(Angle.Deg(45));
+        var b = Transform.Rotate(Angle.Deg(45));
+        Assert.Equal(a.GetHashCode(), b.GetHashCode());
+    }
+
+    [Fact]
+    public void Operators_eq_and_neq() {
+        var a = Transform.Scale(2);
+        var b = Transform.Scale(2);
+        var c = Transform.Scale(3);
+        Assert.True(a == b);
+        Assert.False(a != b);
+        Assert.True(a != c);
+        Assert.False(a == c);
+    }
+
+    [Fact]
+    public void Matrix_with_decimal_values() {
+        Assert.Equal("matrix(1, 0.5, -0.5, 1, 10, 20)",
+            Transform.Matrix(1, 0.5, -0.5, 1, 10, 20).ToCss());
+    }
 }

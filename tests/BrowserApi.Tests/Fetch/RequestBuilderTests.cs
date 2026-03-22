@@ -94,4 +94,56 @@ public class RequestBuilderTests : IDisposable {
         );
         Assert.Same(builder, result);
     }
+
+    [Fact]
+    public void WithSignal_returns_same_builder_for_chaining() {
+        var builder = Http.Get("https://example.com");
+        var signal = new BrowserApi.Dom.AbortSignal { Handle = new JsHandle(new object()) };
+        var result = builder.WithSignal(signal);
+        Assert.Same(builder, result);
+    }
+
+    [Fact]
+    public async Task SendAsync_calls_fetch_on_window() {
+        var builder = Http.Post("https://example.com/api")
+            .WithBody("test body");
+
+        // The mock will return a handle for GetGlobal("window") and
+        // a handle for InvokeAsync("fetch", ...) which represents the Response
+        _mock.InvokeAsyncReturnValue = new JsHandle(new object());
+
+        var response = await builder.SendAsync();
+
+        Assert.NotNull(response);
+        Assert.Contains(_mock.Calls, c => c.Method == "GetGlobal" && c.Name == "window");
+        Assert.Contains(_mock.Calls, c => c.Method == "InvokeAsync" && c.Name == "fetch");
+    }
+
+    [Fact]
+    public async Task SendAsync_GET_with_no_options_passes_null_init() {
+        var builder = Http.Get("https://example.com");
+
+        _mock.InvokeAsyncReturnValue = new JsHandle(new object());
+
+        await builder.SendAsync();
+
+        var fetchCall = _mock.Calls.First(c => c.Method == "InvokeAsync" && c.Name == "fetch");
+        // For a simple GET with no headers/body/options, init should be null
+        Assert.Equal("https://example.com", fetchCall.Args[0]);
+        Assert.Null(fetchCall.Args[1]);
+    }
+
+    [Fact]
+    public async Task SendAsync_POST_passes_method_in_init() {
+        var builder = Http.Post("https://example.com/api");
+
+        _mock.InvokeAsyncReturnValue = new JsHandle(new object());
+
+        await builder.SendAsync();
+
+        var fetchCall = _mock.Calls.First(c => c.Method == "InvokeAsync" && c.Name == "fetch");
+        Assert.Equal("https://example.com/api", fetchCall.Args[0]);
+        // init should not be null for POST
+        Assert.NotNull(fetchCall.Args[1]);
+    }
 }

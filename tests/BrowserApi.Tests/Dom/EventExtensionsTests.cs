@@ -94,4 +94,105 @@ public class EventExtensionsTests : IDisposable {
 
         Assert.Single(_mock.Calls, c => c.Method == "RemoveEventListener");
     }
+
+    // ── Mouse events ────────────────────────────────────────────────────
+
+    [Fact]
+    public void OnMouseDown_registers_mousedown_listener() {
+        _element.OnMouseDown(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "mousedown");
+    }
+
+    [Fact]
+    public void OnMouseUp_registers_mouseup_listener() {
+        _element.OnMouseUp(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "mouseup");
+    }
+
+    [Fact]
+    public void OnMouseMove_registers_mousemove_listener() {
+        _element.OnMouseMove(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "mousemove");
+    }
+
+    [Fact]
+    public void OnMouseEnter_registers_mouseenter_listener() {
+        _element.OnMouseEnter(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "mouseenter");
+    }
+
+    [Fact]
+    public void OnMouseLeave_registers_mouseleave_listener() {
+        _element.OnMouseLeave(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "mouseleave");
+    }
+
+    // ── Keyboard events ─────────────────────────────────────────────────
+
+    [Fact]
+    public void OnKeyUp_registers_keyup_listener() {
+        _element.OnKeyUp(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "keyup");
+    }
+
+    // ── Pointer events ──────────────────────────────────────────────────
+
+    [Fact]
+    public void OnPointerUp_registers_pointerup_listener() {
+        _element.OnPointerUp(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "pointerup");
+    }
+
+    [Fact]
+    public void OnPointerMove_registers_pointermove_listener() {
+        _element.OnPointerMove(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "pointermove");
+    }
+
+    [Fact]
+    public void OnPointerEnter_registers_pointerenter_listener() {
+        _element.OnPointerEnter(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "pointerenter");
+    }
+
+    [Fact]
+    public void OnPointerLeave_registers_pointerleave_listener() {
+        _element.OnPointerLeave(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "pointerleave");
+    }
+
+    // ── Focus events ────────────────────────────────────────────────────
+
+    [Fact]
+    public void OnBlur_registers_blur_listener() {
+        _element.OnBlur(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "blur");
+    }
+
+    // ── Form events ─────────────────────────────────────────────────────
+
+    [Fact]
+    public void OnChange_registers_change_listener() {
+        _element.OnChange(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "change");
+    }
+
+    [Fact]
+    public void OnSubmit_registers_submit_listener() {
+        _element.OnSubmit(_ => { });
+
+        Assert.Contains(_mock.Calls, c => c.Method == "AddEventListener" && c.Name == "submit");
+    }
 }

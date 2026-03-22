@@ -82,4 +82,74 @@ public class CanvasExtensionsTests : IDisposable {
         Assert.NotNull(builder);
         Assert.Contains(_mock.Calls, c => c.Method == "InvokeVoid" && c.Name == "beginPath");
     }
+
+    // ── SetFill with gradient/pattern ──────────────────────────────────
+
+    [Fact]
+    public void SetFill_with_CanvasGradient_sets_fillStyle() {
+        var gradient = new CanvasGradient { Handle = new JsHandle(new object()) };
+
+        var result = _ctx.SetFill(gradient);
+
+        Assert.Same(_ctx, result);
+        Assert.Contains(_mock.Calls, c => c.Method == "SetProperty" && c.Name == "fillStyle");
+    }
+
+    [Fact]
+    public void SetFill_with_CanvasPattern_sets_fillStyle() {
+        var pattern = new CanvasPattern { Handle = new JsHandle(new object()) };
+
+        var result = _ctx.SetFill(pattern);
+
+        Assert.Same(_ctx, result);
+        Assert.Contains(_mock.Calls, c => c.Method == "SetProperty" && c.Name == "fillStyle");
+    }
+
+    // ── SetStroke with gradient/pattern ─────────────────────────────────
+
+    [Fact]
+    public void SetStroke_with_CanvasGradient_sets_strokeStyle() {
+        var gradient = new CanvasGradient { Handle = new JsHandle(new object()) };
+
+        var result = _ctx.SetStroke(gradient);
+
+        Assert.Same(_ctx, result);
+        Assert.Contains(_mock.Calls, c => c.Method == "SetProperty" && c.Name == "strokeStyle");
+    }
+
+    [Fact]
+    public void SetStroke_with_CanvasPattern_sets_strokeStyle() {
+        var pattern = new CanvasPattern { Handle = new JsHandle(new object()) };
+
+        var result = _ctx.SetStroke(pattern);
+
+        Assert.Same(_ctx, result);
+        Assert.Contains(_mock.Calls, c => c.Method == "SetProperty" && c.Name == "strokeStyle");
+    }
+
+    // ── Gradient builder entry points ──────────────────────────────────
+
+    [Fact]
+    public void LinearGradient_calls_createLinearGradient_and_returns_builder() {
+        var builder = _ctx.LinearGradient(0, 0, 200, 0);
+
+        Assert.NotNull(builder);
+        Assert.Contains(_mock.Calls, c => c.Method == "Invoke" && c.Name == "createLinearGradient");
+    }
+
+    [Fact]
+    public void RadialGradient_calls_createRadialGradient_and_returns_builder() {
+        var builder = _ctx.RadialGradient(100, 100, 0, 100, 100, 80);
+
+        Assert.NotNull(builder);
+        Assert.Contains(_mock.Calls, c => c.Method == "Invoke" && c.Name == "createRadialGradient");
+    }
+
+    [Fact]
+    public void ConicGradient_calls_createConicGradient_and_returns_builder() {
+        var builder = _ctx.ConicGradient(0, 100, 100);
+
+        Assert.NotNull(builder);
+        Assert.Contains(_mock.Calls, c => c.Method == "Invoke" && c.Name == "createConicGradient");
+    }
 }

@@ -2,9 +2,14 @@
 
 **Typed C# wrappers for every browser API — generated from W3C/WHATWG specs.**
 
+[![CI](https://github.com/KasparOrange/BrowserApi/actions/workflows/ci.yml/badge.svg)](https://github.com/KasparOrange/BrowserApi/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/KasparOrange/BrowserApi/graph/badge.svg)](https://codecov.io/gh/KasparOrange/BrowserApi)
 [![.NET 10](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-599%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-922%20passing-brightgreen)]()
+[![GitHub stars](https://img.shields.io/github/stars/KasparOrange/BrowserApi?style=flat&logo=github)](https://github.com/KasparOrange/BrowserApi/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/KasparOrange/BrowserApi)](https://github.com/KasparOrange/BrowserApi/commits/main)
+[![API Docs](https://img.shields.io/badge/docs-kasparorange.github.io-blue?logo=github)](https://kasparorange.github.io/BrowserApi/)
 
 > Turn magic strings and untyped `IJSRuntime` calls into compile-time-checked, IntelliSense-rich C# code — without writing a single line of JavaScript.
 
