@@ -1,2 +1,16 @@
 - name: Getting Started
   href: getting-started.md
+- name: Architecture Overview
+  href: architecture.md
+- name: Performance Guide
+  href: performance.md
+- name: CSS Type System
+  href: css-types.md
+- name: Canvas 2D Cookbook
+  href: canvas-cookbook.md
+- name: Event Handling Patterns
+  href: event-handling.md
+- name: Migration from IJSRuntime
+  href: migration.md
+- name: Testing with BrowserEngine
+  href: testing.md
