@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
+        <PackageId>BrowserApi.Blazor</PackageId>
+        <Version>0.1.0</Version>
         <RootNamespace>BrowserApi.Blazor</RootNamespace>
-        <Description>Blazor integration for BrowserApi. DI registration, component base classes, and lifecycle hooks.</Description>
+        <Description>Blazor integration for BrowserApi. AddBrowserApi() DI registration, BrowserApiComponentBase with typed Window/Document access, and lifecycle hooks.</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>

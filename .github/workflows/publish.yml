@@ -1,0 +1,51 @@
+name: Publish NuGet Packages
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version (e.g., 0.1.0)'
+        required: true
+        default: '0.1.0'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "version=${{ github.event.release.tag_name }}" | sed 's/^v//' >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test --no-build --configuration Release
+
+      - name: Pack
+        run: |
+          dotnet pack src/BrowserApi/BrowserApi.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
+          dotnet pack src/BrowserApi.JSInterop/BrowserApi.JSInterop.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
+          dotnet pack src/BrowserApi.Blazor/BrowserApi.Blazor.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
+          dotnet pack src/BrowserApi.Runtime/BrowserApi.Runtime.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
+          dotnet pack src/BrowserApi.SourceGen/BrowserApi.SourceGen.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
+
+      - name: Push to NuGet
+        run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

@@ -6,7 +6,14 @@
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IsRoslynComponent>true</IsRoslynComponent>
         <RootNamespace>BrowserApi.SourceGen</RootNamespace>
-        <Description>Roslyn source generator that creates typed C# wrappers from JavaScript modules with JSDoc comments.</Description>
+        <PackageId>BrowserApi.SourceGen</PackageId>
+        <Version>0.1.0</Version>
+        <Description>Roslyn source generator that reads JS modules with JSDoc comments and emits typed async C# wrapper methods. Zero runtime overhead — generates the same IJSRuntime.InvokeAsync calls you'd write by hand.</Description>
+
+        <!-- Source generator NuGet packaging -->
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,6 +23,11 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.*" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.*" PrivateAssets="all" />
+    </ItemGroup>
+
+    <!-- Pack the generator DLL into the analyzers folder -->
+    <ItemGroup>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
 </Project>

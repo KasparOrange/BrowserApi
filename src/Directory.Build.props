@@ -1,0 +1,25 @@
+<Project>
+
+    <PropertyGroup>
+        <TargetFramework Condition="'$(TargetFramework)' == ''">net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <!-- NuGet package metadata (shared across all src/ projects) -->
+        <Authors>Konrad Entner</Authors>
+        <Company>Konrad Entner</Company>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/KasparOrange/BrowserApi</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/KasparOrange/BrowserApi</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Copyright>Copyright (c) 2026 Konrad Entner</Copyright>
+        <PackageTags>blazor;browser;dom;css;canvas;fetch;webapi;jsinterop;source-generator</PackageTags>
+    </PropertyGroup>
+
+    <!-- Include repo README as package readme (fallback) -->
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)../README.md" Pack="true" PackagePath="/" Condition="Exists('$(MSBuildThisFileDirectory)../README.md')" />
+    </ItemGroup>
+
+</Project>
