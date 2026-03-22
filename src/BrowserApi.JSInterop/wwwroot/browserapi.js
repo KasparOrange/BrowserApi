@@ -51,6 +51,17 @@
                 entry.obj.removeEventListener(entry.eventName, entry.handler);
                 listeners.delete(id);
             }
+        },
+
+        batch(targets, commands) {
+            for (const cmd of commands) {
+                const t = targets[cmd.t];
+                if (cmd.o === 0) {
+                    t[cmd.n] = cmd.v;
+                } else {
+                    t[cmd.n](...(cmd.a || []));
+                }
+            }
         }
     };
 })();

@@ -212,6 +212,16 @@ Each session is scoped to fit within a single Claude Code context window. Sessio
 - [x] Build: 0 warnings, 0 errors
 - [x] Tests: 543 passing (126 generator + 417 core)
 
+### Session 7.2 — Interop batching layer
+- [x] `JsBatch` — multi-target command recorder, queues SetProperty/InvokeVoid commands
+- [x] `JsBatchScope` — single-target convenience with `Set()`/`Call()` chaining
+- [x] `BatchAsync` extension on JsObject — `element.BatchAsync(b => { b.Set(...); })`
+- [x] `JsBatch.RunAsync` static convenience for multi-target batches
+- [x] `browserApi.batch(targets, commands)` JS executor — iterates command array in one call
+- [x] Tests: 11 new batching tests (queuing, single call, multi-target, chaining, ConvertToJs)
+- [x] Build: 0 warnings, 0 errors
+- [x] Tests: 554 passing (126 generator + 428 core)
+
 ---
 
 ## Status Key
