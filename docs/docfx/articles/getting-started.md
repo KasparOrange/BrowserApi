@@ -1,5 +1,18 @@
 # Getting Started
 
+## Performance: What You Need to Know First
+
+Every BrowserApi call (property access, method invocation) is a JavaScript interop call. Each call has overhead:
+
+- **Blazor WASM**: JSON serialization + WASM↔JS boundary crossing. Synchronous calls via `IJSInProcessRuntime` are [~4x faster than async](https://www.meziantou.net/optimizing-js-interop-in-a-blazor-webassembly-application.htm), and BrowserApi uses sync calls by default in WASM.
+- **Blazor Server**: Same overhead **plus a network roundtrip over SignalR** for every call. Latency depends on connection quality (typically 10–100ms per call).
+
+**This is fine for:** event handlers, user interactions, reading a few properties, occasional DOM updates.
+
+**This is NOT fine for:** tight loops setting 100 properties, animation frames, real-time rendering.
+
+**For bulk operations**, BrowserApi provides [`JsBatch`](performance.md) (N writes → 1 call) and [`QueryValuesAsync`](performance.md) (N reads → 1 call). See the [Performance Guide](performance.md) for patterns that reduce interop to 2 calls regardless of data size.
+
 ## Installation
 
 Add the BrowserApi packages to your Blazor WebAssembly project:

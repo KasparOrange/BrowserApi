@@ -16,6 +16,23 @@
 
 > Turn magic strings and untyped `IJSRuntime` calls into compile-time-checked, IntelliSense-rich C# code — without writing a single line of JavaScript.
 
+> [!IMPORTANT]
+> **Performance: understand the interop cost before using this library.**
+>
+> Every property access and method call on a BrowserApi type is a JavaScript interop call under the hood. Each call has overhead from JSON serialization and the WASM/JS boundary crossing. In **Blazor Server**, each call is also a **network roundtrip over SignalR** — meaning latency depends on your connection (typically 10–100ms per call).
+>
+> **What this means in practice:**
+> - Setting 10 element properties = 10 interop calls. This is fine for occasional DOM updates, but not for tight loops or animation frames.
+> - Synchronous calls (`IJSInProcessRuntime`) are [~4x faster than async calls](https://www.meziantou.net/optimizing-js-interop-in-a-blazor-webassembly-application.htm) in WASM, but unavailable on Server.
+> - Microsoft's [official guidance](https://learn.microsoft.com/en-us/aspnet/core/blazor/performance/javascript-interoperability): *"Avoid excessively fine-grained calls"* and *"roll individual JS interop calls into a single call."*
+>
+> **BrowserApi provides two solutions for high-performance scenarios:**
+> 1. **[`JsBatch`](https://kasparorange.github.io/BrowserApi/articles/performance.html)** — batches N void operations (property sets, method calls) into a single interop call.
+> 2. **[`QueryValuesAsync` / `QueryElementsAsync`](https://kasparorange.github.io/BrowserApi/articles/performance.html)** — bulk-reads DOM data in one call, then use LINQ in pure C# (zero interop), then write back with `JsBatch` (one call). Total: 2 interop calls instead of N+N.
+> 3. **[`BrowserApi.SourceGen`](https://kasparorange.github.io/BrowserApi/articles/architecture.html)** — Roslyn source generator that wraps your JS modules as typed C# methods. Same `InvokeAsync` cost as hand-written interop, but with compile-time safety and IntelliSense.
+>
+> **Bottom line:** Use the typed API freely for event handlers, user interactions, and occasional DOM reads/writes. For bulk operations, use batching. For performance-critical rendering (Canvas animations, real-time updates), consider keeping that logic in a JS module and calling it via `BrowserApi.SourceGen`.
+
 ---
 
 ## The Problem
