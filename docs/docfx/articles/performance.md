@@ -1,6 +1,11 @@
 # Performance Guide
 
-Every BrowserApi property access and method call crosses the .NET-to-JavaScript interop boundary. In Blazor WebAssembly, each crossing costs roughly 1-5 microseconds. In Blazor Server, each crossing is a SignalR round-trip -- milliseconds or more. This guide covers the batching and bulk-query APIs that let you collapse many individual calls into one.
+Every BrowserApi property access and method call crosses the .NET-to-JavaScript interop boundary. In Blazor WebAssembly, each crossing has overhead from JSON serialization and the WASM/JS boundary. Synchronous calls (`IJSInProcessRuntime`) are [~4x faster than async calls](https://www.meziantou.net/optimizing-js-interop-in-a-blazor-webassembly-application.htm). In Blazor Server, each crossing is a SignalR network round-trip — typically 10–100ms depending on connection quality. Microsoft's [official guidance](https://learn.microsoft.com/en-us/aspnet/core/blazor/performance/javascript-interoperability): *"Avoid excessively fine-grained calls."*
+
+This guide covers the batching and bulk-query APIs that collapse many individual calls into one.
+
+> [!NOTE]
+> **The typed API vs. the batch API is a trade-off.** The typed API (`element.TextContent = "hello"`) gives you full IntelliSense and compile-time safety, but makes one interop call per operation. The batch API (`b.Set("textContent", "hello")`) uses string-based property names (no compile-time checking), but sends all operations in a single interop call. Use the typed API for normal code; switch to batching when you're updating many properties in a tight loop.
 
 ## The Problem: N+1 Interop Calls
 
