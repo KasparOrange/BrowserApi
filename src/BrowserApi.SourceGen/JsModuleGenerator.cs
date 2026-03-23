@@ -107,17 +107,44 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             sb.AppendLine();
         }
 
-        sb.AppendLine($"{classInfo.Accessibility} static partial class {classInfo.ClassName} {{");
-        sb.AppendLine($"    private static IJSObjectReference? _module;");
+        // Class declaration — instance class with IJSRuntime injection
+        sb.AppendLine($"/// <summary>");
+        sb.AppendLine($"/// Typed C# wrapper for the <c>{classInfo.JsPath}</c> JavaScript module.");
+        sb.AppendLine($"/// Register as a scoped service: <c>services.AddScoped&lt;{classInfo.ClassName}&gt;();</c>");
+        sb.AppendLine($"/// </summary>");
+        sb.AppendLine($"{classInfo.Accessibility} partial class {classInfo.ClassName} : System.IAsyncDisposable {{");
+        sb.AppendLine($"    private readonly IJSRuntime _js;");
+        sb.AppendLine($"    private IJSObjectReference? _module;");
         sb.AppendLine();
-        sb.AppendLine($"    private static async System.Threading.Tasks.Task<IJSObjectReference> GetModuleAsync(IJSRuntime js) {{");
-        sb.AppendLine($"        return _module ??= await js.InvokeAsync<IJSObjectReference>(\"import\", \"{classInfo.JsPath}\");");
+
+        // Constructor
+        sb.AppendLine($"    /// <summary>");
+        sb.AppendLine($"    /// Initializes a new instance of <see cref=\"{classInfo.ClassName}\"/> with the specified JS runtime.");
+        sb.AppendLine($"    /// </summary>");
+        sb.AppendLine($"    /// <param name=\"js\">The Blazor JS runtime, typically injected via DI.</param>");
+        sb.AppendLine($"    public {classInfo.ClassName}(IJSRuntime js) => _js = js;");
+        sb.AppendLine();
+
+        // Module loader
+        sb.AppendLine($"    private async System.Threading.Tasks.Task<IJSObjectReference> GetModuleAsync() {{");
+        sb.AppendLine($"        return _module ??= await _js.InvokeAsync<IJSObjectReference>(\"import\", \"{classInfo.JsPath}\");");
         sb.AppendLine($"    }}");
 
+        // Methods
         foreach (var func in functions) {
             sb.AppendLine();
             EmitFunction(sb, func);
         }
+
+        // DisposeAsync
+        sb.AppendLine();
+        sb.AppendLine($"    /// <summary>Disposes the cached JS module reference.</summary>");
+        sb.AppendLine($"    public async System.Threading.Tasks.ValueTask DisposeAsync() {{");
+        sb.AppendLine($"        if (_module is not null) {{");
+        sb.AppendLine($"            await _module.DisposeAsync();");
+        sb.AppendLine($"            _module = null;");
+        sb.AppendLine($"        }}");
+        sb.AppendLine($"    }}");
 
         sb.AppendLine("}");
 
@@ -133,8 +160,6 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             sb.AppendLine($"    /// </summary>");
         }
 
-        sb.AppendLine($"    /// <param name=\"js\">The Blazor JS runtime to invoke through.</param>");
-
         foreach (var p in func.Params) {
             if (p.Description is not null)
                 sb.AppendLine($"    /// <param name=\"{p.CSharpName}\">{EscapeXml(p.Description)}</param>");
@@ -145,24 +170,24 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         if (func.ReturnsDoc is not null)
             sb.AppendLine($"    /// <returns>{EscapeXml(func.ReturnsDoc)}</returns>");
 
-        // Method signature
-        var paramList = "IJSRuntime js";
-        if (func.Params.Count > 0)
-            paramList += ", " + string.Join(", ", func.Params.Select(p => $"{p.CSharpType} {p.CSharpName}"));
+        // Method signature — no IJSRuntime parameter, it's on the instance
+        var paramList = func.Params.Count > 0
+            ? string.Join(", ", func.Params.Select(p => $"{p.CSharpType} {p.CSharpName}"))
+            : "";
 
         var argList = func.Params.Count > 0
             ? ", " + string.Join(", ", func.Params.Select(p => p.CSharpName))
             : "";
 
         if (func.ReturnType is null || func.ReturnType == "void") {
-            sb.AppendLine($"    public static async System.Threading.Tasks.Task {func.CSharpName}({paramList}) {{");
-            sb.AppendLine($"        var module = await GetModuleAsync(js);");
+            sb.AppendLine($"    public async System.Threading.Tasks.Task {func.CSharpName}({paramList}) {{");
+            sb.AppendLine($"        var module = await GetModuleAsync();");
             sb.AppendLine($"        await module.InvokeVoidAsync(\"{func.JsName}\"{argList});");
             sb.AppendLine($"    }}");
         } else {
             var taskType = $"System.Threading.Tasks.Task<{func.ReturnType}>";
-            sb.AppendLine($"    public static async {taskType} {func.CSharpName}({paramList}) {{");
-            sb.AppendLine($"        var module = await GetModuleAsync(js);");
+            sb.AppendLine($"    public async {taskType} {func.CSharpName}({paramList}) {{");
+            sb.AppendLine($"        var module = await GetModuleAsync();");
             sb.AppendLine($"        return await module.InvokeAsync<{func.ReturnType}>(\"{func.JsName}\"{argList});");
             sb.AppendLine($"    }}");
         }
@@ -187,6 +212,11 @@ namespace BrowserApi.SourceGen;
 /// <code>&lt;AdditionalFiles Include=""wwwroot/js/myModule.js"" /&gt;</code>
 /// </para>
 /// <para>
+/// The generated class receives <c>IJSRuntime</c> via constructor injection.
+/// Register it as a scoped service in your DI container:
+/// <code>builder.Services.AddScoped&lt;MyJsModule&gt;();</code>
+/// </para>
+/// <para>
 /// Only <c>export function</c> declarations are processed. Default exports,
 /// arrow functions, and class methods are not supported.
 /// </para>
@@ -194,7 +224,14 @@ namespace BrowserApi.SourceGen;
 /// <example>
 /// <code>
 /// [JsModule(""./js/utils.js"")]
-/// public static partial class JsUtils;
+/// public partial class JsUtils;
+///
+/// // Program.cs:
+/// builder.Services.AddScoped&lt;JsUtils&gt;();
+///
+/// // Component:
+/// @inject JsUtils Utils
+/// var result = await Utils.FormatCurrencyAsync(42.99, ""USD"");
 /// </code>
 /// </example>
 [System.AttributeUsage(System.AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
