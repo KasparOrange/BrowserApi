@@ -14,14 +14,15 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
     private const string AttributeFullName = "BrowserApi.SourceGen.JsModuleAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context) {
-        // Emit the JsModuleAttribute source
+        // Emit marker attribute + path resolver interface
         context.RegisterPostInitializationOutput(static ctx => {
             ctx.AddSource("JsModuleAttribute.g.cs", SourceText.From(AttributeSource, Encoding.UTF8));
+            ctx.AddSource("IJsModulePathResolver.g.cs", SourceText.From(PathResolverSource, Encoding.UTF8));
         });
 
-        // Get all .js AdditionalFiles
-        var jsFiles = context.AdditionalTextsProvider
-            .Where(static file => file.Path.EndsWith(".js"));
+        // Get all .js and .d.ts AdditionalFiles
+        var scriptFiles = context.AdditionalTextsProvider
+            .Where(static file => file.Path.EndsWith(".js") || file.Path.EndsWith(".d.ts") || file.Path.EndsWith(".ts"));
 
         // Get explicit [JsModule] declarations
         var explicitDeclarations = context.SyntaxProvider
@@ -31,13 +32,11 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
                 transform: static (ctx, ct) => GetExplicitClassInfo(ctx, ct))
             .Where(static info => info is not null);
 
-        // Combine all JS files with explicit declarations
-        var combined = jsFiles.Collect().Combine(explicitDeclarations.Collect());
+        var combined = scriptFiles.Collect().Combine(explicitDeclarations.Collect());
 
-        // Generate all sources
         context.RegisterSourceOutput(combined, static (spc, pair) => {
-            var (allJsFiles, explicitClasses) = pair;
-            GenerateAll(spc, allJsFiles, explicitClasses!);
+            var (allFiles, explicitClasses) = pair;
+            GenerateAll(spc, allFiles, explicitClasses!);
         });
     }
 
@@ -70,12 +69,16 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
 
     private static void GenerateAll(
         SourceProductionContext context,
-        ImmutableArray<AdditionalText> jsFiles,
+        ImmutableArray<AdditionalText> allFiles,
         ImmutableArray<ExplicitClassInfo?> explicitClasses) {
 
-        if (jsFiles.IsEmpty) return;
+        if (allFiles.IsEmpty) return;
 
-        // Build a set of paths that have explicit [JsModule] declarations
+        // Separate files by type
+        var jsFiles = allFiles.Where(f => f.Path.EndsWith(".js") && !f.Path.EndsWith(".d.ts")).ToList();
+        var dtsFiles = allFiles.Where(f => f.Path.EndsWith(".d.ts")).ToList();
+        var tsFiles = allFiles.Where(f => f.Path.EndsWith(".ts") && !f.Path.EndsWith(".d.ts")).ToList();
+
         var explicitPaths = new System.Collections.Generic.HashSet<string>();
         foreach (var ec in explicitClasses) {
             if (ec is not null)
@@ -87,41 +90,71 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         // 1. Process explicit [JsModule] declarations
         foreach (var ec in explicitClasses) {
             if (ec is null) continue;
+            var stem = GetStem(ec.JsPath);
 
-            var jsFile = FindJsFile(jsFiles, ec.JsPath);
-            if (jsFile is null) {
+            // Try .d.ts first, then .js
+            var dtsFile = dtsFiles.FirstOrDefault(f => GetStem(f.Path) == stem);
+            var jsFile = jsFiles.FirstOrDefault(f => GetStem(f.Path) == stem)
+                ?? tsFiles.FirstOrDefault(f => GetStem(f.Path) == stem);
+
+            if (dtsFile is not null) {
+                var dtsSource = dtsFile.GetText(context.CancellationToken)?.ToString();
+                if (dtsSource is not null) {
+                    var parsed = TsDeclarationParser.Parse(dtsSource);
+                    if (parsed.Functions.Count > 0 || parsed.Interfaces.Count > 0) {
+                        EmitFromTsResult(context, ec.ClassName, ec.Namespace, ec.JsPath, ec.Accessibility, parsed);
+                        generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
+                        continue;
+                    }
+                }
+            }
+
+            // Fallback to .js + JSDoc
+            var sourceFile = jsFile ?? FindFile(allFiles, ec.JsPath);
+            if (sourceFile is null) {
                 context.ReportDiagnostic(Diagnostic.Create(
-                    new DiagnosticDescriptor(
-                        "BAPI001", "JS file not found",
-                        "Could not find AdditionalFile matching '{0}'. Add <AdditionalFiles Include=\"{0}\" /> to your csproj.",
+                    new DiagnosticDescriptor("BAPI001", "JS file not found",
+                        "Could not find AdditionalFile matching '{0}'.",
                         "BrowserApi.SourceGen", DiagnosticSeverity.Warning, true),
                     Location.None, ec.JsPath));
                 continue;
             }
 
-            var jsSource = jsFile.GetText(context.CancellationToken)?.ToString();
+            var jsSource = sourceFile.GetText(context.CancellationToken)?.ToString();
             if (jsSource is null) continue;
-
             var functions = JsDocParser.Parse(jsSource);
             if (functions.Count == 0) continue;
-
             EmitModuleClass(context, ec.ClassName, ec.Namespace, ec.JsPath, ec.Accessibility, functions);
             generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
         }
 
-        // 2. Auto-discover JS files that don't have explicit declarations
-        foreach (var jsFile in jsFiles) {
-            var normalizedPath = NormalizePath(jsFile.Path);
+        // 2. Auto-discover files without explicit declarations
+        var processedStems = new System.Collections.Generic.HashSet<string>();
 
-            // Skip if there's an explicit [JsModule] for this file
-            var hasExplicit = false;
-            foreach (var ep in explicitPaths) {
-                if (normalizedPath.EndsWith(ep)) {
-                    hasExplicit = true;
-                    break;
-                }
-            }
-            if (hasExplicit) continue;
+        // First pass: .d.ts files
+        foreach (var dtsFile in dtsFiles) {
+            var stem = GetStem(dtsFile.Path);
+            if (explicitPaths.Any(ep => ep.Contains(stem))) continue;
+            if (!processedStems.Add(stem)) continue;
+
+            var dtsSource = dtsFile.GetText(context.CancellationToken)?.ToString();
+            if (dtsSource is null) continue;
+
+            var parsed = TsDeclarationParser.Parse(dtsSource);
+            if (parsed.Functions.Count == 0 && parsed.Interfaces.Count == 0) continue;
+
+            var className = JsDocParser.ToPascalCase(stem) + "Module";
+            var jsPath = DeriveImportPath(dtsFile.Path);
+
+            EmitFromTsResult(context, className, null, jsPath, "public", parsed);
+            generatedClasses.Add(new GeneratedClassInfo(className, null));
+        }
+
+        // Second pass: .js files without a .d.ts
+        foreach (var jsFile in jsFiles.Concat(tsFiles)) {
+            var stem = GetStem(jsFile.Path);
+            if (explicitPaths.Any(ep => ep.Contains(stem))) continue;
+            if (!processedStems.Add(stem)) continue;
 
             var jsSource = jsFile.GetText(context.CancellationToken)?.ToString();
             if (jsSource is null) continue;
@@ -129,30 +162,107 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             var functions = JsDocParser.Parse(jsSource);
             if (functions.Count == 0) continue;
 
-            // Derive class name from filename: utils.js → UtilsModule
-            var fileName = Path.GetFileNameWithoutExtension(jsFile.Path);
-            var className = JsDocParser.ToPascalCase(fileName) + "Module";
-
-            // Derive JS import path from file path
+            var className = JsDocParser.ToPascalCase(stem) + "Module";
             var jsPath = DeriveImportPath(jsFile.Path);
 
             EmitModuleClass(context, className, null, jsPath, "public", functions);
             generatedClasses.Add(new GeneratedClassInfo(className, null));
         }
 
-        // 3. Generate AddJsModules() extension method
+        // 3. Generate AddJsModules()
         if (generatedClasses.Count > 0)
             EmitServiceRegistration(context, generatedClasses);
     }
 
+    // ─── Emit from .d.ts parse result (interfaces + enums + functions) ───────
+
+    private static void EmitFromTsResult(
+        SourceProductionContext context, string className, string? ns,
+        string jsPath, string accessibility, TsParseResult parsed) {
+
+        // Emit enum files
+        foreach (var enumInfo in parsed.Enums) {
+            EmitEnum(context, ns, accessibility, enumInfo);
+        }
+
+        // Emit record files
+        foreach (var iface in parsed.Interfaces) {
+            EmitRecord(context, ns, accessibility, iface);
+        }
+
+        // Emit module class
+        if (parsed.Functions.Count > 0)
+            EmitModuleClass(context, className, ns, jsPath, accessibility, parsed.Functions);
+    }
+
+    private static void EmitEnum(SourceProductionContext context, string? ns,
+        string accessibility, TsEnumInfo enumInfo) {
+        var sb = new StringBuilder();
+        sb.AppendLine("// <auto-generated/>");
+        sb.AppendLine("#nullable enable");
+        sb.AppendLine();
+        sb.AppendLine("using System.Text.Json.Serialization;");
+        sb.AppendLine();
+
+        if (ns is not null) {
+            sb.AppendLine($"namespace {ns};");
+            sb.AppendLine();
+        }
+
+        sb.AppendLine($"/// <summary>Generated from TypeScript string literal union.</summary>");
+        sb.AppendLine($"[JsonConverter(typeof(JsonStringEnumConverter<{enumInfo.CSharpName}>))]");
+        sb.AppendLine($"{accessibility} enum {enumInfo.CSharpName} {{");
+
+        for (var i = 0; i < enumInfo.Members.Count; i++) {
+            var m = enumInfo.Members[i];
+            var comma = i < enumInfo.Members.Count - 1 ? "," : "";
+            // Emit JsonPropertyName for camelCase serialization
+            sb.AppendLine($"    [JsonStringEnumMemberName(\"{m.JsValue}\")]");
+            sb.AppendLine($"    {m.CSharpName}{comma}");
+        }
+
+        sb.AppendLine("}");
+        context.AddSource($"{enumInfo.CSharpName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+    }
+
+    private static void EmitRecord(SourceProductionContext context, string? ns,
+        string accessibility, TsInterfaceInfo iface) {
+        var sb = new StringBuilder();
+        sb.AppendLine("// <auto-generated/>");
+        sb.AppendLine("#nullable enable");
+        sb.AppendLine();
+        sb.AppendLine("using System.Text.Json.Serialization;");
+        sb.AppendLine();
+
+        if (ns is not null) {
+            sb.AppendLine($"namespace {ns};");
+            sb.AppendLine();
+        }
+
+        sb.AppendLine($"/// <summary>Generated from TypeScript interface <c>{iface.TsName}</c>.</summary>");
+        sb.AppendLine($"{accessibility} sealed class {iface.CSharpName} {{");
+
+        foreach (var prop in iface.Properties) {
+            sb.AppendLine($"    /// <summary>Maps to TypeScript property <c>{prop.TsName}</c>.</summary>");
+            sb.AppendLine($"    [JsonPropertyName(\"{prop.TsName}\")]");
+            if (prop.IsRequired)
+                sb.AppendLine($"    public required {prop.CSharpType} {prop.CSharpName} {{ get; init; }}");
+            else
+                sb.AppendLine($"    public {prop.CSharpType} {prop.CSharpName} {{ get; init; }}");
+        }
+
+        sb.AppendLine("}");
+        context.AddSource($"{iface.CSharpName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+    }
+
+    // ─── Emit module class (shared by .js and .d.ts paths) ──────────────────
+
     private static void EmitModuleClass(
-        SourceProductionContext context,
-        string className,
-        string? ns,
-        string jsPath,
-        string accessibility,
+        SourceProductionContext context, string className, string? ns,
+        string jsPath, string accessibility,
         System.Collections.Generic.List<JsFunctionInfo> functions) {
 
+        var moduleName = GetStem(jsPath);
         var sb = new StringBuilder();
         sb.AppendLine("// <auto-generated/>");
         sb.AppendLine("#nullable enable");
@@ -165,32 +275,31 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             sb.AppendLine();
         }
 
-        sb.AppendLine($"/// <summary>");
-        sb.AppendLine($"/// Typed C# wrapper for the <c>{jsPath}</c> JavaScript module.");
-        sb.AppendLine($"/// </summary>");
+        sb.AppendLine($"/// <summary>Typed C# wrapper for the <c>{jsPath}</c> JavaScript module.</summary>");
         sb.AppendLine($"/// <remarks>");
-        sb.AppendLine($"/// Register via <c>builder.Services.AddJsModules();</c> or manually:");
-        sb.AppendLine($"/// <c>builder.Services.AddScoped&lt;{className}&gt;();</c>");
+        sb.AppendLine($"/// Register via <c>builder.Services.AddJsModules();</c>");
         sb.AppendLine($"/// </remarks>");
         sb.AppendLine($"{accessibility} partial class {className} : System.IAsyncDisposable {{");
         sb.AppendLine($"    private readonly IJSRuntime _js;");
+        sb.AppendLine($"    private readonly string _modulePath;");
         sb.AppendLine($"    private IJSObjectReference? _module;");
         sb.AppendLine();
 
-        // Constructor
-        sb.AppendLine($"    /// <summary>");
-        sb.AppendLine($"    /// Creates a new <see cref=\"{className}\"/>. Typically resolved via DI, not constructed directly.");
-        sb.AppendLine($"    /// </summary>");
+        // Constructor with optional path resolver
+        sb.AppendLine($"    /// <summary>Creates a new <see cref=\"{className}\"/>.</summary>");
         sb.AppendLine($"    /// <param name=\"js\">The Blazor JS runtime.</param>");
-        sb.AppendLine($"    public {className}(IJSRuntime js) => _js = js;");
+        sb.AppendLine($"    /// <param name=\"pathResolver\">Optional path resolver for Vite/hashed module paths.</param>");
+        sb.AppendLine($"    public {className}(IJSRuntime js, BrowserApi.SourceGen.IJsModulePathResolver? pathResolver = null) {{");
+        sb.AppendLine($"        _js = js;");
+        sb.AppendLine($"        _modulePath = pathResolver?.Resolve(\"{moduleName}\") ?? \"{jsPath}\";");
+        sb.AppendLine($"    }}");
         sb.AppendLine();
 
         // Module loader
         sb.AppendLine($"    private async System.Threading.Tasks.Task<IJSObjectReference> GetModuleAsync() {{");
-        sb.AppendLine($"        return _module ??= await _js.InvokeAsync<IJSObjectReference>(\"import\", \"{jsPath}\");");
+        sb.AppendLine($"        return _module ??= await _js.InvokeAsync<IJSObjectReference>(\"import\", _modulePath);");
         sb.AppendLine($"    }}");
 
-        // Methods
         foreach (var func in functions) {
             sb.AppendLine();
             EmitFunction(sb, func);
@@ -207,9 +316,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         sb.AppendLine($"    }}");
 
         sb.AppendLine("}");
-
-        context.AddSource($"{className}.g.cs",
-            SourceText.From(sb.ToString(), Encoding.UTF8));
+        context.AddSource($"{className}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
     }
 
     private static void EmitServiceRegistration(
@@ -220,18 +327,11 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         sb.AppendLine("// <auto-generated/>");
         sb.AppendLine("#nullable enable");
         sb.AppendLine();
-
         sb.AppendLine("namespace Microsoft.Extensions.DependencyInjection;");
         sb.AppendLine();
-        sb.AppendLine("/// <summary>");
-        sb.AppendLine("/// Extension methods for registering all generated JS module wrappers.");
-        sb.AppendLine("/// </summary>");
+        sb.AppendLine("/// <summary>Registers all generated JS module wrapper classes.</summary>");
         sb.AppendLine("public static class JsModuleServiceCollectionExtensions {");
-        sb.AppendLine("    /// <summary>");
-        sb.AppendLine("    /// Registers all generated JS module wrapper classes as scoped services.");
-        sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    /// <param name=\"services\">The service collection.</param>");
-        sb.AppendLine("    /// <returns>The service collection for chaining.</returns>");
+        sb.AppendLine("    /// <summary>Registers all generated JS module wrappers as scoped services.</summary>");
         sb.AppendLine("    public static IServiceCollection AddJsModules(this IServiceCollection services) {");
 
         foreach (var c in classes) {
@@ -249,16 +349,12 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
 
     private static void EmitFunction(StringBuilder sb, JsFunctionInfo func) {
         if (func.Summary is not null) {
-            sb.AppendLine($"    /// <summary>");
-            sb.AppendLine($"    /// {EscapeXml(func.Summary)}");
-            sb.AppendLine($"    /// </summary>");
+            sb.AppendLine($"    /// <summary>{EscapeXml(func.Summary)}</summary>");
         }
 
         foreach (var p in func.Params) {
             if (p.Description is not null)
                 sb.AppendLine($"    /// <param name=\"{p.CSharpName}\">{EscapeXml(p.Description)}</param>");
-            else
-                sb.AppendLine($"    /// <param name=\"{p.CSharpName}\">The {p.Name} parameter.</param>");
         }
 
         if (func.ReturnsDoc is not null)
@@ -286,73 +382,81 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         }
     }
 
-    private static string EscapeXml(string text) {
-        return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+    // ─── Helpers ─────────────────────────────────────────────────────────────
+
+    private static string EscapeXml(string text) =>
+        text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+
+    private static AdditionalText? FindFile(ImmutableArray<AdditionalText> files, string path) {
+        var normalized = NormalizePath(path);
+        return files.FirstOrDefault(f => NormalizePath(f.Path).EndsWith(normalized));
     }
 
-    private static AdditionalText? FindJsFile(ImmutableArray<AdditionalText> jsFiles, string jsPath) {
-        var normalized = NormalizePath(jsPath);
-        return jsFiles.FirstOrDefault(f =>
-            NormalizePath(f.Path).EndsWith(normalized));
-    }
+    private static string NormalizePath(string path) =>
+        path.Replace("\\", "/").TrimStart('.', '/');
 
-    private static string NormalizePath(string path) {
-        return path.Replace("\\", "/").TrimStart('.', '/');
+    private static string GetStem(string path) {
+        var name = Path.GetFileName(path);
+        // Strip .d.ts, .ts, .js
+        if (name.EndsWith(".d.ts")) return name.Substring(0, name.Length - 5);
+        if (name.EndsWith(".ts")) return name.Substring(0, name.Length - 3);
+        if (name.EndsWith(".js")) return name.Substring(0, name.Length - 3);
+        return name;
     }
 
     private static string DeriveImportPath(string filePath) {
-        // Try to derive a relative import path from the file path
-        // e.g., /Users/.../wwwroot/js/utils.js → ./js/utils.js
         var normalized = filePath.Replace("\\", "/");
         var wwwrootIndex = normalized.LastIndexOf("wwwroot/");
         if (wwwrootIndex >= 0)
             return "./" + normalized.Substring(wwwrootIndex + "wwwroot/".Length);
-        // Fallback: use just the filename
         return "./" + Path.GetFileName(filePath);
     }
+
+    // ─── Source constants ────────────────────────────────────────────────────
 
     private const string AttributeSource = @"// <auto-generated/>
 namespace BrowserApi.SourceGen;
 
 /// <summary>
-/// Marks a partial class as a typed wrapper for a specific JavaScript ES module.
-/// Use this when you want to control the class name or namespace.
-/// For zero-config auto-discovery, just add JS files as AdditionalFiles and
-/// call <c>builder.Services.AddJsModules();</c> — no attribute needed.
+/// Marks a partial class as a typed wrapper for a JavaScript ES module.
+/// For zero-config auto-discovery, just add JS/TS files as AdditionalFiles
+/// and call <c>builder.Services.AddJsModules();</c>.
 /// </summary>
-/// <remarks>
-/// <para>
-/// The JS file must be registered as an <c>AdditionalFile</c> in the project:
-/// <code>&lt;AdditionalFiles Include=""wwwroot/js/myModule.js"" /&gt;</code>
-/// </para>
-/// </remarks>
-/// <example>
-/// <code>
-/// // Explicit declaration (optional — for custom class name):
-/// [JsModule(""./js/utils.js"")]
-/// public partial class MyCustomName;
-///
-/// // Or skip the attribute entirely — the generator auto-discovers JS files
-/// // and creates UtilsModule from utils.js automatically.
-///
-/// // Either way, register in Program.cs:
-/// builder.Services.AddJsModules();
-///
-/// // Then inject:
-/// @inject MyCustomName Utils
-/// // or @inject UtilsModule Utils
-/// </code>
-/// </example>
 [System.AttributeUsage(System.AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
 internal sealed class JsModuleAttribute : System.Attribute {
-    /// <summary>Gets the path to the JavaScript module file.</summary>
+    /// <summary>Gets the module path.</summary>
     public string Path { get; }
-
-    /// <summary>Initializes a new <see cref=""JsModuleAttribute""/> with the specified module path.</summary>
-    /// <param name=""path"">The path to the JS file (e.g., <c>""./js/utils.js""</c>). Must match an AdditionalFile.</param>
+    /// <summary>Creates a new JsModuleAttribute.</summary>
     public JsModuleAttribute(string path) => Path = path;
 }
 ";
+
+    private const string PathResolverSource = @"// <auto-generated/>
+namespace BrowserApi.SourceGen;
+
+/// <summary>
+/// Resolves JS module names to their actual import paths.
+/// Implement this to integrate with build tools like Vite that produce
+/// content-hashed filenames (e.g., ""mw-dnd"" → ""/js/dist/mw-dnd.a1b2c3.mjs"").
+/// </summary>
+/// <remarks>
+/// Register your implementation in DI:
+/// <code>builder.Services.AddSingleton&lt;IJsModulePathResolver, MyViteResolver&gt;();</code>
+/// Generated module classes accept it via constructor injection automatically.
+/// If not registered, modules fall back to their raw file paths.
+/// </remarks>
+public interface IJsModulePathResolver {
+    /// <summary>
+    /// Resolves a module name (e.g., ""mw-dnd"") to its importable path
+    /// (e.g., ""/js/dist/mw-dnd.a1b2c3.mjs"").
+    /// </summary>
+    /// <param name=""moduleName"">The module name without extension.</param>
+    /// <returns>The full path suitable for JavaScript dynamic import().</returns>
+    string Resolve(string moduleName);
+}
+";
+
+    // ─── Internal types ─────────────────────────────────────────────────────
 
     private sealed class ExplicitClassInfo {
         public string ClassName { get; }
@@ -360,10 +464,7 @@ internal sealed class JsModuleAttribute : System.Attribute {
         public string JsPath { get; }
         public string Accessibility { get; }
         public ExplicitClassInfo(string className, string? ns, string jsPath, string accessibility) {
-            ClassName = className;
-            Namespace = ns;
-            JsPath = jsPath;
-            Accessibility = accessibility;
+            ClassName = className; Namespace = ns; JsPath = jsPath; Accessibility = accessibility;
         }
     }
 
@@ -371,8 +472,7 @@ internal sealed class JsModuleAttribute : System.Attribute {
         public string ClassName { get; }
         public string? Namespace { get; }
         public GeneratedClassInfo(string className, string? ns) {
-            ClassName = className;
-            Namespace = ns;
+            ClassName = className; Namespace = ns;
         }
     }
 }
