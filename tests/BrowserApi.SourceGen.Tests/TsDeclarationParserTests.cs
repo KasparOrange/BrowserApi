@@ -222,7 +222,7 @@ export interface Config {
 }";
         var result = TsDeclarationParser.Parse(dts);
 
-        Assert.Equal("Ease_in", result.Enums[0].Members[0].CSharpName);
+        Assert.Equal("EaseIn", result.Enums[0].Members[0].CSharpName);
         Assert.Equal("ease-in", result.Enums[0].Members[0].JsValue);
     }
 

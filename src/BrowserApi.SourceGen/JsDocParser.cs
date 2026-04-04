@@ -119,8 +119,22 @@ internal static class JsDocParser {
 
         var paramNames = paramList.Split(',');
         foreach (var p in paramNames) {
-            var name = p.Trim();
-            if (string.IsNullOrEmpty(name)) continue;
+            var raw = p.Trim();
+            if (string.IsNullOrEmpty(raw)) continue;
+
+            // Handle TS-style typed params: "name: Type" or "name?: Type"
+            string name;
+            string csType = "object";
+            var colonIdx = raw.IndexOf(':');
+            if (colonIdx > 0) {
+                name = raw.Substring(0, colonIdx).TrimEnd('?', ' ');
+                var tsType = raw.Substring(colonIdx + 1).Trim();
+                csType = MapType(tsType);
+                if (raw.Substring(0, colonIdx).TrimEnd().EndsWith("?") && !csType.EndsWith("?"))
+                    csType += "?";
+            } else {
+                name = raw;
+            }
 
             // Skip if already added from JSDoc
             if (info.Params.Exists(existing => existing.Name == name))
@@ -129,7 +143,7 @@ internal static class JsDocParser {
             info.Params.Add(new JsParamInfo {
                 Name = name,
                 CSharpName = ToCamelCase(name),
-                CSharpType = "object"
+                CSharpType = csType
             });
         }
     }
@@ -165,11 +179,37 @@ internal static class JsDocParser {
 
     internal static string ToPascalCase(string name) {
         if (string.IsNullOrEmpty(name)) return name;
-        return char.ToUpperInvariant(name[0]) + name.Substring(1);
+        // Handle kebab-case (mw-dnd → MwDnd) and snake_case (my_func → MyFunc)
+        var sb = new System.Text.StringBuilder();
+        var capitalizeNext = true;
+        foreach (var c in name) {
+            if (c == '-' || c == '_') {
+                capitalizeNext = true;
+                continue;
+            }
+            sb.Append(capitalizeNext ? char.ToUpperInvariant(c) : c);
+            capitalizeNext = false;
+        }
+        return sb.Length > 0 ? sb.ToString() : name;
+    }
+
+    /// <summary>Sanitize a string to be a valid C# identifier.</summary>
+    internal static string SanitizeIdentifier(string name) {
+        if (string.IsNullOrEmpty(name)) return name;
+        var sb = new System.Text.StringBuilder();
+        foreach (var c in name) {
+            if (char.IsLetterOrDigit(c) || c == '_')
+                sb.Append(c);
+        }
+        var result = sb.ToString();
+        if (result.Length > 0 && char.IsDigit(result[0]))
+            result = "_" + result;
+        return result;
     }
 
     private static string ToCamelCase(string name) {
         if (string.IsNullOrEmpty(name)) return name;
-        return char.ToLowerInvariant(name[0]) + name.Substring(1);
+        var pascal = ToPascalCase(name);
+        return char.ToLowerInvariant(pascal[0]) + pascal.Substring(1);
     }
 }

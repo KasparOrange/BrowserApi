@@ -143,11 +143,12 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             var parsed = TsDeclarationParser.Parse(dtsSource);
             if (parsed.Functions.Count == 0 && parsed.Interfaces.Count == 0) continue;
 
-            var className = JsDocParser.ToPascalCase(stem) + "Module";
+            var className = JsDocParser.SanitizeIdentifier(JsDocParser.ToPascalCase(stem)) + "Module";
             var jsPath = DeriveImportPath(dtsFile.Path);
+            var ns = "JsModules";
 
-            EmitFromTsResult(context, className, null, jsPath, "public", parsed);
-            generatedClasses.Add(new GeneratedClassInfo(className, null));
+            EmitFromTsResult(context, className, ns, jsPath, "public", parsed);
+            generatedClasses.Add(new GeneratedClassInfo(className, ns));
         }
 
         // Second pass: .js files without a .d.ts
@@ -162,11 +163,12 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             var functions = JsDocParser.Parse(jsSource);
             if (functions.Count == 0) continue;
 
-            var className = JsDocParser.ToPascalCase(stem) + "Module";
+            var className = JsDocParser.SanitizeIdentifier(JsDocParser.ToPascalCase(stem)) + "Module";
             var jsPath = DeriveImportPath(jsFile.Path);
+            var ns = "JsModules";
 
-            EmitModuleClass(context, className, null, jsPath, "public", functions);
-            generatedClasses.Add(new GeneratedClassInfo(className, null));
+            EmitModuleClass(context, className, ns, jsPath, "public", functions);
+            generatedClasses.Add(new GeneratedClassInfo(className, ns));
         }
 
         // 3. Generate AddJsModules()
@@ -300,16 +302,22 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         sb.AppendLine($"        return _module ??= await _js.InvokeAsync<IJSObjectReference>(\"import\", _modulePath);");
         sb.AppendLine($"    }}");
 
+        // Emit methods (skip "dispose" — handled by DisposeAsync below)
+        var hasJsDispose = functions.Any(f => f.JsName == "dispose");
         foreach (var func in functions) {
+            if (func.JsName == "dispose") continue; // avoid duplicate
             sb.AppendLine();
             EmitFunction(sb, func);
         }
 
-        // DisposeAsync
+        // DisposeAsync — calls JS dispose() if it exists, then releases the module
         sb.AppendLine();
-        sb.AppendLine($"    /// <summary>Disposes the cached JS module reference.</summary>");
+        sb.AppendLine($"    /// <summary>Calls the module's dispose() function (if any) and releases the JS module reference.</summary>");
         sb.AppendLine($"    public async System.Threading.Tasks.ValueTask DisposeAsync() {{");
         sb.AppendLine($"        if (_module is not null) {{");
+        if (hasJsDispose) {
+            sb.AppendLine($"            await _module.InvokeVoidAsync(\"dispose\");");
+        }
         sb.AppendLine($"            await _module.DisposeAsync();");
         sb.AppendLine($"            _module = null;");
         sb.AppendLine($"        }}");
@@ -349,7 +357,10 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
 
     private static void EmitFunction(StringBuilder sb, JsFunctionInfo func) {
         if (func.Summary is not null) {
-            sb.AppendLine($"    /// <summary>{EscapeXml(func.Summary)}</summary>");
+            var summary = func.Summary.Length > 200
+                ? func.Summary.Substring(0, 197) + "..."
+                : func.Summary;
+            sb.AppendLine($"    /// <summary>{EscapeXml(summary)}</summary>");
         }
 
         foreach (var p in func.Params) {
