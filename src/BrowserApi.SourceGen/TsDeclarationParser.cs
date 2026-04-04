@@ -10,10 +10,10 @@ namespace BrowserApi.SourceGen;
 /// and exported function signatures. Produces typed C# records, enums, and method stubs.
 /// </summary>
 internal static class TsDeclarationParser {
-    // Match: export interface Foo { ... }
-    private static readonly Regex InterfaceRegex = new(
-        @"export\s+interface\s+(\w+)\s*\{([^}]*(?:\{[^}]*\}[^}]*)*)\}",
-        RegexOptions.Compiled | RegexOptions.Singleline);
+    // Match: export interface Foo — captures just the name, body extracted via brace counting
+    private static readonly Regex InterfaceStartRegex = new(
+        @"export\s+interface\s+(\w+)\s*\{",
+        RegexOptions.Compiled);
 
     // Match: export function foo(params): returnType;
     private static readonly Regex FunctionRegex = new(
@@ -54,15 +54,15 @@ internal static class TsDeclarationParser {
         var result = new TsParseResult();
 
         // Pass 1: Collect all interface names into the type map (handles forward references)
-        foreach (Match match in InterfaceRegex.Matches(dtsSource)) {
+        foreach (Match match in InterfaceStartRegex.Matches(dtsSource)) {
             var ifaceName = match.Groups[1].Value;
             result.TypeMap[ifaceName] = JsDocParser.ToPascalCase(ifaceName);
         }
 
         // Pass 2: Extract interfaces and detect inline string literal unions
-        foreach (Match match in InterfaceRegex.Matches(dtsSource)) {
+        foreach (Match match in InterfaceStartRegex.Matches(dtsSource)) {
             var ifaceName = match.Groups[1].Value;
-            var body = match.Groups[2].Value;
+            var body = ExtractBraceBody(dtsSource, match.Index + match.Length - 1);
 
             var iface = new TsInterfaceInfo {
                 TsName = ifaceName,
@@ -155,6 +155,33 @@ internal static class TsDeclarationParser {
         AttachJsDocSummaries(dtsSource, result.Functions);
 
         return result;
+    }
+
+    /// <summary>Extract the body between matched braces, handling nested braces and strings.</summary>
+    private static string ExtractBraceBody(string source, int openBraceIndex) {
+        var depth = 0;
+        var inString = false;
+        var stringChar = ' ';
+        for (var i = openBraceIndex; i < source.Length; i++) {
+            var c = source[i];
+            if (inString) {
+                if (c == stringChar && (i == 0 || source[i - 1] != '\\'))
+                    inString = false;
+                continue;
+            }
+            if (c == '\'' || c == '"' || c == '`') {
+                inString = true;
+                stringChar = c;
+                continue;
+            }
+            if (c == '{') depth++;
+            else if (c == '}') {
+                depth--;
+                if (depth == 0)
+                    return source.Substring(openBraceIndex + 1, i - openBraceIndex - 1);
+            }
+        }
+        return source.Substring(openBraceIndex + 1);
     }
 
     internal static string MapTsType(string tsType, Dictionary<string, string> typeMap) {

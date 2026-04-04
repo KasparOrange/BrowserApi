@@ -260,6 +260,56 @@ export interface Config {
     }
 
     [Fact]
+    public void Parse_interface_with_union_and_many_optional_properties() {
+        // Regression test: Bug 1 — properties after a string literal union were dropped
+        var dts = @"
+export interface GhostConfig {
+    mode: 'clone' | 'template' | 'label' | 'moveSource' | 'none';
+    sourceClass?: string;
+    templateSelector?: string;
+    labelAttribute?: string;
+    className?: string;
+    offsetX?: number;
+    offsetY?: number;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Interfaces);
+        var iface = result.Interfaces[0];
+        Assert.Equal(7, iface.Properties.Count);
+        Assert.Equal("Mode", iface.Properties[0].CSharpName);
+        Assert.Equal("SourceClass", iface.Properties[1].CSharpName);
+        Assert.Equal("TemplateSelector", iface.Properties[2].CSharpName);
+        Assert.Equal("LabelAttribute", iface.Properties[3].CSharpName);
+        Assert.Equal("ClassName", iface.Properties[4].CSharpName);
+        Assert.Equal("OffsetX", iface.Properties[5].CSharpName);
+        Assert.Equal("OffsetY", iface.Properties[6].CSharpName);
+        Assert.Equal("double?", iface.Properties[5].CSharpType);
+        Assert.Equal("double?", iface.Properties[6].CSharpType);
+    }
+
+    [Fact]
+    public void Parse_interface_with_jsdoc_comments_on_properties() {
+        // Regression test: JSDoc comments between properties shouldn't break parsing
+        var dts = @"
+export interface Config {
+    /** The container selector */
+    container: string;
+    /** Optional handle */
+    handle?: string;
+    /** Threshold in pixels */
+    threshold?: number;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Interfaces);
+        Assert.Equal(3, result.Interfaces[0].Properties.Count);
+        Assert.Equal("Container", result.Interfaces[0].Properties[0].CSharpName);
+        Assert.Equal("Handle", result.Interfaces[0].Properties[1].CSharpName);
+        Assert.Equal("Threshold", result.Interfaces[0].Properties[2].CSharpName);
+    }
+
+    [Fact]
     public void Parse_full_mw_dnd_scenario() {
         var dts = @"
 export interface DragConfig {

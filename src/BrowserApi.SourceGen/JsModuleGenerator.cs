@@ -417,10 +417,16 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
 
     private static string DeriveImportPath(string filePath) {
         var normalized = filePath.Replace("\\", "/");
+        // Always use .js extension for the import path (browsers don't load .d.ts or .ts)
+        var stem = GetStem(filePath);
+        var dir = "";
         var wwwrootIndex = normalized.LastIndexOf("wwwroot/");
-        if (wwwrootIndex >= 0)
-            return "./" + normalized.Substring(wwwrootIndex + "wwwroot/".Length);
-        return "./" + Path.GetFileName(filePath);
+        if (wwwrootIndex >= 0) {
+            var relative = normalized.Substring(wwwrootIndex + "wwwroot/".Length);
+            var lastSlash = relative.LastIndexOf('/');
+            dir = lastSlash >= 0 ? relative.Substring(0, lastSlash + 1) : "";
+        }
+        return "./" + dir + stem + ".js";
     }
 
     // ─── Source constants ────────────────────────────────────────────────────
