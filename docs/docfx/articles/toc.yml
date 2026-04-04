@@ -4,6 +4,8 @@
   href: architecture.md
 - name: Performance Guide
   href: performance.md
+- name: JS Module Source Generator
+  href: source-generator.md
 - name: CSS Type System
   href: css-types.md
 - name: Canvas 2D Cookbook

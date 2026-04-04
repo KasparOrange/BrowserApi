@@ -29,7 +29,7 @@
 > **BrowserApi provides two solutions for high-performance scenarios:**
 > 1. **[`JsBatch`](https://kasparorange.github.io/BrowserApi/articles/performance.html)** — batches N void operations (property sets, method calls) into a single interop call.
 > 2. **[`QueryValuesAsync` / `QueryElementsAsync`](https://kasparorange.github.io/BrowserApi/articles/performance.html)** — bulk-reads DOM data in one call, then use LINQ in pure C# (zero interop), then write back with `JsBatch` (one call). Total: 2 interop calls instead of N+N.
-> 3. **[`BrowserApi.SourceGen`](https://kasparorange.github.io/BrowserApi/articles/architecture.html)** — Roslyn source generator that wraps your JS modules as typed C# methods. Same `InvokeAsync` cost as hand-written interop, but with compile-time safety and IntelliSense.
+> 3. **[`BrowserApi.SourceGen`](https://kasparorange.github.io/BrowserApi/articles/source-generator.html)** — Roslyn source generator that reads your `.js`/`.d.ts` modules and emits typed C# classes with DI injection, path resolver support, and enum serialization. Same `InvokeAsync` cost as hand-written interop, but with compile-time safety and IntelliSense.
 >
 > **Bottom line:** Use the typed API freely for event handlers, user interactions, and occasional DOM reads/writes. For bulk operations, use batching. For performance-critical rendering (Canvas animations, real-time updates), consider keeping that logic in a JS module and calling it via `BrowserApi.SourceGen`.
 
@@ -119,6 +119,7 @@ builder.Services.AddBrowserApi();
 | **BrowserApi.JSInterop** | Microsoft.JSInterop | `IJSRuntime` bridge — connects types to a live browser. |
 | **BrowserApi.Blazor** | ASP.NET Components | `AddBrowserApi()` DI, `BrowserApiComponentBase`, lifecycle hooks. |
 | **BrowserApi.Runtime** | Jint | Server-side JS execution — test DOM interactions without a browser. |
+| **BrowserApi.SourceGen** | (build-time only) | Roslyn source generator: `.js`/`.d.ts` → typed C# module classes with DI, path resolver, and enum serialization. [Guide](https://kasparorange.github.io/BrowserApi/articles/source-generator.html) |
 
 ---
 
