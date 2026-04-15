@@ -62,7 +62,8 @@ internal static class TsDeclarationParser {
         // Pass 2: Extract interfaces and detect inline string literal unions
         foreach (Match match in InterfaceStartRegex.Matches(dtsSource)) {
             var ifaceName = match.Groups[1].Value;
-            var body = ExtractBraceBody(dtsSource, match.Index + match.Length - 1);
+            var rawBody = ExtractBraceBody(dtsSource, match.Index + match.Length - 1);
+            var body = StripComments(rawBody);
 
             var iface = new TsInterfaceInfo {
                 TsName = ifaceName,
@@ -157,23 +158,42 @@ internal static class TsDeclarationParser {
         return result;
     }
 
-    /// <summary>Extract the body between matched braces, handling nested braces and strings.</summary>
+    /// <summary>Extract the body between matched braces, handling nested braces, strings, and comments.</summary>
     private static string ExtractBraceBody(string source, int openBraceIndex) {
         var depth = 0;
         var inString = false;
         var stringChar = ' ';
         for (var i = openBraceIndex; i < source.Length; i++) {
             var c = source[i];
+
+            // Inside a string literal — wait for the matching unescaped quote
             if (inString) {
                 if (c == stringChar && (i == 0 || source[i - 1] != '\\'))
                     inString = false;
                 continue;
             }
+
+            // Line comment — skip to end of line
+            if (c == '/' && i + 1 < source.Length && source[i + 1] == '/') {
+                var nl = source.IndexOf('\n', i + 2);
+                i = nl >= 0 ? nl : source.Length - 1;
+                continue;
+            }
+
+            // Block comment — skip to */
+            if (c == '/' && i + 1 < source.Length && source[i + 1] == '*') {
+                var end = source.IndexOf("*/", i + 2, StringComparison.Ordinal);
+                i = end >= 0 ? end + 1 : source.Length - 1;
+                continue;
+            }
+
+            // Enter string literal
             if (c == '\'' || c == '"' || c == '`') {
                 inString = true;
                 stringChar = c;
                 continue;
             }
+
             if (c == '{') depth++;
             else if (c == '}') {
                 depth--;
@@ -182,6 +202,52 @@ internal static class TsDeclarationParser {
             }
         }
         return source.Substring(openBraceIndex + 1);
+    }
+
+    /// <summary>Strip // and /* */ comments from a body string so PropertyRegex doesn't match inside them.</summary>
+    private static string StripComments(string body) {
+        var sb = new System.Text.StringBuilder(body.Length);
+        var inString = false;
+        var stringChar = ' ';
+        for (var i = 0; i < body.Length; i++) {
+            var c = body[i];
+
+            if (inString) {
+                sb.Append(c);
+                if (c == stringChar && (i == 0 || body[i - 1] != '\\'))
+                    inString = false;
+                continue;
+            }
+
+            // Line comment — skip to end of line, keep the newline
+            if (c == '/' && i + 1 < body.Length && body[i + 1] == '/') {
+                var nl = body.IndexOf('\n', i + 2);
+                if (nl >= 0) {
+                    sb.Append('\n');
+                    i = nl;
+                } else {
+                    break;
+                }
+                continue;
+            }
+
+            // Block comment — skip to */
+            if (c == '/' && i + 1 < body.Length && body[i + 1] == '*') {
+                var end = body.IndexOf("*/", i + 2, StringComparison.Ordinal);
+                if (end >= 0)
+                    i = end + 1;
+                else
+                    break;
+                continue;
+            }
+
+            if (c == '\'' || c == '"' || c == '`') {
+                inString = true;
+                stringChar = c;
+            }
+            sb.Append(c);
+        }
+        return sb.ToString();
     }
 
     internal static string MapTsType(string tsType, Dictionary<string, string> typeMap) {

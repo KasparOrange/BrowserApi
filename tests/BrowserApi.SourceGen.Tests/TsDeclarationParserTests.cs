@@ -310,6 +310,104 @@ export interface Config {
     }
 
     [Fact]
+    public void Parse_interface_with_jsdoc_apostrophe_in_comment() {
+        // Regression: stray single quote in JSDoc comment entered string mode
+        // and swallowed the closing brace, breaking body extraction
+        var dts = @"
+export interface Config {
+    /** It's a container selector — don't change at runtime */
+    container: string;
+    /** The user's handle */
+    handle?: string;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Interfaces);
+        Assert.Equal(2, result.Interfaces[0].Properties.Count);
+        Assert.Equal("Container", result.Interfaces[0].Properties[0].CSharpName);
+        Assert.Equal("Handle", result.Interfaces[0].Properties[1].CSharpName);
+    }
+
+    [Fact]
+    public void Parse_interface_with_jsdoc_link_braces() {
+        // Regression: {@link ...} braces in JSDoc threw off depth counting
+        var dts = @"
+export interface Config {
+    /** See {@link OtherConfig} for details. */
+    name: string;
+    /** Use {@link Defaults.timeout} if unset */
+    timeout?: number;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Interfaces);
+        Assert.Equal(2, result.Interfaces[0].Properties.Count);
+        Assert.Equal("Name", result.Interfaces[0].Properties[0].CSharpName);
+        Assert.Equal("Timeout", result.Interfaces[0].Properties[1].CSharpName);
+    }
+
+    [Fact]
+    public void Parse_interface_with_jsdoc_property_like_example() {
+        // Regression: JSDoc @example lines matching PropertyRegex created
+        // spurious properties and duplicate enum names
+        var dts = @"
+export interface Config {
+    /**
+     * @example
+     * mode: 'fast' | 'slow';
+     */
+    mode: 'fast' | 'slow';
+    name: string;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Interfaces);
+        Assert.Equal(2, result.Interfaces[0].Properties.Count);
+        Assert.Single(result.Enums); // only ONE enum, not two
+    }
+
+    [Fact]
+    public void Parse_interface_with_line_comments() {
+        var dts = @"
+export interface Config {
+    // The container: string; selector
+    container: string;
+    handle?: string; // don't remove
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Interfaces);
+        Assert.Equal(2, result.Interfaces[0].Properties.Count);
+    }
+
+    [Fact]
+    public void Parse_jsdoc_apostrophe_does_not_swallow_subsequent_interfaces() {
+        // Regression: stray quote in first interface's JSDoc caused body extraction
+        // to consume the rest of the file, preventing subsequent interfaces from
+        // being parsed correctly
+        var dts = @"
+export interface First {
+    /** It's required */
+    name: string;
+}
+
+export interface Second {
+    value: number;
+}
+
+export function doStuff(): void;
+";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal(2, result.Interfaces.Count);
+        Assert.Single(result.Interfaces[0].Properties);
+        Assert.Equal("Name", result.Interfaces[0].Properties[0].CSharpName);
+        Assert.Single(result.Interfaces[1].Properties);
+        Assert.Equal("Value", result.Interfaces[1].Properties[0].CSharpName);
+        Assert.Single(result.Functions);
+    }
+
+    [Fact]
     public void Parse_full_mw_dnd_scenario() {
         var dts = @"
 export interface DragConfig {

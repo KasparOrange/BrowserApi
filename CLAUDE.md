@@ -129,6 +129,35 @@ dotnet test tests/BrowserApi.Tests/        # core type tests only
 dotnet test tests/BrowserApi.Generator.Tests/  # generator tests only
 ```
 
+### SourceGen: Local Development
+
+MitWare.Blazor consumes `BrowserApi.SourceGen` as a local NuGet package. For local dev, pack and install from the local feed:
+
+```bash
+# Pack a new version
+dotnet pack src/BrowserApi.SourceGen/BrowserApi.SourceGen.csproj -c Release \
+    -o nupkgs -p:Version=0.1.0-local.X
+
+# In MitWare.Blazor, update to the new version
+dotnet add package BrowserApi.SourceGen --version 0.1.0-local.X
+```
+
+The local NuGet source at `nupkgs/` is already registered as `BrowserApiLocal`.
+
+### SourceGen: Deploy to Production
+
+When the source generator changes and MitWare needs the update on the server, run:
+
+```bash
+./scripts/publish-local.sh 0.1.0-local.X
+```
+
+This packs the `.nupkg` and copies it via `scp` to the MitWare server's `tools/nupkg/` directories (main + dev). The server's `NuGet.Config` already has `tools/nupkg/` as a local source — no server-side config needed.
+
+Then update `MitWare.Blazor.csproj` to reference the new version and deploy MitWare normally.
+
+Normal MitWare deploys do not touch the `tools/nupkg/` directory — only run this script when the source generator itself changes.
+
 ## What NOT to Do
 
 - Do not add API-specific NuGet packages (no BrowserApi.Canvas, etc.)

@@ -86,6 +86,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         }
 
         var generatedClasses = new System.Collections.Generic.List<GeneratedClassInfo>();
+        var emittedTypes = new System.Collections.Generic.HashSet<string>();
 
         // 1. Process explicit [JsModule] declarations
         foreach (var ec in explicitClasses) {
@@ -102,7 +103,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
                 if (dtsSource is not null) {
                     var parsed = TsDeclarationParser.Parse(dtsSource);
                     if (parsed.Functions.Count > 0 || parsed.Interfaces.Count > 0) {
-                        EmitFromTsResult(context, ec.ClassName, ec.Namespace, ec.JsPath, ec.Accessibility, parsed);
+                        EmitFromTsResult(context, ec.ClassName, ec.Namespace, ec.JsPath, ec.Accessibility, parsed, emittedTypes);
                         generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
                         continue;
                     }
@@ -147,7 +148,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             var jsPath = DeriveImportPath(dtsFile.Path);
             var ns = "JsModules";
 
-            EmitFromTsResult(context, className, ns, jsPath, "public", parsed);
+            EmitFromTsResult(context, className, ns, jsPath, "public", parsed, emittedTypes);
             generatedClasses.Add(new GeneratedClassInfo(className, ns));
         }
 
@@ -180,15 +181,20 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
 
     private static void EmitFromTsResult(
         SourceProductionContext context, string className, string? ns,
-        string jsPath, string accessibility, TsParseResult parsed) {
+        string jsPath, string accessibility, TsParseResult parsed,
+        System.Collections.Generic.HashSet<string> emittedTypes) {
 
-        // Emit enum files
+        // Emit enum files (skip duplicates across files)
         foreach (var enumInfo in parsed.Enums) {
+            var key = (ns ?? "") + "." + enumInfo.CSharpName;
+            if (!emittedTypes.Add(key)) continue;
             EmitEnum(context, ns, accessibility, enumInfo);
         }
 
-        // Emit record files
+        // Emit record files (skip duplicates across files)
         foreach (var iface in parsed.Interfaces) {
+            var key = (ns ?? "") + "." + iface.CSharpName;
+            if (!emittedTypes.Add(key)) continue;
             EmitRecord(context, ns, accessibility, iface);
         }
 

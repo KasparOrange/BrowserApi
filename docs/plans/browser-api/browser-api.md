@@ -12,6 +12,7 @@ Generate typed C# wrappers for every browser API from W3C/WHATWG specs. The core
 |--------|------|-------------|
 | Generator | [generator.md](generator.md) | WebIDL parser + C# emitter CLI tool |
 | CSS | [css.md](css.md) | Typed CSS properties, values, selectors, and stylesheet generation |
+| CSS-in-C# API | [css-in-csharp.md](css-in-csharp.md) | Design decisions for the C#-to-CSS API (operators, nesting, !important, etc.) |
 | DOM | [dom.md](dom.md) | DOM interfaces, elements, nodes, and document API |
 | Events | [events.md](events.md) | Typed event classes (Pointer, Keyboard, Mouse, etc.) |
 | Canvas | [canvas.md](canvas.md) | Canvas 2D rendering context |
@@ -19,6 +20,7 @@ Generate typed C# wrappers for every browser API from W3C/WHATWG specs. The core
 | Storage | [storage.md](storage.md) | localStorage, sessionStorage, IndexedDB |
 | Animations | [animations.md](animations.md) | Web Animations API |
 | Runtime | [runtime.md](runtime.md) | **(Experimental)** Server-side JS execution via Jint — tests without a browser, SSR, user scripts |
+| JSImport Backend | [jsimport-backend.md](jsimport-backend.md) | **(Proposal)** Emit `[JSImport]`-based method bodies in SourceGen for native-speed WASM interop |
 | Sessions | [sessions.md](sessions.md) | Session-by-session progress tracker (Claude Code-sized chunks) |
 | Diagrams | [diagrams.md](diagrams.md) | Shared visual reference |
 | Archive | [browser-api.archive.md](browser-api.archive.md) | Completed work history |
