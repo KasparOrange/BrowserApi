@@ -21,6 +21,7 @@ Generate typed C# wrappers for every browser API from W3C/WHATWG specs. The core
 | Animations | [animations.md](animations.md) | Web Animations API |
 | Runtime | [runtime.md](runtime.md) | **(Experimental)** Server-side JS execution via Jint — tests without a browser, SSR, user scripts |
 | JSImport Backend | [jsimport-backend.md](jsimport-backend.md) | **(Proposal)** Emit `[JSImport]`-based method bodies in SourceGen for native-speed WASM interop |
+| VS Code Extension | [vscode-extension.md](vscode-extension.md) | **(Exploration)** Editor-only features: file decorations, CSS-in-C# previews, color swatches, spec navigation |
 | Sessions | [sessions.md](sessions.md) | Session-by-session progress tracker (Claude Code-sized chunks) |
 | Diagrams | [diagrams.md](diagrams.md) | Shared visual reference |
 | Archive | [browser-api.archive.md](browser-api.archive.md) | Completed work history |
