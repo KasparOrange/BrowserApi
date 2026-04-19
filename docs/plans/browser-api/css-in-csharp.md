@@ -376,19 +376,18 @@ Code fix provider (future): suggests rename when a reference breaks.
 
 ### 14. `!important`
 
-**Status: OPEN — candidates below**
+**Status: DECIDED**
 
-#### Option A: Property (no parentheses)
-
-Each value type has an `Important` property returning a copy with the flag set.
+Property on each value type returning a copy with the `!important` flag set. No parentheses.
 
 ```csharp
+// Chosen:
 Padding = 0.Px.Important
 BackgroundColor = Mud.Palette.Primary.Important
 Display = Display.None.Important
 ```
 
-Internals — flag stored on the value struct:
+Internals — boolean flag stored on the value struct:
 ```csharp
 public readonly struct Length : ICssValue {
     private readonly string _value;
@@ -399,59 +398,17 @@ public readonly struct Length : ICssValue {
 }
 ```
 
-Every value type needs this property. Could use an extension property on `ICssValue` if C# 14 supports it on interfaces — but return type must be `Self` not `ICssValue`, which requires self-types or generics.
+Every value type gets this property. For generated types, the generator adds it.
 
-**Pro:** Clean. No parentheses. Chainable.
-**Con:** Every value type must add this property (or it's generated).
+**Open sub-issue:** Enum-based CSS keyword types (like `Display`) can't have properties. Options: make them structs instead of enums, or use C# 14 extension properties on enums. To be resolved during implementation.
 
-#### Option B: Wrapper type `Important<T>`
-
+**Ruled out:**
 ```csharp
-Padding = new Important<Length>(0.Px)
-// or with extension:
-Padding = 0.Px.Important    // returns Important<Length>
+// ❌ Wrapper type Important<T> (complicates property types)
+// ❌ Extension method .Important() (parentheses)
+// ❌ .IMPORTANT all-caps (violates .NET conventions)
+// ❌ Declaration-level !important (not valid C# syntax)
 ```
-
-The property setter must accept `Important<T>` alongside `T`. Needs implicit conversion or union type.
-
-**Pro:** Single wrapper type.
-**Con:** Property types become complex (`Length | Important<Length>`).
-
-#### Option C: Extension method `.Important()`
-
-```csharp
-Padding = 0.Px.Important()
-```
-
-Same as Option A but with parentheses. Works today without extension properties.
-
-**Pro:** Works in current C#.
-**Con:** Parentheses (user prefers properties).
-
-#### Option D: `.IMPORTANT` (all-caps property)
-
-```csharp
-Padding = 0.Px.IMPORTANT
-```
-
-Deliberately breaks C# conventions to visually scream, matching CSS behavior.
-
-**Pro:** Visually distinctive, mirrors CSS convention.
-**Con:** Violates .NET naming guidelines. Every value type still needs the property.
-
-#### Option E: At the declaration level, not the value level
-
-```csharp
-public static readonly Class Card = new() {
-    [Important] Padding = 0.Px,        // attribute-like (not valid C#)
-    Padding = 0.Px | Important,        // operator (weird)
-    Padding = Css.Important(0.Px),     // wrapper function
-};
-```
-
-**Con:** Most of these aren't valid C# syntax.
-
-**Leaning toward: A or D** — property on the value, parentheses-free.
 
 ---
 
@@ -470,7 +427,9 @@ CSS attribute selectors:
 [style*="width:0%"] /* contains substring */
 ```
 
-#### Option A: Function returning Selector
+#### Option A: Strings only
+
+All attribute names are strings. Simple, flexible, but no IntelliSense for attribute names.
 
 ```csharp
 Attr("href")                              // [href]
@@ -482,37 +441,55 @@ Attr("class").HasWord("card")             // [class~="card"]
 Attr("lang").DashMatch("en")              // [lang|="en"]
 ```
 
-**Pro:** Fluent, discoverable. `Attr("href").` shows all matchers in IntelliSense.
-**Con:** Attribute names are strings. Could define known attributes as constants.
+**Pro:** Simple, one pattern. Fluent matchers are discoverable via `Attr("x").`.
+**Con:** Attribute names are magic strings — typos are silent.
 
-#### Option B: Typed attribute constants
+#### Option B: Typed constants + string fallback
+
+Standard HTML attributes are pre-defined constants (generated from HTML spec). Custom/data attributes use string overload.
 
 ```csharp
+// Tier 1: Standard HTML attributes — typed constants, generated from HTML spec
 Attr.Href                                 // [href]
 Attr.Type.Equals("text")                  // [type="text"]
 Attr.Style.Contains("width:0%")           // [style*="width:0%"]
+Attr.Disabled                             // [disabled]
+Attr.Lang.DashMatch("en")                 // [lang|="en"]
+
+// Tier 2: ARIA role — typed constant (no prefix, very common)
+Attr.Role.Equals("button")               // [role="button"]
+Attr.Role.Equals("navigation")           // [role="navigation"]
+
+// Tier 3: ARIA attributes — typed constants, generated from WAI-ARIA spec
+Attr.Aria.Label                           // [aria-label]
+Attr.Aria.Hidden.Equals("true")           // [aria-hidden="true"]
+Attr.Aria.Expanded                        // [aria-expanded]
+Attr.Aria.Controls                        // [aria-controls]
+Attr.Aria.Live.Equals("polite")           // [aria-live="polite"]
+
+// Tier 4: data-* attributes — typed helper, prepends "data-"
 Attr.Data("stick-value").Equals("0")      // [data-stick-value="0"]
+Attr.Data("field-id")                     // [data-field-id]
+
+// Tier 5: Escape hatch — any attribute, raw string
+Attr("potato", "yes")                     // [potato="yes"]
+Attr("custom-thing").Contains("x")        // [custom-thing*="x"]
 ```
 
-**Pro:** No strings for known attributes.
-**Con:** Need to define every HTML attribute. `data-*` attributes still need strings.
+All tiers return `AttrSelector` with the same fluent matchers: `.Equals()`, `.Contains()`, `.StartsWith()`, `.EndsWith()`, `.HasWord()`, `.DashMatch()`.
 
-#### Option C: Hybrid (typed for common, string for custom)
+| Tier | Source Spec | Helper | Example |
+|------|-----------|--------|---------|
+| Standard HTML | HTML spec | `Attr.Type`, `Attr.Href`, ... | `Attr.Disabled` |
+| ARIA role | WAI-ARIA | `Attr.Role` | `Attr.Role.Equals("button")` |
+| ARIA `aria-*` | WAI-ARIA | `Attr.Aria.Label`, `Attr.Aria.Hidden`, ... | `Attr.Aria.Expanded` |
+| Custom `data-*` | HTML spec | `Attr.Data("field-id")` | `Attr.Data("value").Equals("0")` |
+| Escape hatch | — | `Attr("name")` | `Attr("potato")` |
 
-```csharp
-// Typed for HTML-standard attributes:
-Attr.Type.Equals("checkbox")              // [type="checkbox"]
-Attr.Href                                 // [href]
+**Pro:** IntelliSense for standard + ARIA attributes, typed helpers for `data-*` and `aria-*`, string fallback for anything else.
+**Con:** Larger API surface (but standard/ARIA constants can be generated from specs we already have).
 
-// String for data-* and custom:
-Attr("data-stick-value", "0")             // [data-stick-value="0"]
-Attr("style").Contains("width:0%")        // [style*="width:0%"]
-```
-
-**Pro:** Best of both — typed where possible, flexible where needed.
-**Con:** Two patterns to learn.
-
-**Leaning toward: C** — hybrid gives typed IntelliSense for common attributes while keeping flexibility for data-* attributes.
+**Chosen: B** — typed constants for standard HTML attributes (generated from HTML spec), `Attr.Role` for ARIA role, typed constants for `aria-*` (generated from WAI-ARIA spec), `Attr.Data()` for `data-*`, and `Attr()` string overload as escape hatch for non-standard attributes.
 
 ---
 
@@ -658,7 +635,100 @@ SetPadding(10.Px, 20.Px)
 
 ---
 
-### 20. Source Maps
+### 20. Prefixing
+
+**Status: DECIDED**
+
+Automatic class name prefixing at two levels: global (project-wide) and per-stylesheet.
+
+#### Global prefix — Program.cs configuration
+
+The source generator reads the `AddBrowserApiCss` call from the Program.cs syntax tree (AST pattern matching, not runtime execution). The value must be a string literal or const.
+
+```csharp
+// In Program.cs — idiomatic .NET configuration
+builder.Services.AddBrowserApiCss(options => {
+    options.GlobalPrefix = "mw";
+});
+```
+
+This is ALSO a real runtime method that registers Blazor services (AssetLink component, etc.). The source generator reads the same call for compile-time prefix info — one line, two purposes.
+
+If the source generator can't extract the value (e.g., it's a variable, not a literal), it emits a diagnostic warning.
+
+**Ruled out:**
+```csharp
+// ❌ Assembly attribute (works, but unfamiliar to most .NET devs)
+[assembly: CssPrefix("mw")]
+
+// ❌ MSBuild property (hidden in .csproj, not discoverable)
+<CssPrefix>mw</CssPrefix>
+
+// ❌ Convention from assembly name (too magic, fragile)
+// MitWare.Blazor → "mw" automatically
+```
+
+#### Per-stylesheet prefix — attribute
+
+```csharp
+[Prefix("sp")]
+public static partial class ShiftPlannerStyles : StyleSheet { }
+```
+
+#### Prefix chain: global → stylesheet → class name
+
+```csharp
+[assembly: ...] // or Program.cs: GlobalPrefix = "mw"
+
+[Prefix("sp")]
+public static partial class ShiftPlannerStyles : StyleSheet
+{
+    public static readonly Class PeopleList = new() { ... };
+    // → .mw-sp-people-list
+    //    ^^  ^^  ^^^^^^^^^^^
+    //    │   │   └─ field name (PascalCase → kebab-case)
+    //    │   └─ stylesheet prefix [Prefix("sp")]
+    //    └─ global prefix (from Program.cs)
+
+    public static readonly Class DayView = new() { ... };
+    // → .mw-sp-day-view
+}
+
+// Stylesheet WITHOUT its own prefix:
+public static partial class AppStyles : StyleSheet
+{
+    public static readonly Class DialogFrameless = new() { ... };
+    // → .mw-dialog-frameless (no stylesheet prefix, just global)
+}
+```
+
+In Razor, the prefix is transparent — the developer never writes it:
+```razor
+<div class="@ShiftPlannerStyles.PeopleList">
+@* renders: class="mw-sp-people-list" *@
+```
+
+---
+
+### 21. File Convention
+
+**Status: DECIDED**
+
+Stylesheet files use the `.css.cs` extension. Follows .NET compound extension conventions (`.razor.cs`, `.razor.css`, `.g.cs`, `.Designer.cs`).
+
+```
+MitWare.Blazor/
+  Styles/
+    AppStyles.css.cs
+    ShiftPlannerStyles.css.cs
+    DataTableStyles.css.cs
+```
+
+The source generator does NOT use the extension for discovery — it finds stylesheets by `: StyleSheet` inheritance in the syntax tree. The extension is a human convention for project organization.
+
+---
+
+### 22. Source Maps
 
 **Status: OPEN**
 
@@ -683,10 +753,14 @@ Chain: C# → SCSS map (our emitter tracks line numbers) → SCSS → CSS map (s
 | 11 | ClassList | **Decided** |
 | 12 | Build Pipeline | **Decided** |
 | 13 | Asset Source Generator | **Decided** (not implemented) |
-| 14 | !important | **Open** — leaning A or D |
-| 15 | Attribute Selectors | **Open** — leaning C (hybrid) |
+| 14 | !important | **Decided** — `.Important` property |
+| 15 | Attribute Selectors | **Decided** — typed + `Data()` + string fallback |
 | 16 | CSS Custom Properties | **Open** — leaning B or C |
 | 17 | CSS Functions | **Partially decided** |
 | 18 | Value Shorthands | **Open** |
+| 19 | Self Keyword | **Mostly decided** |
+| 20 | Source Maps | **Open** |
+| 21 | Prefixing | **Decided** — Program.cs global + attribute per-sheet |
+| 22 | File Convention | **Decided** — `.css.cs` extension |
 | 19 | Self Keyword | **Mostly decided** |
 | 20 | Source Maps | **Open** |
