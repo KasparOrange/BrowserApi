@@ -16,10 +16,16 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+## [0.1.0-preview.2] — 2026-04-21
+
 ### BrowserApi.SourceGen
 
 - **Added — non-exported interfaces are now registered and emitted as typed records.** A declaration like `interface CacheEntry { ... }` (no `export`) referenced by a public signature previously fell back to `object`; it is now emitted as a C# record the same way `export interface` is. The TS `export` keyword controls module `import` visibility, not JSON shape, so private helper interfaces map to valid records.
 - **Added — `BAPI002` diagnostic.** When the parser encounters a TS type it cannot map to a C# type (complex generics, intersection types `A & B`, unresolved cross-file references, or typos), the source generator now emits a compiler warning identifying the location (`funcName(paramName)`, `funcName return type`, or `Interface.property`) and the unmapped type. Previously these silently degraded to `object`. Intentional mappings — `any`, `null`, and `DotNetObjectReference` — are **not** reported.
+
+### BrowserApi, BrowserApi.JSInterop, BrowserApi.Blazor, BrowserApi.Runtime
+
+- No behavioral changes. Republished at the shared version so all packages stay version-aligned.
 
 ## [0.1.0-preview.1] — BrowserApi.SourceGen
 
