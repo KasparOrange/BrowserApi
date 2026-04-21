@@ -16,7 +16,9 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
-## [0.1.0-preview.2] — 2026-04-21
+## [0.1.0-preview.3] — 2026-04-21
+
+> First public nuget.org release. Earlier `0.1.0-preview.1` and `0.1.0-preview.2` existed only in the private local feed (`publish-local.sh` → `BrowserApiLocal` source) and are not on nuget.org.
 
 ### BrowserApi.SourceGen
 
