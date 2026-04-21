@@ -301,7 +301,31 @@ This produces typed parameters (`double amount, string currency`) and XML doc co
 
 ## Limitations
 
-- Only `export function` declarations are processed. Default exports, arrow function exports, and class method exports are not supported.
-- `.d.ts` parsing uses regex, not a full TypeScript parser. Complex generic types, conditional types, and mapped types are not supported.
-- Intersection types (`A & B`) are not supported.
-- The path resolver requires a DI container. If you're not using DI, construct the module manually: `new MyModule(jsRuntime)`.
+These are intentional scope boundaries, not bugs. The generator is built for hand-written `.d.ts` / `.js` modules in your own `wwwroot/js/` folder — the shape Blazor interop actually uses. When the parser meets something it can't map, it emits a **`BAPI002` warning** that tells you exactly which field or parameter degraded, so the problem is visible in your build log instead of silently producing `object`.
+
+**Only `export function foo(...)` declarations are recognized.** Default exports (`export default`), const-bound arrow exports (`export const foo = ...`), and class methods are not picked up.
+*Why this is fine:* Blazor calls JS modules via named imports (`module.invokeAsync("name")`) — a default export or class instance can't be invoked by name without an extra wrapper. If you need one of those shapes, add a tiny named re-export: `export function foo(...) { return myClass.foo(...); }`.
+
+**`.d.ts` parsing is regex-based, not a full TypeScript parser.** Complex generics (`Foo<T extends Bar>`), conditional types (`T extends X ? Y : Z`), mapped types (`{ [K in keyof T]: ... }`), and type aliases are not resolved.
+*Why this is fine:* Interop `.d.ts` files are almost always just interfaces, enums (via string literal unions), and function signatures. A real TS parser would balloon the generator's footprint — and Roslyn source generators pay that cost in every IDE and every build, per project. Anything unrecognized hits `BAPI002` so you see it immediately.
+
+**Intersection types (`A & B`) are not recognized** and degrade to `object` with a `BAPI002` warning.
+*Why this is fine:* Rare in hand-written declaration files for JS modules. Prefer a single interface that lists all members — same JSON shape, clearer for both sides.
+
+**Interface references are resolved within a single `.d.ts` file.** Both exported *and* non-exported interfaces in the same file are registered and can be used as parameters, return types, or property types — TS `export` controls `import` visibility, not the JSON shape on the wire, so a private helper interface works the same as a public one. Interfaces declared in a *different* `.d.ts` file are not cross-file-resolved and will emit `BAPI002`.
+*Why this is fine:* Each module gets its own wrapper class. Keeping each module's types in one file matches how the output is organized anyway. If you share a type across modules, redeclare it or move both modules to the same file.
+
+**The path resolver requires `Microsoft.Extensions.DependencyInjection`.** If you're not using DI, construct the module manually: `new MyModule(jsRuntime, myResolver)`. The resolver argument is optional, so `new MyModule(jsRuntime)` also works with raw paths.
+*Why this is fine:* Blazor projects already use DI; this keeps the zero-config path (`AddJsModules()`) as a one-liner rather than requiring per-module registration.
+
+### BAPI002 — Unknown TypeScript type
+
+When the parser can't map a type, the generator emits:
+
+```
+BAPI002: Unknown TypeScript type 'FooBar<T>' at createDrag(config) — falling back to 'object'.
+Complex generics, intersection types, and unresolved references aren't supported;
+declare an interface or use a supported shape.
+```
+
+The message identifies the exact function, parameter (or interface + property), and the TS type that couldn't be mapped. Intentional mappings — `any`, `null`, and `DotNetObjectReference` — do **not** trigger this warning; only silent degradations do.

@@ -145,6 +145,69 @@ export function run(opts: Options): void;
         Assert.Contains("RunnerModule.g.cs", sourceNames);
     }
 
+    [Fact]
+    public void Generator_emits_record_for_non_exported_interface() {
+        // A private helper interface (no `export`) used in a public signature
+        // should still produce a typed C# record — no silent `object` fallback.
+        var dts = @"
+interface CacheEntry {
+    key: string;
+    value: number;
+}
+
+export function getCache(): CacheEntry;
+";
+
+        var result = RunGenerator(dts, "wwwroot/js/cache.d.ts");
+
+        Assert.Empty(result.Diagnostics);
+
+        var sourceNames = result.GeneratedTrees
+            .Select(t => System.IO.Path.GetFileName(t.FilePath))
+            .ToList();
+
+        Assert.Contains("CacheEntry.g.cs", sourceNames);
+
+        var moduleSource = result.GeneratedTrees
+            .First(t => t.FilePath.EndsWith("CacheModule.g.cs"))
+            .GetText().ToString();
+        // Return type should be the strongly-typed record, not object.
+        Assert.Contains("Task<CacheEntry>", moduleSource);
+    }
+
+    [Fact]
+    public void Generator_reports_BAPI002_for_unknown_type_in_param() {
+        var dts = @"
+export function configure(opts: SomeUnresolvedThing): void;
+";
+
+        var result = RunGenerator(dts, "wwwroot/js/thing.d.ts");
+
+        var diag = Assert.Single(result.Diagnostics);
+        Assert.Equal("BAPI002", diag.Id);
+        Assert.Equal(DiagnosticSeverity.Warning, diag.Severity);
+        var message = diag.GetMessage();
+        Assert.Contains("SomeUnresolvedThing", message);
+        Assert.Contains("configure", message);
+    }
+
+    [Fact]
+    public void Generator_does_not_report_BAPI002_for_intentional_any() {
+        // `any`, `null`, and DotNetObjectReference intentionally map to `object` —
+        // these are not silent degradations and should not produce a warning.
+        var dts = @"
+export interface Cfg {
+    data: any;
+    ref: DotNetObjectReference;
+}
+export function run(dotNet: DotNetObjectReference, cfg: Cfg): void;
+";
+
+        var result = RunGenerator(dts, "wwwroot/js/runner.d.ts");
+
+        Assert.Empty(result.Diagnostics);
+    }
+
     private static GeneratorDriverRunResult RunGenerator(string dtsContent, string dtsPath) {
         var compilation = CSharpCompilation.Create("TestAssembly",
             references: new[] {

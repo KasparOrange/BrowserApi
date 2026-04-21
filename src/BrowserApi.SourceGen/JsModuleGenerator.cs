@@ -101,7 +101,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             if (dtsFile is not null) {
                 var dtsSource = dtsFile.GetText(context.CancellationToken)?.ToString();
                 if (dtsSource is not null) {
-                    var parsed = TsDeclarationParser.Parse(dtsSource);
+                    var parsed = ParseAndReport(dtsSource, context);
                     if (parsed.Functions.Count > 0 || parsed.Interfaces.Count > 0) {
                         EmitFromTsResult(context, ec.ClassName, ec.Namespace, ec.JsPath, ec.Accessibility, parsed, emittedTypes);
                         generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
@@ -141,7 +141,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             var dtsSource = dtsFile.GetText(context.CancellationToken)?.ToString();
             if (dtsSource is null) continue;
 
-            var parsed = TsDeclarationParser.Parse(dtsSource);
+            var parsed = ParseAndReport(dtsSource, context);
             if (parsed.Functions.Count == 0 && parsed.Interfaces.Count == 0) continue;
 
             var className = JsDocParser.SanitizeIdentifier(JsDocParser.ToPascalCase(stem)) + "Module";
@@ -175,6 +175,19 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         // 3. Generate AddJsModules()
         if (generatedClasses.Count > 0)
             EmitServiceRegistration(context, generatedClasses);
+    }
+
+    private static TsParseResult ParseAndReport(string dtsSource, SourceProductionContext context) {
+        var parsed = TsDeclarationParser.Parse(dtsSource);
+        foreach (var fb in parsed.UnknownTypeFallbacks) {
+            context.ReportDiagnostic(Diagnostic.Create(
+                new DiagnosticDescriptor("BAPI002",
+                    "Unknown TypeScript type mapped to object",
+                    "Unknown TypeScript type '{0}' at {1} — falling back to 'object'. Complex generics, intersection types, and unresolved references aren't supported; declare an interface or use a supported shape.",
+                    "BrowserApi.SourceGen", DiagnosticSeverity.Warning, true),
+                Location.None, fb.TsType, fb.Context));
+        }
+        return parsed;
     }
 
     // ─── Emit from .d.ts parse result (interfaces + enums + functions) ───────

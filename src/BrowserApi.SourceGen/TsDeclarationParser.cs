@@ -10,9 +10,13 @@ namespace BrowserApi.SourceGen;
 /// and exported function signatures. Produces typed C# records, enums, and method stubs.
 /// </summary>
 internal static class TsDeclarationParser {
-    // Match: export interface Foo — captures just the name, body extracted via brace counting
+    // Match: interface Foo (with or without `export`). Non-exported interfaces
+    // are fine because TS `export` only controls `import` visibility, not the
+    // JSON shape crossing the JS/C# boundary — a private helper shape in a .d.ts
+    // maps to a valid C# record the same way an exported one does.
+    // `\b` avoids matching within identifiers like `myinterface`.
     private static readonly Regex InterfaceStartRegex = new(
-        @"export\s+interface\s+(\w+)\s*\{",
+        @"\b(?:export\s+)?interface\s+(\w+)\s*\{",
         RegexOptions.Compiled);
 
     // Match: export function foo(params): returnType;
@@ -90,7 +94,8 @@ internal static class TsDeclarationParser {
                         IsRequired = !isOptional
                     });
                 } else {
-                    var csType = MapTsType(tsType, result.TypeMap);
+                    var csType = MapTsType(tsType, result.TypeMap,
+                        result.UnknownTypeFallbacks, $"{ifaceName}.{propName}");
                     if (isOptional && !csType.EndsWith("?") && !csType.EndsWith("[]"))
                         csType += "?";
 
@@ -116,7 +121,8 @@ internal static class TsDeclarationParser {
             var func = new JsFunctionInfo {
                 JsName = funcName,
                 CSharpName = JsDocParser.ToPascalCase(funcName) + "Async",
-                ReturnType = MapTsReturnType(returnTypeStr, result.TypeMap)
+                ReturnType = MapTsReturnType(returnTypeStr, result.TypeMap,
+                    result.UnknownTypeFallbacks, $"{funcName} return type")
             };
 
             // Parse typed parameters
@@ -130,7 +136,8 @@ internal static class TsDeclarationParser {
                         var pName = typedMatch.Groups[1].Value;
                         var pOptional = typedMatch.Groups[2].Value == "?";
                         var pType = typedMatch.Groups[3].Value.Trim();
-                        var csPType = MapTsType(pType, result.TypeMap);
+                        var csPType = MapTsType(pType, result.TypeMap,
+                            result.UnknownTypeFallbacks, $"{funcName}({pName})");
                         if (pOptional && !csPType.EndsWith("?"))
                             csPType += "?";
 
@@ -250,10 +257,11 @@ internal static class TsDeclarationParser {
         return sb.ToString();
     }
 
-    internal static string MapTsType(string tsType, Dictionary<string, string> typeMap) {
+    internal static string MapTsType(string tsType, Dictionary<string, string> typeMap,
+        List<TsTypeFallback>? fallbacks = null, string? context = null) {
         var trimmed = tsType.Trim();
 
-        // Primitives
+        // Primitives (intentional mappings — no fallback reported)
         switch (trimmed) {
             case "number": return "double";
             case "string": return "string";
@@ -265,38 +273,37 @@ internal static class TsDeclarationParser {
             case "never": return "void";
         }
 
-        // Known interop types
+        // Known interop types — intentional pass-through
         if (trimmed == "DotNetObjectReference" || trimmed.StartsWith("DotNetObjectReference<"))
-            return "object"; // Pass-through — C# side uses the real DotNetObjectReference
+            return "object"; // C# side uses the real DotNetObjectReference
 
         // Array<T>
         if (trimmed.StartsWith("Array<") && trimmed.EndsWith(">")) {
             var inner = trimmed.Substring(6, trimmed.Length - 7);
-            return MapTsType(inner, typeMap) + "[]";
+            return MapTsType(inner, typeMap, fallbacks, context) + "[]";
         }
 
         // T[]
         if (trimmed.EndsWith("[]")) {
             var inner = trimmed.Substring(0, trimmed.Length - 2);
-            return MapTsType(inner, typeMap) + "[]";
+            return MapTsType(inner, typeMap, fallbacks, context) + "[]";
         }
 
         // Promise<T> → unwrap
         if (trimmed.StartsWith("Promise<") && trimmed.EndsWith(">")) {
             var inner = trimmed.Substring(8, trimmed.Length - 9);
-            return MapTsType(inner, typeMap);
+            return MapTsType(inner, typeMap, fallbacks, context);
         }
 
         // Record<string, T> → Dictionary<string, T>
         var recordMatch = RecordTypeRegex.Match(trimmed);
         if (recordMatch.Success) {
-            var valueType = MapTsType(recordMatch.Groups[1].Value, typeMap);
+            var valueType = MapTsType(recordMatch.Groups[1].Value, typeMap, fallbacks, context);
             return $"System.Collections.Generic.Dictionary<string, {valueType}>";
         }
 
         // String literal union inline
         if (IsStringLiteralUnion(trimmed)) {
-            // Check if we already generated an enum for this exact union
             if (typeMap.TryGetValue(trimmed, out var enumName))
                 return enumName;
             return "string"; // Fallback if not pre-registered
@@ -306,12 +313,15 @@ internal static class TsDeclarationParser {
         if (typeMap.TryGetValue(trimmed, out var mapped))
             return mapped;
 
-        // Unknown → object
+        // Unknown → object (silent degradation — record for diagnostic)
+        if (fallbacks is not null && context is not null)
+            fallbacks.Add(new TsTypeFallback { TsType = trimmed, Context = context });
         return "object";
     }
 
-    private static string? MapTsReturnType(string tsType, Dictionary<string, string> typeMap) {
-        var mapped = MapTsType(tsType, typeMap);
+    private static string? MapTsReturnType(string tsType, Dictionary<string, string> typeMap,
+        List<TsTypeFallback>? fallbacks = null, string? context = null) {
+        var mapped = MapTsType(tsType, typeMap, fallbacks, context);
         return mapped == "void" ? null : mapped;
     }
 

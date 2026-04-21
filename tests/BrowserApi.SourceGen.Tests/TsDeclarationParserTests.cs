@@ -260,6 +260,140 @@ export interface Config {
     }
 
     [Fact]
+    public void MapTsType_records_unknown_fallback_when_accumulator_provided() {
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        var fallbacks = new System.Collections.Generic.List<TsTypeFallback>();
+
+        var mapped = TsDeclarationParser.MapTsType("FancyGeneric<T>", map, fallbacks, "foo.bar");
+
+        Assert.Equal("object", mapped);
+        Assert.Single(fallbacks);
+        Assert.Equal("FancyGeneric<T>", fallbacks[0].TsType);
+        Assert.Equal("foo.bar", fallbacks[0].Context);
+    }
+
+    [Fact]
+    public void MapTsType_does_not_record_intentional_object_mappings() {
+        // `any`, `null`, and DotNetObjectReference intentionally map to `object` —
+        // these are not silent degradations and should NOT trigger a diagnostic.
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        var fallbacks = new System.Collections.Generic.List<TsTypeFallback>();
+
+        Assert.Equal("object", TsDeclarationParser.MapTsType("any", map, fallbacks, "ctx"));
+        Assert.Equal("object", TsDeclarationParser.MapTsType("null", map, fallbacks, "ctx"));
+        Assert.Equal("object", TsDeclarationParser.MapTsType("DotNetObjectReference", map, fallbacks, "ctx"));
+        Assert.Equal("object", TsDeclarationParser.MapTsType("DotNetObjectReference<Foo>", map, fallbacks, "ctx"));
+
+        Assert.Empty(fallbacks);
+    }
+
+    [Fact]
+    public void MapTsType_records_unknown_inside_array_with_outer_context() {
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        var fallbacks = new System.Collections.Generic.List<TsTypeFallback>();
+
+        Assert.Equal("object[]", TsDeclarationParser.MapTsType("FancyThing[]", map, fallbacks, "outer"));
+        Assert.Single(fallbacks);
+        Assert.Equal("FancyThing", fallbacks[0].TsType);
+        Assert.Equal("outer", fallbacks[0].Context);
+    }
+
+    [Fact]
+    public void Parse_non_exported_interface_is_registered_and_referenced_as_typed() {
+        // Regression/feature: a private helper interface (no `export`) referenced
+        // from a public signature should still produce a typed record instead of
+        // silently falling back to `object`.
+        var dts = @"
+interface CacheEntry {
+    key: string;
+    value: number;
+}
+export function getCache(): CacheEntry;
+";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Interfaces);
+        Assert.Equal("CacheEntry", result.Interfaces[0].TsName);
+        Assert.Equal("CacheEntry", result.Functions[0].ReturnType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_non_exported_interface_referenced_as_property() {
+        var dts = @"
+interface InnerConfig {
+    x: number;
+}
+export interface Outer {
+    inner: InnerConfig;
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal(2, result.Interfaces.Count);
+        var outer = result.Interfaces.Find(i => i.TsName == "Outer");
+        Assert.NotNull(outer);
+        Assert.Equal("InnerConfig", outer!.Properties[0].CSharpType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_records_unknown_type_in_function_param() {
+        var dts = "export function configure(opts: FancyOptions): void;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("object", result.Functions[0].Params[0].CSharpType);
+        Assert.Single(result.UnknownTypeFallbacks);
+        Assert.Equal("FancyOptions", result.UnknownTypeFallbacks[0].TsType);
+        Assert.Contains("configure", result.UnknownTypeFallbacks[0].Context);
+        Assert.Contains("opts", result.UnknownTypeFallbacks[0].Context);
+    }
+
+    [Fact]
+    public void Parse_records_unknown_type_in_interface_property() {
+        var dts = @"
+export interface Outer {
+    data: SomeIntersection & OtherThing;
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("object", result.Interfaces[0].Properties[0].CSharpType);
+        Assert.Single(result.UnknownTypeFallbacks);
+        Assert.Contains("Outer.data", result.UnknownTypeFallbacks[0].Context);
+    }
+
+    [Fact]
+    public void Parse_records_unknown_return_type_context() {
+        var dts = "export function build(): CustomThing;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.UnknownTypeFallbacks);
+        Assert.Equal("CustomThing", result.UnknownTypeFallbacks[0].TsType);
+        Assert.Contains("build", result.UnknownTypeFallbacks[0].Context);
+        Assert.Contains("return", result.UnknownTypeFallbacks[0].Context);
+    }
+
+    [Fact]
+    public void Parse_known_types_produce_no_fallbacks() {
+        var dts = @"
+export interface Good {
+    name: string;
+    count: number;
+    active: boolean;
+    tags: string[];
+    meta?: Record<string, string>;
+    data: any;
+    ref: DotNetObjectReference;
+}
+export function handle(dotNet: DotNetObjectReference, g: Good): void;
+";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
     public void Parse_interface_with_union_and_many_optional_properties() {
         // Regression test: Bug 1 — properties after a string literal union were dropped
         var dts = @"
