@@ -1,14 +1,12 @@
 name: Publish NuGet Packages
 
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Package version (e.g., 0.1.0)'
-        required: true
-        default: '0.1.0'
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write  # required to create the GitHub Release
 
 jobs:
   publish:
@@ -24,12 +22,28 @@ jobs:
       - name: Determine version
         id: version
         run: |
-          if [ "${{ github.event_name }}" = "release" ]; then
-            VERSION="${{ github.event.release.tag_name }}"
-            echo "version=${VERSION#v}" >> $GITHUB_OUTPUT
-          else
-            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          TAG="${{ github.ref_name }}"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "version=${TAG#v}" >> $GITHUB_OUTPUT
+
+      - name: Extract release notes from CHANGELOG.md
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          # Capture lines between `## [<version>]` and the next `## ` heading.
+          awk -v ver="$VERSION" '
+            $0 ~ "^## \\[" ver "\\]" { capture=1; next }
+            capture && /^## / { exit }
+            capture { print }
+          ' CHANGELOG.md > release_notes.md
+
+          if [ ! -s release_notes.md ]; then
+            echo "::error::No CHANGELOG.md section found for version $VERSION — add a '## [$VERSION]' heading before tagging."
+            exit 1
           fi
+
+          echo "--- Release notes preview ---"
+          cat release_notes.md
+          echo "-----------------------------"
 
       - name: Restore
         run: dotnet restore
@@ -42,11 +56,17 @@ jobs:
 
       - name: Pack
         run: |
-          dotnet pack src/BrowserApi/BrowserApi.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
-          dotnet pack src/BrowserApi.JSInterop/BrowserApi.JSInterop.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
-          dotnet pack src/BrowserApi.Blazor/BrowserApi.Blazor.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
-          dotnet pack src/BrowserApi.Runtime/BrowserApi.Runtime.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
-          dotnet pack src/BrowserApi.SourceGen/BrowserApi.SourceGen.csproj -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
+          for proj in BrowserApi BrowserApi.JSInterop BrowserApi.Blazor BrowserApi.Runtime BrowserApi.SourceGen; do
+            dotnet pack "src/$proj/$proj.csproj" -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
+          done
 
       - name: Push to NuGet
         run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.tag }}
+          body_path: release_notes.md
+          files: ./nupkgs/*.nupkg

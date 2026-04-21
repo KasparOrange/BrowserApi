@@ -12,6 +12,7 @@
         <Description>Roslyn source generator that reads .js/.d.ts modules and emits typed C# wrapper classes for Blazor JS interop. Supports JSDoc, TypeScript declarations, string literal union enums, and custom path resolvers. Zero runtime overhead — generates the same IJSRuntime.InvokeAsync calls you'd write by hand. PREVIEW: This package is under active development and used internally. The API may change between versions. No stability guarantees.</Description>
         <PackageTags>blazor;jsinterop;source-generator;typescript;codegen</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReleaseNotes>See https://github.com/KasparOrange/BrowserApi/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
         <PackageProjectUrl>https://github.com/KasparOrange/BrowserApi</PackageProjectUrl>
         <RepositoryUrl>https://github.com/KasparOrange/BrowserApi</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>

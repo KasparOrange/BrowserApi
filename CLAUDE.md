@@ -158,6 +158,10 @@ Then update `MitWare.Blazor.csproj` to reference the new version and deploy MitW
 
 Normal MitWare deploys do not touch the `tools/nupkg/` directory — only run this script when the source generator itself changes.
 
+### Publishing a new NuGet release
+
+Edit `CHANGELOG.md` (move entries from `[Unreleased]` to a new `## [<version>]` section), commit, then push a tag `v<version>`. The publish workflow does the rest — packing, pushing to nuget.org, and creating the GitHub Release with notes pulled from the CHANGELOG. Full flow and gotchas in [docs/explanations/releasing.md](docs/explanations/releasing.md).
+
 ## What NOT to Do
 
 - Do not add API-specific NuGet packages (no BrowserApi.Canvas, etc.)

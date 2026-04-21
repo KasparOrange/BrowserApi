@@ -5,6 +5,7 @@
         <Version>0.1.0</Version>
         <RootNamespace>BrowserApi.Runtime</RootNamespace>
         <Description>Server-side browser API runtime via Jint. Execute JavaScript against a virtual DOM for integration testing without a browser, SSR, and sandboxed user scripts.</Description>
+        <PackageReleaseNotes>See https://github.com/KasparOrange/BrowserApi/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>

@@ -5,6 +5,7 @@
         <Version>0.1.0</Version>
         <RootNamespace>BrowserApi.Blazor</RootNamespace>
         <Description>Blazor integration for BrowserApi. AddBrowserApi() DI registration, BrowserApiComponentBase with typed Window/Document access, and lifecycle hooks.</Description>
+        <PackageReleaseNotes>See https://github.com/KasparOrange/BrowserApi/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>

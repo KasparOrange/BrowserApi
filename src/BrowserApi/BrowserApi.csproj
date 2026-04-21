@@ -5,6 +5,7 @@
         <Version>0.1.0</Version>
         <RootNamespace>BrowserApi</RootNamespace>
         <Description>Typed C# wrappers for every browser API — DOM, CSS, Canvas, Fetch, Storage, Events, Animations. 2,693 types generated from W3C/WHATWG WebIDL specs. Zero dependencies.</Description>
+        <PackageReleaseNotes>See https://github.com/KasparOrange/BrowserApi/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);CS1591;CS1574;CS1580;CS1584;CS0419</NoWarn>
     </PropertyGroup>

@@ -5,6 +5,7 @@
         <Version>0.1.0</Version>
         <RootNamespace>BrowserApi.JSInterop</RootNamespace>
         <Description>Blazor WebAssembly/Server backend for BrowserApi. Bridges 2,693 typed browser API wrappers to a live browser via IJSRuntime. Includes browserapi.js helper module.</Description>
+        <PackageReleaseNotes>See https://github.com/KasparOrange/BrowserApi/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);CS1591</NoWarn>
     </PropertyGroup>
