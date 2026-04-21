@@ -18,7 +18,7 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [0.1.0-preview.3] — 2026-04-21
 
-> First public nuget.org release. Earlier `0.1.0-preview.1` and `0.1.0-preview.2` existed only in the private local feed (`publish-local.sh` → `BrowserApiLocal` source) and are not on nuget.org.
+> Skipped `0.1.0-preview.2` for this set of changes — a `v0.1.0-preview.2` tag already pointed at an earlier commit that had been published via the old release-triggered workflow. This release is the first one cut via the new tag-driven pipeline that reads notes from `CHANGELOG.md`.
 
 ### BrowserApi.SourceGen
 
