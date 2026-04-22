@@ -16,6 +16,21 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+## [0.1.0-preview.5] — 2026-04-22
+
+### BrowserApi.SourceGen
+
+- **Changed — `DotNetObjectReference` parameters are now strongly typed via generic methods.** Preview.4 tried to map them to `Microsoft.JSInterop.DotNetObjectReference`, but that's a static factory class and can't be used as a parameter type (CS0721). This release solves the same problem the right way: when a function parameter is a `DotNetObjectReference` (with or without a type argument), the generator promotes the whole method to generic over a fresh `TDotNetRef` type parameter and emits `Microsoft.JSInterop.DotNetObjectReference<TDotNetRef>` as the parameter type, with `where TDotNetRef : class` and the `[DynamicallyAccessedMembers(PublicMethods)]` annotation for AOT / trim safety. Consumers pass their `DotNetObjectReference.Create(x)` directly and C# infers `TDotNetRef` at the call site — no configuration, no wrappers, no `object` on the C# side.
+- **Fixed — the CS0721 regression from preview.4** is gone as a consequence of the change above. Consumers upgrading from preview.3 or preview.4 get real typing at the call site without changing their `.d.ts` files.
+- **Added — compile-the-output integration test.** A new driver test runs the generator, takes its syntax trees, and compiles them against the real `Microsoft.JSInterop` and `Microsoft.Extensions.DependencyInjection.Abstractions` references a Blazor consumer would use. String-based "does the output contain X?" tests can't detect CS0721-class errors or missing references; this test can. Would have blocked preview.4 before it shipped.
+- **Added — consumer-side call test.** Parses a realistic C# snippet that calls the generated generic method with a `DotNetObjectReference<SomeClass>` and compiles it together with the generator output. Verifies that C# type inference actually resolves `TDotNetRef` from the argument — not just that the method signature looks valid.
+- **Added — source-generator support matrix doc.** [New article](docs/docfx/articles/source-generator-support-matrix.md) lists every supported TypeScript pattern, every fallback, and every unsupported feature with a prose explanation of why each behaves the way it does. The main source-generator article now points at the matrix instead of duplicating the details.
+- **Process — local-feed-first is now the default for SourceGen output-shape changes.** `docs/explanations/releasing.md` was updated so any change that alters emitted C# shape must be validated in MitWare via the local feed before a public nuget.org release. Non-output-shape changes can still go straight to public.
+
+### BrowserApi, BrowserApi.JSInterop, BrowserApi.Blazor, BrowserApi.Runtime
+
+- No behavioral changes. Republished at the shared version so all packages stay version-aligned.
+
 ## [0.1.0-preview.4] — 2026-04-22
 
 ### BrowserApi.SourceGen
