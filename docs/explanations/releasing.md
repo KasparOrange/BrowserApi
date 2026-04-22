@@ -7,10 +7,19 @@ There are **two paths** to get a change into a consuming project:
 
 | Path | Destination | When to use |
 |---|---|---|
-| **Public release** (default) | nuget.org, visible to everyone | What the user means by "release". Cut versions, publish to the public feed, GitHub Release created automatically. |
-| **Local feed** (opt-in) | Private local folder / server feed | For pre-release testing loops — pack a `-local.N` build, install into MitWare, verify, *then* cut a public release. |
+| **Public release** | nuget.org, visible to everyone | Cut versions, publish to the public feed, GitHub Release created automatically. |
+| **Local feed** | Private local folder / server feed | Pre-release testing loop — pack a `-local.N` build, install into MitWare, verify, *then* cut a public release. |
 
-When the user asks for a release, use the public path. Only take the local path if (a) the user asks for it explicitly, or (b) you are iterating on a change and want to validate it in MitWare first — in which case suggest the local path, explain what it does, and wait for confirmation before running it.
+### Which path to take
+
+The choice depends on **what kind of change** the release contains:
+
+- **Changes that alter the shape of generator *output* (BrowserApi.SourceGen)** — e.g. new type mappings, changed parameter types, new emitted classes, signature changes. These **must go through the local feed first**. The generator's output is compiled by downstream consumers, so a subtle shape mistake (wrong type name, CS0721-class errors, namespace resolution issues, ambiguous references) cannot be caught by the generator's own unit tests — it only surfaces when a real consumer tries to build. MitWare's build is the first real consumer. If it doesn't build against a local-feed `-local.N` package, the public release is not safe.
+- **Internal refactors, fixes that don't change emitted code shape, and changes to non-SourceGen packages** (BrowserApi, BrowserApi.Blazor, BrowserApi.JSInterop, BrowserApi.Runtime) — go straight to the public path. The compile-output integration test (`tests/BrowserApi.SourceGen.Tests/JsModuleGeneratorDriverTests.cs` → `Generator_output_compiles_cleanly_against_real_Microsoft_JSInterop`) already catches the common cases, but it runs against a synthetic consumer, not a real one.
+
+The default for a SourceGen output-shape change is **local feed → MitWare build → public**. When in doubt, take the longer path — a local-feed iteration costs minutes; a broken public preview costs a new version number and a cycle of consumer confusion.
+
+When the user asks for a "release" without more detail, clarify which kind of change it is if unsure, then route accordingly. Suggest the local path proactively for SourceGen output-shape changes — do not wait to be asked.
 
 ## Path 1 — Public release to nuget.org
 

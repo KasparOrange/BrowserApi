@@ -6,6 +6,8 @@
   href: performance.md
 - name: JS Module Source Generator
   href: source-generator.md
+- name: Source Generator Support Matrix
+  href: source-generator-support-matrix.md
 - name: CSS Type System
   href: css-types.md
 - name: Canvas 2D Cookbook

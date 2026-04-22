@@ -139,7 +139,9 @@ public enum GhostConfigMode {
 public partial class MwDndModule : IAsyncDisposable {
     public MwDndModule(IJSRuntime js, IJsModulePathResolver? pathResolver = null);
 
-    public async Task<double> CreateDragAsync(Microsoft.JSInterop.DotNetObjectReference dotNetRef, DragConfig config) { ... }
+    public async Task<double> CreateDragAsync<TDotNetRef>(
+        Microsoft.JSInterop.DotNetObjectReference<TDotNetRef> dotNetRef,
+        DragConfig config) where TDotNetRef : class { ... }
     public async Task DestroyDragAsync(double contextId) { ... }
     public async Task DisposeModuleAsync() { ... }
     public async Task AddClassToMatchingAsync(string selector, string className) { ... }
@@ -299,52 +301,13 @@ This produces typed parameters (`double amount, string currency`) and XML doc co
 | **Config** | 2 lines | ~15 lines (one-time) |
 | **Runtime cost** | Same | Same |
 
-## Limitations
+## Limitations and support matrix
 
-These are intentional scope boundaries, not bugs. The generator is built for hand-written `.d.ts` / `.js` modules in your own `wwwroot/js/` folder — the shape Blazor interop actually uses. When the parser meets something it can't map, it emits a **`BAPI002` warning** that tells you exactly which field or parameter degraded, so the problem is visible in your build log instead of silently producing `object`.
+The generator is built for hand-written `.d.ts` / `.js` modules in your own `wwwroot/js/` folder — the shape Blazor interop actually uses. It covers most common TypeScript constructs and emits a **`BAPI002` warning** whenever it meets a type it can't map, so silent degradation to `object` never goes unnoticed.
 
-**Only `export function foo(...)` declarations are recognized.** Default exports (`export default`), const-bound arrow exports (`export const foo = ...`), and class methods are not picked up.
-*Why this is fine:* Blazor calls JS modules via named imports (`module.invokeAsync("name")`) — a default export or class instance can't be invoked by name without an extra wrapper. If you need one of those shapes, add a tiny named re-export: `export function foo(...) { return myClass.foo(...); }`.
+The full support matrix — every pattern, what it maps to, and whether `BAPI002` fires — is its own page: **[source-generator support matrix](source-generator-support-matrix.md)**. A few headline items below; see the matrix for the rest.
 
-**`.d.ts` parsing is regex-based, not a full TypeScript parser.** Complex generics (`Foo<T extends Bar>`), conditional types (`T extends X ? Y : Z`), mapped types (`{ [K in keyof T]: ... }`), and type aliases are not resolved.
-*Why this is fine:* Interop `.d.ts` files are almost always just interfaces, enums (via string literal unions), and function signatures. A real TS parser would balloon the generator's footprint — and Roslyn source generators pay that cost in every IDE and every build, per project. Anything unrecognized hits `BAPI002` so you see it immediately.
-
-**Intersection types (`A & B`) are not recognized** and degrade to `object` with a `BAPI002` warning.
-*Why this is fine:* Rare in hand-written declaration files for JS modules. Prefer a single interface that lists all members — same JSON shape, clearer for both sides.
-
-**Interface references are resolved within a single `.d.ts` file.** Both exported *and* non-exported interfaces in the same file are registered and can be used as parameters, return types, or property types — TS `export` controls `import` visibility, not the JSON shape on the wire, so a private helper interface works the same as a public one. Interfaces declared in a *different* `.d.ts` file are not cross-file-resolved and will emit `BAPI002`.
-*Why this is fine:* Each module gets its own wrapper class. Keeping each module's types in one file matches how the output is organized anyway. If you share a type across modules, redeclare it or move both modules to the same file.
-
-**The path resolver requires `Microsoft.Extensions.DependencyInjection`.** If you're not using DI, construct the module manually: `new MyModule(jsRuntime, myResolver)`. The resolver argument is optional, so `new MyModule(jsRuntime)` also works with raw paths.
-*Why this is fine:* Blazor projects already use DI; this keeps the zero-config path (`AddJsModules()`) as a one-liner rather than requiring per-module registration.
-
-### Blazor interop types (`DotNetObjectReference`)
-
-TypeScript usually requires a placeholder declaration for any name used in a signature, so `.d.ts` files often contain a stub like `interface DotNetObjectReference {}` purely to satisfy the compiler. The generator recognizes this by name and does **not** emit a C# class for it — there would be a collision with the real `Microsoft.JSInterop.DotNetObjectReference`. References to `DotNetObjectReference` (generic or not) in method signatures are mapped to `Microsoft.JSInterop.DotNetObjectReference` (the non-generic abstract base), which accepts any `DotNetObjectReference<T>` the caller creates.
-
-```typescript
-// .d.ts — stub is fine, no changes needed on your side
-interface DotNetObjectReference {}
-export function createDrag(dotNetRef: DotNetObjectReference, config: DragConfig): number;
-```
-
-```csharp
-// Generated C# — typed, not `object`
-public async Task<double> CreateDragAsync(
-    Microsoft.JSInterop.DotNetObjectReference dotNetRef,
-    DragConfig config) { ... }
-```
-
-No `JsModules.DotNetObjectReference` class is emitted, so there's no ambiguity at consumer call sites even when `using JsModules;` is in scope alongside `using Microsoft.JSInterop;`.
-
-### BAPI002 — Unknown TypeScript type
-
-When the parser can't map a type, the generator emits:
-
-```
-BAPI002: Unknown TypeScript type 'FooBar<T>' at createDrag(config) — falling back to 'object'.
-Complex generics, intersection types, and unresolved references aren't supported;
-declare an interface or use a supported shape.
-```
-
-The message identifies the exact function, parameter (or interface + property), and the TS type that couldn't be mapped. Intentional mappings do **not** trigger this warning: `any` and `null` map to C# `object`, and `DotNetObjectReference` maps to `Microsoft.JSInterop.DotNetObjectReference` (see the Blazor interop types section above). Only silent degradations are reported.
+- **`DotNetObjectReference` parameters are strongly typed.** Write a plain `dotNetRef: DotNetObjectReference` in your `.d.ts` (with or without a stub `interface` declaration) and the generator promotes the generated method to generic over `TDotNetRef`. Consumers just pass their `DotNetObjectReference.Create(x)` result — C# infers `TDotNetRef` at the call site.
+- **Interfaces** (exported or not) become sealed C# records with `[JsonPropertyName]`. A stub `interface DotNetObjectReference {}` is recognized as a Blazor primitive and skipped — no colliding class is emitted.
+- **String literal unions** (`'a' | 'b'`) become C# enums with proper `JsonStringEnumMemberName` serialization.
+- **Not recognized**: `export default`, const-bound arrow exports, class methods, complex generics (conditional / mapped / intersection types), cross-file type references. Most can be worked around with a tiny named re-export or a local interface redeclaration.
