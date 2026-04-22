@@ -382,6 +382,28 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             sb.AppendLine($"    /// <summary>{EscapeXml(summary)}</summary>");
         }
 
+        // Assign a fresh generic type-parameter name (TDotNetRef, TDotNetRef1, ...) to each
+        // DotNetObjectReference-flagged parameter. The method becomes generic over all of them,
+        // and the caller's concrete type is inferred at the call site.
+        var dotNetRefTypeParams = new System.Collections.Generic.List<string>();
+        var paramTypes = new string[func.Params.Count];
+        for (var i = 0; i < func.Params.Count; i++) {
+            var p = func.Params[i];
+            if (p.IsDotNetObjectRef) {
+                var tp = dotNetRefTypeParams.Count == 0 ? "TDotNetRef" : $"TDotNetRef{dotNetRefTypeParams.Count}";
+                dotNetRefTypeParams.Add(tp);
+                var refType = $"Microsoft.JSInterop.DotNetObjectReference<{tp}>";
+                paramTypes[i] = p.IsOptional ? refType + "?" : refType;
+            } else {
+                paramTypes[i] = p.CSharpType;
+            }
+        }
+
+        // XML doc for the generic type parameters. Makes IntelliSense useful.
+        foreach (var tp in dotNetRefTypeParams) {
+            sb.AppendLine($"    /// <typeparam name=\"{tp}\">The .NET type wrapped by the DotNetObjectReference the caller passes.</typeparam>");
+        }
+
         foreach (var p in func.Params) {
             if (p.Description is not null)
                 sb.AppendLine($"    /// <param name=\"{p.CSharpName}\">{EscapeXml(p.Description)}</param>");
@@ -390,8 +412,28 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         if (func.ReturnsDoc is not null)
             sb.AppendLine($"    /// <returns>{EscapeXml(func.ReturnsDoc)}</returns>");
 
+        var genericDecl = dotNetRefTypeParams.Count > 0
+            ? "<" + string.Join(", ", dotNetRefTypeParams) + ">"
+            : "";
+
+        // Constraint clause: `where T : class` matches DotNetObjectReference<TValue>'s own
+        // constraint. DynamicallyAccessedMembers(PublicMethods) propagates the trim/AOT
+        // annotation from DotNetObjectReference<TValue> to our generated TDotNetRef, avoiding
+        // IL2091 warnings in trimmed Blazor WebAssembly builds.
+        var whereClauses = dotNetRefTypeParams.Count > 0
+            ? " " + string.Join(" ", dotNetRefTypeParams.Select(tp =>
+                $"where {tp} : class"))
+            : "";
+
+        // If any type parameters were added, decorate each with [DynamicallyAccessedMembers].
+        // The attribute is applied at the type-parameter site (T-level), not after `where`.
+        var decoratedGenericDecl = dotNetRefTypeParams.Count > 0
+            ? "<" + string.Join(", ", dotNetRefTypeParams.Select(tp =>
+                $"[System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicMethods)] {tp}")) + ">"
+            : "";
+
         var paramList = func.Params.Count > 0
-            ? string.Join(", ", func.Params.Select(p => $"{p.CSharpType} {p.CSharpName}"))
+            ? string.Join(", ", func.Params.Select((p, i) => $"{paramTypes[i]} {p.CSharpName}"))
             : "";
 
         var argList = func.Params.Count > 0
@@ -399,13 +441,13 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             : "";
 
         if (func.ReturnType is null || func.ReturnType == "void") {
-            sb.AppendLine($"    public async System.Threading.Tasks.Task {func.CSharpName}({paramList}) {{");
+            sb.AppendLine($"    public async System.Threading.Tasks.Task {func.CSharpName}{decoratedGenericDecl}({paramList}){whereClauses} {{");
             sb.AppendLine($"        var module = await GetModuleAsync();");
             sb.AppendLine($"        await module.InvokeVoidAsync(\"{func.JsName}\"{argList});");
             sb.AppendLine($"    }}");
         } else {
             var taskType = $"System.Threading.Tasks.Task<{func.ReturnType}>";
-            sb.AppendLine($"    public async {taskType} {func.CSharpName}({paramList}) {{");
+            sb.AppendLine($"    public async {taskType} {func.CSharpName}{decoratedGenericDecl}({paramList}){whereClauses} {{");
             sb.AppendLine($"        var module = await GetModuleAsync();");
             sb.AppendLine($"        return await module.InvokeAsync<{func.ReturnType}>(\"{func.JsName}\"{argList});");
             sb.AppendLine($"    }}");

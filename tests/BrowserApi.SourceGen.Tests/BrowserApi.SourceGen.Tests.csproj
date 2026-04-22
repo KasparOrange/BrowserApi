@@ -15,6 +15,12 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
         <PackageReference Include="xunit" Version="2.9.3" />
         <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+        <!-- Referenced by the compile-the-output integration test: the generator emits
+             IJSRuntime / DotNetObjectReference usages and an IServiceCollection extension,
+             and we confirm the emitted C# compiles cleanly against the real types a Blazor
+             consumer would see. -->
+        <PackageReference Include="Microsoft.JSInterop" Version="10.0.*" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*" />
     </ItemGroup>
 
     <ItemGroup>

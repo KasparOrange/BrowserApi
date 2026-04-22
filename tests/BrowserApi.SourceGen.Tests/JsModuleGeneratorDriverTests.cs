@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
@@ -192,10 +196,11 @@ export function configure(opts: SomeUnresolvedThing): void;
     }
 
     [Fact]
-    public void Generator_does_not_emit_class_for_DotNetObjectReference_stub() {
-        // Regression: a stub `interface DotNetObjectReference {}` in a .d.ts (present only
-        // to satisfy TypeScript) must not produce a `DotNetObjectReference.g.cs` class that
-        // would collide with `Microsoft.JSInterop.DotNetObjectReference` at consumer call sites.
+    public void Generator_emits_generic_method_for_DotNetObjectReference_param() {
+        // Path C: a stub `interface DotNetObjectReference {}` is skipped (no colliding
+        // class), and the top-level DotNetObjectReference parameter promotes the whole
+        // method to generic-over-TDotNetRef so callers pass their real
+        // DotNetObjectReference<T> with type inference intact.
         var dts = @"
 interface DotNetObjectReference {}
 
@@ -219,12 +224,62 @@ export function createDrag(dotNetRef: DotNetObjectReference, config: DragConfig)
         // DragConfig still emits as normal.
         Assert.Contains("DragConfig.g.cs", sourceNames);
 
-        // The generated module method signature uses the real Blazor type, not `object`.
         var moduleSource = result.GeneratedTrees
             .First(t => t.FilePath.EndsWith("MwDndModule.g.cs"))
             .GetText().ToString();
-        Assert.Contains("Microsoft.JSInterop.DotNetObjectReference dotNetRef", moduleSource);
+
+        // Method is generic over TDotNetRef, decorated with DAM for AOT/trim safety.
+        Assert.Contains("CreateDragAsync<[System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers", moduleSource);
+        Assert.Contains("DynamicallyAccessedMemberTypes.PublicMethods)] TDotNetRef>", moduleSource);
+
+        // Param uses the real Blazor type, fully qualified.
+        Assert.Contains("Microsoft.JSInterop.DotNetObjectReference<TDotNetRef> dotNetRef", moduleSource);
+
+        // `where TDotNetRef : class` is required because DotNetObjectReference<T> has that constraint.
+        Assert.Contains("where TDotNetRef : class", moduleSource);
+
+        // No `object dotNetRef` — we're past the preview.5 fallback.
         Assert.DoesNotContain("object dotNetRef", moduleSource);
+    }
+
+    [Fact]
+    public void Consumer_can_call_generated_DotNetObjectReference_method_with_inference() {
+        // The critical Path C test: compile the generated code *together with* realistic
+        // consumer code that calls the module's method by passing a DotNetObjectReference<MyPage>
+        // without an explicit type argument. If C# type inference can't resolve TDotNetRef
+        // from the argument, this fails with CS0411. Ensures the generic method we emit
+        // is actually callable at the shape consumers write.
+        var dts = @"
+interface DotNetObjectReference {}
+export function createDrag(dotNetRef: DotNetObjectReference, name: string): number;
+";
+
+        var consumerCode = @"
+using System.Threading.Tasks;
+using Microsoft.JSInterop;
+using JsModules;
+
+namespace TestConsumer {
+    public class MyPage {
+        [JSInvokable] public void OnCallback() {}
+    }
+
+    public class Caller {
+        public async Task<double> Run(MwDndModule module) {
+            var page = new MyPage();
+            var objRef = DotNetObjectReference.Create(page);    // DotNetObjectReference<MyPage>
+            return await module.CreateDragAsync(objRef, ""hi""); // TDotNetRef inferred as MyPage
+        }
+    }
+}";
+
+        var errors = CompileGeneratorOutputWithConsumerCode(dts, "wwwroot/js/mw-dnd.d.ts", consumerCode)
+            .Where(d => d.Severity == DiagnosticSeverity.Error)
+            .ToList();
+
+        Assert.True(errors.Count == 0,
+            "Consumer code + generated code has compile errors:\n" +
+            string.Join("\n", errors.Select(e => $"  {e.Id} at {e.Location.GetLineSpan()}: {e.GetMessage()}")));
     }
 
     [Fact]
@@ -242,6 +297,106 @@ export function run(dotNet: DotNetObjectReference, cfg: Cfg): void;
         var result = RunGenerator(dts, "wwwroot/js/runner.d.ts");
 
         Assert.Empty(result.Diagnostics);
+    }
+
+    [Fact]
+    public void Generator_output_compiles_cleanly_against_real_Microsoft_JSInterop() {
+        // Regression guard against preview.4-style silent breakage:
+        // String-based "does the output contain X?" tests cannot detect emitted code
+        // that references types incorrectly — CS0721 (static type as parameter),
+        // CS0246 (type not found), namespace typos, or wrong generic arity.
+        // This test compiles the generator's output against the same real
+        // Microsoft.JSInterop that a consumer project would see, and asserts zero
+        // compile errors. Any change to emitted code that doesn't compile in a real
+        // consumer will fail here before it can ship to NuGet.
+        var dts = @"
+interface DotNetObjectReference {}
+
+export interface DragConfig {
+    container: string;
+    behaviors: Record<string, Behavior>;
+    mode: 'a' | 'b';
+}
+
+export interface Behavior {
+    name: string;
+}
+
+/** Create a new drag context. */
+export function createDrag(dotNetRef: DotNetObjectReference, config: DragConfig): number;
+export function destroyDrag(contextId: number): void;
+export function fetchThing(id: string): Promise<DragConfig>;
+";
+
+        var errors = CompileGeneratorOutput(dts, "wwwroot/js/mw-dnd.d.ts")
+            .Where(d => d.Severity == DiagnosticSeverity.Error)
+            .ToList();
+
+        Assert.True(errors.Count == 0,
+            "Generated code has compile errors:\n" +
+            string.Join("\n", errors.Select(e => $"  {e.Id} at {e.Location.GetLineSpan()}: {e.GetMessage()}")));
+    }
+
+    private static ImmutableArray<Diagnostic> CompileGeneratorOutput(string dts, string dtsPath) {
+        // Step 1: run the generator against a seed compilation so it emits trees.
+        var seed = CSharpCompilation.Create("SeedAssembly",
+            references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) });
+
+        var driver = CSharpGeneratorDriver.Create(new JsModuleGenerator())
+            .AddAdditionalTexts(ImmutableArray.Create<AdditionalText>(
+                new InMemoryAdditionalText(dtsPath, dts)));
+        driver = (CSharpGeneratorDriver)driver.RunGeneratorsAndUpdateCompilation(seed, out _, out _);
+
+        // Step 2: compile the generated trees standalone with a full reference set,
+        // simulating what a consumer assembly sees.
+        var compilation = CSharpCompilation.Create(
+            "ConsumerAssembly",
+            syntaxTrees: driver.GetRunResult().GeneratedTrees,
+            references: GetConsumerReferences(),
+            options: new CSharpCompilationOptions(
+                OutputKind.DynamicallyLinkedLibrary,
+                nullableContextOptions: NullableContextOptions.Enable));
+
+        return compilation.GetDiagnostics();
+    }
+
+    private static ImmutableArray<Diagnostic> CompileGeneratorOutputWithConsumerCode(
+        string dts, string dtsPath, string consumerCode) {
+
+        var seed = CSharpCompilation.Create("SeedAssembly",
+            references: new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) });
+
+        var driver = CSharpGeneratorDriver.Create(new JsModuleGenerator())
+            .AddAdditionalTexts(ImmutableArray.Create<AdditionalText>(
+                new InMemoryAdditionalText(dtsPath, dts)));
+        driver = (CSharpGeneratorDriver)driver.RunGeneratorsAndUpdateCompilation(seed, out _, out _);
+
+        var consumerTree = CSharpSyntaxTree.ParseText(consumerCode, path: "Consumer.cs");
+
+        var compilation = CSharpCompilation.Create(
+            "ConsumerAssembly",
+            syntaxTrees: driver.GetRunResult().GeneratedTrees.Concat(new[] { consumerTree }),
+            references: GetConsumerReferences(),
+            options: new CSharpCompilationOptions(
+                OutputKind.DynamicallyLinkedLibrary,
+                nullableContextOptions: NullableContextOptions.Enable));
+
+        return compilation.GetDiagnostics();
+    }
+
+    private static IEnumerable<MetadataReference> GetConsumerReferences() {
+        // All trusted-platform-assemblies (the runtime's BCL: System.Runtime, netstandard,
+        // System.Collections, System.Text.Json, Microsoft.JSInterop when referenced, etc.)
+        var tpa = (string?)System.AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") ?? "";
+        foreach (var path in tpa.Split(Path.PathSeparator).Where(p => !string.IsNullOrEmpty(p)))
+            yield return MetadataReference.CreateFromFile(path);
+
+        // Belt-and-braces: touch types from each package that the generated code references,
+        // forcing assembly resolution if the host hasn't loaded them yet.
+        yield return MetadataReference.CreateFromFile(
+            typeof(Microsoft.JSInterop.IJSRuntime).Assembly.Location);
+        yield return MetadataReference.CreateFromFile(
+            typeof(Microsoft.Extensions.DependencyInjection.IServiceCollection).Assembly.Location);
     }
 
     private static GeneratorDriverRunResult RunGenerator(string dtsContent, string dtsPath) {

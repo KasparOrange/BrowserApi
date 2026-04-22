@@ -274,16 +274,16 @@ export interface Config {
 
     [Fact]
     public void MapTsType_does_not_record_intentional_mappings() {
-        // `any` and `null` intentionally map to `object`; `DotNetObjectReference` maps to
-        // the real Microsoft.JSInterop type. None of these should trigger a diagnostic.
+        // `any`, `null`, and `DotNetObjectReference` intentionally map to `object`.
+        // None of these should trigger a diagnostic.
         var map = new System.Collections.Generic.Dictionary<string, string>();
         var fallbacks = new System.Collections.Generic.List<TsTypeFallback>();
 
         Assert.Equal("object", TsDeclarationParser.MapTsType("any", map, fallbacks, "ctx"));
         Assert.Equal("object", TsDeclarationParser.MapTsType("null", map, fallbacks, "ctx"));
-        Assert.Equal("Microsoft.JSInterop.DotNetObjectReference",
+        Assert.Equal("object",
             TsDeclarationParser.MapTsType("DotNetObjectReference", map, fallbacks, "ctx"));
-        Assert.Equal("Microsoft.JSInterop.DotNetObjectReference",
+        Assert.Equal("object",
             TsDeclarationParser.MapTsType("DotNetObjectReference<Foo>", map, fallbacks, "ctx"));
 
         Assert.Empty(fallbacks);
@@ -291,10 +291,11 @@ export interface Config {
 
     [Fact]
     public void Parse_skips_DotNetObjectReference_stub_interface_declaration() {
-        // A consumer-written `interface DotNetObjectReference {}` in a .d.ts exists only
-        // to make TypeScript happy. The generator must not register it in the type map,
-        // must not emit a C# class for it, and must still map references to the real
-        // Microsoft.JSInterop type in method signatures.
+        // Stub `interface DotNetObjectReference {}` in a .d.ts is only there to satisfy
+        // TypeScript. The generator must not register it in the type map or emit a C#
+        // class for it — that would collide with the real Microsoft.JSInterop type.
+        // A top-level `DotNetObjectReference` parameter is flagged for Path C generic
+        // method emission (no fallback diagnostic).
         var dts = @"
 interface DotNetObjectReference {}
 
@@ -307,20 +308,59 @@ export function createDrag(dotNetRef: DotNetObjectReference, name: string): numb
         Assert.Empty(result.UnknownTypeFallbacks);
 
         var func = Assert.Single(result.Functions);
-        Assert.Equal("Microsoft.JSInterop.DotNetObjectReference", func.Params[0].CSharpType);
+        Assert.True(func.Params[0].IsDotNetObjectRef);
         Assert.Equal("string", func.Params[1].CSharpType);
     }
 
     [Fact]
-    public void Parse_maps_DotNetObjectReference_in_signature_without_stub_declaration() {
-        // Even without a stub declaration, referencing DotNetObjectReference in a signature
-        // routes to the real Microsoft.JSInterop type.
-        var dts = "export function init(dotNetRef: DotNetObjectReference): void;";
+    public void Parse_flags_DotNetObjectReference_param_for_generic_method() {
+        // Path C: top-level DotNetObjectReference parameter gets flagged so the emitter
+        // promotes the whole method to generic-over-TDotNetRef. Works with or without
+        // a type argument (`DotNetObjectReference` vs `DotNetObjectReference<X>`).
+        var dts = @"
+export function a(r: DotNetObjectReference): void;
+export function b(r: DotNetObjectReference<SomeType>): void;
+";
         var result = TsDeclarationParser.Parse(dts);
 
-        var func = Assert.Single(result.Functions);
-        Assert.Equal("Microsoft.JSInterop.DotNetObjectReference", func.Params[0].CSharpType);
+        Assert.True(result.Functions[0].Params[0].IsDotNetObjectRef);
+        Assert.True(result.Functions[1].Params[0].IsDotNetObjectRef);
         Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_flags_optional_DotNetObjectReference_param() {
+        var dts = "export function init(ref?: DotNetObjectReference): void;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        var param = result.Functions[0].Params[0];
+        Assert.True(param.IsDotNetObjectRef);
+        Assert.True(param.IsOptional);
+    }
+
+    [Fact]
+    public void Parse_DotNetObjectReference_as_property_falls_back_to_object() {
+        // Only top-level parameter position gets Path C treatment. In an interface
+        // property, we can't make the record generic, so we fall back to object.
+        // This is an intentional mapping (no BAPI002).
+        var dts = @"
+export interface Cfg {
+    ref: DotNetObjectReference;
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("object", result.Interfaces[0].Properties[0].CSharpType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_multiple_DotNetObjectReference_params() {
+        var dts = "export function link(a: DotNetObjectReference, b: DotNetObjectReference): void;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.True(result.Functions[0].Params[0].IsDotNetObjectRef);
+        Assert.True(result.Functions[0].Params[1].IsDotNetObjectRef);
     }
 
     [Fact]
@@ -637,7 +677,7 @@ export function addClassToMatching(selector: string, className: string): void;
         Assert.Equal(4, result.Functions.Count);
         Assert.Equal("createDrag", result.Functions[0].JsName);
         Assert.Equal("double", result.Functions[0].ReturnType);
-        Assert.Equal("Microsoft.JSInterop.DotNetObjectReference", result.Functions[0].Params[0].CSharpType);
+        Assert.True(result.Functions[0].Params[0].IsDotNetObjectRef);    // Path C generic
         Assert.Equal("DragConfig", result.Functions[0].Params[1].CSharpType);
         Assert.Equal("Create a new drag-and-drop context.", result.Functions[0].Summary);
 

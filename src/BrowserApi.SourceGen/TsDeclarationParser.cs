@@ -57,8 +57,9 @@ internal static class TsDeclarationParser {
     // Blazor interop type names that are pre-declared by Microsoft.JSInterop.
     // If a consumer declares these as stub `interface X {}` in a .d.ts (usually just
     // to satisfy the TypeScript compiler), we ignore the declaration entirely — no
-    // TypeMap entry, no emitted C# record. References in method signatures route to
-    // the real Blazor type via MapTsType's special case.
+    // TypeMap entry, no emitted C# record. Emitting a C# class for the stub would
+    // collide with the real Microsoft.JSInterop.DotNetObjectReference at consumer
+    // call sites. References in method signatures are handled by MapTsType.
     private static readonly HashSet<string> BlazorInteropTypeNames = new() {
         "DotNetObjectReference",
     };
@@ -148,6 +149,24 @@ internal static class TsDeclarationParser {
                         var pName = typedMatch.Groups[1].Value;
                         var pOptional = typedMatch.Groups[2].Value == "?";
                         var pType = typedMatch.Groups[3].Value.Trim();
+
+                        // Path C: if the parameter's top-level type is DotNetObjectReference
+                        // (with or without a type argument), flag it. The generator will
+                        // promote the method to generic and emit a real typed
+                        // `DotNetObjectReference<TDotNetRefN>` — no call to MapTsType needed.
+                        // Nested occurrences (e.g. `DotNetObjectReference[]`) still go through
+                        // MapTsType and fall back to `object` — they're documented fallbacks.
+                        if (pType == "DotNetObjectReference" || pType.StartsWith("DotNetObjectReference<")) {
+                            func.Params.Add(new JsParamInfo {
+                                Name = pName,
+                                CSharpName = ToCamelCase(pName),
+                                CSharpType = "", // ignored when IsDotNetObjectRef is true
+                                IsDotNetObjectRef = true,
+                                IsOptional = pOptional
+                            });
+                            continue;
+                        }
+
                         var csPType = MapTsType(pType, result.TypeMap,
                             result.UnknownTypeFallbacks, $"{funcName}({pName})");
                         if (pOptional && !csPType.EndsWith("?"))
@@ -156,7 +175,8 @@ internal static class TsDeclarationParser {
                         func.Params.Add(new JsParamInfo {
                             Name = pName,
                             CSharpName = ToCamelCase(pName),
-                            CSharpType = csPType
+                            CSharpType = csPType,
+                            IsOptional = pOptional
                         });
                     } else {
                         func.Params.Add(new JsParamInfo {
@@ -285,12 +305,12 @@ internal static class TsDeclarationParser {
             case "never": return "void";
         }
 
-        // Blazor interop types. We always route to the non-generic abstract base
-        // `Microsoft.JSInterop.DotNetObjectReference`, which accepts any `DotNetObjectReference<T>`
-        // the caller creates. We can't resolve `<T>` from the .d.ts side, so the non-generic base
-        // is the strongest type we can emit.
+        // Blazor interop types. `DotNetObjectReference<T>` is generic and there is no
+        // non-generic parameterizable base — `Microsoft.JSInterop.DotNetObjectReference`
+        // is a static factory class (CS0721 if used as a parameter type). We can't
+        // resolve `<T>` from the .d.ts side, so `object` is the only safe mapping.
         if (trimmed == "DotNetObjectReference" || trimmed.StartsWith("DotNetObjectReference<"))
-            return "Microsoft.JSInterop.DotNetObjectReference";
+            return "object";
 
         // Array<T>
         if (trimmed.StartsWith("Array<") && trimmed.EndsWith(">")) {
