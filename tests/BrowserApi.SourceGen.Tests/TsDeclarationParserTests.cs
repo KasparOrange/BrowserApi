@@ -694,6 +694,110 @@ export interface Cfg {
     }
 
     [Fact]
+    public void Parse_ts_function_with_implementation_body() {
+        // Preview.7: the parser now treats .ts source (with bodies) the same as .d.ts
+        // (without bodies). Function regex accepts either `;` or `{` as the terminator,
+        // and the body's contents are simply not matched by any of our patterns.
+        var ts = @"
+export function greet(name: string, times: number): string {
+    return `${name} `.repeat(times);
+}
+";
+        var result = TsDeclarationParser.Parse(ts);
+
+        Assert.Single(result.Functions);
+        Assert.Equal("greet", result.Functions[0].JsName);
+        Assert.Equal("string", result.Functions[0].ReturnType);
+        Assert.Equal("string", result.Functions[0].Params[0].CSharpType);
+        Assert.Equal("double", result.Functions[0].Params[1].CSharpType);
+    }
+
+    [Fact]
+    public void Parse_ts_async_function() {
+        // `async` is common in .ts source and was never valid .d.ts syntax. The parser
+        // now recognizes it as an optional modifier.
+        var ts = @"
+export async function fetchData(url: string): Promise<string> {
+    const r = await fetch(url);
+    return r.text();
+}
+";
+        var result = TsDeclarationParser.Parse(ts);
+
+        Assert.Single(result.Functions);
+        // Promise<T> is unwrapped to T for the C# method return type (method is already Task<T>).
+        Assert.Equal("string", result.Functions[0].ReturnType);
+    }
+
+    [Fact]
+    public void Parse_ts_function_body_is_not_mistaken_for_property() {
+        // Regression guard: function bodies contain statements that might look like
+        // TypeScript property declarations to a careless regex. The body must be
+        // effectively invisible to the rest of the parser.
+        var ts = @"
+export interface Config {
+    name: string;
+}
+
+export function parse(input: string): Config {
+    const cfg: Config = { name: input };
+    return cfg;
+}
+";
+        var result = TsDeclarationParser.Parse(ts);
+
+        Assert.Single(result.Interfaces);
+        Assert.Single(result.Interfaces[0].Properties);
+        Assert.Equal("name", result.Interfaces[0].Properties[0].TsName);
+        // The body's `const cfg: Config` must NOT have leaked into the interface as a property.
+    }
+
+    [Fact]
+    public void Parse_ts_interface_with_same_shape_as_dts() {
+        // Interfaces have identical syntax in .ts and .d.ts. Same JSDoc extraction,
+        // same property mapping, same enum synthesis — no special casing needed.
+        var ts = @"
+/** Runtime configuration. */
+export interface Config {
+    /** The name field. */
+    name: string;
+    kind: 'a' | 'b';
+}
+
+export function configure(cfg: Config): void {
+    // ...implementation
+}
+";
+        var result = TsDeclarationParser.Parse(ts);
+
+        Assert.Equal("Runtime configuration.", result.Interfaces[0].Summary);
+        Assert.Equal("The name field.", result.Interfaces[0].Properties[0].Summary);
+        Assert.Equal("ConfigKind", result.Enums[0].CSharpName);
+        Assert.Equal("Config", result.Functions[0].Params[0].CSharpType);
+    }
+
+    [Fact]
+    public void Parse_ts_JSDoc_flows_same_as_dts() {
+        // The .ts JSDoc extraction uses the same code path as .d.ts, so all the
+        // JSDoc behaviors (multiline, stop at @tag, boilerplate fallback) apply.
+        var ts = @"
+/**
+ * Create a new thing.
+ * @param id - The identifier.
+ * @returns The new thing's handle.
+ */
+export function create(id: string): number {
+    return id.length;
+}
+";
+        var result = TsDeclarationParser.Parse(ts);
+
+        Assert.Equal("Create a new thing.", result.Functions[0].Summary);
+        Assert.Equal("The identifier.", result.Functions[0].Params[0].Description);
+        Assert.Equal("The new thing's handle.", result.Functions[0].ReturnsDoc);
+    }
+
+    [Fact]
     public void Parse_interface_with_line_comments() {
         var dts = @"
 export interface Config {

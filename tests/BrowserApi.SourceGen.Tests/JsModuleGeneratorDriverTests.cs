@@ -362,6 +362,44 @@ export function foo(): void;
     }
 
     [Fact]
+    public void Generator_parses_ts_source_directly_without_dts() {
+        // Preview.7: a .ts file alone (no accompanying .d.ts) is enough. The typed
+        // parser runs against it, the generator emits the same C# shape it would from
+        // a .d.ts, and downstream consumers never need to invoke tsc.
+        var ts = @"
+/** Runtime configuration. */
+export interface Config {
+    /** CSS selector for the root. */
+    root: string;
+}
+
+/** Create a new widget. */
+export function create(cfg: Config): number {
+    // body is ignored by the parser — this is the preview.7 change
+    return cfg.root.length;
+}
+";
+        var result = RunGenerator(ts, "wwwroot/js/widget.ts");
+
+        Assert.Empty(result.Diagnostics);
+
+        var names = result.GeneratedTrees.Select(t => System.IO.Path.GetFileName(t.FilePath)).ToList();
+        Assert.Contains("Config.g.cs", names);
+        Assert.Contains("WidgetModule.g.cs", names);
+
+        // JSDoc flow-through works on .ts the same as on .d.ts.
+        var recordSource = result.GeneratedTrees.First(t => t.FilePath.EndsWith("Config.g.cs")).GetText().ToString();
+        Assert.Contains("<summary>Runtime configuration.</summary>", recordSource);
+        Assert.Contains("<summary>CSS selector for the root.</summary>", recordSource);
+
+        // The generated module has the real function, typed from the .ts return type.
+        var moduleSource = result.GeneratedTrees.First(t => t.FilePath.EndsWith("WidgetModule.g.cs")).GetText().ToString();
+        Assert.Contains("CreateAsync", moduleSource);
+        Assert.Contains("Config cfg", moduleSource);
+        Assert.Contains("<summary>Create a new widget.</summary>", moduleSource);
+    }
+
+    [Fact]
     public void Generator_does_not_report_BAPI002_for_intentional_any() {
         // `any`, `null`, and DotNetObjectReference intentionally map to `object` —
         // these are not silent degradations and should not produce a warning.

@@ -19,9 +19,22 @@ internal static class TsDeclarationParser {
         @"\b(?:export\s+)?interface\s+(\w+)\s*\{",
         RegexOptions.Compiled);
 
-    // Match: export function foo(params): returnType;
+    // Match an exported function. Handles both forms:
+    //   `.d.ts`: `export function foo(x: string): number;`          ← declaration, ends `;`
+    //   `.ts`:   `export async function foo(x: string): number { … }` ← implementation, body starts `{`
+    //
+    // Capture groups:
+    //   1. function name
+    //   2. raw parameter list text (name:type, name?:type, …)
+    //   3. return type (TypeScript syntax, mapped downstream)
+    //   4. terminator — `;` for a declaration, `{` for an implementation (body gets skipped)
+    //
+    // `async` is optional (common in `.ts`); `declare` is optional (common in `.d.ts`).
+    // A return-type annotation is still required — TypeScript inference would force us
+    // to run the full type system, which we don't. Consumers writing `.ts` should
+    // annotate return types on exported functions anyway for a stable public surface.
     private static readonly Regex FunctionRegex = new(
-        @"export\s+(?:declare\s+)?function\s+(\w+)\s*\(([^)]*)\)\s*:\s*([^;]+);",
+        @"export\s+(?:declare\s+)?(?:async\s+)?function\s+(\w+)\s*\(([^)]*)\)\s*:\s*([^;{]+?)\s*([;{])",
         RegexOptions.Compiled);
 
     // Match a property line inside an interface: name?: Type;  or  name: Type;
@@ -549,9 +562,19 @@ internal static class TsDeclarationParser {
     }
 
     private static void AttachJsDocSummaries(string source, List<JsFunctionInfo> functions) {
-        // Simple approach: find JSDoc blocks before export function declarations
+        // Find JSDoc blocks immediately before an `export [declare] [async] function Name`.
+        //
+        // Regex detail: the JSDoc body uses `(?:(?!\*/)[\s\S])*` — "any characters NOT
+        // starting a `*/` sequence". Plain `[\s\S]*?` (lazy) would be wrong: it can still
+        // match across intermediate `*/` boundaries when no closer match exists earlier,
+        // which would let the capture eat through an `export interface Config { ... }`
+        // between two JSDoc blocks and glue unrelated content into the function summary.
+        //
+        // The `async` keyword is optional because `.ts` source commonly uses it; `declare`
+        // is optional because `.d.ts` uses it. Accepting both means the same extraction
+        // works uniformly across both file formats (preview.7).
         var pattern = new Regex(
-            @"/\*\*\s*([\s\S]*?)\*/\s*export\s+(?:declare\s+)?function\s+(\w+)",
+            @"/\*\*((?:(?!\*/)[\s\S])*)\*/\s*export\s+(?:declare\s+)?(?:async\s+)?function\s+(\w+)",
             RegexOptions.Compiled);
 
         foreach (Match m in pattern.Matches(source)) {

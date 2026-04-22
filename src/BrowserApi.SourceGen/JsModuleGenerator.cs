@@ -88,16 +88,24 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         var generatedClasses = new System.Collections.Generic.List<GeneratedClassInfo>();
         var emittedTypes = new System.Collections.Generic.HashSet<string>();
 
-        // 1. Process explicit [JsModule] declarations
+        // 1. Process explicit [JsModule] declarations.
+        //
+        // Source-file priority (same as auto-discovery below):
+        //   .d.ts (typed) → .ts (typed) → .js (JSDoc-only).
+        //
+        // `.d.ts` wins when both it and `.ts` are present because it's the post-tsc
+        // canonical type surface (cleaner, no bodies). A consumer shipping only `.ts`
+        // gets the same typed treatment without needing a tsc step — new as of
+        // preview.7.
         foreach (var ec in explicitClasses) {
             if (ec is null) continue;
             var stem = GetStem(ec.JsPath);
 
-            // Try .d.ts first, then .js
             var dtsFile = dtsFiles.FirstOrDefault(f => GetStem(f.Path) == stem);
-            var jsFile = jsFiles.FirstOrDefault(f => GetStem(f.Path) == stem)
-                ?? tsFiles.FirstOrDefault(f => GetStem(f.Path) == stem);
+            var tsFile = tsFiles.FirstOrDefault(f => GetStem(f.Path) == stem);
+            var jsFile = jsFiles.FirstOrDefault(f => GetStem(f.Path) == stem);
 
+            // Try the typed parser on .d.ts first.
             if (dtsFile is not null) {
                 var dtsSource = dtsFile.GetText(context.CancellationToken)?.ToString();
                 if (dtsSource is not null) {
@@ -111,8 +119,22 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
                 }
             }
 
-            // Fallback to .js + JSDoc
-            var sourceFile = jsFile ?? FindFile(allFiles, ec.JsPath);
+            // Then try the typed parser on .ts.
+            if (tsFile is not null) {
+                var tsSource = tsFile.GetText(context.CancellationToken)?.ToString();
+                if (tsSource is not null) {
+                    var parsed = ParseAndReport(tsSource, context);
+                    if (parsed.Functions.Count > 0 || parsed.Interfaces.Count > 0) {
+                        EmitFromTsResult(context, ec.ClassName, ec.Namespace, ec.JsPath,
+                            ec.Accessibility, parsed, emittedTypes, tsFile.Path);
+                        generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
+                        continue;
+                    }
+                }
+            }
+
+            // Fallback to JSDoc on .js (or an untyped .ts).
+            var sourceFile = jsFile ?? tsFile ?? FindFile(allFiles, ec.JsPath);
             if (sourceFile is null) {
                 context.ReportDiagnostic(Diagnostic.Create(
                     new DiagnosticDescriptor("BAPI001", "JS file not found",
@@ -130,10 +152,21 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
         }
 
-        // 2. Auto-discover files without explicit declarations
+        // 2. Auto-discover files without explicit declarations.
+        //
+        // Priority, highest first:
+        //   1. `.d.ts` — pure typed declarations. Best signal; parsed by TsDeclarationParser.
+        //   2. `.ts`   — typed source with implementations. Parsed by TsDeclarationParser
+        //                (which now knows how to skip function bodies). This is the recommended
+        //                shape post-preview.7 — no tsc step needed.
+        //   3. `.js`   — untyped. Parsed by JsDocParser using JSDoc hints only.
+        //
+        // The priority is "stem-based": for module "mw-dnd", we pick the first file we find
+        // with that stem in the priority order above. A consumer shipping both `mw-dnd.ts`
+        // and `mw-dnd.d.ts` wins on the `.d.ts` because it's the post-tsc canonical surface.
         var processedStems = new System.Collections.Generic.HashSet<string>();
 
-        // First pass: .d.ts files
+        // First pass: .d.ts files (typed parser).
         foreach (var dtsFile in dtsFiles) {
             var stem = GetStem(dtsFile.Path);
             if (explicitPaths.Any(ep => ep.Contains(stem))) continue;
@@ -153,7 +186,37 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             generatedClasses.Add(new GeneratedClassInfo(className, ns));
         }
 
-        // Second pass: .js files without a .d.ts
+        // Second pass: .ts files (typed parser). Each .ts with at least one exported function
+        // or interface gets the full TypeScript-aware treatment — interfaces become records,
+        // string unions become enums, JSDoc flows to C# <summary>, DotNetObjectReference
+        // params become generic methods, etc. No .d.ts needed.
+        foreach (var tsFile in tsFiles) {
+            var stem = GetStem(tsFile.Path);
+            if (explicitPaths.Any(ep => ep.Contains(stem))) continue;
+            if (!processedStems.Add(stem)) continue;
+
+            var tsSource = tsFile.GetText(context.CancellationToken)?.ToString();
+            if (tsSource is null) continue;
+
+            var parsed = ParseAndReport(tsSource, context);
+            // If nothing was parsed, fall through to the JSDoc-only pass below. That preserves
+            // the legacy "parse any .ts like a .js" behavior for files that have JSDoc on
+            // plain JavaScript without TypeScript typing annotations.
+            if (parsed.Functions.Count == 0 && parsed.Interfaces.Count == 0) {
+                processedStems.Remove(stem);
+                continue;
+            }
+
+            var className = JsDocParser.SanitizeIdentifier(JsDocParser.ToPascalCase(stem)) + "Module";
+            var jsPath = DeriveImportPath(tsFile.Path);
+            var ns = "JsModules";
+
+            EmitFromTsResult(context, className, ns, jsPath, "public", parsed, emittedTypes, tsFile.Path);
+            generatedClasses.Add(new GeneratedClassInfo(className, ns));
+        }
+
+        // Third pass: .js files and .ts files not picked up by the typed parser above.
+        // Uses JSDoc-only parsing — weak typing, but covers legacy / untyped modules.
         foreach (var jsFile in jsFiles.Concat(tsFiles)) {
             var stem = GetStem(jsFile.Path);
             if (explicitPaths.Any(ep => ep.Contains(stem))) continue;
