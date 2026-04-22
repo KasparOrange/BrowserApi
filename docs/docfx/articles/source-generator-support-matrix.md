@@ -1,8 +1,10 @@
 # JS Module Source Generator — Support Matrix
 
-This is the full reference for what the `.d.ts` parser does with each TypeScript construct. The [main article](source-generator.md) gives the high-level picture; this page is the one to scan when you want to know whether a specific pattern is supported, what it maps to, and whether the generator will emit a `BAPI002` warning.
+This is the full reference for what the typed parser does with each TypeScript construct, applied uniformly to both `.ts` and `.d.ts` source files. The [main article](source-generator.md) gives the high-level picture; this page is the one to scan when you want to know whether a specific pattern is supported, what it maps to, and whether the generator will emit a `BAPI002` warning.
 
 Every entry is grouped by category. For each, you get a small TypeScript sample, the corresponding C# output, and a short explanation of *why*. When an entry falls back to `object`, the table tells you whether that's intentional (no diagnostic) or a known limitation (the generator emits `BAPI002` so you see it in your build log).
+
+**Source file support.** Preview.7 onwards, the same typed parser reads both `.ts` and `.d.ts`. For `.ts` it skips function bodies automatically (so you don't need a `tsc --emitDeclarationOnly` step). Priority when both exist for the same module stem: `.d.ts` > `.ts` > `.js` (JSDoc-only fallback).
 
 ---
 

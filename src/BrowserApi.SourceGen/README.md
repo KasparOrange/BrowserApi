@@ -2,7 +2,7 @@
 
 > **Preview** — This package is under active development. We use it internally in production, but the API may change between versions. No stability guarantees.
 
-Roslyn source generator that reads your `.js` or `.d.ts` modules at build time and emits typed C# wrapper classes for Blazor JS interop.
+Roslyn source generator that reads your `.ts`, `.d.ts`, or `.js` modules at build time and emits typed C# wrapper classes for Blazor JS interop.
 
 ## Quick Start
 
@@ -26,10 +26,11 @@ var result = await Utils.FormatCurrencyAsync(42.99, "USD");
 
 ## What It Does
 
-- Parses exported functions from `.js` (via JSDoc) or `.d.ts` files
-- Generates typed async C# methods with XML docs
+- Parses exported functions from `.ts` and `.d.ts` (typed) or `.js` (JSDoc-only)
+- Generates typed async C# methods with XML docs flowed from TypeScript JSDoc
 - TypeScript interfaces become C# records with `[JsonPropertyName]`
 - String literal unions become enums with `[JsonStringEnumConverter]`
+- `DotNetObjectReference` parameters become generic methods with type inference
 - Optional `IJsModulePathResolver` for Vite/bundler integration
 - Auto-generates `AddJsModules()` DI registration
 - Zero runtime overhead — same `InvokeAsync` calls you'd write by hand

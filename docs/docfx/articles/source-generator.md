@@ -6,7 +6,7 @@ BrowserApi.SourceGen is a Roslyn source generator that reads your JavaScript or 
 
 ```
 Build time:
-  your.js / your.d.ts  →  SourceGen  →  YourModule.g.cs (typed C# class)
+  your.ts / your.d.ts / your.js  →  SourceGen  →  YourModule.g.cs (typed C# class)
 
 Runtime:
   YourModule.MethodAsync()  →  IJSRuntime.InvokeAsync()  →  your.js
@@ -186,16 +186,32 @@ public partial class MwDndModule : IAsyncDisposable {
 
 Hover `config.Container` in any component that uses `DragConfig` and IntelliSense shows **"CSS selector for the container region."** — the exact text from the TypeScript. One place to write documentation; three places it shows up (TS editor, C# IntelliSense, docfx site).
 
-### Setup with .d.ts
+### Setup — `.ts` or `.d.ts` or both
 
 ```xml
-<!-- In your .csproj -->
+<!-- Feed your TypeScript source directly: no tsc step needed. -->
+<ItemGroup>
+    <AdditionalFiles Include="wwwroot/js/src/*.ts" />
+</ItemGroup>
+```
+
+Or if you prefer, hand-author `.d.ts` files (for example when wrapping a third-party `.js` library with no `.ts` source of your own):
+
+```xml
 <ItemGroup>
     <AdditionalFiles Include="wwwroot/js/src/*.d.ts" />
 </ItemGroup>
 ```
 
-If a `.d.ts` file exists for a module, the generator uses it for type information. If not, it falls back to JSDoc parsing from the `.js` file. Both can coexist — you can migrate one module at a time.
+The generator handles all three file types with a **typed pipeline for .ts and .d.ts, and a JSDoc-only fallback for .js**. Priority per module (matched by filename stem):
+
+1. `.d.ts` — pure typed declarations, parsed by the typed parser.
+2. `.ts` — typed source with implementations, also parsed by the typed parser (function bodies are skipped). **Recommended** — no tsc step, JSDoc sits inline with your implementation.
+3. `.js` — untyped fallback, parsed via JSDoc hints only.
+
+If you have both `mw-dnd.ts` and `mw-dnd.d.ts` for the same module, the `.d.ts` wins — it's the canonical post-tsc type surface, and is typically the version your Vite/tsc build has just regenerated. If you want the `.ts`-first workflow, simply don't commit or ship a `.d.ts` for that module.
+
+Both can coexist across modules: one module's interop can live in a `.ts`, another's in a `.d.ts`. You can migrate one file at a time.
 
 ## Custom Class Names ([JsModule] Attribute)
 
