@@ -16,6 +16,17 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+## [0.1.0-preview.4] — 2026-04-22
+
+### BrowserApi.SourceGen
+
+- **Fixed — stub `interface DotNetObjectReference {}` declarations in `.d.ts` files no longer produce a colliding C# class.** Preview.3's broadened interface handling emitted `JsModules.DotNetObjectReference` for these stubs, which collided with `Microsoft.JSInterop.DotNetObjectReference` at any consumer call site that had both namespaces in scope (CS0104 ambiguous reference). The generator now recognizes `DotNetObjectReference` as a Blazor interop primitive and skips the declaration entirely — no TypeMap entry, no emitted class.
+- **Changed — `DotNetObjectReference` parameters are now strongly typed.** Previously these mapped to C# `object` in generated method signatures; they now map to `Microsoft.JSInterop.DotNetObjectReference` (the non-generic abstract base, which accepts any `DotNetObjectReference<T>` the caller creates). Callers get IntelliSense and compile-time safety at the call site without needing to pass a generic type parameter the `.d.ts` can't resolve.
+
+### BrowserApi, BrowserApi.JSInterop, BrowserApi.Blazor, BrowserApi.Runtime
+
+- No behavioral changes. Republished at the shared version so all packages stay version-aligned.
+
 ## [0.1.0-preview.3] — 2026-04-21
 
 > Skipped `0.1.0-preview.2` for this set of changes — a `v0.1.0-preview.2` tag already pointed at an earlier commit that had been published via the old release-triggered workflow. This release is the first one cut via the new tag-driven pipeline that reads notes from `CHANGELOG.md`.
