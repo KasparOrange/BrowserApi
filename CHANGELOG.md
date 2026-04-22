@@ -16,6 +16,20 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+## [0.1.0-preview.6] — 2026-04-22
+
+### BrowserApi.SourceGen
+
+- **Added — JSDoc flows through to C# XML `<summary>`.** The parser now extracts JSDoc comments that sit above interface declarations and above interface properties, and the generator emits them as real XML documentation. Hover `config.Container` in your Blazor component and IntelliSense shows the TypeScript author's description — one place to write documentation, three places it shows up (TS editor, C# IntelliSense, docfx site). When no JSDoc is present, the generator falls back to a descriptive boilerplate (`Maps to TypeScript property <c>foo</c>`) so consumers never see an empty `<summary>`.
+- **Added — generated-file headers tell you where the file came from.** Every `.g.cs` now starts with a block naming the originating `.d.ts` / `.ts` source and noting that the file is regenerated on each build. Opening an unfamiliar generated file in the IDE immediately answers "what is this, and where do I edit it?"
+- **Added — richer module-class XML remarks.** The generated module class now documents that it's lazily imported on first call and explains the DI registration pattern, not just the one-liner.
+- **Added — per-enum-member XML summaries.** Each enum member now has `<summary>Serializes to the TypeScript literal "x".</summary>`, making the JSON contract visible at the member level.
+- **Changed — `DotNetObjectReference<T>` is now emitted unqualified.** `using Microsoft.JSInterop;` is already in every generated module file, and Path C's skip-list guarantees no colliding `JsModules.DotNetObjectReference` class exists. The fully-qualified form from preview.5 was defensive over-engineering; the unqualified form is cleaner and works identically.
+
+### BrowserApi, BrowserApi.JSInterop, BrowserApi.Blazor, BrowserApi.Runtime
+
+- No behavioral changes. Republished at the shared version so all packages stay version-aligned.
+
 ## [0.1.0-preview.5] — 2026-04-22
 
 ### BrowserApi.SourceGen
