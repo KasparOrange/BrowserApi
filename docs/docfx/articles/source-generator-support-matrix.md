@@ -86,11 +86,12 @@ export function createDrag(dotNetRef: DotNetObjectReference, config: DragConfig)
 
 ```csharp
 // Generated — the method is generic; T is inferred at each call site
+// (`using Microsoft.JSInterop;` is in the file header, so DotNetObjectReference is unqualified)
 public async System.Threading.Tasks.Task<double> CreateDragAsync<
     [System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembers(
         System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicMethods)]
     TDotNetRef>(
-    Microsoft.JSInterop.DotNetObjectReference<TDotNetRef> dotNetRef,
+    DotNetObjectReference<TDotNetRef> dotNetRef,
     DragConfig config) where TDotNetRef : class { ... }
 ```
 
@@ -127,6 +128,48 @@ In practice this is fine: `DotNetObjectReference` is almost always passed as a d
 | `foo?: DotNetObjectReference` | `DotNetObjectReference<TDotNetRef>? foo` (generic method, nullable generic param) |
 
 **Why `?` only on value-producing positions.** Generated records use `required` for non-optional properties and plain `get; init;` for optional ones. The nullable `?` conveys the JSON-shape contract both to the C# compiler and to `System.Text.Json` — deserialization sees a missing key and sets the property to `null` / default without complaint.
+
+---
+
+## JSDoc → C# XML documentation
+
+JSDoc comments in your `.ts` / `.d.ts` flow through to C# XML docs so IntelliSense shows the same text a TypeScript editor would. Three positions are recognized:
+
+| JSDoc position | C# output |
+|---|---|
+| Leading text on an `export function` | `/// <summary>` on the generated async method |
+| `@param name - text` on a function | `/// <param name="…">` on the matching C# parameter |
+| `@returns text` on a function | `/// <returns>` on the method |
+| Leading text on an `interface` declaration | `/// <summary>` on the generated sealed class |
+| Leading text on an interface property | `/// <summary>` on the generated property |
+
+**Example round-trip:**
+
+```typescript
+/** Configuration for a drag context. */
+export interface DragConfig {
+    /** CSS selector for the container. */
+    container: string;
+}
+```
+
+```csharp
+/// <summary>Configuration for a drag context.</summary>
+/// <remarks>Generated from the TypeScript interface <c>DragConfig</c>.</remarks>
+public sealed class DragConfig {
+    /// <summary>CSS selector for the container.</summary>
+    [JsonPropertyName("container")]
+    public required string Container { get; init; }
+}
+```
+
+The `<remarks>` tag is added automatically whenever the interface has a JSDoc summary — it preserves the "this was generated from `X`" breadcrumb without losing the author's description.
+
+**How the summary text is extracted.** The parser takes everything between `/**` and the first `@tag` line. Multi-line JSDoc is collapsed to a single space-joined string — good for `<summary>` which expects one paragraph. Lines starting with the canonical `*` prefix have it stripped automatically. Content after the first `@tag` is either used by the tagged-section parser (for functions, `@param` / `@returns`) or ignored (for properties — no per-property tag support today).
+
+**No JSDoc?** The generator falls back to a descriptive boilerplate: `Maps to TypeScript property <c>foo</c>` for properties, `Generated from the TypeScript interface <c>Foo</c>` for interfaces. Consumers still get *some* documentation, never an empty `<summary>`.
+
+**Attachment is strict.** A JSDoc block attaches only to the declaration *immediately* below it (whitespace-only separation). A non-JSDoc comment or another declaration between them breaks the attachment — that prevents us from accidentally leaking someone else's docs onto a later member.
 
 ---
 

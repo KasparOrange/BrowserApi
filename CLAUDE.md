@@ -1,5 +1,24 @@
 # BrowserApi — AI Assistant Guide
 
+## North Star: developer experience deluxe
+
+This project optimizes for **transparency and readability** above almost everything else. A new contributor — human or agent — should be able to open any file and understand *what it does, why it was written that way, and where to look next* without needing to hunt for context.
+
+Apply this to every change:
+
+- **Code comments explain the *why*, never the *what*.** Identifiers already say what. Comments earn their place by preserving reasoning — a hidden constraint, a past incident, a specific invariant — that a future reader would otherwise have to rediscover.
+- **Generated code is self-documenting.** When the source generator emits C#, the output carries a file-header comment pointing at the source `.ts`/`.d.ts`, class-level XML docs describing the shape, and per-property/per-parameter summaries pulled from the TypeScript JSDoc. Reading the generated `.g.cs` should feel the same as reading hand-written documented code.
+- **Docs are updated in the same commit as the code.** Never ship a behavior change without touching the article that describes it. The relevant surfaces are:
+  - `docs/docfx/articles/source-generator.md` — headline behavior for the SourceGen
+  - `docs/docfx/articles/source-generator-support-matrix.md` — reference table of every supported / fallback / unsupported TypeScript construct
+  - `docs/explanations/releasing.md` — the release workflow
+  - `CHANGELOG.md` — user-visible behavior changes, framed as *"what changed and why you care"*
+  - `CLAUDE.md` (this file) — any new principle or workflow that future agents need to know
+- **After any doc change, spawn an agent to audit.** Send an Explore agent over the changed docs and ask it to flag inconsistencies, stale references, broken cross-links, or missing sections. Fix what it finds. The cost is a few minutes; the benefit is docs that stay trustworthy.
+- **Good is better than exhaustive.** Don't pad. A clear sentence beats a clear paragraph. A well-structured table beats a long bulleted list. The goal is "a reader finds what they need in under a minute," not "every possible edge case is spelled out."
+
+This principle trumps convenience. If shipping a fix faster would mean shipping it undocumented — don't ship faster.
+
 ## What This Project Is
 
 BrowserApi is a **code generation** project that produces typed C# wrappers for browser APIs from W3C/WHATWG specifications. The core library has zero dependencies — it's pure types and string serialization. Separate packages add JS interop and Blazor integration.
