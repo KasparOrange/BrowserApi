@@ -16,6 +16,17 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+## [0.1.0-preview.7] — 2026-04-22
+
+### BrowserApi.SourceGen
+
+- **Added — `.ts` files are now first-class sources, parsed the same as `.d.ts`.** The typed parser gained two small extensions — it recognizes `async function` and it skips over function bodies — which together mean the generator can read your TypeScript source directly. No `tsc --emitDeclarationOnly` step in your build, no intermediate `.d.ts` files to keep in sync, no tooling to install. Write `.ts` with JSDoc + implementation; the generator reads the types right out of the source. Both `.ts` and `.d.ts` are supported across all positions; when both exist for a module, `.d.ts` wins (it's the canonical post-tsc surface). See [source-generator.md](docs/docfx/articles/source-generator.md#setup--ts-or-dts-or-both) for the updated setup guide.
+- **Fixed — function JSDoc no longer accidentally eats the content between two declarations.** The regex that attaches JSDoc summaries to `export function` declarations used a lazy wildcard (`[\s\S]*?`) that could match across intermediate `*/` boundaries when no closer `export function` match was available between them. A file like `/** A */ export interface X {} /** B */ export function foo()` would attribute *both* comments' content to `foo`'s summary. The regex now uses a negative-lookahead body (`(?:(?!\*/)[\s\S])*`) that correctly stops at the first closing `*/`. Affected any `.d.ts` or `.ts` file with JSDoc on both a non-function declaration and a following function.
+
+### BrowserApi, BrowserApi.JSInterop, BrowserApi.Blazor, BrowserApi.Runtime
+
+- No behavioral changes. Republished at the shared version so all packages stay version-aligned.
+
 ## [0.1.0-preview.6] — 2026-04-22
 
 ### BrowserApi.SourceGen
