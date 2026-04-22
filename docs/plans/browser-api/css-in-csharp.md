@@ -86,22 +86,48 @@ Length.Px(16)
 
 ---
 
-### 2. Class Definition
+### 2. Class vs Rule Distinction
 
 **Status: DECIDED**
 
-A CSS class is a `static readonly Class` field. The field name maps to the CSS class name (PascalCase → kebab-case). Source generator discovers the name.
+In CSS, everything is a "rule" (selector + declarations). Our API splits this into two types based on how they're USED in C#:
+
+- **`Class`** — a CSS class you reference in Razor markup. Has a name (from field), implicit string conversion, `.When()`, `.Variant()`, `+` operator.
+- **`Rule`** — a CSS rule you don't reference in markup. Just exists in the stylesheet. Used for `:root`, element resets, compound selectors that don't define new classes.
 
 ```csharp
-// Chosen:
+// Class — referenced in Razor via @Card
 public static readonly Class Card = new() {
     Background = Color.White,
     BorderRadius = 8.Px,
 };
-// → .card { background: white; border-radius: 8px; }
+
+// Rule — just exists in the CSS, never referenced in markup
+public static readonly Rule ResetBody = new(El.Body) {
+    Margin = 0.Px,
+};
 ```
 
-In Razor: `<div class="@Card">` — implicit string conversion returns `"card"`.
+**Anonymous rules** — related rules that don't need names go in a `Rules` collection:
+```csharp
+public static readonly Rules Reset = [
+    new(El.All) { BoxSizing = BoxSizing.BorderBox },
+    new(El.Body) { Margin = 0.Px },
+    new(El.Html) { FontSize = 16.Px },
+];
+```
+
+**Discovery by type, not by name.** The source generator collects ALL fields by their type (`Class`, `Rule`, `Rules`, `CssVar<T>`, `Keyframes`, `FontFace`). Field names are for human readability only — never magic conventions. You can have multiple `Rules` fields named anything:
+```csharp
+public static readonly Rules Reset = [...];      // collected
+public static readonly Rules Typography = [...]; // also collected
+public static readonly Rules RootVars = [...];   // also collected
+// All three are found because they're type Rules — not because of their names.
+```
+
+**`.Selector` property** — `Class` has implicit string conversion returning the name without dot (`"card"` for `class=""`). The `.Selector` property returns the CSS selector with dot (`".card"` for use in component parameters expecting CSS selectors). Prefer updating component parameters to accept `Class` directly instead.
+
+In Razor: `<div class="@DndTestStyles.Card">` — prefer explicit stylesheet reference over `using static` for discoverability.
 
 **Ruled out:**
 ```csharp
@@ -321,12 +347,76 @@ El.Li * Active > El.Span   // li.active > span
 
 **Status: DECIDED**
 
-Classes from external frameworks (MudBlazor, Bootstrap) that we reference but don't define. Marked with `[External]` attribute — the build step uses the name but doesn't emit declarations.
+Classes and CSS variables from external frameworks (MudBlazor, etc.) are **auto-generated** by the source generator from the framework's CSS files. Not hand-written.
+
+#### Setup
+
+```xml
+<!-- .csproj — declare external CSS sources -->
+<ItemGroup>
+    <ExternalCss Include="$(PkgMudBlazor)/staticwebassets/**/*.css"
+                 RootClass="Mud" />
+</ItemGroup>
+```
+
+The source generator:
+1. Reads CSS files tagged `ExternalCss`
+2. Extracts `.mud-*` class selectors → typed `Class.External()` constants
+3. Extracts `--mud-*` custom properties → typed `CssVar.External()` constants
+4. Groups by dash-separated segments: `mud-table-cell` → `Mud.Table.Cell`
+5. Emits nested static classes under the `RootClass` name
+
+#### Generated API
 
 ```csharp
-[External] public static readonly Class MudTableCell = new();
-// Source gen maps name → "mud-table-cell" (PascalCase → kebab-case)
-// Build step does NOT emit .mud-table-cell { ... } — MudBlazor owns that
+// Auto-generated — never hand-written:
+public static class Mud {
+    public static class Palette {
+        public static readonly CssVar<Color> Primary = CssVar.External("--mud-palette-primary");
+        public static readonly CssVar<Color> Surface = CssVar.External("--mud-palette-surface");
+        public static readonly CssVar<Color> TextDisabled = CssVar.External("--mud-palette-text-disabled");
+        // ... every --mud-palette-* variable
+    }
+
+    public static readonly CssVar<Length> AppBarHeight = CssVar.External("--mud-appbar-height");
+
+    public static class Table {
+        public static readonly Class Root = Class.External("mud-table");
+        public static readonly Class Cell = Class.External("mud-table-cell");
+        public static readonly Class Container = Class.External("mud-table-container");
+    }
+
+    public static class Dialog {
+        public static readonly Class Root = Class.External("mud-dialog");
+        public static readonly Class Container = Class.External("mud-dialog-container");
+        public static readonly Class Content = Class.External("mud-dialog-content");
+    }
+    // ... every mud-* component
+}
+```
+
+#### Usage
+
+```csharp
+// Type "Mud." → IntelliSense shows everything, organized by component
+public static readonly Rule DialogBlur = new(Mud.Dialog.Container > Mud.Overlay.Dialog) {
+    BackdropFilter = Filter.Blur(10.Px),
+};
+
+public static readonly Class Card = new() {
+    Background = Mud.Palette.Surface,
+    Color = Mud.Palette.TextPrimary,
+};
+```
+
+Update MudBlazor NuGet → types regenerate automatically. No manual step.
+
+#### Manual fallback
+
+For edge cases the auto-generator can't parse:
+```csharp
+// Hand-written external reference
+public static readonly Class SomeWeirdThing = Class.External("weird-thing");
 ```
 
 ---
@@ -341,6 +431,12 @@ Operator `+` on `Class` returns a `ClassList` struct. Zero-allocation for 1-4 cl
 // In Razor:
 <div class="@(Card + Active + Round)">
 // ClassList has implicit string conversion → "card active round"
+```
+
+**String escape hatch** — for raw class names from frameworks without typed references:
+```csharp
+<div class="@(Card + "some-external-class")">
+// Works via operator overload: Class + string → ClassList
 ```
 
 Also available: `Css.Classes(params Class[])` for dynamic/enumerable cases.
@@ -522,62 +618,46 @@ Custom properties are declared with `--` prefix on any selector. They **cascade 
 
 Unlike SCSS variables (`$var`), CSS custom properties are **live at runtime**. Changing `--primary` in dark mode changes all usages instantly. This is why they exist alongside our C# "variables" (which are compile-time constants).
 
-#### Option A: RootVar attribute + Css.Var<T>()
+**Chosen: Self-contained CssVar with default + optional overrides in initializer**
+
+The `CssVar<T>` declaration IS the definition. Default value in constructor auto-emits in `:root`. Object initializer adds conditional overrides (media queries etc.). Scoped overrides go inside the `Class` that needs them.
 
 ```csharp
-// Defining global variables (emits :root { --mw-primary: ... })
-[RootVar] public static readonly Color MwPrimary = Color.Hex("#3498db");
+// Simple — just a default value (emits :root { --radius: 8px; })
+public static readonly CssVar<Length> Radius = new(8.Px);
 
-// Defining scoped variables (emits inside a rule)
-public static readonly Class Card = new() {
-    [Css.Prop("--card-radius")] = 8.Px,         // define
-    BorderRadius = Css.Var<Length>("--card-radius"),  // use
+// Full — default + conditional overrides, all in one place
+public static readonly CssVar<Color> Bg = new(Color.White) {
+    [Media.PrefersDark] = Color.Hex("#0a0a0a"),
+    [Media.HighContrast] = Color.Black,
 };
 
-// Referencing external variables (MudBlazor)
-static readonly Color Primary = Css.Var<Color>("--mud-palette-primary");
-```
+// External — no default, no overrides (owned by MudBlazor)
+public static readonly CssVar<Color> MudPrimary = CssVar.External("--mud-palette-primary");
 
-**Pro:** Typed references. Global vars have zero-string declaration via attribute.
-**Con:** Scoped vars still use strings for names.
-
-#### Option B: CssVar<T> type with static fields
-
-```csharp
-// Defining
-public static readonly CssVar<Length> CardRadius = new("card-radius", 8.Px);
-// Emits: --card-radius: 8px on whatever selector it's attached to
-
-// Using
+// Using them — just reference by name:
 public static readonly Class Card = new() {
-    Vars = { CardRadius },                  // attaches to this rule
-    BorderRadius = CardRadius.Value,        // var(--card-radius)
-};
+    Background = Bg,         // → background: var(--bg)
+    BorderRadius = Radius,   // → border-radius: var(--radius)
+    Color = MudPrimary,      // → var(--mud-palette-primary)
 
-public static readonly Class Title = new() {
-    BorderRadius = CardRadius.Value,        // inherits from parent .card
+    [Radius] = 12.Px,        // scoped override: .card { --radius: 12px; }
 };
 ```
 
-**Pro:** Fully typed. Name derived from field name.
-**Con:** More complex type system. `Vars = { ... }` is a new collection concept.
-
-#### Option C: Inline definition with CssVar wrapper
-
-```csharp
-// Define + use in same rule
-public static readonly CssVar<Length> CardRadius = new(8.Px);
-
-public static readonly Class Card = new() {
-    [CardRadius] = 8.Px,                    // --card-radius: 8px
-    BorderRadius = CardRadius,              // var(--card-radius)
-};
+CSS output:
+```css
+:root { --bg: white; --radius: 8px; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0a0a0a; } }
+@media (prefers-high-contrast) { :root { --bg: black; } }
+.card { background: var(--bg); border-radius: var(--radius); --radius: 12px; }
 ```
 
-**Pro:** Clean nesting. Variable name from C# field name.
-**Con:** Indexer overload for `CssVar<T>` alongside `Selector` indexer.
-
-**Leaning toward: B or C** — typed variables with names from C# field names.
+**Ruled out:**
+```csharp
+// ❌ Option A: String-based Css.Var<T>("--name") (magic strings)
+// ❌ Option B: Separate declaration + assignment in Rules (value far from declaration)
+```
 
 ---
 
@@ -728,11 +808,173 @@ The source generator does NOT use the extension for discovery — it finds style
 
 ---
 
-### 22. Source Maps
+### 22. Conditional Classes
+
+**Status: DECIDED**
+
+Two patterns for conditionally applying classes in Razor:
+
+```csharp
+// Ternary with Class.None:
+<div class="@(isActive ? Active : Class.None)">
+
+// Fluent .When():
+<div class="@Active.When(isActive)">
+```
+
+Implementation:
+```csharp
+public readonly struct Class {
+    public static readonly Class None = default;  // implicit string → ""
+    public string When(bool condition) => condition ? Name : "";
+}
+```
+
+---
+
+### 23. Class Variants (BEM-style modifiers)
+
+**Status: DECIDED**
+
+`.Variant(slug)` appends a BEM modifier to the class name. Base is compile-time, suffix can be runtime.
+
+```csharp
+// In stylesheet:
+public static readonly Class KanbanHeader = new() {
+    FontWeight = FontWeight.Bold,
+
+    // Known variants styled at compile time:
+    [Self.Variant("backlog")] = new() { Background = Color.Gray(90) },
+    [Self.Variant("active")]  = new() { Background = Color.Hex("#dbeafe") },
+    [Self.Variant("done")]    = new() { Background = Color.Hex("#dcfce7") },
+};
+
+// In Razor — dynamic variant from data:
+<div class="@(KanbanHeader + KanbanHeader.Variant(col.Slug))">
+@* → class="mw-dt-kanban-header mw-dt-kanban-header--todo" *@
+```
+
+Implementation:
+```csharp
+public string Variant(string slug) => Name + "--" + slug;
+```
+
+SCSS output:
+```scss
+.mw-dt-kanban-header {
+    font-weight: bold;
+    &--backlog { background: #e5e5e5; }
+    &--active  { background: #dbeafe; }
+    &--done    { background: #dcfce7; }
+}
+```
+
+---
+
+### 24. `@font-face`
+
+**Status: DECIDED**
+
+```csharp
+public static readonly FontFace Inter = new() {
+    Family = "Inter",
+    Src = Css.Url("fonts/Inter.woff2"),
+    Weight = FontWeight.Range(400, 700),
+    Display = FontDisplay.Swap,
+};
+```
+
+---
+
+### 25. `@supports` (Feature Queries)
+
+**Status: DECIDED**
+
+Used as nesting indexer keys, same pattern as `@media`:
+
+```csharp
+public static readonly Class Layout = new() {
+    Display = Display.Flex,  // fallback
+
+    [Supports.Grid] = new() {
+        Display = Display.Grid,
+    },
+};
+```
+
+---
+
+### 26. Explicitly NOT Supported
+
+Opinionated omissions to prevent bad CSS practices:
+
+| CSS Feature | Why Not |
+|---|---|
+| **ID selectors for styling** (`#header { }`) | Specificity bombs. Use classes. IDs remain for HTML linking/JS, not styling. |
+| **Component scoped styles** (Blazor CSS isolation) | `::deep` is fake CSS. Prefix scoping is strictly better — same isolation, zero magic, no cascading gotchas. |
+| **`::deep` / `>>>`** | Non-standard, unpredictable cascading across component boundaries. |
+| **`@import`** | Use C# `using` and type references instead. |
+| **Tailwind integration** | Competing paradigm. Tailwind = "compose utility classes in HTML." Ours = "write CSS rules in C# with type safety." Using both helps neither. |
+
+---
+
+### 27. Source Maps
 
 **Status: OPEN**
 
 Chain: C# → SCSS map (our emitter tracks line numbers) → SCSS → CSS map (sass generates). Browser devtools could show C# source.
+
+---
+
+### 28. Source Generator DX Features
+
+**Status: PLANNED**
+
+The source generator is not just a code emitter — it's the primary DX engine for the CSS-in-C# system.
+
+#### Scaffold template
+
+Creating a `.css.cs` file and writing `StyleSheet` triggers a code fix:
+```
+💡 Generate stylesheet scaffold
+```
+Expands to a complete stylesheet template with sections for variables, rules, classes, keyframes.
+
+#### CSS preview
+
+The source generator emits the compiled CSS as comments, visible on hover/go-to-definition:
+```csharp
+// CSS: .mw-dt-card { background: white; border-radius: 8px; }
+// CSS: .mw-dt-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+public static readonly Class Card = new() { ... };
+```
+
+#### Diagnostics
+
+| Diagnostic | Description |
+|---|---|
+| Dead class detection | `Class 'X' is defined but never referenced in any .razor file` |
+| CssVar unset | `CssVar 'Accent' is referenced but never assigned a value` |
+| CssVar type mismatch | `CssVar<Length> used where CssVar<Color> expected` |
+| Selector validation | `Pseudo-element must be last: 'Card.After.Hover' → 'Card.Hover.After'` |
+| Prefix collision | `AppStyles.Card and DialogStyles.Card both resolve to '.mw-card'` |
+| Invalid color | `Color.Hex("#ggg") is not a valid hex color` |
+
+#### CSS-to-C# paste converter
+
+Paste CSS into a `.css.cs` file, get a code fix:
+```
+💡 Convert CSS to C# stylesheet syntax
+```
+Converts pasted CSS rules into typed `Class` and `Rule` declarations.
+
+#### Extract-to-CssVar refactoring
+
+Select a value used in multiple classes:
+```
+💡 Extract to CssVar<Color> — used in 5 declarations
+```
+Creates a `CssVar<T>` field and replaces all usages.
 
 ---
 
@@ -741,26 +983,30 @@ Chain: C# → SCSS map (our emitter tracks line numbers) → SCSS → CSS map (s
 | # | Concept | Status |
 |---|---------|--------|
 | 1 | CSS Values | **Decided** |
-| 2 | Class Definition | **Decided** |
+| 2 | Class vs Rule Distinction | **Decided** — Class for Razor, Rule for anonymous CSS, discovery by type |
 | 3 | Selector Operators | **Decided** |
-| 4 | Pseudo-classes | **Decided** |
-| 5 | Nesting | **Decided** |
-| 6 | Selector Lists | **Decided** |
+| 4 | Pseudo-classes | **Decided** — properties on Selector |
+| 5 | Nesting | **Decided** — recursive indexer |
+| 6 | Selector Lists | **Decided** — params |
 | 7 | Keyframes | **Decided** |
 | 8 | Media Queries | **Decided** |
 | 9 | Element Selectors | **Decided** |
-| 10 | External Classes | **Decided** |
-| 11 | ClassList | **Decided** |
-| 12 | Build Pipeline | **Decided** |
+| 10 | External Classes | **Decided** — auto-generated from framework CSS via source gen |
+| 11 | ClassList | **Decided** — `+` operator, zero-alloc struct, string escape hatch |
+| 12 | Build Pipeline | **Decided** — C# → SCSS → CSS |
 | 13 | Asset Source Generator | **Decided** (not implemented) |
 | 14 | !important | **Decided** — `.Important` property |
-| 15 | Attribute Selectors | **Decided** — typed + `Data()` + string fallback |
-| 16 | CSS Custom Properties | **Open** — leaning B or C |
+| 15 | Attribute Selectors | **Decided** — typed + `Aria` + `Data()` + string fallback |
+| 16 | CSS Custom Properties | **Decided** — self-contained `CssVar<T>` with default + overrides |
 | 17 | CSS Functions | **Partially decided** |
 | 18 | Value Shorthands | **Open** |
 | 19 | Self Keyword | **Mostly decided** |
-| 20 | Source Maps | **Open** |
-| 21 | Prefixing | **Decided** — Program.cs global + attribute per-sheet |
-| 22 | File Convention | **Decided** — `.css.cs` extension |
-| 19 | Self Keyword | **Mostly decided** |
-| 20 | Source Maps | **Open** |
+| 20 | Prefixing | **Decided** — Program.cs global + attribute per-sheet |
+| 21 | File Convention | **Decided** — `.css.cs` extension |
+| 22 | Conditional Classes | **Decided** — `.When()` + ternary with `Class.None` |
+| 23 | Class Variants | **Decided** — `.Variant(slug)` BEM modifiers |
+| 24 | @font-face | **Decided** |
+| 25 | @supports | **Decided** |
+| 26 | Explicitly Not Supported | **Decided** — IDs, scoped styles, ::deep, @import, Tailwind |
+| 27 | Source Maps | **Open** |
+| 28 | Source Generator DX | **Planned** — scaffold, preview, diagnostics, converter, refactoring |
