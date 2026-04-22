@@ -75,24 +75,39 @@ internal static class TsDeclarationParser {
             result.TypeMap[ifaceName] = JsDocParser.ToPascalCase(ifaceName);
         }
 
-        // Pass 2: Extract interfaces and detect inline string literal unions
+        // Pass 2: Extract interfaces.
+        //
+        // For every interface we capture three things:
+        //   - the interface-level JSDoc summary (if any) that sits above the declaration
+        //   - each property's name / type / optionality
+        //   - each property's JSDoc summary (if any) that sits directly above the line
+        //
+        // Summaries flow through to the emitted C# record as `<summary>` XML docs, so
+        // IntelliSense on the consumer side shows whatever the TypeScript author wrote.
         foreach (Match match in InterfaceStartRegex.Matches(dtsSource)) {
             var ifaceName = match.Groups[1].Value;
             if (BlazorInteropTypeNames.Contains(ifaceName)) continue;
             var rawBody = ExtractBraceBody(dtsSource, match.Index + match.Length - 1);
-            var body = StripComments(rawBody);
 
             var iface = new TsInterfaceInfo {
                 TsName = ifaceName,
-                CSharpName = JsDocParser.ToPascalCase(ifaceName)
+                CSharpName = JsDocParser.ToPascalCase(ifaceName),
+                // Interface-level JSDoc is whatever `/** ... */` block sits immediately
+                // above `interface Foo {` in the raw source. Null when absent.
+                Summary = FindJsDocImmediatelyBefore(dtsSource, match.Index)
             };
 
-            foreach (Match propMatch in PropertyRegex.Matches(body)) {
+            // Walk the body stateful: each property is paired with whatever JSDoc
+            // preceded it (property-level summary), or null if none was written.
+            foreach (var (propSummary, propLine) in IterInterfacePropertiesWithJsDoc(rawBody)) {
+                var propMatch = PropertyRegex.Match(propLine);
+                if (!propMatch.Success) continue;
+
                 var propName = propMatch.Groups[1].Value;
                 var isOptional = propMatch.Groups[2].Value == "?";
                 var tsType = propMatch.Groups[3].Value.Trim();
 
-                // Check if the type is a string literal union → generate enum
+                // Inline string-literal union → synthesize an enum and use it as the type.
                 if (IsStringLiteralUnion(tsType)) {
                     var enumName = iface.CSharpName + JsDocParser.ToPascalCase(propName);
                     var enumInfo = ParseStringLiteralUnion(enumName, tsType);
@@ -104,7 +119,8 @@ internal static class TsDeclarationParser {
                         CSharpName = JsDocParser.ToPascalCase(propName),
                         CSharpType = isOptional ? enumName + "?" : enumName,
                         IsOptional = isOptional,
-                        IsRequired = !isOptional
+                        IsRequired = !isOptional,
+                        Summary = propSummary
                     });
                 } else {
                     var csType = MapTsType(tsType, result.TypeMap,
@@ -117,7 +133,8 @@ internal static class TsDeclarationParser {
                         CSharpName = JsDocParser.ToPascalCase(propName),
                         CSharpType = csType,
                         IsOptional = isOptional,
-                        IsRequired = !isOptional
+                        IsRequired = !isOptional,
+                        Summary = propSummary
                     });
                 }
             }
@@ -195,6 +212,134 @@ internal static class TsDeclarationParser {
         AttachJsDocSummaries(dtsSource, result.Functions);
 
         return result;
+    }
+
+    /// <summary>
+    /// Extract the leading "summary text" from a raw JSDoc body — everything up to the
+    /// first <c>@tag</c> line. The caller passes the *content* of a <c>/** ... */</c>
+    /// block (delimiters already stripped). Lines that begin with the canonical <c>*</c>
+    /// prefix are cleaned; blank lines are collapsed into spaces.
+    /// </summary>
+    /// <remarks>
+    /// JSDoc convention: the first paragraph before any <c>@param</c>, <c>@returns</c>,
+    /// <c>@example</c>, etc. is the human-readable description. That's the text that
+    /// belongs in the C# <c>&lt;summary&gt;</c>; tagged content is extracted separately
+    /// (see <see cref="AttachJsDocSummaries"/> for function <c>@param</c> handling).
+    /// </remarks>
+    private static string ExtractJsDocSummary(string rawBody) {
+        var summaryLines = new List<string>();
+        foreach (var raw in rawBody.Split('\n')) {
+            var trimmed = raw.Trim();
+            // Canonical JSDoc lines start with "*" — strip it and any following space.
+            if (trimmed.StartsWith("*")) trimmed = trimmed.Substring(1).Trim();
+            if (trimmed.Length == 0) continue;
+            // `@tag` marks the end of the summary section.
+            if (trimmed.StartsWith("@")) break;
+            summaryLines.Add(trimmed);
+        }
+        return string.Join(" ", summaryLines).Trim();
+    }
+
+    /// <summary>
+    /// Look for a <c>/** ... */</c> JSDoc block that sits immediately before
+    /// <paramref name="declPosition"/>, separated only by whitespace. Returns the
+    /// extracted summary text (via <see cref="ExtractJsDocSummary"/>) or <c>null</c>
+    /// if no JSDoc is attached to the declaration.
+    /// </summary>
+    /// <remarks>
+    /// "Immediately before" is strict: any non-whitespace character between the JSDoc
+    /// close and the declaration disqualifies the attachment. That prevents us from
+    /// accidentally picking up a JSDoc that belongs to a previous, unrelated declaration.
+    /// </remarks>
+    private static string? FindJsDocImmediatelyBefore(string source, int declPosition) {
+        var i = declPosition - 1;
+        while (i >= 0 && char.IsWhiteSpace(source[i])) i--;
+        // Need "*/" at positions [i-1, i].
+        if (i < 1 || source[i] != '/' || source[i - 1] != '*') return null;
+        var closeAt = i - 1; // index of '*' in the closing "*/"
+        // Walk back to the matching "/**". Use a simple LastIndexOf — JSDoc blocks
+        // don't nest, so the nearest "/**" before the close is the opening delimiter.
+        var openIdx = source.LastIndexOf("/**", closeAt, StringComparison.Ordinal);
+        if (openIdx < 0) return null;
+        var inner = source.Substring(openIdx + 3, closeAt - openIdx - 3);
+        var summary = ExtractJsDocSummary(inner);
+        return summary.Length > 0 ? summary : null;
+    }
+
+    /// <summary>
+    /// Walk through an interface body (the raw text between <c>{</c> and <c>}</c>) and
+    /// yield every property declaration together with the JSDoc summary that precedes it.
+    /// </summary>
+    /// <remarks>
+    /// Why a stateful walk instead of regex-on-stripped-body: the property loop needs
+    /// to pair each declaration with the JSDoc that sits immediately above it. Running
+    /// <see cref="StripComments"/> first loses that positional relationship, so we
+    /// process the raw body directly. The walk skips block/line comments, remembers the
+    /// most recent <c>/** ... */</c> block as "pending JSDoc", and emits
+    /// <c>(summary, propertyLine)</c> pairs at each <c>;</c> terminator.
+    /// </remarks>
+    private static IEnumerable<(string? Summary, string PropertyLine)> IterInterfacePropertiesWithJsDoc(string rawBody) {
+        var i = 0;
+        string? pending = null;
+        while (i < rawBody.Length) {
+            // Skip leading whitespace between declarations.
+            while (i < rawBody.Length && char.IsWhiteSpace(rawBody[i])) i++;
+            if (i >= rawBody.Length) break;
+
+            // /** JSDoc */ — save as pending, attach to the next property we emit.
+            if (i + 2 < rawBody.Length && rawBody[i] == '/' && rawBody[i + 1] == '*' && rawBody[i + 2] == '*') {
+                var end = rawBody.IndexOf("*/", i + 3, StringComparison.Ordinal);
+                if (end < 0) break; // malformed block comment — bail
+                var content = rawBody.Substring(i + 3, end - i - 3);
+                var summary = ExtractJsDocSummary(content);
+                pending = summary.Length > 0 ? summary : null;
+                i = end + 2;
+                continue;
+            }
+
+            // /* non-JSDoc block comment */ — skip, do not touch pending (a non-doc
+            // comment between JSDoc and the property shouldn't drop the JSDoc).
+            if (i + 1 < rawBody.Length && rawBody[i] == '/' && rawBody[i + 1] == '*') {
+                var end = rawBody.IndexOf("*/", i + 2, StringComparison.Ordinal);
+                i = end < 0 ? rawBody.Length : end + 2;
+                continue;
+            }
+
+            // // line comment — same rationale as block comments above.
+            if (i + 1 < rawBody.Length && rawBody[i] == '/' && rawBody[i + 1] == '/') {
+                var nl = rawBody.IndexOf('\n', i + 2);
+                i = nl < 0 ? rawBody.Length : nl + 1;
+                continue;
+            }
+
+            // Property declaration — walk to the next `;` outside of string literals.
+            var semi = FindNextSemicolonOutsideStrings(rawBody, i);
+            if (semi < 0) break;
+            var line = rawBody.Substring(i, semi - i + 1);
+            yield return (pending, line);
+            pending = null;
+            i = semi + 1;
+        }
+    }
+
+    /// <summary>
+    /// Find the next <c>;</c> character in <paramref name="body"/> starting at
+    /// <paramref name="start"/>, ignoring semicolons inside string literals.
+    /// Returns <c>-1</c> if none is found.
+    /// </summary>
+    private static int FindNextSemicolonOutsideStrings(string body, int start) {
+        var inString = false;
+        var stringChar = ' ';
+        for (var i = start; i < body.Length; i++) {
+            var c = body[i];
+            if (inString) {
+                if (c == stringChar && (i == 0 || body[i - 1] != '\\')) inString = false;
+                continue;
+            }
+            if (c == '\'' || c == '"' || c == '`') { inString = true; stringChar = c; continue; }
+            if (c == ';') return i;
+        }
+        return -1;
     }
 
     /// <summary>Extract the body between matched braces, handling nested braces, strings, and comments.</summary>

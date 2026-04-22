@@ -577,6 +577,123 @@ export interface Config {
     }
 
     [Fact]
+    public void Parse_property_JSDoc_becomes_Summary() {
+        // Per-property JSDoc above a property line should be captured as
+        // TsPropertyInfo.Summary so the generator can emit it as a C# XML <summary>.
+        // This is the IntelliSense pipeline: JSDoc in .ts/.d.ts → XML docs in .cs.
+        var dts = @"
+export interface Config {
+    /** CSS selector for the drag container. */
+    container: string;
+    /** Optional pointer-move threshold in pixels before a drag starts. */
+    threshold?: number;
+    /** Kind of ghost to display while dragging. */
+    mode: 'clone' | 'none';
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+        var iface = result.Interfaces[0];
+
+        Assert.Equal("CSS selector for the drag container.", iface.Properties[0].Summary);
+        Assert.Equal("Optional pointer-move threshold in pixels before a drag starts.", iface.Properties[1].Summary);
+        Assert.Equal("Kind of ghost to display while dragging.", iface.Properties[2].Summary);
+    }
+
+    [Fact]
+    public void Parse_property_without_JSDoc_has_null_Summary() {
+        // Properties without JSDoc should leave Summary null, so the emitter can fall
+        // back to the "Maps to TypeScript property X" boilerplate.
+        var dts = @"
+export interface Config {
+    container: string;
+    threshold?: number;
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+        var iface = result.Interfaces[0];
+
+        Assert.Null(iface.Properties[0].Summary);
+        Assert.Null(iface.Properties[1].Summary);
+    }
+
+    [Fact]
+    public void Parse_interface_JSDoc_becomes_Summary() {
+        // Interface-level JSDoc (above `export interface Foo`) flows through to
+        // TsInterfaceInfo.Summary for emission as the record's C# XML <summary>.
+        var dts = @"
+/** Configuration for creating a drag-and-drop context. */
+export interface DragConfig {
+    container: string;
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+        Assert.Equal("Configuration for creating a drag-and-drop context.", result.Interfaces[0].Summary);
+    }
+
+    [Fact]
+    public void Parse_interface_without_JSDoc_has_null_Summary() {
+        var dts = "export interface Plain { x: number; }";
+        var result = TsDeclarationParser.Parse(dts);
+        Assert.Null(result.Interfaces[0].Summary);
+    }
+
+    [Fact]
+    public void Parse_multiline_JSDoc_is_joined_as_single_summary() {
+        // Multi-line JSDoc (common for longer descriptions) should be collapsed into
+        // a single string with spaces. The "*" prefix on canonical JSDoc lines is
+        // stripped so the resulting text doesn't have visual artifacts.
+        var dts = @"
+export interface Cfg {
+    /**
+     * The CSS selector for the source element.
+     * Must match exactly one element per drag context.
+     */
+    source: string;
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+        Assert.Equal(
+            "The CSS selector for the source element. Must match exactly one element per drag context.",
+            result.Interfaces[0].Properties[0].Summary);
+    }
+
+    [Fact]
+    public void Parse_JSDoc_stops_at_first_tag() {
+        // The summary section is the paragraph before any @tag. Content after the
+        // first tag is owned by the tagged-section parser (for functions: @param /
+        // @returns; for properties we don't currently surface tags).
+        var dts = @"
+export interface Cfg {
+    /**
+     * Short description.
+     * @example { x: 1 }
+     * @deprecated use {@link OtherCfg} instead
+     */
+    x: number;
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+        Assert.Equal("Short description.", result.Interfaces[0].Properties[0].Summary);
+    }
+
+    [Fact]
+    public void Parse_JSDoc_not_attached_when_separated_by_another_declaration() {
+        // A JSDoc block must sit *immediately* above its target (whitespace-only
+        // separation). A declaration between the JSDoc and the target disqualifies
+        // the attachment, so we don't leak someone else's docs onto a later member.
+        var dts = @"
+export interface Cfg {
+    /** Belongs to a. */
+    a: number;
+    b: number;
+}
+";
+        var result = TsDeclarationParser.Parse(dts);
+        Assert.Equal("Belongs to a.", result.Interfaces[0].Properties[0].Summary);
+        Assert.Null(result.Interfaces[0].Properties[1].Summary);
+    }
+
+    [Fact]
     public void Parse_interface_with_line_comments() {
         var dts = @"
 export interface Config {
