@@ -139,7 +139,7 @@ public enum GhostConfigMode {
 public partial class MwDndModule : IAsyncDisposable {
     public MwDndModule(IJSRuntime js, IJsModulePathResolver? pathResolver = null);
 
-    public async Task<double> CreateDragAsync(object dotNetRef, DragConfig config) { ... }
+    public async Task<double> CreateDragAsync(Microsoft.JSInterop.DotNetObjectReference dotNetRef, DragConfig config) { ... }
     public async Task DestroyDragAsync(double contextId) { ... }
     public async Task DisposeModuleAsync() { ... }
     public async Task AddClassToMatchingAsync(string selector, string className) { ... }
@@ -318,6 +318,25 @@ These are intentional scope boundaries, not bugs. The generator is built for han
 **The path resolver requires `Microsoft.Extensions.DependencyInjection`.** If you're not using DI, construct the module manually: `new MyModule(jsRuntime, myResolver)`. The resolver argument is optional, so `new MyModule(jsRuntime)` also works with raw paths.
 *Why this is fine:* Blazor projects already use DI; this keeps the zero-config path (`AddJsModules()`) as a one-liner rather than requiring per-module registration.
 
+### Blazor interop types (`DotNetObjectReference`)
+
+TypeScript usually requires a placeholder declaration for any name used in a signature, so `.d.ts` files often contain a stub like `interface DotNetObjectReference {}` purely to satisfy the compiler. The generator recognizes this by name and does **not** emit a C# class for it — there would be a collision with the real `Microsoft.JSInterop.DotNetObjectReference`. References to `DotNetObjectReference` (generic or not) in method signatures are mapped to `Microsoft.JSInterop.DotNetObjectReference` (the non-generic abstract base), which accepts any `DotNetObjectReference<T>` the caller creates.
+
+```typescript
+// .d.ts — stub is fine, no changes needed on your side
+interface DotNetObjectReference {}
+export function createDrag(dotNetRef: DotNetObjectReference, config: DragConfig): number;
+```
+
+```csharp
+// Generated C# — typed, not `object`
+public async Task<double> CreateDragAsync(
+    Microsoft.JSInterop.DotNetObjectReference dotNetRef,
+    DragConfig config) { ... }
+```
+
+No `JsModules.DotNetObjectReference` class is emitted, so there's no ambiguity at consumer call sites even when `using JsModules;` is in scope alongside `using Microsoft.JSInterop;`.
+
 ### BAPI002 — Unknown TypeScript type
 
 When the parser can't map a type, the generator emits:
@@ -328,4 +347,4 @@ Complex generics, intersection types, and unresolved references aren't supported
 declare an interface or use a supported shape.
 ```
 
-The message identifies the exact function, parameter (or interface + property), and the TS type that couldn't be mapped. Intentional mappings — `any`, `null`, and `DotNetObjectReference` — do **not** trigger this warning; only silent degradations do.
+The message identifies the exact function, parameter (or interface + property), and the TS type that couldn't be mapped. Intentional mappings do **not** trigger this warning: `any` and `null` map to C# `object`, and `DotNetObjectReference` maps to `Microsoft.JSInterop.DotNetObjectReference` (see the Blazor interop types section above). Only silent degradations are reported.

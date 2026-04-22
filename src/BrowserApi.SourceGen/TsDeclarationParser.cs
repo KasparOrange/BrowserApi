@@ -54,18 +54,30 @@ internal static class TsDeclarationParser {
         @"(\w+)(\??):\s*(.+)",
         RegexOptions.Compiled);
 
+    // Blazor interop type names that are pre-declared by Microsoft.JSInterop.
+    // If a consumer declares these as stub `interface X {}` in a .d.ts (usually just
+    // to satisfy the TypeScript compiler), we ignore the declaration entirely — no
+    // TypeMap entry, no emitted C# record. References in method signatures route to
+    // the real Blazor type via MapTsType's special case.
+    private static readonly HashSet<string> BlazorInteropTypeNames = new() {
+        "DotNetObjectReference",
+    };
+
     public static TsParseResult Parse(string dtsSource) {
         var result = new TsParseResult();
 
-        // Pass 1: Collect all interface names into the type map (handles forward references)
+        // Pass 1: Collect all interface names into the type map (handles forward references).
+        // Skip Blazor interop type names — their real counterparts come from Microsoft.JSInterop.
         foreach (Match match in InterfaceStartRegex.Matches(dtsSource)) {
             var ifaceName = match.Groups[1].Value;
+            if (BlazorInteropTypeNames.Contains(ifaceName)) continue;
             result.TypeMap[ifaceName] = JsDocParser.ToPascalCase(ifaceName);
         }
 
         // Pass 2: Extract interfaces and detect inline string literal unions
         foreach (Match match in InterfaceStartRegex.Matches(dtsSource)) {
             var ifaceName = match.Groups[1].Value;
+            if (BlazorInteropTypeNames.Contains(ifaceName)) continue;
             var rawBody = ExtractBraceBody(dtsSource, match.Index + match.Length - 1);
             var body = StripComments(rawBody);
 
@@ -273,9 +285,12 @@ internal static class TsDeclarationParser {
             case "never": return "void";
         }
 
-        // Known interop types — intentional pass-through
+        // Blazor interop types. We always route to the non-generic abstract base
+        // `Microsoft.JSInterop.DotNetObjectReference`, which accepts any `DotNetObjectReference<T>`
+        // the caller creates. We can't resolve `<T>` from the .d.ts side, so the non-generic base
+        // is the strongest type we can emit.
         if (trimmed == "DotNetObjectReference" || trimmed.StartsWith("DotNetObjectReference<"))
-            return "object"; // C# side uses the real DotNetObjectReference
+            return "Microsoft.JSInterop.DotNetObjectReference";
 
         // Array<T>
         if (trimmed.StartsWith("Array<") && trimmed.EndsWith(">")) {

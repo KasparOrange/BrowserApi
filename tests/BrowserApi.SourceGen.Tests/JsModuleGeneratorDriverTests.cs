@@ -192,6 +192,42 @@ export function configure(opts: SomeUnresolvedThing): void;
     }
 
     [Fact]
+    public void Generator_does_not_emit_class_for_DotNetObjectReference_stub() {
+        // Regression: a stub `interface DotNetObjectReference {}` in a .d.ts (present only
+        // to satisfy TypeScript) must not produce a `DotNetObjectReference.g.cs` class that
+        // would collide with `Microsoft.JSInterop.DotNetObjectReference` at consumer call sites.
+        var dts = @"
+interface DotNetObjectReference {}
+
+export interface DragConfig {
+    container: string;
+}
+
+export function createDrag(dotNetRef: DotNetObjectReference, config: DragConfig): number;
+";
+
+        var result = RunGenerator(dts, "wwwroot/js/mw-dnd.d.ts");
+
+        Assert.Empty(result.Diagnostics);
+
+        var sourceNames = result.GeneratedTrees
+            .Select(t => System.IO.Path.GetFileName(t.FilePath))
+            .ToList();
+
+        // The stub must NOT produce a C# class.
+        Assert.DoesNotContain("DotNetObjectReference.g.cs", sourceNames);
+        // DragConfig still emits as normal.
+        Assert.Contains("DragConfig.g.cs", sourceNames);
+
+        // The generated module method signature uses the real Blazor type, not `object`.
+        var moduleSource = result.GeneratedTrees
+            .First(t => t.FilePath.EndsWith("MwDndModule.g.cs"))
+            .GetText().ToString();
+        Assert.Contains("Microsoft.JSInterop.DotNetObjectReference dotNetRef", moduleSource);
+        Assert.DoesNotContain("object dotNetRef", moduleSource);
+    }
+
+    [Fact]
     public void Generator_does_not_report_BAPI002_for_intentional_any() {
         // `any`, `null`, and DotNetObjectReference intentionally map to `object` —
         // these are not silent degradations and should not produce a warning.
