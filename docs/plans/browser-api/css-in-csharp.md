@@ -653,6 +653,12 @@ CSS output:
 .card { background: var(--bg); border-radius: var(--radius); --radius: 12px; }
 ```
 
+**Fallback values:** `CssVar<T>` supports `.Or(fallback)` for CSS `var(--name, fallback)`:
+```csharp
+Background = Mud.Palette.Primary.Or(Color.Blue),
+// → background: var(--mud-palette-primary, blue)
+```
+
 **Ruled out:**
 ```csharp
 // ❌ Option A: String-based Css.Var<T>("--name") (magic strings)
@@ -663,55 +669,173 @@ CSS output:
 
 ### 17. CSS Functions
 
-**Status: PARTIALLY DECIDED**
+**Status: DECIDED**
 
-| CSS Function | C# API | Status |
-|---|---|---|
-| `calc()` | `Css.Calc(100.Vh - 50.Px)` or Length operators | Decided |
-| `var()` | `Css.Var<T>("--name")` | Open (see §16) |
-| `url()` | `Css.Url("path")` / `Css.UrlFromFile("file")` | Open |
-| `rgb()/rgba()` | `Color.Rgb()` / `Color.Rgba()` | Decided |
-| `hsl()/hsla()` | `Color.Hsl()` / `Color.Hsla()` | Decided |
-| `linear-gradient()` | `Gradient.Linear()` | Decided |
-| `repeat()` | `Grid.Repeat()` | Open |
-| `minmax()` | `Grid.MinMax()` | Open |
-| `clamp()` | `Css.Clamp(min, preferred, max)` | Open |
+Functions that return a CSS value type (`Length`, `Color`, etc.) live as static methods on that type. Functions that don't map to a single value type live on `Css`.
+
+| CSS Function | C# API | Lives on | Status |
+|---|---|---|---|
+| `calc()` | Length operators (`+`, `-`) | `Length` | Decided |
+| `var()` | `CssVar<T>` reference | — (see §16) | Decided |
+| `rgb()/rgba()` | `Color.Rgb()` / `Color.Rgba()` | `Color` | Decided |
+| `hsl()/hsla()` | `Color.Hsl()` / `Color.Hsla()` | `Color` | Decided |
+| `linear-gradient()` | `Gradient.Linear()` | `Gradient` | Decided |
+| `clamp()` | `Length.Clamp(min, preferred, max)` | `Length` | Decided |
+| `min()/max()` | `Length.Min(a, b)` / `Length.Max(a, b)` | `Length` | Decided |
+| `fit-content()` | `Length.FitContent(max)` / `Length.FitContent` | `Length` | Decided |
+| `repeat()` | `GridTemplate.Repeat(n, tracks)` | `GridTemplate` | Decided |
+| `minmax()` | `GridTemplate.MinMax(min, max)` | `GridTemplate` | Decided |
+| `env()` | `Css.Env.SafeAreaInsetTop` etc. | `Css.Env` | Decided |
+| `url()` | `Css.Url(path)` / `Css.Url(asset)` / `Css.Url(mime, base64)` | `Css` | Decided |
+| `attr()` | `Attr.Data("label")` in value context | `Attr` (unified) | Decided |
+
+**Length-based functions** (`clamp`, `min`, `max`, `fit-content`) live on `Length` because they take and return lengths. IntelliSense: type `FontSize = Length.` and see all valid length expressions.
+
+**Grid functions** (`repeat`, `minmax`) live on `GridTemplate` (the property type for `GridTemplateColumns`/`GridTemplateRows`). IntelliSense: type `GridTemplateColumns = GridTemplate.` and see `Repeat`, `MinMax`, `AutoFill`, `AutoFit`, `Of`, `None`.
+
+**Open question:** Non-length CSS functions that return values usable in multiple contexts (e.g., future CSS functions). Decide case-by-case during implementation.
+
+#### url() — composable overloads with typed MIME
+
+```csharp
+Css.Url("images/hero.png")                  // string path
+Css.Url(Assets.Images.Hero)                 // typed asset (compile-checked!)
+Css.Url(Mime.Svg, base64String)             // data URI with typed MIME
+```
+
+MIME types are a closed set for CSS-relevant media:
+```csharp
+public static class Mime {
+    public static readonly MimeType Svg = new("image/svg+xml");
+    public static readonly MimeType Png = new("image/png");
+    public static readonly MimeType Jpeg = new("image/jpeg");
+    public static readonly MimeType Webp = new("image/webp");
+    public static readonly MimeType Woff2 = new("font/woff2");
+}
+```
+
+#### Attr — unified for selectors and values
+
+Same `Attr` type works in both selector context and value context via implicit conversion:
+```csharp
+// SELECTOR context — which elements to target:
+[Self * Attr.Disabled] = new() { ... }           // &[disabled]
+
+// VALUE context — read the attribute's value:
+Content = Attr.Data("label"),                     // content: attr(data-label)
+```
+
+#### GridTemplate — type-safe grid definitions
+
+```csharp
+// Property type:
+public GridTemplate GridTemplateColumns { get; init; }
+
+// Implicit conversions:
+GridTemplateColumns = 1.Fr,                                              // Flex → GridTemplate
+GridTemplateColumns = GridTemplate.Repeat(3, 1.Fr),                     // repeat(3, 1fr)
+GridTemplateColumns = GridTemplate.Of(200.Px, 1.Fr, 2.Fr),             // 200px 1fr 2fr
+GridTemplateColumns = GridTemplate.Repeat(GridTemplate.AutoFill,
+    GridTemplate.MinMax(200.Px, 1.Fr)),                                  // repeat(auto-fill, minmax(200px, 1fr))
+```
 
 ---
 
 ### 18. Value Shorthands
 
-**Status: OPEN**
+**Status: DECIDED**
 
-CSS shorthands like `padding: 10px 20px` set multiple properties at once.
+`Sides` type with implicit conversions from `Length`, 2-tuple, and 4-tuple. `Css.Sides()` factory also available. **3-value form deliberately not supported** — it's confusing (horizontal in the middle) and rarely used.
 
 ```csharp
-// Option A: Css.Sides() helper
-Padding = Css.Sides(10.Px, 20.Px)              // 10px 20px
-Padding = Css.Sides(10.Px, 20.Px, 10.Px, 20.Px) // all four
+// All of these work for Padding, Margin, etc.:
+Padding = 10.Px,                                                 // Length → Sides (all)
+Padding = (10.Px, 20.Px),                                       // 2-tuple (vertical, horizontal)
+Padding = (top: 10.Px, right: 20.Px, bottom: 30.Px, left: 40.Px), // 4-tuple (named)
+Padding = Css.Sides(10.Px, 20.Px),                               // factory
+Padding = Css.Sides(top: 10.Px, right: 20.Px, bottom: 30.Px, left: 40.Px),
 
-// Option B: Tuple syntax
-Padding = (10.Px, 20.Px)
-
-// Option C: Setter methods (current design for some)
-SetPadding(10.Px, 20.Px)
+// Individual properties always available:
+PaddingTop = 10.Px,
+PaddingLeft = 20.Px,
 ```
+
+Border/Outline shorthands use factory methods:
+```csharp
+Border = Border.Solid(1.Px, Color.Black),
+Border = Border.Dashed(2.Px, Color.Gray(80)),
+Border = Border.None,
+BorderBottom = Border.Solid(1.Px, Color.Gray(90)),
+Outline = Outline.Solid(2.Px, Color.Blue),
+```
+
+#### Property-specific types
+
+Properties that accept lengths AND keywords get their own type (generated from CSS spec data):
+```csharp
+// FontSize accepts Length implicitly + has its own keywords
+FontSize = 16.Px,              // Length → FontSize (implicit)
+FontSize = FontSize.Large,     // keyword
+FontSize = FontSize.Smaller,   // relative keyword
+
+// The generator produces these from the CSS spec's value grammar
+```
+
+#### Duration + TimeSpan
+
+`Duration` accepts `TimeSpan` via implicit conversion for interop with other C# code:
+```csharp
+TransitionDuration = 200.Ms,                         // primary API
+TransitionDuration = TimeSpan.FromMilliseconds(200),  // from existing C# code
+```
+
+#### Analyzer: named parameter suggestion
+
+Roslyn analyzer `BCA001` suggests named parameters for 4-value `Sides`:
+```csharp
+// ⚠️ BCA001: Consider using named parameters
+Padding = (10.Px, 20.Px, 30.Px, 40.Px),
+
+// ✓ No warning
+Padding = (top: 10.Px, right: 20.Px, bottom: 30.Px, left: 40.Px),
+```
+
+Default severity: **warning**. Configurable via `.editorconfig` or Program.cs:
+```csharp
+// .editorconfig:
+dotnet_diagnostic.BCA001.severity = error
+
+// Or Program.cs:
+builder.Services.AddBrowserApiCss(options => {
+    options.Analyzers.NamedParamsForSides = Severity.Error;
+});
+```
+
+Program.cs overrides `.editorconfig` when both are set.
 
 ---
 
 ### 19. Self Keyword
 
-**Status: MOSTLY DECIDED**
+**Status: DECIDED**
 
-`Self` is a static `Selector` representing `&` (SCSS parent reference). Used inside nesting indexers.
+`Self` is a `Selector` with value `&` (SCSS parent reference). Available via two mechanisms:
+
+1. **Source generator injects** `Self`, `From`, `To` into every `StyleSheet` partial class — zero imports needed inside stylesheets.
+2. **Also on `Css`** — accessible via `using static BrowserApi.Css.Css` for use outside stylesheets (tests, shared code).
 
 ```csharp
-[Self.Hover] = ...          // &:hover
-[Self > Title] = ...        // & > .title
-[Self >> El.Span] = ...     // & span
+// Inside a stylesheet — just works, source gen injected:
+[Self.Hover] = new() { ... },              // &:hover
+[Self > Title] = new() { ... },            // & > .title
+[Self.Variant("active")] = new() { ... },  // &--active
+
+// Keyframe stops:
+[From] = new() { Opacity = 0 },            // 0%
+[To] = new() { Opacity = 1 },              // 100%
 ```
 
-`Self` has all pseudo-class properties (`.Hover`, `.Focus`, etc.) and all combinator operators.
+`Self` has all pseudo-class properties, all combinator operators, and `.Variant()`.
 
 ---
 
@@ -920,9 +1044,15 @@ Opinionated omissions to prevent bad CSS practices:
 
 ### 27. Source Maps
 
-**Status: OPEN**
+**Status: DECIDED**
 
-Chain: C# → SCSS map (our emitter tracks line numbers) → SCSS → CSS map (sass generates). Browser devtools could show C# source.
+All three layers visible: C# → SCSS → CSS.
+
+1. **Our emitter** tracks C# file/line (from syntax tree `GetLocation()`) as it writes SCSS, embeds them as comments, and generates a SCSS→C# source map.
+2. **Sass** generates a CSS→SCSS source map automatically.
+3. **We chain** the two maps into a CSS→C# source map.
+
+Result: browser devtools links directly to C# source. Sources panel shows all three files (C#, SCSS, CSS) for full transparency.
 
 ---
 
@@ -978,6 +1108,138 @@ Creates a `CssVar<T>` field and replaces all usages.
 
 ---
 
+### 29. Color Functions
+
+**Status: DECIDED**
+
+All SCSS color functions are supported. Auto-dispatch based on whether the color is a literal or a CSS variable:
+
+- **Literal color** → emits SCSS function (sass computes at build time, zero runtime cost, clean CSS output)
+- **CSS variable** → emits CSS relative color syntax `hsl(from ...)` or `color-mix()` (browser computes at runtime, reactive to variable changes)
+
+The dispatch is not hidden — it's the only correct behavior per case. SCSS can't process variables. CSS relative syntax can't be pre-computed. Each path is the only one that works for its input.
+
+```csharp
+// All methods work on BOTH literals and variables:
+color.Lighten(20)        // SCSS: lighten(#x, 20%)      | CSS: hsl(from var(--x) h s calc(l + 20%))
+color.Darken(20)         // SCSS: darken(#x, 20%)       | CSS: hsl(from var(--x) h s calc(l - 20%))
+color.Saturate(30)       // SCSS: saturate(#x, 30%)     | CSS: hsl(from var(--x) h calc(s + 30%) l)
+color.Desaturate(30)     // SCSS: desaturate(#x, 30%)   | CSS: hsl(from var(--x) h calc(s - 30%) l)
+color.AdjustHue(30)      // SCSS: adjust-hue(#x, 30deg) | CSS: hsl(from var(--x) calc(h + 30deg) s l)
+color.Complement         // SCSS: complement(#x)        | CSS: hsl(from var(--x) calc(h + 180deg) s l)
+color.Grayscale          // SCSS: grayscale(#x)         | CSS: hsl(from var(--x) h 0% l)
+color.Invert             // SCSS: invert(#x)            | CSS: hsl(from var(--x) calc(h+180) s calc(100%-l))
+color.WithAlpha(0.5)     // SCSS: rgba(#x, 0.5)         | CSS: hsl(from var(--x) h s l / 0.5)
+color.Mix(other, 50%)    // SCSS: mix(#x, other, 50%)   | CSS: color-mix(in srgb, var(--x) 50%, other)
+```
+
+Testing: SCSS output is used as a test oracle — C# computation (if ever added) is verified against sass for correctness.
+
+Usage:
+```csharp
+// Static brand color — SCSS computes, literal in CSS output:
+static readonly Color Brand = Color.Hex("#3498db");
+[Self.Hover] = new() { Background = Brand.Lighten(10) },
+// CSS: background: #5dade2
+
+// Themed color — browser computes, reactive to variable changes:
+[Self.Hover] = new() { Background = Mud.Palette.Primary.Lighten(10) },
+// CSS: background: hsl(from var(--mud-palette-primary) h s calc(l + 10%))
+// Dark mode toggle → browser recomputes → hover color updates
+```
+
+---
+
+### 30. `@property` (auto-generated)
+
+**Status: DECIDED**
+
+The source generator automatically emits `@property` for every `CssVar<T>`, inferring `syntax` from the type parameter. Zero effort for the user.
+
+```csharp
+// User writes:
+public static readonly CssVar<Color> Primary = new(Color.Hex("#3498db"));
+
+// Source gen emits:
+// @property --primary { syntax: "<color>"; inherits: true; initial-value: #3498db; }
+```
+
+Optional override for inheritance:
+```csharp
+public static readonly CssVar<Color> Primary = new(Color.Hex("#3498db")) {
+    Inherits = false,
+};
+```
+
+---
+
+### 31. `var()` Fallback Values
+
+**Status: DECIDED**
+
+`.Or()` on `CssVar<T>` for CSS `var(--name, fallback)`. Nesting for cascading fallbacks.
+
+```csharp
+// Simple fallback:
+Color = Primary.Or(Color.Blue),
+// → var(--primary, blue)
+
+// Nested fallback (reads inside-out):
+Color = Brand.Or(Primary.Or(Color.Blue)),
+// → var(--brand, var(--primary, blue))
+```
+
+Type system prevents misuse: `.Or()` returns `T` (not `CssVar<T>`), so chaining `.Or()` on the result doesn't compile — forces correct nesting.
+
+---
+
+### 32. `@container` Queries
+
+**Status: DECIDED**
+
+Same nesting indexer as `@media`. Requires `ContainerType` on the parent element.
+
+```csharp
+public static readonly Class CardContainer = new() {
+    ContainerType = ContainerType.InlineSize,
+};
+
+public static readonly Class Card = new() {
+    Display = Display.Block,
+
+    [Container.MinWidth(400.Px)] = new() {
+        Display = Display.Flex,
+    },
+
+    // Named container (typed reference):
+    [Container(CardContainer).MinWidth(400.Px)] = new() {
+        Display = Display.Grid,
+    },
+};
+```
+
+Container units are extension properties on `int`/`double`, same as `Vw`/`Vh`:
+```csharp
+50.Cqw, 100.Cqh, 50.Cqi, 50.Cqb, 50.Cqmin, 50.Cqmax
+```
+
+**Analyzer:** warn if `Container.MinWidth(...)` is used in a nesting indexer but no `Class` in the stylesheet has `ContainerType` set. Also explore: warning if container units (`cqw` etc.) are used without a `ContainerType` ancestor, and potentially a code fix that adds `ContainerType` to the most likely parent class.
+
+---
+
+### 33. Post-MVP Features
+
+Features with clear designs that fit existing patterns. Deferred to post-MVP.
+
+| Feature | Pattern | Why deferred |
+|---|---|---|
+| `@layer` | `CssLayer` type, `[LayerOrder]` attribute, `[Layer]` per class/rule | Design needs deeper exploration — cascade layer strategy is a project-wide decision |
+| `:is()` / `:where()` | `Css.Is(Card, Panel)`, `Css.Where(Card, Panel)` → Selector | Low priority — standard selectors cover most cases |
+| CSS trig functions | `Css.Sin()`, `Css.Cos()`, `Css.Tan()` etc. → used inside `Css.Calc()` | Niche — mainly for creative CSS art, rarely for layout |
+| Scroll-driven animations | `AnimationTimeline.Scroll()`, `AnimationTimeline.View()`, typed named timelines | Firefox support just arriving (~v150, mid-2026). Design is clear, defer until universal. |
+
+---
+
 ### Summary
 
 | # | Concept | Status |
@@ -997,10 +1259,10 @@ Creates a `CssVar<T>` field and replaces all usages.
 | 13 | Asset Source Generator | **Decided** (not implemented) |
 | 14 | !important | **Decided** — `.Important` property |
 | 15 | Attribute Selectors | **Decided** — typed + `Aria` + `Data()` + string fallback |
-| 16 | CSS Custom Properties | **Decided** — self-contained `CssVar<T>` with default + overrides |
-| 17 | CSS Functions | **Partially decided** |
-| 18 | Value Shorthands | **Open** |
-| 19 | Self Keyword | **Mostly decided** |
+| 16 | CSS Custom Properties | **Decided** — self-contained `CssVar<T>` with default + overrides + `.Or()` fallback |
+| 17 | CSS Functions | **Decided** — on value type or `Css`, expand as needed |
+| 18 | Value Shorthands | **Decided** — `Sides` with implicit from Length/tuples, skip 3-value, property-specific types |
+| 19 | Self Keyword | **Decided** — source gen injects + on `Css` for external use |
 | 20 | Prefixing | **Decided** — Program.cs global + attribute per-sheet |
 | 21 | File Convention | **Decided** — `.css.cs` extension |
 | 22 | Conditional Classes | **Decided** — `.When()` + ternary with `Class.None` |
@@ -1008,5 +1270,10 @@ Creates a `CssVar<T>` field and replaces all usages.
 | 24 | @font-face | **Decided** |
 | 25 | @supports | **Decided** |
 | 26 | Explicitly Not Supported | **Decided** — IDs, scoped styles, ::deep, @import, Tailwind |
-| 27 | Source Maps | **Open** |
+| 27 | Source Maps | **Decided** — chained C# → SCSS → CSS, all three visible |
 | 28 | Source Generator DX | **Planned** — scaffold, preview, diagnostics, converter, refactoring |
+| 29 | Color Functions | **Decided** — SCSS for literals, CSS relative color/color-mix for variables |
+| 30 | @property | **Decided** — auto-generated from `CssVar<T>`, `Inherits` override |
+| 31 | var() Fallbacks | **Decided** — `.Or()` with nesting |
+| 32 | @container | **Decided** — same as @media nesting, analyzer for missing ContainerType |
+| 33 | Post-MVP | **Deferred** — @layer, :is/:where, trig functions, scroll-driven animations |
