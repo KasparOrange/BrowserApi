@@ -1,0 +1,44 @@
+<!--
+    BrowserApi.SourceGen.targets
+
+    Auto-imported into the consumer's MSBuild graph because of its location
+    inside the package: `build/<PackageId>.targets` is one of the conventional
+    NuGet hooks (see https://learn.microsoft.com/nuget/create-packages/creating-a-package-msbuild#create-the-package-with-msbuild).
+
+    What this does: copies the ambient `browserapi.d.ts` from the package cache
+    into the consumer's `obj/browserapi-types/` directory at build time, so
+    TypeScript can pick it up via a single `include` entry in tsconfig.json.
+
+    Why obj/ specifically: it's gitignored by every standard .NET project
+    template, so the file doesn't accidentally land in the consumer's git
+    history. SkipUnchangedFiles makes the copy a no-op on incremental builds.
+
+    Consumer-side wiring (one-time setup, documented in the support matrix):
+
+        // tsconfig.json
+        {
+          "include": [
+            "wwwroot/js/**/*.ts",
+            "obj/browserapi-types/**/*.d.ts"
+          ]
+        }
+-->
+<Project>
+
+    <PropertyGroup>
+        <BrowserApiTypeDeclarationsSource>$(MSBuildThisFileDirectory)../typescript/browserapi.d.ts</BrowserApiTypeDeclarationsSource>
+        <BrowserApiTypeDeclarationsDest>$(MSBuildProjectDirectory)/obj/browserapi-types/browserapi.d.ts</BrowserApiTypeDeclarationsDest>
+    </PropertyGroup>
+
+    <Target Name="BrowserApiSourceGenCopyTypeDeclarations"
+            BeforeTargets="BeforeBuild;BeforeRebuild"
+            Inputs="$(BrowserApiTypeDeclarationsSource)"
+            Outputs="$(BrowserApiTypeDeclarationsDest)"
+            Condition="Exists('$(BrowserApiTypeDeclarationsSource)')">
+        <MakeDir Directories="$(MSBuildProjectDirectory)/obj/browserapi-types" />
+        <Copy SourceFiles="$(BrowserApiTypeDeclarationsSource)"
+              DestinationFiles="$(BrowserApiTypeDeclarationsDest)"
+              SkipUnchangedFiles="true" />
+    </Target>
+
+</Project>

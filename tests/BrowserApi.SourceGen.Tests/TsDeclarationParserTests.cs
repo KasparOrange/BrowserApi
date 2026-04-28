@@ -246,6 +246,124 @@ export interface Config {
     }
 
     [Fact]
+    public void MapTsType_width_aliases_signed_integers() {
+        // The ambient `browserapi.d.ts` declares these as `declare type X = number`.
+        // The generator pattern-matches the alias names directly — no symbol resolution.
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        Assert.Equal("int", TsDeclarationParser.MapTsType("int", map));
+        Assert.Equal("long", TsDeclarationParser.MapTsType("long", map));
+        Assert.Equal("short", TsDeclarationParser.MapTsType("short", map));
+        Assert.Equal("sbyte", TsDeclarationParser.MapTsType("sbyte", map));
+    }
+
+    [Fact]
+    public void MapTsType_width_aliases_unsigned_integers() {
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        Assert.Equal("uint", TsDeclarationParser.MapTsType("uint", map));
+        Assert.Equal("ulong", TsDeclarationParser.MapTsType("ulong", map));
+        Assert.Equal("ushort", TsDeclarationParser.MapTsType("ushort", map));
+        Assert.Equal("byte", TsDeclarationParser.MapTsType("byte", map));
+    }
+
+    [Fact]
+    public void MapTsType_width_alias_float() {
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        Assert.Equal("float", TsDeclarationParser.MapTsType("float", map));
+    }
+
+    [Fact]
+    public void MapTsType_Guid_is_fully_qualified() {
+        // Generated files emit `using System.Text.Json.Serialization;` and (for module
+        // files) `using Microsoft.JSInterop;` — they do NOT import `using System;`.
+        // Returning fully-qualified `System.Guid` keeps the mapping safe in every
+        // namespace context.
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        Assert.Equal("System.Guid", TsDeclarationParser.MapTsType("Guid", map));
+    }
+
+    [Fact]
+    public void MapTsType_width_aliases_do_not_record_fallbacks() {
+        // Width aliases are recognized first-class (same priority as `number`/`string`),
+        // so they must never trigger BAPI002. Verifies they go through the primitives
+        // switch and exit before the unknown-fallback path.
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        var fallbacks = new System.Collections.Generic.List<TsTypeFallback>();
+
+        foreach (var alias in new[] { "int", "uint", "long", "ulong", "short", "ushort",
+                                       "byte", "sbyte", "float", "Guid" }) {
+            TsDeclarationParser.MapTsType(alias, map, fallbacks, "ctx");
+        }
+
+        Assert.Empty(fallbacks);
+    }
+
+    [Fact]
+    public void MapTsType_width_aliases_inside_arrays() {
+        // Container handling is recursive — `int[]` should resolve via the existing
+        // array branch, calling MapTsType("int") and appending "[]".
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        Assert.Equal("int[]", TsDeclarationParser.MapTsType("int[]", map));
+        Assert.Equal("long[]", TsDeclarationParser.MapTsType("Array<long>", map));
+        Assert.Equal("System.Guid[]", TsDeclarationParser.MapTsType("Guid[]", map));
+    }
+
+    [Fact]
+    public void MapTsType_width_aliases_inside_record() {
+        // Record<string, T> resolves T recursively — width aliases must work as values.
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        Assert.Equal("System.Collections.Generic.Dictionary<string, int>",
+            TsDeclarationParser.MapTsType("Record<string, int>", map));
+        Assert.Equal("System.Collections.Generic.Dictionary<string, System.Guid>",
+            TsDeclarationParser.MapTsType("Record<string, Guid>", map));
+    }
+
+    [Fact]
+    public void MapTsType_width_aliases_inside_promise() {
+        // Promise<T> unwraps to T; the generator emits `Task<int>` etc. on the C# side.
+        var map = new System.Collections.Generic.Dictionary<string, string>();
+        Assert.Equal("int", TsDeclarationParser.MapTsType("Promise<int>", map));
+        Assert.Equal("System.Guid", TsDeclarationParser.MapTsType("Promise<Guid>", map));
+    }
+
+    [Fact]
+    public void Parse_function_with_width_alias_params_and_return() {
+        // End-to-end: width aliases in parameter and return positions flow through
+        // to the generated method's signature without any fallback diagnostic.
+        var dts = "export function createTracker(intervalMs: int, throttleHz: float): long;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        var func = Assert.Single(result.Functions);
+        Assert.Equal("long", func.ReturnType);
+        Assert.Equal("int", func.Params[0].CSharpType);
+        Assert.Equal("float", func.Params[1].CSharpType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_interface_with_width_aliases_and_Guid() {
+        // Width aliases in property positions become typed C# properties — including
+        // optional ones (the existing `?` → `T?` logic kicks in because `int` doesn't
+        // end in `?` or `[]`).
+        var dts = @"
+export interface EntityRef {
+    id: Guid;
+    version: long;
+    sequenceNumber: int;
+    confidence?: float;
+    flags: byte;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        var iface = Assert.Single(result.Interfaces);
+        Assert.Equal("System.Guid", iface.Properties[0].CSharpType);
+        Assert.Equal("long", iface.Properties[1].CSharpType);
+        Assert.Equal("int", iface.Properties[2].CSharpType);
+        Assert.Equal("float?", iface.Properties[3].CSharpType);
+        Assert.Equal("byte", iface.Properties[4].CSharpType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
     public void MapTsType_known_interface() {
         var map = new System.Collections.Generic.Dictionary<string, string> {
             ["DragConfig"] = "DragConfig"

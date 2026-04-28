@@ -16,6 +16,17 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+## [0.1.0-preview.8] — 2026-04-29
+
+### BrowserApi.SourceGen
+
+- **Added — numeric width aliases (`int`, `uint`, `long`, `ulong`, `short`, `ushort`, `byte`, `sbyte`, `float`) and `Guid` are now first-class TypeScript-side annotations.** TS has only `number`, so the generator has had to pick one C# numeric type and that pick is `double`. Most numbers crossing JS/C# are integers — IDs, indices, counters, durations in ms — and `double id` forces a cast at every `Dictionary<int, …>` storage site on the C# side. The new aliases let TS authors write `id: int`, `tickCount: long`, `confidence: float`, `entityId: Guid` and have the generator emit the matching .NET primitive directly. JSON round-trip is lossless: `System.Text.Json` reads `42` straight into `int`, `1.5` into `float`, `"550e8400-…"` into `System.Guid`. The aliases work in every position — function parameters, return types, interface properties, array elements (`int[]`), `Record<string, Guid>`, `Promise<long>`. Zero runtime cost; the JS-side type is still `number` (or `string` for `Guid`).
+- **Added — ambient TypeScript declarations ship inside the NuGet package.** The new `browserapi.d.ts` declares the width aliases and a richly-typed `DotNetObjectReference` interface (with `invokeMethodAsync<TResult>` and `dispose()`, both fully JSDoc'd). The package's `build/BrowserApi.SourceGen.targets` copies the file into `obj/browserapi-types/` at build time — gitignored by default. Consumers add one line to their `tsconfig.json` `include`: `"obj/browserapi-types/**/*.d.ts"`. After that, every module .ts can use the aliases and the typed `DotNetObjectReference` without per-module stub redeclarations. Migration path for existing modules: delete the local `interface DotNetObjectReference {}` stub — the ambient declaration replaces it. The generator's pattern matching is unchanged, so there's no compatibility break for existing `.d.ts` files.
+
+### BrowserApi, BrowserApi.JSInterop, BrowserApi.Blazor, BrowserApi.Runtime
+
+- No behavioral changes. Republished at the shared version so all packages stay version-aligned.
+
 ## [0.1.0-preview.7] — 2026-04-22
 
 ### BrowserApi.SourceGen

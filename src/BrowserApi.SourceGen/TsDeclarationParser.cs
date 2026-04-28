@@ -451,7 +451,21 @@ internal static class TsDeclarationParser {
         List<TsTypeFallback>? fallbacks = null, string? context = null) {
         var trimmed = tsType.Trim();
 
-        // Primitives (intentional mappings — no fallback reported)
+        // Primitives + width aliases (intentional mappings — no fallback reported).
+        //
+        // The width aliases (`int`, `long`, `float`, etc., plus `Guid`) are NOT TypeScript
+        // built-ins. They're declared in the ambient `browserapi.d.ts` shipped with this
+        // package — `declare type int = number;` etc. The generator pattern-matches the
+        // alias names by *unqualified text* (no symbol resolution), so consumers must use
+        // the literal names from the ambient declaration. JSON round-trip is lossless:
+        // `System.Text.Json` reads `42` straight into `int`, `1.5` into `float`, and
+        // a canonical `"550e8400-…"` string into `System.Guid`.
+        //
+        // Why these specific aliases: TS `number` is always IEEE-754 double, which forces
+        // `double` on the C# side and a cast at every integer storage site (`Dictionary<int,…>`,
+        // indexers, IDs). Letting authors write `id: int` collapses that friction without
+        // any runtime cost. Symmetric width coverage (signed + unsigned, 8/16/32/64) keeps
+        // the surface predictable — once you know the rule, you know the whole table.
         switch (trimmed) {
             case "number": return "double";
             case "string": return "string";
@@ -461,6 +475,19 @@ internal static class TsDeclarationParser {
             case "undefined": return "void";
             case "null": return "object";
             case "never": return "void";
+            case "int": return "int";
+            case "uint": return "uint";
+            case "long": return "long";
+            case "ulong": return "ulong";
+            case "short": return "short";
+            case "ushort": return "ushort";
+            case "byte": return "byte";
+            case "sbyte": return "sbyte";
+            case "float": return "float";
+            // Fully qualified: generated files don't carry `using System;`, so the
+            // unqualified `Guid` would fail to compile in any namespace that hasn't
+            // already imported System. `System.Guid` is unambiguous everywhere.
+            case "Guid": return "System.Guid";
         }
 
         // Blazor interop types. `DotNetObjectReference<T>` is generic and there is no

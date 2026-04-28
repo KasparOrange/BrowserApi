@@ -66,6 +66,7 @@ For much better type safety, use TypeScript declaration files. The generator par
 | `items: string[]` | `string[] Items` |
 | `handle?: string` | `string? Handle` |
 | `Promise<string>` | unwrapped to `string` (method returns `Task<string>`) |
+| `id: int` / `id: Guid` | `int Id` / `System.Guid Id` ([width aliases](source-generator-support-matrix.md#numeric-width-aliases)) |
 
 ### Example
 
@@ -359,7 +360,8 @@ The generator is built for hand-written `.d.ts` / `.js` modules in your own `www
 
 The full support matrix — every pattern, what it maps to, and whether `BAPI002` fires — is its own page: **[source-generator support matrix](source-generator-support-matrix.md)**. A few headline items below; see the matrix for the rest.
 
-- **`DotNetObjectReference` parameters are strongly typed.** Write a plain `dotNetRef: DotNetObjectReference` in your `.d.ts` (with or without a stub `interface` declaration) and the generator promotes the generated method to generic over `TDotNetRef`. Consumers just pass their `DotNetObjectReference.Create(x)` result — C# infers `TDotNetRef` at the call site.
+- **Numeric width aliases (`int`, `long`, `float`, `Guid`, …) ship as ambient TypeScript declarations.** Annotate parameters and properties with `int`, `long`, `Guid`, etc. and the C# side gets `int`, `long`, `System.Guid` directly — no casts at the storage site. The aliases live in `browserapi.d.ts`, copied into your project's `obj/browserapi-types/` at build time. See the [width aliases section](source-generator-support-matrix.md#numeric-width-aliases) of the support matrix for the full table and tsconfig wiring.
+- **`DotNetObjectReference` is also an ambient declaration.** The same `browserapi.d.ts` provides a richly-typed `DotNetObjectReference` interface with `invokeMethodAsync<TResult>` and `dispose()`. No more per-module stub declarations. The C# generator behavior is unchanged — top-level `DotNetObjectReference` parameters still promote to generic over `TDotNetRef`.
 - **Interfaces** (exported or not) become sealed C# records with `[JsonPropertyName]`. A stub `interface DotNetObjectReference {}` is recognized as a Blazor primitive and skipped — no colliding class is emitted.
 - **String literal unions** (`'a' | 'b'`) become C# enums with proper `JsonStringEnumMemberName` serialization.
 - **Not recognized**: `export default`, const-bound arrow exports, class methods, complex generics (conditional / mapped / intersection types), cross-file type references. Most can be worked around with a tiny named re-export or a local interface redeclaration.

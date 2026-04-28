@@ -31,6 +31,7 @@ var result = await Utils.FormatCurrencyAsync(42.99, "USD");
 - TypeScript interfaces become C# records with `[JsonPropertyName]`
 - String literal unions become enums with `[JsonStringEnumConverter]`
 - `DotNetObjectReference` parameters become generic methods with type inference
+- **Ambient TypeScript declarations** ship with the package: numeric width aliases (`int`, `long`, `float`, `uint`, `byte`, `Guid`, …) and a typed `DotNetObjectReference` with `invokeMethodAsync<TResult>` and `dispose()`. Add `obj/browserapi-types/**/*.d.ts` to your `tsconfig.json` `include` to pick them up.
 - Optional `IJsModulePathResolver` for Vite/bundler integration
 - Auto-generates `AddJsModules()` DI registration
 - Zero runtime overhead — same `InvokeAsync` calls you'd write by hand

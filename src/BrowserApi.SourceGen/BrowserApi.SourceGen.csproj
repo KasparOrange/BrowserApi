@@ -7,7 +7,7 @@
         <IsRoslynComponent>true</IsRoslynComponent>
         <RootNamespace>BrowserApi.SourceGen</RootNamespace>
         <PackageId>BrowserApi.SourceGen</PackageId>
-        <Version>0.1.0-preview.1</Version>
+        <Version>0.1.0-preview.8</Version>
         <Authors>Konrad Entner</Authors>
         <Description>Roslyn source generator that reads .js/.d.ts modules and emits typed C# wrapper classes for Blazor JS interop. Supports JSDoc, TypeScript declarations, string literal union enums, and custom path resolvers. Zero runtime overhead — generates the same IJSRuntime.InvokeAsync calls you'd write by hand. PREVIEW: This package is under active development and used internally. The API may change between versions. No stability guarantees.</Description>
         <PackageTags>blazor;jsinterop;source-generator;typescript;codegen</PackageTags>
@@ -36,6 +36,21 @@
     <ItemGroup>
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
         <None Include="README.md" Pack="true" PackagePath="\" />
+
+        <!--
+            Ambient TypeScript declarations (`int`, `Guid`, `DotNetObjectReference`, etc.)
+            ship inside the package and get copied into the consumer's `obj/browserapi-types/`
+            at build time by the `.targets` file below. Both are PackagePath'd to their
+            conventional NuGet locations so tooling picks them up without extra config.
+        -->
+        <None Include="typescript/browserapi.d.ts"
+              Pack="true"
+              PackagePath="typescript/browserapi.d.ts"
+              Visible="false" />
+        <None Include="build/BrowserApi.SourceGen.targets"
+              Pack="true"
+              PackagePath="build/BrowserApi.SourceGen.targets"
+              Visible="false" />
     </ItemGroup>
 
 </Project>

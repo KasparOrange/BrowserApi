@@ -21,9 +21,75 @@ Every entry is grouped by category. For each, you get a small TypeScript sample,
 | `null` | `object` |
 | `never` | `void` |
 
-**Why `number` → `double`.** JavaScript numbers are IEEE-754 double-precision floats. There is no integer/float distinction on the JS side. Mapping to `double` preserves the full range and precision; mapping to `int` would silently truncate any value over 2^31. If you know a value is always an integer, you can `[JSInvokable]` a method on a C# class whose signature uses `int` — but the generator can't assume that from a plain `.d.ts`.
+**Why `number` → `double`.** JavaScript numbers are IEEE-754 double-precision floats. There is no integer/float distinction on the JS side. Mapping to `double` preserves the full range and precision; mapping to `int` would silently truncate any value over 2^31. If you know a value is always an integer, use a [width-alias annotation](#numeric-width-aliases) — that's exactly what they're for.
 
 **Why `any` and `null` → `object` without a warning.** These are intentional fallbacks. The consumer has explicitly chosen the loosest typing. Emitting `BAPI002` would be noise.
+
+---
+
+## Numeric width aliases
+
+The default `number` → `double` mapping is safe but lossy: every `int`, `long`, or `float` on the C# side gets a `double` it has to cast back. Width aliases let TypeScript authors annotate intent and have the generator emit the matching .NET primitive directly.
+
+| TypeScript | C# | Range |
+|---|---|---|
+| `int` | `int` | `[-2³¹, 2³¹ − 1]` |
+| `uint` | `uint` | `[0, 2³² − 1]` |
+| `long` | `long` | `[-2⁶³, 2⁶³ − 1]` (range caveat below) |
+| `ulong` | `ulong` | `[0, 2⁶⁴ − 1]` (range caveat below) |
+| `short` | `short` | `[-2¹⁵, 2¹⁵ − 1]` |
+| `ushort` | `ushort` | `[0, 2¹⁶ − 1]` |
+| `byte` | `byte` | `[0, 255]` |
+| `sbyte` | `sbyte` | `[-128, 127]` |
+| `float` | `float` | IEEE-754 single precision |
+| `Guid` | `System.Guid` | canonical 8-4-4-4-12 hyphenated string |
+
+**How they work.** The aliases are declared in the ambient `browserapi.d.ts` shipped with the package — `declare type int = number;` and so on. To TypeScript they're synonyms for `number` (or `string`, in `Guid`'s case), so the JS runtime is unchanged. The generator pattern-matches the alias *name* (it doesn't follow `type` declarations), and JSON serialization is lossless: `System.Text.Json` reads `42` straight into `int`, `1.5` into `float`, and `"550e8400-e29b-41d4-a716-446655440000"` straight into `System.Guid`.
+
+**Range caveat for 64-bit aliases.** JavaScript `number` only safely represents integers up to 2⁵³ − 1 (`Number.MAX_SAFE_INTEGER`). For values that genuinely need the full 64-bit range, use `BigInt` on the JS side and serialize as a `string` on the wire — then parse to `long` / `ulong` yourself on the .NET side. The `long` and `ulong` aliases are still useful below the 2⁵³ ceiling (timestamps in ms, large counters, database row IDs), where the round-trip is exact.
+
+**Wiring up the ambient declarations.** The `BrowserApi.SourceGen` package ships `browserapi.d.ts` and copies it into `obj/browserapi-types/` at build time. To make the aliases visible to your TypeScript compiler, add the path to your `tsconfig.json`:
+
+```json
+{
+  "include": [
+    "wwwroot/js/**/*.ts",
+    "obj/browserapi-types/**/*.d.ts"
+  ]
+}
+```
+
+The `obj/` folder is gitignored by the standard .NET project template, so the file doesn't pollute your git history. If your project doesn't use a `tsconfig.json` (plain `.js` workflow), the aliases aren't usable — but `number` and `string` still map the way they always have.
+
+**Example.**
+
+```typescript
+// .ts — width-typed signatures
+export function createTracker(ref: DotNetObjectReference, intervalMs: int): int;
+export function loadEntity(id: Guid): Promise<EntityConfig>;
+export function setOpacity(value: float): void;
+
+export interface EntityConfig {
+    id: Guid;
+    sequenceNumber: long;
+    flags: byte;
+}
+```
+
+```csharp
+// generated C# — primitives match the alias, no casts needed
+public Task<int> CreateTrackerAsync<TDotNetRef>(
+    DotNetObjectReference<TDotNetRef> @ref, int intervalMs) where TDotNetRef : class { … }
+
+public Task<EntityConfig> LoadEntityAsync(System.Guid id) { … }
+public Task SetOpacityAsync(float value) { … }
+
+public sealed class EntityConfig {
+    public required System.Guid Id { get; init; }
+    public required long SequenceNumber { get; init; }
+    public required byte Flags { get; init; }
+}
+```
 
 ---
 
@@ -79,6 +145,15 @@ Every entry is grouped by category. For each, you get a small TypeScript sample,
 
 ### `DotNetObjectReference` as a direct function parameter
 
+The ambient `browserapi.d.ts` (see [Numeric width aliases](#numeric-width-aliases) for the wiring) declares a fully-typed `DotNetObjectReference` interface with `invokeMethodAsync<TResult>` and `dispose()`. Once the ambient file is in your tsconfig `include`, you can reference the type directly — no per-module stub redeclaration needed.
+
+```typescript
+// .ts — no local stub, the ambient declaration provides the type
+export function createDrag(dotNetRef: DotNetObjectReference, config: DragConfig): number;
+```
+
+If you're not using the ambient declaration, the legacy stub form still works:
+
 ```typescript
 // .d.ts — the stub declaration satisfies TypeScript
 interface DotNetObjectReference {}
@@ -99,7 +174,7 @@ public async System.Threading.Tasks.Task<double> CreateDragAsync<
 
 **Why generic over `TDotNetRef` instead of typed as `object`.** `DotNetObjectReference<T>` is a sealed generic class; the non-generic `DotNetObjectReference` is a static factory and cannot be used as a parameter type (that was preview.4's bug — CS0721). We also can't pick a concrete `T` from the `.d.ts` because `T` lives in the consumer's assembly, not TypeScript. The compromise: make the *method* generic, let the consumer's argument type drive inference. `var r = DotNetObjectReference.Create(this); await m.CreateDragAsync(r, cfg);` — `TDotNetRef` resolves to whatever class `this` is.
 
-**Why the stub `interface DotNetObjectReference {}` is recognized and skipped.** TypeScript requires some declaration for any name used in a signature. If the generator emitted a `JsModules.DotNetObjectReference` class for the stub, it would collide with `Microsoft.JSInterop.DotNetObjectReference` in any consumer file that had `using JsModules;` in scope — a pre-preview.4 bug. The skip-list treats it as a Blazor interop primitive, not a consumer shape.
+**Why the stub `interface DotNetObjectReference {}` is recognized and skipped.** TypeScript requires some declaration for any name used in a signature. If the generator emitted a `JsModules.DotNetObjectReference` class for the stub, it would collide with `Microsoft.JSInterop.DotNetObjectReference` in any consumer file that had `using JsModules;` in scope — a pre-preview.4 bug. The skip-list treats it as a Blazor interop primitive, not a consumer shape. The ambient `browserapi.d.ts` (preview.8 onwards) provides a richer typed declaration with the same behavior — the skip-list applies to either form.
 
 **Why the `DynamicallyAccessedMembers(PublicMethods)` attribute.** `DotNetObjectReference<TValue>` itself carries this annotation, which the AOT/trimmer uses to preserve the target object's `[JSInvokable]` methods. When our generated method forwards `TDotNetRef` to `DotNetObjectReference<TDotNetRef>`, without the matching annotation the trimmer emits `IL2091`. With it, Blazor WebAssembly AOT builds stay quiet.
 
