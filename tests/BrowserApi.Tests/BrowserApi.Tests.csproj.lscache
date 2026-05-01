@@ -86,6 +86,7 @@ Css/
   CookbookTests.cs
   CssRegistryCollection.cs
   EndToEndTests.cs
+  PrefixTests.cs
   Round1FeaturesTests.cs
   StyleSheetTests.cs
  CssColorTests.cs

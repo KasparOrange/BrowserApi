@@ -45,6 +45,18 @@ public static class CssRegistry {
     private static readonly ConcurrentDictionary<Type, string> _rendered = new();
     private static volatile bool _scanned;
     private static string? _combined;
+    private static CssOptions _options = new();
+
+    /// <summary>The configured runtime options (global prefix, etc.). Set
+    /// before the first scan via <c>AddBrowserApiCss(opts =&gt; ...)</c>.</summary>
+    public static CssOptions Options => _options;
+
+    /// <summary>Replaces the runtime options. Triggers a refresh so any
+    /// previously-cached output is regenerated under the new options.</summary>
+    public static void Configure(CssOptions options) {
+        _options = options ?? throw new ArgumentNullException(nameof(options));
+        Refresh();
+    }
 
     /// <summary>
     /// Renders every <see cref="StyleSheet"/>-derived type in the AppDomain into
@@ -79,7 +91,52 @@ public static class CssRegistry {
             _rendered.Clear();
             _combined = null;
             _scanned = false;
+            // Reset all field names too so the next scan re-prefixes them
+            // under the (possibly new) options. Without this, names set by a
+            // previous scan would survive a reconfigure and Refresh would
+            // be a no-op for prefix changes.
+            ClearFieldNames();
             ScanAndRenderAll();
+        }
+    }
+
+    private static void ClearFieldNames() {
+        foreach (var asm in AppDomain.CurrentDomain.GetAssemblies()) {
+            if (asm.IsDynamic) continue;
+            var asmName = asm.GetName().Name;
+            if (asmName is null) continue;
+            if (asmName.StartsWith("System.", StringComparison.Ordinal) ||
+                asmName.StartsWith("Microsoft.", StringComparison.Ordinal) ||
+                asmName == "mscorlib" || asmName == "netstandard") {
+                continue;
+            }
+            foreach (var type in SafeGetTypes(asm)) {
+                if (type is null) continue;
+                if (type.IsAbstract || type.IsGenericTypeDefinition) continue;
+                if (!typeof(StyleSheet).IsAssignableFrom(type)) continue;
+
+                foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic)) {
+                    var value = field.GetValue(null);
+                    switch (value) {
+                        case Class cls: cls.Name = string.Empty; break;
+                        case Keyframes kf: kf.Name = string.Empty; break;
+                        default: {
+                            var t = value?.GetType();
+                            if (t is not null && t.IsGenericType && t.GetGenericTypeDefinition() == typeof(CssVar<>)) {
+                                var nameProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.Name));
+                                // External-named variables (CssVar.External) carry their literal
+                                // name in the same field, so reset only when the name looks like
+                                // one we previously assigned (kebab-cased, leading "--").
+                                var existing = (string?)nameProp?.GetValue(value);
+                                if (existing is not null && existing.StartsWith("--", StringComparison.Ordinal)) {
+                                    nameProp?.SetValue(value, string.Empty);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 

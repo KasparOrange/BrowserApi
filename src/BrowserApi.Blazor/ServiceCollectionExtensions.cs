@@ -76,4 +76,29 @@ public static class ServiceCollectionExtensions {
         BrowserApi.Css.Authoring.CssRegistry.EnsureScanned();
         return services;
     }
+
+    /// <summary>
+    /// Configures the CSS-in-C# pipeline (global prefix, etc.) and triggers
+    /// the eager AppDomain scan with those options applied.
+    /// </summary>
+    /// <param name="services">The service collection (returned for chaining).</param>
+    /// <param name="configure">Callback that receives a fresh
+    /// <see cref="BrowserApi.Css.Authoring.CssOptions"/> to mutate.</param>
+    /// <returns>The same <see cref="IServiceCollection"/>.</returns>
+    /// <example>
+    /// <code>
+    /// builder.Services.AddBrowserApiCss(opts =&gt; {
+    ///     opts.GlobalPrefix = "mw";
+    /// });
+    /// </code>
+    /// </example>
+    public static IServiceCollection AddBrowserApiCss(
+        this IServiceCollection services,
+        System.Action<BrowserApi.Css.Authoring.CssOptions> configure) {
+        if (configure is null) throw new System.ArgumentNullException(nameof(configure));
+        var options = new BrowserApi.Css.Authoring.CssOptions();
+        configure(options);
+        BrowserApi.Css.Authoring.CssRegistry.Configure(options);
+        return services;
+    }
 }

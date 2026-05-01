@@ -230,25 +230,40 @@ public abstract class StyleSheet {
     /// <summary>
     /// Populates the kebab-cased <c>Name</c> on every <see cref="Class"/>,
     /// <see cref="CssVar{T}"/>, and <see cref="Keyframes"/> field of
-    /// <paramref name="styleSheetType"/>. Called by
-    /// <see cref="CssRegistry"/> in a first pass so cross-stylesheet
-    /// references resolve correctly during rendering. Idempotent — fields
-    /// that already have a non-empty name (e.g. via
+    /// <paramref name="styleSheetType"/>, applying the global prefix and any
+    /// per-stylesheet <see cref="PrefixAttribute"/>. Idempotent — fields that
+    /// already have a non-empty name (e.g. via
     /// <see cref="CssVar.External{T}(string)"/>) are left untouched.
     /// </summary>
+    /// <remarks>
+    /// Final naming chain: <c>{globalPrefix}-{stylesheetPrefix}-{kebabFieldName}</c>
+    /// for class and keyframe names; <c>--{globalPrefix}-{stylesheetPrefix}-{kebabFieldName}</c>
+    /// for CssVar names. Empty segments are skipped, so a stylesheet without a
+    /// <see cref="PrefixAttribute"/> in a project without a global prefix
+    /// produces the bare kebab-cased name.
+    /// </remarks>
     public static void PopulateFieldNames(Type styleSheetType) {
         if (styleSheetType is null) throw new ArgumentNullException(nameof(styleSheetType));
+
+        var globalPrefix = CssRegistry.Options.GlobalPrefix;
+        var sheetPrefixAttr = (PrefixAttribute?)Attribute.GetCustomAttribute(
+            styleSheetType, typeof(PrefixAttribute), inherit: false);
+        var sheetPrefix = sheetPrefixAttr?.Value ?? string.Empty;
+
         var fields = styleSheetType.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
         foreach (var field in fields) {
             var value = field.GetValue(null);
             if (value is null) continue;
 
+            var baseName = ToKebabCase(field.Name);
+            var fullName = ComposeName(globalPrefix, sheetPrefix, baseName);
+
             switch (value) {
                 case Class cls when string.IsNullOrEmpty(cls.Name):
-                    cls.Name = ToKebabCase(field.Name);
+                    cls.Name = fullName;
                     break;
                 case Keyframes kf when string.IsNullOrEmpty(kf.Name):
-                    kf.Name = ToKebabCase(field.Name);
+                    kf.Name = fullName;
                     break;
                 default: {
                     var t = value.GetType();
@@ -256,13 +271,22 @@ public abstract class StyleSheet {
                         var nameProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.Name));
                         var existing = (string?)nameProp?.GetValue(value);
                         if (string.IsNullOrEmpty(existing)) {
-                            nameProp?.SetValue(value, "--" + ToKebabCase(field.Name));
+                            nameProp?.SetValue(value, "--" + fullName);
                         }
                     }
                     break;
                 }
             }
         }
+    }
+
+    /// <summary>Joins the prefix segments with single dashes, skipping empties.</summary>
+    private static string ComposeName(string globalPrefix, string sheetPrefix, string baseName) {
+        var parts = new System.Collections.Generic.List<string>(3);
+        if (!string.IsNullOrEmpty(globalPrefix)) parts.Add(globalPrefix);
+        if (!string.IsNullOrEmpty(sheetPrefix))  parts.Add(sheetPrefix);
+        parts.Add(baseName);
+        return string.Join("-", parts);
     }
 
     // ─────────────────────────────── Emitter internals ──────────────────────────────
