@@ -1,0 +1,8 @@
+:root {
+  --xx-palette-primary: #594ae2;
+  --xx-palette-secondary: #ff4081;
+}
+.xx-button { padding: 8px; }
+.xx-button-primary { background: var(--xx-palette-primary); }
+.xx-card-content { padding: 16px; }
+.xx-card-header { font-weight: 600; }

@@ -90,6 +90,7 @@ Css/
   CssRegistryCollection.cs
   EndToEndTests.cs
   EnumImportantTests.cs
+  ExternalCssTests.cs
   PrefixTests.cs
   Round1FeaturesTests.cs
   StyleSheetTests.cs
@@ -493,6 +494,7 @@ Storage/
 obj/Debug/net10.0/BrowserApi.Tests.GeneratedMSBuildEditorConfig.editorconfig
 
 [additionalFiles]
+test-external/sample.css
 test-wwwroot/
  css/app.css
  images/logo.svg

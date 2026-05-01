@@ -35,11 +35,19 @@
             <BrowserApiAsset>true</BrowserApiAsset>
             <AssetRootDir>test-wwwroot/</AssetRootDir>
         </AdditionalFiles>
+        <AdditionalFiles Include="test-external/sample.css">
+            <BrowserApiExternalCss>true</BrowserApiExternalCss>
+            <ExternalCssRoot>Xx</ExternalCssRoot>
+            <ExternalCssPrefix>xx-</ExternalCssPrefix>
+        </AdditionalFiles>
     </ItemGroup>
 
     <ItemGroup>
         <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="BrowserApiAsset" />
         <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="AssetRootDir" />
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="BrowserApiExternalCss" />
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="ExternalCssRoot" />
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="ExternalCssPrefix" />
     </ItemGroup>
 
 </Project>
