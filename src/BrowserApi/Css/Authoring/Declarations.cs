@@ -278,12 +278,13 @@ public class Declarations {
     /// <summary>The CSS <c>column-gap</c> property.</summary>
     public Length ColumnGap { init => Set("column-gap", value); }
 
-    /// <summary>The CSS <c>grid-template-columns</c> property (string for now —
-    /// typed <c>GridTemplate.Repeat()</c> etc. lands later).</summary>
-    public string GridTemplateColumns { init => SetRaw("grid-template-columns", value); }
+    /// <summary>The CSS <c>grid-template-columns</c> property — accepts a
+    /// <see cref="GridTemplate"/> directly (with implicit conversions from
+    /// <see cref="Length"/>, <see cref="Flex"/>, and <see cref="string"/>).</summary>
+    public GridTemplate GridTemplateColumns { init => SetRaw("grid-template-columns", value.ToCss()); }
 
     /// <summary>The CSS <c>grid-template-rows</c> property.</summary>
-    public string GridTemplateRows { init => SetRaw("grid-template-rows", value); }
+    public GridTemplate GridTemplateRows { init => SetRaw("grid-template-rows", value.ToCss()); }
 
     /// <summary>The CSS <c>grid-area</c> property.</summary>
     public string GridArea { init => SetRaw("grid-area", value); }

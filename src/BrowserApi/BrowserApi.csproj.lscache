@@ -87,6 +87,7 @@ Css/
   Class.cs
   ClassList.cs
   ColorFunctions.cs
+  ContainerUnits.cs
   CssOptions.cs
   CssRegistry.cs
   CssVar.cs
@@ -94,6 +95,8 @@ Css/
   Declarations.cs
   El.cs
   FontFace.cs
+  Functions.cs
+  GridTemplate.cs
   ImportantExtensions.cs
   Keyframes.cs
   Keyword.cs

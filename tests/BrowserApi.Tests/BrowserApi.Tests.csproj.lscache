@@ -92,6 +92,7 @@ Css/
   EndToEndTests.cs
   EnumImportantTests.cs
   ExternalCssTests.cs
+  GridAndFunctionsTests.cs
   LengthFunctionTests.cs
   PrefixTests.cs
   Round1FeaturesTests.cs
