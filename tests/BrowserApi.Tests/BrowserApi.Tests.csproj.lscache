@@ -81,6 +81,7 @@ Common/
  StringValueAttributeTests.cs
 Css/
  AngleTests.cs
+ Authoring/StyleSheetTests.cs
  CssColorTests.cs
  CssStyleDeclarationTests.cs
  CssUnitExtensionTests.cs

@@ -81,6 +81,16 @@ Common/
  StringValueExtensions.cs
 Css/
  Angle.cs
+ Authoring/
+  Class.cs
+  ClassList.cs
+  CssVar.cs
+  Declarations.cs
+  El.cs
+  PseudoElementSelector.cs
+  Rule.cs
+  Selector.cs
+  StyleSheet.cs
  CssColor.cs
  CssFormatting.cs
  CssStyleDeclaration.Shorthands.cs
