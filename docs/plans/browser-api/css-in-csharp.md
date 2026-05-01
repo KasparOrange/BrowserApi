@@ -12,7 +12,9 @@ These principles drove every decision. When something doesn't work during implem
 
 ### 1. Zero string literals in user-facing APIs
 
-Every CSS class name, selector, attribute, property, and value should be a typed C# identifier with IntelliSense. String literals are invisible to the compiler — typos become silent 404s or broken styles. The type system catches errors at compile time. String escape hatches exist but are the exception, not the norm.
+Every CSS class name, selector, attribute, property, and value should be a typed C# identifier with IntelliSense. String literals are invisible to the compiler — typos become silent 404s or broken styles. The type system catches errors at compile time.
+
+**Escape hatches, explicitly.** When the typed surface can't cover a case — a class from a CSS file we can't parse, an attribute our generator doesn't know, a bleeding-edge CSS feature — offer a string-based escape hatch (`Class.External`, `Attr(name, value)`, raw `Css.Raw(...)`). These are the pragmatic completion of the typed API, not its failure. The "no string literals" rule serves developer experience — it catches typos the compiler couldn't see otherwise. When a string IS the only signal (a framework's arbitrary class name, an unrecognized attribute), a typed identifier adds zero value and a string is correct. Use escape hatches without apology, just make them visually distinct from the typed path so reviewers notice them.
 
 ### 2. Zero runtime cost for static styles
 
@@ -41,6 +43,16 @@ Prefer explicit APIs. But when explicitness leads to bugs (like forgetting to us
 ### 8. Break from CSS convention when it prevents errors
 
 We deliberately don't support ID selectors for styling (specificity bombs), Blazor CSS isolation (fake CSS with cascading gotchas), the 3-value sides shorthand (confusing order), and Tailwind integration (competing paradigm). These are opinionated omissions. If an implementer encounters something CSS supports but this spec doesn't mention, check whether it falls into the "prevents bad practices" category before adding it.
+
+### 9. Drift from CSS/SCSS terminology when a C# name is clearer
+
+CSS spec language ("custom property"), SCSS preprocessor language ("variable"), and colloquial developer usage ("CSS variable") conflict in confusing ways. When the established term is ambiguous in context, pick the name that most clearly communicates intent to a C# developer — even if it diverges from the spec. Concretely for this codebase:
+
+- **"Variable"** = a runtime CSS custom property (`--name`, read via `var()`). User-facing type is `CssVar<T>`. Matches the mental model most devs have, even though W3C formally calls this a "custom property."
+- **"Property"** = a regular CSS property (`color`, `display`, `padding`) — a field on the `Declarations` type. Never used for custom properties, to avoid the overload.
+- **SCSS `$var`** is internal plumbing and never appears in the user-facing API, so there's no conflict with "variable" in our vocabulary.
+
+Apply the same judgment when future terms collide.
 
 ---
 
@@ -202,7 +214,7 @@ CSS combinators map to C# operators. The choice of operators was driven by C# pr
 - `-` for general sibling: CSS uses `~` but it's unary-only in C#. `-` pairs visually with `+` (adjacent). Mnemonic: `+` = tight (directly next), `-` = loose (anywhere after).
 - `>>` for descendant: "going deeper." Higher precedence than `>` (child), so `A >> B > C` naturally parses as `(A >> B) > C`.
 
-**Operator pairing requirement:** C# mandates `>` and `<` declared together, `>>` and `<<` together. The unused pair (`<`, `<<`) throws `NotSupportedException` with a message explaining there's no CSS equivalent.
+**Operator pairing requirement:** C# mandates `>` and `<` declared together, `>>` and `<<` together. The unused pair (`<`, `<<`) is enforced at compile time via analyzer **BCA002** (`DiagnosticSeverity.Error`) — any use stops the build with a message pointing at the intended operator (`>` or `>>`). The operators still throw `NotSupportedException` at runtime as a backstop for reflection/dynamic edge cases the analyzer can't see.
 
 **Both operator and fluent APIs:** All operators delegate to fluent methods. Both return `Selector`. They can be mixed freely in one expression. All are defined on `Selector`; `Class` has implicit conversion to `Selector`.
 
@@ -228,7 +240,24 @@ Card.Not(Disabled)      // .card:not(.disabled)
 Card.Has(Title)         // .card:has(.title)
 ```
 
-**Intent:** `.Hover` is a MODIFIER of `Card`, not an independent thing. It returns a new `Selector`. Chaining works: `Card.Hover.After` = `.card:hover::after`. Pseudo-elements (`.Before`, `.After`, `.Placeholder`) are also properties — they should ideally be terminal (no further pseudo-class properties after them) but enforcing this at the type level may be impractical. The SCSS compiler will catch invalid ordering.
+**Intent:** `.Hover` is a MODIFIER of `Card`, not an independent thing. It returns a new `Selector`. Chaining works: `Card.Hover.After` = `.card:hover::after`.
+
+**Pseudo-element terminal state:** Properties that attach a pseudo-element (`.Before`, `.After`, `.Placeholder`, etc.) return a `PseudoElementSelector` — a constrained type that allows only pseudo-classes on top (since `::after:hover` is valid CSS) but forbids:
+
+- further pseudo-elements (`.After.Before` → **compile error**, CSS forbids two pseudo-elements)
+- combinators (`.After > El.Span` → **compile error**, CSS forbids descendants after pseudo-elements)
+- functional/structural pseudo-classes (`.NthChild(2)` → **compile error**, no structure past a pseudo-element)
+
+| Expression | Result type | Valid CSS |
+|---|---|---|
+| `Card.Hover` | `Selector` | `.card:hover` ✓ |
+| `Card.After` | `PseudoElementSelector` | `.card::after` ✓ |
+| `Card.After.Hover` | `PseudoElementSelector` | `.card::after:hover` ✓ |
+| `Card.Hover.After` | `PseudoElementSelector` | `.card:hover::after` ✓ |
+| `Card.After.Before` | **compile error** | two pseudo-elements ✗ |
+| `Card.After > El.Span` | **compile error** | combinator after pseudo-element ✗ |
+
+This catches invalid CSS at C# compile time instead of at SCSS compilation or browser parse time.
 
 **For nesting:** Inside object initializers there's no instance, so `Self.Hover` is used. See §19.
 
@@ -275,6 +304,14 @@ public static readonly Class Card = new() {
 **The `Declarations` type** needs: all CSS properties as `init`-only setters, the same `Selector` indexer (for nesting), and the `MediaQuery`/`ContainerQuery`/`CssVar<T>` indexers.
 
 **`Self`** always means `&` (SCSS parent reference). At each nesting level, `&` resolves to the accumulated selector. C# doesn't track this — SCSS handles `&` resolution at compile time.
+
+**Source order is preserved by the source generator.** The generator walks the object initializer's syntax tree assignment-by-assignment in declared order and emits SCSS in that same order. There is no runtime backing collection — the `Declarations` type's setters and indexer exist only to satisfy the C# compiler. Because of this, "what does `OrderedDictionary` do on duplicate key?" is a non-question; we never construct one. The behaviors that do matter:
+
+- Same property assigned twice (`Padding = 10.Px; …; Padding = 20.Px`) → both emit; second wins per CSS cascade. Future analyzer warns on the duplicate.
+- Same nested key with disjoint declarations (`[Self.Hover] = new() { Background = … }; …; [Self.Hover] = new() { Opacity = … }`) → emits two SCSS blocks with the same selector. CSS naturally combines them; no data loss.
+- Same nested key with overlapping declarations → both emit; analyzer warns on the overlap.
+
+Order is exactly what the developer wrote. No silent merge or overwrite logic to reason about.
 
 ---
 
@@ -399,13 +436,38 @@ Mud.Dialog.Container         // Class → .mud-dialog-container
 
 ### 12. Build Pipeline
 
-**Status: DECIDED**
+**Status: DECIDED — single Roslyn source generator drives both the typed surface and SCSS emission.**
 
 ```
-C# StyleSheet → .scss file → sass compiler → .css file → wwwroot/
+C# StyleSheet  ──┬──▶  generated typed surface (class names, CssVar mappings, Assets)
+                 │       (visible in IDE the moment you save — instant rename, navigation, IntelliSense)
+                 │
+                 └──▶  generated .scss file
+                         │
+                         └──▶  sass (peer dep) ──▶  .css ──▶  wwwroot/
 ```
 
-One `StyleSheet` class = one `.css` file. MSBuild target before build. C# is authoring, SCSS is plumbing, CSS is output.
+One `StyleSheet` class = one `.scss` file = one `.css` file. The source generator is the single authoring tool. An MSBuild target shells `sass` (developer-installed peer dep) to produce the final `.css`.
+
+**Why source gen (not a CLI tool):**
+
+- **IDE responsiveness.** Typed surface updates as you type — refactor, rename, navigation work without a build cycle.
+- **Roslyn semantic model.** Selector validity, type checks, prefix collisions all available at edit time, attached to real `SyntaxNode`s for diagnostics with squiggles.
+- **Single tool.** The previous "CLI tool runs `dotnet run` against your project" architecture had two compilation units and a fragile invocation path. Source gen collapses it.
+
+**MVP spike — must validate before committing.** The smallest end-to-end slice that proves the architecture:
+
+1. New Roslyn incremental source generator (project location TBD — likely a new `BrowserApi.Css.SourceGen` to keep it independent of the existing `BrowserApi.SourceGen` for the .ts-first JSInterop workflow).
+2. Generator finds subclasses of `StyleSheet`, walks `static readonly Class`/`Rule`/`CssVar<T>` fields, emits:
+   - a `partial class` with `const string` for each class name (the typed surface)
+   - an `.scss` file via `context.AddSource`, or to `$(IntermediateOutputPath)` if `AddSource` proves awkward for non-`.cs` outputs
+3. Test project using `Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing` — assert byte-exact SCSS output for known input. Same testing pattern `BrowserApi.Generator.Tests` already uses; pure TDD.
+4. MSBuild target shells `sass` against the emitted `.scss`, writes to `wwwroot/css/`.
+5. End-to-end sample with three rules: a flat `Class`, a `Class` with `[Self.Hover]` nesting, a `CssVar<Color>` with default + `:root` emission.
+
+If 1–5 land cleanly the architecture is validated. If source gens turn out unable to write `.scss` alongside the compilation cleanly, fall back to the prior CLI-tool design (kept on standby).
+
+**Sass dependency.** `dart-sass` is the canonical implementation. We document it as a peer dependency and let users install it the way they install other build tools (`npm i -g sass` or platform package manager). No NuGet wrapping for MVP.
 
 ---
 
@@ -445,7 +507,22 @@ public readonly struct Length : ICssValue {
 }
 ```
 
-**Open sub-issue:** Enum-based CSS keyword types (like `Display`) can't have properties. Options: make them structs instead of enums, or use C# 14 extension properties. Resolve during implementation — structs with static fields mimicking enum members is the likely path (same as `Length`).
+**Enum keywords keep enum semantics.** CSS keyword types (`Display`, `Position`, `Cursor`, etc.) stay as `enum` — C# 14 extension properties make `.Important` work without losing switch exhaustiveness, zero allocation, or compact generated code:
+
+```csharp
+public enum Display { None, Block, Flex, Grid, InlineBlock, /* … */ }
+
+public static class DisplayExtensions {
+    extension(Display value) {
+        public Important<Display> Important => new(value);
+    }
+}
+
+// Usage stays identical to a struct-with-static-fields approach:
+Display = Display.None.Important;
+```
+
+The property setter for `Display` accepts both the bare enum (via implicit conversion) and `Important<Display>`. Each generated keyword enum gets a one-line extension declaration emitted alongside it. **Requires C# 14+** project-wide.
 
 ---
 
@@ -542,7 +619,27 @@ Functions that return a CSS value type live as static methods on that type. Func
 - `GridTemplate.Repeat(GridTemplate.AutoFill, GridTemplate.MinMax(200.Px, 1.Fr))` → `repeat(auto-fill, minmax(200px, 1fr))`
 - `GridTemplateColumns = 1.Fr` → implicit Flex → GridTemplate
 
-**Percentage → Length implicit conversion:** CSS treats percentages as lengths in most contexts. `Length.Clamp(1.Rem, 50.Percent, 30.Rem)` works via implicit conversion.
+**Primitive union types — no implicit conversions between primitives.** CSS has several primitive value categories that overlap in some properties (length/percentage), but not in others (font-weight is number-only). Instead of giving primitives implicit conversions to each other (which would let `FontWeight = 50.Percent` compile by accident), we define small union-wrapper structs that primitives implicitly convert TO. Properties and functions accept the wrapper.
+
+| Wrapper | Accepts | Used by |
+|---|---|---|
+| `LengthOrPercentage` | `Length`, `Percentage` | `Padding`, `Margin`, `Width`, `Height`, `Top`/`Right`/`Bottom`/`Left`, `BorderRadius`, `Gap`, `TextIndent`, translate values, `BackgroundPosition`/`Size`, etc. |
+| `NumberOrPercentage` | `double` (number), `Percentage` | `Opacity`, filter `brightness()`/`contrast()`/`saturate()`, etc. |
+| `Image` | `Css.Url(...)`, `Gradient.*`, `Css.ImageSet(...)` | `BackgroundImage`, `ListStyleImage`, `Cursor` (with fallback) |
+
+```csharp
+// Consumer syntax is unchanged from primitives:
+Padding = 10.Px,                                 // Length → LengthOrPercentage
+Padding = 50.Percent,                            // Percentage → LengthOrPercentage
+Padding = (10.Px, 20.Percent),                   // tuple of LengthOrPercentage
+Width = Length.Clamp(1.Rem, 50.Percent, 30.Rem), // Clamp signature: (LengthOrPercentage × 3) → LengthOrPercentage
+
+// What no longer compiles (good — these were latent bugs):
+FontWeight = 50.Percent,    // FontWeight only accepts Number — Percentage doesn't convert
+LineHeight = 16.Px,          // LineHeight is unitless multiplier OR Length, not Percentage
+```
+
+**`Length` and `Percentage` do NOT implicitly convert to each other.** Each represents a distinct CSS primitive. The wrapper is the only meeting point, and only properties that genuinely accept both expose it.
 
 ---
 
@@ -570,42 +667,63 @@ PaddingTop = 10.Px,  // individual always available
 
 ---
 
-### 19. Self Keyword
+### 19. Stylesheet-Injected Helpers (`Self`, `From`/`To`, `Is`, `Where`)
 
 **Status: DECIDED**
 
-`Self` is a `Selector` with value `&`. Available via two mechanisms:
-
-1. **Source generator injects** `Self`, `From`, `To` into every `StyleSheet` partial class. Zero imports inside stylesheets.
-2. **Also on `Css`** for use outside stylesheets (tests, shared code, libraries).
+The `StyleSheet` base class exposes `protected static` members that derived stylesheets reference unqualified. This is plain C# inheritance — no source-gen trickery, no magic naming.
 
 ```csharp
-[Self.Hover] = new() { ... },              // &:hover
-[Self > Title] = new() { ... },            // & > .title
-[Self.Variant("active")] = new() { ... },  // &--active
-[From] = new() { Opacity = 0 },            // 0% (keyframe)
-[To] = new() { Opacity = 1 },              // 100% (keyframe)
+public abstract class StyleSheet {
+    // Selector parent reference:
+    protected static Selector Self { get; } = new("&");
+
+    // Keyframe stops:
+    protected static Percentage From { get; } = 0.Percent;
+    protected static Percentage To   { get; } = 100.Percent;
+
+    // :is() / :where() grouping helpers (see §34):
+    protected static Selector Is(params Selector[] selectors)    => …;
+    protected static Selector Where(params Selector[] selectors) => …;
+}
 ```
 
-**`Self`** has all pseudo-class properties, all combinator operators, and `.Variant()`. It's just a `Selector` — nothing special about the type, only its value.
+Used inside any `partial class … : StyleSheet`:
+
+```csharp
+[Self.Hover] = new() { … },                          // &:hover
+[Self > Title] = new() { … },                        // & > .title
+[Self.Variant("active")] = new() { … },              // &--active
+[From] = new() { Opacity = 0 },                      // 0% keyframe
+[To]   = new() { Opacity = 1 },                      // 100% keyframe
+[Is(Self.Hover, Self.FocusVisible)] = new() { … },   // :is(&:hover, &:focus-visible)
+[Where(El.H1, El.H2, El.H3)] = new() { … },          // :where(h1, h2, h3) — zero specificity
+```
+
+**Outside stylesheets** (tests, shared library code, anywhere there's no `StyleSheet` base): the same names live on `Css` — `Css.Self`, `Css.From`, `Css.To`, `Css.Is(...)`, `Css.Where(...)`. The `protected static` form is just the in-stylesheet shortcut.
+
+**Adding to this list later** should be deliberate: only inject names that are frequently used inside stylesheets and meaningfully shorter unqualified than as `Css.X`. Sparingly.
 
 ---
 
-### 20. Prefixing
+### 20. Prefixing & Configuration
 
-**Status: DECIDED**
+**Status: DECIDED for MVP. Single-place `Program.cs` config noted as the aspirational end state.**
 
-Two levels: global (project-wide) and per-stylesheet. Chain: `{global}-{stylesheet}-{classname}`.
+Two prefix levels: global (project-wide) and per-stylesheet. Chain: `{global}-{stylesheet}-{classname}`.
 
-**Global prefix** — read from `Program.cs` by source generator (AST pattern matching, not runtime execution). The `AddBrowserApiCss()` call is ALSO a real runtime method registering Blazor services — one line, two purposes.
+**Global prefix — MSBuild property:**
 
-```csharp
-builder.Services.AddBrowserApiCss(options => {
-    options.GlobalPrefix = "mw";
-});
+```xml
+<PropertyGroup>
+    <BrowserApiCssGlobalPrefix>mw</BrowserApiCssGlobalPrefix>
+</PropertyGroup>
 ```
 
-**Per-stylesheet prefix** — attribute:
+The package's shipped `.props` exposes this to the source generator via `<CompilerVisibleProperty>`. The generator reads it from `GlobalOptions` — no AST parsing of `Program.cs`, no runtime indirection. Survives refactors, works in libraries that have no `Program.cs`, can't be set to a non-literal value.
+
+**Per-stylesheet prefix — attribute:**
+
 ```csharp
 [Prefix("sp")]
 public static partial class ShiftPlannerStyles : StyleSheet {
@@ -616,7 +734,23 @@ public static partial class ShiftPlannerStyles : StyleSheet {
 
 Prefix is transparent in Razor — the developer never writes it.
 
-**Implementation note:** The source generator must pattern-match on the `AddBrowserApiCss` lambda in Program.cs syntax tree. The `GlobalPrefix` value MUST be a string literal or const — if it's a variable, emit diagnostic warning. This is the same technique ASP.NET Minimal API source generators use.
+**Configuration ladder (MVP).** Three surfaces, each for what it's natively good at:
+
+| Setting type | Where | Why there |
+|---|---|---|
+| Build-time toggles (prefix, feature flags) | MSBuild properties (`.csproj`, `Directory.Build.props`, package `.props` defaults) | Source gens read these natively via `CompilerVisibleProperty`. |
+| Analyzer severity & per-rule options | `.editorconfig` | Idiomatic for Roslyn analyzers; same place as built-in `CAxxxx` rules. |
+| Runtime DI registration | `Program.cs` (`AddBrowserApiCss(...)`) | What `Program.cs` is for. No build-time reading happens here. |
+
+**Aspirational: single-place config in `Program.cs` (post-MVP).**
+
+The "configure once in `Program.cs` and the analyzers, prefix, and runtime all pick it up" UX matches what most NuGet packages already deliver, and devs expect it. The friction is build-time vs runtime: source gens and analyzers run before `Program.cs` ever executes. Paths to revisit:
+
+- **Source gen reads `AddBrowserApiCss(opts => …)` syntax tree** for literal/const values, with an analyzer error on non-literal arguments. Same pattern `LoggerMessage` and Minimal-API source gens already use. Brittle for arbitrary expressions, fine for the literal case (≈99% of usage).
+- **Assembly-level attribute** `[assembly: BrowserApiCss(GlobalPrefix = "mw")]` — single declarative place, source-gen-readable, lives in `AssemblyInfo.cs`-ish scope rather than `Program.cs`.
+- **Layered config** — MSBuild/`.editorconfig` defaults with `Program.cs`-driven overrides parsed by source gen. Most flexible, most moving parts.
+
+Pick deliberately later, once the MVP shows where the friction actually is. Tracked in §33 (Post-MVP).
 
 ---
 
@@ -716,14 +850,36 @@ Result: browser devtools links to C# source. Sources panel shows all three files
 
 ### 28. Source Generator DX
 
-**Status: PLANNED**
+**Status: PLANNED — MVP ships the typed surface and emitter; the items below are layered in after.**
 
-- **Scaffold:** Code fix on `StyleSheet` → generates template
-- **CSS preview:** Generated comments showing compiled CSS on hover
-- **Diagnostics:** Dead class, unset CssVar, type mismatch, selector validation, prefix collision, invalid color
-- **CSS-to-C# converter:** Paste CSS → code fix converts to typed declarations
-- **Extract-to-CssVar:** Select repeated value → refactor to variable
-- **Container analyzer:** Warn if `Container.MinWidth()` used without `ContainerType` ancestor
+The "developer experience deluxe" north star applies most directly here. Each item should be evaluated for whether it catches real mistakes early or makes real workflows shorter — speculation features get cut.
+
+**Scaffolding & content tools:**
+
+- **Scaffold:** code fix on `StyleSheet` → generates a starter template.
+- **CSS preview:** generated XML doc comment on each `Class`/`Rule` showing the compiled CSS, visible on hover.
+- **CSS-to-C# converter:** paste CSS into a `.css.cs` file → code fix converts to typed declarations. Highest-leverage onboarding feature.
+- **Extract-to-CssVar:** select a repeated value (color, length) → code fix refactors all uses to a new `CssVar<T>` and inserts the declaration.
+
+**Diagnostics — confirmed (defined elsewhere in spec):**
+
+- **BCA001** — 4-value `Sides` without named parameters (§18).
+- **BCA002** — use of unsupported `<` / `<<` selector operators (§3).
+- **BCA003** — selector specificity above threshold; suggests `:where()` wrap (§35).
+
+**Diagnostics — planned:**
+
+- **Dead class** — `static readonly Class Foo` never referenced in any Razor file or other stylesheet.
+- **Unset CssVar** — `CssVar<T>` referenced via `var()` but never declared.
+- **Container without container type** — `Container.MinWidth(...)` used inside a class with no ancestor declaring `ContainerType` (best-effort scope analysis).
+- **Prefix collision** — two stylesheets with the same `[Prefix(...)]` value.
+- **Invalid color** — `Color.Hex("notahex")` validated at compile time.
+- **Duplicate property/selector key in same initializer** — flagged when overlapping (see §5).
+- **Pseudo-element ordering** — already covered by the type split in §4; the analyzer is a backstop for paths that bypass the type system.
+
+**Configuration.** Each diagnostic's severity is set via `.editorconfig` (idiomatic Roslyn) — see §20's config ladder.
+
+**Testability — open question.** Stylesheet authors will want to assert SCSS output. Likely path: `StyleSheet.ToScss()` is a publicly invokable method emitted by the source gen, returning the same string the file would. Resolve once the emitter exists; until then, integration-test by inspecting the generated `.scss`/`.css` artifacts in the build output. Tracked as a question, not a blocker.
 
 ---
 
@@ -752,7 +908,32 @@ color.Invert           // literal → invert(#x)           | var → hsl(from va
 
 **Testing:** SCSS output serves as test oracle. If C# color math is ever added, verify against sass.
 
-**Implementation note:** The `Color` struct stores a string and an `_isVariable` flag. All methods are string concatenation — no color math in C#. The string is either an SCSS function call or a CSS function call, determined by the flag.
+**The `IsVariable` flag generalizes — it lives on `ICssValue`.** Color is the most visible example, but the same dispatch issue applies to any value type with SCSS-vs-CSS function pairs (notably `Length` arithmetic, where `2 * var(--gap)` must emit `calc()` rather than be pre-computed). Every value carries an `IsVariable` boolean; every operation that takes other values OR's the inputs' flags to produce the result's flag.
+
+```csharp
+public interface ICssValue {
+    string ToCss();
+    bool IsVariable { get; }   // true if this value contains or is derived from a var(...) reference
+                               // — the source gen must emit it through the CSS branch, not SCSS,
+                               // since sass cannot compute against custom-property references.
+}
+```
+
+**Taint propagation rule.** Any operation involving a variable-backed input produces a variable-backed output. Once a value is variable-backed, it stays that way through every subsequent operation, even ones with literal-only operands.
+
+```
+literal Color · literal Color    →  literal      (both branches available; SCSS path picked for cleaner output)
+literal Color · variable Color   →  variable     (sass can't see var() — must use CSS branch)
+variable Color · literal Color   →  variable     (taint propagates)
+variable Color · variable Color  →  variable     (CSS branch)
+literal Length + variable Length →  variable     (calc(... + var(--x)))
+```
+
+The `Color` struct's two-branch implementation in the table above is an instance of this pattern, not a special case for color. `Length`, `Percentage`, and any future arithmetic-bearing type follow the same rule.
+
+**Naming:** "variable" matches our project vocabulary (§9) — a `CssVar<T>` reference, or any value derived from one. The flag is internal, never user-facing.
+
+**Implementation note:** The `Color` struct stores a string and the `IsVariable` flag inherited from `ICssValue`. All methods are string concatenation — no color math in C#. The emitted string is either an SCSS function call or a CSS function call, determined by the flag at emit time.
 
 ---
 
@@ -813,9 +994,111 @@ public static readonly Class CardContainer = new() {
 | Feature | Design | Status |
 |---|---|---|
 | `@layer` | `CssLayer` type, `[LayerOrder]` attribute | Needs deeper exploration |
-| `:is()` / `:where()` | `Css.Is(Card, Panel)` → Selector | Low priority |
 | CSS trig functions | `Css.Sin()`, `Css.Cos()` inside calc | Niche |
 | Scroll-driven animations | `AnimationTimeline.Scroll()` / `.View()` | Firefox ~v150 (mid-2026) |
+| Single-place config in `Program.cs` | See §20 aspirational note | Investigate after MVP friction maps |
+| BCA004 override-conflict analyzer | See §35 | Layer in after BCA003 ships |
+
+---
+
+### 34. `:is()` / `:where()`
+
+**Status: DECIDED**
+
+Both are exposed as helper functions injected into every `StyleSheet` (see §19). `:is()` matches any of its arguments and inherits the highest specificity among them; `:where()` is identical in matching but has specificity zero — the specificity-deflation tool.
+
+```csharp
+// :where for zero-specificity base styles — overridable without wars:
+public static readonly Rule HeadingBase =
+    new(Where(El.H1, El.H2, El.H3, El.H4, El.H5, El.H6)) {
+        LineHeight = 1.2,
+        FontWeight = 600,
+    };
+
+// :is for state grouping inside a rule:
+public static readonly Class Btn = new() {
+    [Is(Self.Hover, Self.FocusVisible)] = new() {
+        Outline = Outline.Solid(2.Px, FocusRing),
+    },
+};
+
+// :is after a combinator — unify several descendant element types:
+public static readonly Class Article = new() {
+    [Self >> Is(El.P, El.Ul, El.Ol)] = new() { MarginBlock = 1.Em },
+};
+
+// :where as a near-universal reset — zero specificity so component styles win:
+public static readonly Rule BoxReset =
+    new(Where(El.All, El.All.Before, El.All.After)) {
+        BoxSizing = BoxSizing.BorderBox,
+    };
+```
+
+**Why the injected-function form (and not `|` selector lists or fluent methods on `Selector`):**
+
+- The `|` operator (§3) produces comma-separated rules with *independent* per-arm specificity. `:is()` collapses to one rule with the max specificity; `:where()` to one rule with zero specificity. Different semantics deserve different syntax.
+- Fluent forms (`Card.Is(Panel, Dialog)`) read as "card that's also a panel or dialog" — rarely the intended use of `:is()`. The common pattern starts a selector or follows a combinator, which fits a function-shaped helper.
+- Static helpers (`Css.Is(...)`) work but feel foreign next to the unqualified `Self`/`From`/`To` already in scope. Same mechanism, same invocation style.
+
+---
+
+### 35. Specificity Analyzer
+
+**Status: PLANNED (post-MVP, queued behind MVP shipping)**
+
+CSS specificity drives override wars. The API makes compound selectors easy to write, so we need a guardrail to keep authors honest. This section is intentionally detailed because it's deferred — the design should be ready when implementation slot opens.
+
+**BCA003** — warn when a selector's specificity exceeds a configured threshold. Specificity is computed during emission (we already walk every selector), then compared against:
+
+```ini
+# .editorconfig
+[*.cs]
+# Defaults — opinionated but configurable:
+browserapi_css_specificity_class_threshold = 2     # warn at 3+ classes/attrs/pseudos in one selector
+browserapi_css_specificity_total_threshold = 4     # warn when (b + c) exceeds this
+dotnet_diagnostic.BCA003.severity = warning
+```
+
+Specificity tuple `(b, c)`: `b` = classes + attributes + pseudo-classes, `c` = type selectors + pseudo-elements. IDs are always zero (we don't support them for styling, §26).
+
+**Examples:**
+
+```csharp
+// (1, 0) — fine
+public static readonly Class Card = new() { ... };
+
+// (1, 1) — fine, type selectors are cheap
+[Self > El.A] = new() { ... }
+
+// (2, 0) — fine, common BEM-style state
+[Self * Active] = new() { ... }
+
+// (3, 0) — at threshold, BCA003 fires:
+[Self * Active * Featured] = new() { ... }
+//   ╰── analyzer: "Selector specificity (3, 0) exceeds threshold (2).
+//                  Code fix: wrap in :where(...) to flatten to (0, 0)."
+
+// Opting out by intent — wrap in :where() and the warning vanishes:
+[Where(Self * Active * Featured)] = new() { ... }
+//   specificity (0, 0)
+
+// Type-only chains stay quiet under reasonable depth:
+[El.Article > El.Section > El.H2 > El.A] = new() { ... }
+//   (0, 4) — typically fine; controlled by total_threshold
+```
+
+**BCA004 — override-conflict detection (later, harder, more valuable).** Within a single stylesheet, when two rules both set the same CSS property, the later rule has lower-or-equal specificity than the earlier one, *and* the rules could match the same element, warn. The "could match the same element" analysis is the hard part — start with the obvious case (same base class with extra modifiers later in source) and grow from there. Skip until BCA003 ships and we have signal on real-world specificity patterns.
+
+**Future analyzer ideas (deluxe DX, listed here for tracking):**
+
+- Unused declaration (a property assignment that's overridden everywhere it could apply).
+- Suspected typo on `Class.External("…")` — fuzzy-match against known classes from `<ExternalCss>` packages.
+- `!important` density — warn when `.Important` shows up on more than N declarations in a sheet (signals override-war pain).
+- Dead nesting — `[selector] = new() { }` with no declarations.
+- Variable shadowing — local `CssVar<T>` declared with the same name as one inherited from an external package.
+- Pseudo-element-only rules with no body.
+
+**North-star reminder:** every analyzer here should catch real mistakes humans hit, not chase theoretical purity. If a rule fires more on legitimate code than on bugs, raise its threshold or kill it.
 
 ---
 
@@ -825,24 +1108,24 @@ public static readonly Class CardContainer = new() {
 |---|---------|--------|
 | 1 | CSS Values | **Decided** — readonly structs, extension properties, `ICssValue` |
 | 2 | Class vs Rule | **Decided** — Class for Razor, Rule/Rules for CSS-only, discovery by type |
-| 3 | Selector Operators | **Decided** — `*` `+` `-` `>>` `>` `\|`, precedence matches CSS |
-| 4 | Pseudo-classes | **Decided** — properties on Selector |
-| 5 | Nesting | **Decided** — recursive indexer, unlimited depth |
+| 3 | Selector Operators | **Decided** — `*` `+` `-` `>>` `>` `\|`; BCA002 errors on unsupported `<`/`<<` |
+| 4 | Pseudo-classes | **Decided** — properties on Selector; pseudo-elements return terminal `PseudoElementSelector` |
+| 5 | Nesting | **Decided** — recursive indexer; source gen walks syntax in source order, no runtime collection |
 | 6 | Selector Lists | **Decided** — params constructor/indexer |
 | 7 | Keyframes | **Decided** — Percentage indexer, From/To constants |
 | 8 | Media Queries | **Decided** — typed, nesting indexer |
 | 9 | Element Selectors | **Decided** — `El.*`, generated from HTML spec |
 | 10 | External Classes | **Decided** — auto-generated from framework CSS |
 | 11 | ClassList | **Decided** — `+` operator, zero-alloc, string escape hatch |
-| 12 | Build Pipeline | **Decided** — C# → SCSS → CSS via sass |
+| 12 | Build Pipeline | **Decided** — single Roslyn source gen for typed surface AND `.scss`; sass → `.css`; spike validates first |
 | 13 | Asset Source Generator | **Decided** — wwwroot scanning, typed Assets class |
-| 14 | !important | **Decided** — `.Important` property, boolean flag |
+| 14 | !important | **Decided** — `.Important` via C# 14 extension properties; enums stay as enums |
 | 15 | Attribute Selectors | **Decided** — 5 tiers, unified with attr() function |
 | 16 | CSS Custom Properties | **Decided** — `CssVar<T>`, self-contained, `.Or()` fallback |
-| 17 | CSS Functions | **Decided** — on value type or `Css`, expand as needed |
+| 17 | CSS Functions | **Decided** — on value type or `Css`; primitive union wrappers (`LengthOrPercentage`, etc.) replace cross-primitive implicit conversions |
 | 18 | Value Shorthands | **Decided** — Sides type, tuples, skip 3-value, property-specific types |
-| 19 | Self Keyword | **Decided** — source gen injects + on Css |
-| 20 | Prefixing | **Decided** — Program.cs global + attribute per-sheet |
+| 19 | Stylesheet-Injected Helpers | **Decided** — `Self`, `From`/`To`, `Is`, `Where` via `protected static` on `StyleSheet` base; same names also on `Css` |
+| 20 | Prefixing & Config | **Decided** — MSBuild property + `.editorconfig` + per-sheet attribute; single-place `Program.cs` config is the post-MVP aspiration |
 | 21 | File Convention | **Decided** — `.css.cs` |
 | 22 | Conditional Classes | **Decided** — `.When()` + `Class.None` |
 | 23 | Class Variants | **Decided** — `.Variant(slug)` BEM modifiers |
@@ -850,9 +1133,11 @@ public static readonly Class CardContainer = new() {
 | 25 | @supports | **Decided** — nesting indexer |
 | 26 | Not Supported | **Decided** — IDs, scoped styles, ::deep, @import, Tailwind, 3-value sides |
 | 27 | Source Maps | **Decided** — chained C#→SCSS→CSS, all three visible |
-| 28 | Source Gen DX | **Planned** — scaffold, preview, diagnostics, converter |
-| 29 | Color Functions | **Decided** — SCSS for literals, CSS for variables, auto-dispatch |
+| 28 | Source Gen DX | **Planned** — scaffold, preview, diagnostics, converter; testability TBD |
+| 29 | Color Functions | **Decided** — SCSS for literals, CSS for variables; taint-propagating `IsVariable` flag on `ICssValue` |
 | 30 | @property | **Decided** — auto from CssVar<T> |
 | 31 | var() Fallbacks | **Decided** — `.Or()` with nesting |
 | 32 | @container | **Decided** — same as @media, analyzer for ContainerType |
-| 33 | Post-MVP | **Deferred** — @layer, :is/:where, trig, scroll animations |
+| 33 | Post-MVP | **Deferred** — @layer, trig, scroll animations, single-place config, BCA004 |
+| 34 | :is() / :where() | **Decided** — injected helpers `Is(...)` / `Where(...)`, see §19 + §34 |
+| 35 | Specificity Analyzer | **Planned** — BCA003 with `.editorconfig` thresholds; BCA004 layered in later |
