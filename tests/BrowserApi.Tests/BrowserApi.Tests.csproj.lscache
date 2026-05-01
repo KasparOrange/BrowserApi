@@ -43,6 +43,7 @@ TemporaryDependencyNodeTargetIdentifier=net10.0
 /debug+
 /debug:portable
 /filealign:512
+/generatedfilesout:obj/Debug/net10.0/generated
 /optimize-
 /out:obj/Debug/net10.0/BrowserApi.Tests.dll
 /refout:obj/Debug/net10.0/refint/BrowserApi.Tests.dll
@@ -83,6 +84,7 @@ Css/
  AngleTests.cs
  Authoring/
   AdvancedFeaturesTests.cs
+  AssetGeneratorTests.cs
   ColorFunctionTests.cs
   CookbookTests.cs
   CssRegistryCollection.cs
@@ -463,6 +465,7 @@ Storage/
  xunit.extensibility.execution/2.9.3/lib/netstandard1.1/xunit.execution.dotnet.dll
 
 [analyzerReferences]
+../../src/BrowserApi.Css.SourceGen/bin/Debug/netstandard2.0/BrowserApi.Css.SourceGen.dll
 <DOTNET>/packs/Microsoft.AspNetCore.App.Ref/10.0.5/analyzers/dotnet/cs/
  Microsoft.AspNetCore.App.Analyzers.dll
  Microsoft.AspNetCore.App.CodeFixes.dll
@@ -488,3 +491,8 @@ Storage/
 [analyzerConfigFiles]
 <DOTNET>/sdk/10.0.201/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
 obj/Debug/net10.0/BrowserApi.Tests.GeneratedMSBuildEditorConfig.editorconfig
+
+[additionalFiles]
+test-wwwroot/
+ css/app.css
+ images/logo.svg

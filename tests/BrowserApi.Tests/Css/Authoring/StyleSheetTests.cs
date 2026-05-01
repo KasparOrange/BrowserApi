@@ -170,7 +170,9 @@ public class SelectorTests {
 
     [Fact]
     public void Reverse_operators_throw_with_a_helpful_message() {
+#pragma warning disable BCA002 // Intentionally exercising the runtime backstop.
         var ex = Assert.Throws<System.NotSupportedException>(() => _ = A < B);
+#pragma warning restore BCA002
         Assert.Contains("'>'", ex.Message);
     }
 

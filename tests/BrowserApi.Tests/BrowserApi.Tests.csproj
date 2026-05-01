@@ -29,4 +29,17 @@
         <Using Include="Xunit" />
     </ItemGroup>
 
+    <!-- Feed test-wwwroot files into the asset generator. -->
+    <ItemGroup>
+        <AdditionalFiles Include="test-wwwroot/**/*.*">
+            <BrowserApiAsset>true</BrowserApiAsset>
+            <AssetRootDir>test-wwwroot/</AssetRootDir>
+        </AdditionalFiles>
+    </ItemGroup>
+
+    <ItemGroup>
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="BrowserApiAsset" />
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="AssetRootDir" />
+    </ItemGroup>
+
 </Project>
