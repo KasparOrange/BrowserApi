@@ -110,19 +110,19 @@ public class Declarations {
     public int ZIndex { init => SetRaw("z-index", value.ToString(CultureInfo.InvariantCulture)); }
 
     /// <summary>The CSS <c>top</c> offset.</summary>
-    public Length Top { init => Set("top", value); }
+    public LengthOrPercentage Top { init => Set("top", value); }
 
     /// <summary>The CSS <c>right</c> offset.</summary>
-    public Length Right { init => Set("right", value); }
+    public LengthOrPercentage Right { init => Set("right", value); }
 
     /// <summary>The CSS <c>bottom</c> offset.</summary>
-    public Length Bottom { init => Set("bottom", value); }
+    public LengthOrPercentage Bottom { init => Set("bottom", value); }
 
     /// <summary>The CSS <c>left</c> offset.</summary>
-    public Length Left { init => Set("left", value); }
+    public LengthOrPercentage Left { init => Set("left", value); }
 
     /// <summary>The CSS <c>inset</c> shorthand (all four sides).</summary>
-    public Length Inset { init => Set("inset", value); }
+    public LengthOrPercentage Inset { init => Set("inset", value); }
 
     // ═══════════════════════════════════════════════════════════════════════════════
     //  Box model
@@ -133,22 +133,22 @@ public class Declarations {
     public Keyword<BrowserApi.Css.BoxSizing> BoxSizing { init => SetKeyword("box-sizing", value); }
 
     /// <summary>The CSS <c>width</c> property.</summary>
-    public Length Width { init => Set("width", value); }
+    public LengthOrPercentage Width { init => Set("width", value); }
 
     /// <summary>The CSS <c>height</c> property.</summary>
-    public Length Height { init => Set("height", value); }
+    public LengthOrPercentage Height { init => Set("height", value); }
 
     /// <summary>The CSS <c>min-width</c> property.</summary>
-    public Length MinWidth { init => Set("min-width", value); }
+    public LengthOrPercentage MinWidth { init => Set("min-width", value); }
 
     /// <summary>The CSS <c>min-height</c> property.</summary>
-    public Length MinHeight { init => Set("min-height", value); }
+    public LengthOrPercentage MinHeight { init => Set("min-height", value); }
 
     /// <summary>The CSS <c>max-width</c> property.</summary>
-    public Length MaxWidth { init => Set("max-width", value); }
+    public LengthOrPercentage MaxWidth { init => Set("max-width", value); }
 
     /// <summary>The CSS <c>max-height</c> property.</summary>
-    public Length MaxHeight { init => Set("max-height", value); }
+    public LengthOrPercentage MaxHeight { init => Set("max-height", value); }
 
     /// <summary>The CSS <c>padding</c> shorthand. Accepts a single <see cref="Length"/>
     /// (all sides), a <c>(vertical, horizontal)</c> tuple, or a

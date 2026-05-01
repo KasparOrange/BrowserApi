@@ -91,6 +91,7 @@ Css/
   PrefixTests.cs
   Round1FeaturesTests.cs
   StyleSheetTests.cs
+  UnionTypeTests.cs
  CssColorTests.cs
  CssStyleDeclarationTests.cs
  CssUnitExtensionTests.cs

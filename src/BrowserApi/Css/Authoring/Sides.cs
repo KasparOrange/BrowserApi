@@ -39,9 +39,20 @@ public readonly struct Sides : ICssValue {
     /// <summary>One length applied to all four sides.</summary>
     public static implicit operator Sides(Length all) => new(all.ToCss());
 
+    /// <summary>One percentage applied to all four sides — CSS allows
+    /// <c>padding: 5%</c> for example.</summary>
+    public static implicit operator Sides(Percentage all) => new(all.ToCss());
+
+    /// <summary>Length-or-percentage applied to all four sides.</summary>
+    public static implicit operator Sides(LengthOrPercentage all) => new(all.ToCss());
+
     /// <summary>Two-length tuple — first is vertical (top/bottom), second is
     /// horizontal (left/right). Matches CSS shorthand semantics.</summary>
     public static implicit operator Sides((Length vertical, Length horizontal) pair) =>
+        new($"{pair.vertical.ToCss()} {pair.horizontal.ToCss()}");
+
+    /// <summary>Two length-or-percentage tuple (vertical, horizontal).</summary>
+    public static implicit operator Sides((LengthOrPercentage vertical, LengthOrPercentage horizontal) pair) =>
         new($"{pair.vertical.ToCss()} {pair.horizontal.ToCss()}");
 
     /// <summary>Four-length tuple — explicit top, right, bottom, left.</summary>
@@ -52,6 +63,10 @@ public readonly struct Sides : ICssValue {
     /// implicitly becomes a Sides value applied to all four sides — emits as
     /// <c>var(--spacing)</c>.</summary>
     public static implicit operator Sides(CssVar<Length> variable) =>
+        new(variable.ToCss());
+
+    /// <summary>A <see cref="CssVar{Percentage}"/> reference applied to all four sides.</summary>
+    public static implicit operator Sides(CssVar<Percentage> variable) =>
         new(variable.ToCss());
 
     // ─────────────────────────────────── Factories ──────────────────────────────────
