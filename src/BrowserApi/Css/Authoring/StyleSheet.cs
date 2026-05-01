@@ -167,6 +167,13 @@ public abstract class StyleSheet {
             }
         }
 
+        // If the stylesheet declares [Layer("name")], wrap the entire body.
+        var layerAttr = (LayerAttribute?)Attribute.GetCustomAttribute(
+            styleSheetType, typeof(LayerAttribute), inherit: false);
+        if (layerAttr is not null) {
+            sb.Append("@layer ").Append(layerAttr.Value).AppendLine(" {");
+        }
+
         // Pass 2 — emit class, rule, keyframes, font-face, and Rules-collection
         // fields in declaration order.
         foreach (var field in fields) {
@@ -196,6 +203,11 @@ public abstract class StyleSheet {
                     EmitFontFace(sb, ff);
                     break;
             }
+        }
+
+        // Close the [Layer] wrapper opened above.
+        if (layerAttr is not null) {
+            sb.AppendLine("}");
         }
 
         // Resolve any deferred .Or() fallback placeholders captured during

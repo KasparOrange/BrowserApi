@@ -101,6 +101,7 @@ Css/
   Keyframes.cs
   Keyword.cs
   Keywords.cs
+  Layer.cs
   LengthFunctions.cs
   LengthOrPercentage.cs
   Media.cs

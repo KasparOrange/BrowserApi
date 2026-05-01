@@ -94,6 +94,7 @@ Css/
   ExtendedPseudoTests.cs
   ExternalCssTests.cs
   GridAndFunctionsTests.cs
+  LayerTests.cs
   LengthFunctionTests.cs
   PrefixTests.cs
   Round1FeaturesTests.cs
