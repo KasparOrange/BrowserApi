@@ -125,6 +125,7 @@ public class CssRegistryTests {
 }
 
 /// <summary>Selector composition / operator-precedence tests.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class SelectorTests {
     private static readonly Selector A = new(".a");
     private static readonly Selector B = new(".b");
@@ -184,6 +185,7 @@ public class SelectorTests {
 }
 
 /// <summary>StyleSheet-injected helpers (Self, Is, Where).</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class InjectedHelperTests : StyleSheet {
     [Fact]
     public void Where_groups_selectors_with_zero_specificity_intent() {
@@ -205,6 +207,7 @@ public class InjectedHelperTests : StyleSheet {
 }
 
 /// <summary>Coverage for the expanded property surface — keyword enums, layout, etc.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class PropertySurfaceTests {
     private class WidePropStyles : StyleSheet {
         public static readonly Class Btn = new() {

@@ -7,6 +7,7 @@ using FontFace = BrowserApi.Css.Authoring.FontFace;
 namespace BrowserApi.Tests.Css.Authoring;
 
 /// <summary>Tests for var() fallbacks via .Or().</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class CssVarOrTests {
     private class FallbackStyles : StyleSheet {
         public static readonly CssVar<CssColor> Brand   = new(CssColor.Hex("#0066cc"));
@@ -27,6 +28,7 @@ public class CssVarOrTests {
 }
 
 /// <summary>Tests for @font-face emission.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class FontFaceTests {
     private class FontStyles : StyleSheet {
         public static readonly FontFace Inter = new() {
@@ -50,6 +52,7 @@ public class FontFaceTests {
 }
 
 /// <summary>Tests for auto-emitted @property rules from CssVar&lt;T&gt;.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class AtPropertyTests {
     private class TypedTokens : StyleSheet {
         public static readonly CssVar<Length>   Radius  = new(Length.Px(8));
@@ -82,6 +85,7 @@ public class AtPropertyTests {
 }
 
 /// <summary>Tests for Rules collections of anonymous rules.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class RulesCollectionTests {
     private class ResetSheet : StyleSheet {
         public static readonly Rules Reset = new() {
@@ -105,6 +109,7 @@ public class RulesCollectionTests {
 }
 
 /// <summary>Tests for the typed Keyframes → animation-name reference.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class KeyframesReferenceTests {
     private class AnimSheet : StyleSheet {
         public static readonly Keyframes SlideIn = new() {

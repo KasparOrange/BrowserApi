@@ -204,7 +204,21 @@ public static class CssVar {
     /// this is the escape hatch when the parser can't resolve the variable.
     /// </summary>
     /// <param name="name">The literal CSS custom-property name including <c>--</c>.</param>
-    public static CssVar<T> External<T>(string name) where T : ICssValue, new() {
-        return new CssVar<T>(default(T)!) { Name = name };
+    public static CssVar<T> External<T>(string name) where T : ICssValue {
+        // We use Activator with no args to construct a default T. Every
+        // primitive in BrowserApi.Css ships a parameterless or single-string
+        // constructor; default-CSS-value cases pass through a "" string when
+        // possible. The DefaultValue of an external variable is never emitted
+        // (no :root block), so the actual value here doesn't matter — Name is
+        // what's used.
+        T defaultValue;
+        try {
+            // Most primitives are structs, so default(T) gives a valid
+            // (perhaps empty) instance.
+            defaultValue = default(T)!;
+        } catch {
+            defaultValue = (T)System.Activator.CreateInstance(typeof(T))!;
+        }
+        return new CssVar<T>(defaultValue) { Name = name };
     }
 }

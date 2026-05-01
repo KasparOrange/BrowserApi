@@ -58,6 +58,13 @@ public class Declarations {
         _props.Add(new(cssPropertyName, value.AsCss()));
     }
 
+    /// <summary>Sets a CSS property using a <see cref="Keyword{TEnum}"/>,
+    /// which accepts both the bare enum value and a <c>.Important</c>-wrapped
+    /// version via implicit conversion.</summary>
+    protected void SetKeyword<T>(string cssPropertyName, Keyword<T> value) where T : System.Enum {
+        _props.Add(new(cssPropertyName, value.ToCss()));
+    }
+
     private static string Num(double d) => d.ToString(CultureInfo.InvariantCulture);
 
     // ─────────────────────────────────── Nesting indexer ────────────────────────────
@@ -80,24 +87,24 @@ public class Declarations {
     // ═══════════════════════════════════════════════════════════════════════════════
 
     /// <summary>The CSS <c>display</c> property — sets the box type.</summary>
-    public Display Display { init => SetKeyword("display", value); }
+    public Keyword<Display> Display { init => SetKeyword("display", value); }
 
     /// <summary>The CSS <c>position</c> property.</summary>
-    public Position Position { init => SetKeyword("position", value); }
+    public Keyword<Position> Position { init => SetKeyword("position", value); }
 
     /// <summary>The CSS <c>visibility</c> property. Uses the CSSOM-generated enum
     /// in <see cref="BrowserApi.Css"/> which carries the correct <c>[StringValue]</c>
     /// attributes for serialization.</summary>
-    public BrowserApi.Css.Visibility Visibility { init => SetKeyword("visibility", value); }
+    public Keyword<BrowserApi.Css.Visibility> Visibility { init => SetKeyword("visibility", value); }
 
     /// <summary>The CSS <c>overflow</c> shorthand.</summary>
-    public Overflow Overflow { init => SetKeyword("overflow", value); }
+    public Keyword<Overflow> Overflow { init => SetKeyword("overflow", value); }
 
     /// <summary>The CSS <c>overflow-x</c> property.</summary>
-    public Overflow OverflowX { init => SetKeyword("overflow-x", value); }
+    public Keyword<Overflow> OverflowX { init => SetKeyword("overflow-x", value); }
 
     /// <summary>The CSS <c>overflow-y</c> property.</summary>
-    public Overflow OverflowY { init => SetKeyword("overflow-y", value); }
+    public Keyword<Overflow> OverflowY { init => SetKeyword("overflow-y", value); }
 
     /// <summary>The CSS <c>z-index</c> property.</summary>
     public int ZIndex { init => SetRaw("z-index", value.ToString(CultureInfo.InvariantCulture)); }
@@ -123,7 +130,7 @@ public class Declarations {
 
     /// <summary>The CSS <c>box-sizing</c> property. Uses the CSSOM-generated enum
     /// in <see cref="BrowserApi.Css"/>.</summary>
-    public BrowserApi.Css.BoxSizing BoxSizing { init => SetKeyword("box-sizing", value); }
+    public Keyword<BrowserApi.Css.BoxSizing> BoxSizing { init => SetKeyword("box-sizing", value); }
 
     /// <summary>The CSS <c>width</c> property.</summary>
     public Length Width { init => Set("width", value); }
@@ -203,7 +210,7 @@ public class Declarations {
     public Length BorderWidth { init => Set("border-width", value); }
 
     /// <summary>The CSS <c>border-style</c> shorthand.</summary>
-    public BorderStyle BorderStyle { init => SetKeyword("border-style", value); }
+    public Keyword<BorderStyle> BorderStyle { init => SetKeyword("border-style", value); }
 
     /// <summary>The CSS <c>border-radius</c> shorthand.</summary>
     public Length BorderRadius { init => Set("border-radius", value); }
@@ -232,11 +239,11 @@ public class Declarations {
 
     /// <summary>The CSS <c>flex-direction</c> property. Uses the CSSOM-generated
     /// enum in <see cref="BrowserApi.Css"/>.</summary>
-    public BrowserApi.Css.FlexDirection FlexDirection { init => SetKeyword("flex-direction", value); }
+    public Keyword<BrowserApi.Css.FlexDirection> FlexDirection { init => SetKeyword("flex-direction", value); }
 
     /// <summary>The CSS <c>flex-wrap</c> property. Uses the CSSOM-generated enum
     /// in <see cref="BrowserApi.Css"/>.</summary>
-    public BrowserApi.Css.FlexWrap FlexWrap { init => SetKeyword("flex-wrap", value); }
+    public Keyword<BrowserApi.Css.FlexWrap> FlexWrap { init => SetKeyword("flex-wrap", value); }
 
     /// <summary>The CSS <c>flex-grow</c> property.</summary>
     public double FlexGrow { init => SetRaw("flex-grow", Num(value)); }
@@ -248,16 +255,16 @@ public class Declarations {
     public Length FlexBasis { init => Set("flex-basis", value); }
 
     /// <summary>The CSS <c>justify-content</c> property.</summary>
-    public JustifyContent JustifyContent { init => SetKeyword("justify-content", value); }
+    public Keyword<JustifyContent> JustifyContent { init => SetKeyword("justify-content", value); }
 
     /// <summary>The CSS <c>align-items</c> property.</summary>
-    public AlignItems AlignItems { init => SetKeyword("align-items", value); }
+    public Keyword<AlignItems> AlignItems { init => SetKeyword("align-items", value); }
 
     /// <summary>The CSS <c>align-self</c> property.</summary>
-    public AlignItems AlignSelf { init => SetKeyword("align-self", value); }
+    public Keyword<AlignItems> AlignSelf { init => SetKeyword("align-self", value); }
 
     /// <summary>The CSS <c>align-content</c> property.</summary>
-    public AlignItems AlignContent { init => SetKeyword("align-content", value); }
+    public Keyword<AlignItems> AlignContent { init => SetKeyword("align-content", value); }
 
     /// <summary>The CSS <c>order</c> property — flex/grid item order.</summary>
     public int Order { init => SetRaw("order", value.ToString(CultureInfo.InvariantCulture)); }
@@ -331,7 +338,7 @@ public class Declarations {
     public int FontWeight { init => SetRaw("font-weight", value.ToString(CultureInfo.InvariantCulture)); }
 
     /// <summary>The CSS <c>font-style</c> property.</summary>
-    public FontStyle FontStyle { init => SetKeyword("font-style", value); }
+    public Keyword<FontStyle> FontStyle { init => SetKeyword("font-style", value); }
 
     /// <summary>The CSS <c>line-height</c> as a unitless multiplier.</summary>
     public double LineHeight { init => SetRaw("line-height", Num(value)); }
@@ -346,16 +353,16 @@ public class Declarations {
     public Length WordSpacing { init => Set("word-spacing", value); }
 
     /// <summary>The CSS <c>text-align</c> property.</summary>
-    public TextAlign TextAlign { init => SetKeyword("text-align", value); }
+    public Keyword<TextAlign> TextAlign { init => SetKeyword("text-align", value); }
 
     /// <summary>The CSS <c>text-decoration</c> property.</summary>
-    public TextDecoration TextDecoration { init => SetKeyword("text-decoration", value); }
+    public Keyword<TextDecoration> TextDecoration { init => SetKeyword("text-decoration", value); }
 
     /// <summary>The CSS <c>text-transform</c> property.</summary>
-    public TextTransform TextTransform { init => SetKeyword("text-transform", value); }
+    public Keyword<TextTransform> TextTransform { init => SetKeyword("text-transform", value); }
 
     /// <summary>The CSS <c>white-space</c> property.</summary>
-    public WhiteSpace WhiteSpace { init => SetKeyword("white-space", value); }
+    public Keyword<WhiteSpace> WhiteSpace { init => SetKeyword("white-space", value); }
 
     /// <summary>The CSS <c>text-overflow</c> property — typically <c>"ellipsis"</c> or <c>"clip"</c>.</summary>
     public string TextOverflow { init => SetRaw("text-overflow", value); }
@@ -368,7 +375,7 @@ public class Declarations {
     // ═══════════════════════════════════════════════════════════════════════════════
 
     /// <summary>The CSS <c>cursor</c> property.</summary>
-    public Cursor Cursor { init => SetKeyword("cursor", value); }
+    public Keyword<Cursor> Cursor { init => SetKeyword("cursor", value); }
 
     /// <summary>The CSS <c>box-shadow</c> property — string for now.</summary>
     public string BoxShadow { init => SetRaw("box-shadow", value); }

@@ -5,6 +5,7 @@ using StyleSheet = BrowserApi.Css.Authoring.StyleSheet;
 namespace BrowserApi.Tests.Css.Authoring;
 
 /// <summary>Tests for the multi-form Padding/Margin shorthand via <see cref="Sides"/>.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class SidesTests {
     private class SidesStyles : StyleSheet {
         public static readonly Class All = new() {
@@ -40,6 +41,7 @@ public class SidesTests {
 }
 
 /// <summary>Tests for media queries via the nesting indexer.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class MediaQueryTests {
     private class MediaStyles : StyleSheet {
         public static readonly Class Card = new() {
@@ -76,6 +78,7 @@ public class MediaQueryTests {
 }
 
 /// <summary>Tests for @keyframes animations.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class KeyframesTests {
     private class AnimStyles : StyleSheet {
         public static readonly Keyframes FadeIn = new() {

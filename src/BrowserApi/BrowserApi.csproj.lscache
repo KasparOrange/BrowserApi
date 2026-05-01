@@ -85,6 +85,7 @@ Css/
   Border.cs
   Class.cs
   ClassList.cs
+  ColorFunctions.cs
   CssOptions.cs
   CssRegistry.cs
   CssVar.cs
@@ -94,6 +95,7 @@ Css/
   FontFace.cs
   ImportantExtensions.cs
   Keyframes.cs
+  Keyword.cs
   Keywords.cs
   Media.cs
   PrefixAttribute.cs

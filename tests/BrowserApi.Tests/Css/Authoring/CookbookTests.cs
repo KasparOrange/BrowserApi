@@ -11,6 +11,7 @@ namespace BrowserApi.Tests.Css.Authoring;
 /// rendered CSS matches a sensible expectation. These tests double as
 /// documentation of how the API is meant to be used end-to-end.
 /// </summary>
+[Collection(nameof(CssRegistryCollection))]
 public class CookbookTests {
     // ═══════════════════════════════════════════════════════════════════════════════
     //  Design-token style — variables consumed by everything else
