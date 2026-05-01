@@ -91,6 +91,7 @@ Css/
   CssRegistryCollection.cs
   EndToEndTests.cs
   EnumImportantTests.cs
+  ExtendedPseudoTests.cs
   ExternalCssTests.cs
   GridAndFunctionsTests.cs
   LengthFunctionTests.cs

@@ -127,6 +127,77 @@ public readonly struct Selector : IEquatable<Selector> {
     /// <param name="formula">An nth-child formula (e.g. <c>"2"</c>, <c>"odd"</c>, <c>"2n+1"</c>).</param>
     public Selector NthChild(string formula) => new($"{Css}:nth-child({formula})");
 
+    /// <summary>The <c>:nth-of-type(n)</c> functional pseudo-class.</summary>
+    public Selector NthOfType(string formula) => new($"{Css}:nth-of-type({formula})");
+
+    /// <summary>The <c>:nth-last-child(n)</c> functional pseudo-class.</summary>
+    public Selector NthLastChild(string formula) => new($"{Css}:nth-last-child({formula})");
+
+    /// <summary>The <c>:lang(code)</c> functional pseudo-class.</summary>
+    public Selector Lang(string code) => new($"{Css}:lang({code})");
+
+    /// <summary>The <c>:empty</c> pseudo-class — element with no children/text.</summary>
+    public Selector Empty => new($"{Css}:empty");
+
+    /// <summary>The <c>:root</c> pseudo-class — the document root (typically html).</summary>
+    public Selector Root => new($"{Css}:root");
+
+    /// <summary>The <c>:read-only</c> pseudo-class.</summary>
+    public Selector ReadOnly => new($"{Css}:read-only");
+
+    /// <summary>The <c>:read-write</c> pseudo-class.</summary>
+    public Selector ReadWrite => new($"{Css}:read-write");
+
+    /// <summary>The <c>:required</c> pseudo-class.</summary>
+    public Selector Required => new($"{Css}:required");
+
+    /// <summary>The <c>:optional</c> pseudo-class.</summary>
+    public Selector Optional => new($"{Css}:optional");
+
+    /// <summary>The <c>:valid</c> pseudo-class — form field passing validation.</summary>
+    public Selector Valid => new($"{Css}:valid");
+
+    /// <summary>The <c>:invalid</c> pseudo-class — form field failing validation.</summary>
+    public Selector Invalid => new($"{Css}:invalid");
+
+    /// <summary>The <c>:placeholder-shown</c> pseudo-class — input still showing its placeholder.</summary>
+    public Selector PlaceholderShown => new($"{Css}:placeholder-shown");
+
+    /// <summary>The <c>:default</c> pseudo-class — default form element among options.</summary>
+    public Selector Default => new($"{Css}:default");
+
+    /// <summary>The <c>:target</c> pseudo-class — element targeted by URL fragment.</summary>
+    public Selector Target => new($"{Css}:target");
+
+    /// <summary>The <c>:visited</c> pseudo-class — link that's been visited.</summary>
+    public Selector Visited => new($"{Css}:visited");
+
+    /// <summary>The <c>:link</c> pseudo-class — unvisited link.</summary>
+    public Selector Link => new($"{Css}:link");
+
+    /// <summary>The <c>:any-link</c> pseudo-class — any link (visited or unvisited).</summary>
+    public Selector AnyLink => new($"{Css}:any-link");
+
+    /// <summary>The <c>:dir(direction)</c> functional pseudo-class — directionality
+    /// (<c>"ltr"</c> or <c>"rtl"</c>).</summary>
+    public Selector Dir(string direction) => new($"{Css}:dir({direction})");
+
+    /// <summary>The <c>:where(...)</c> functional pseudo-class — like
+    /// <c>:is</c> but with zero specificity. The <see cref="StyleSheet.Where"/>
+    /// helper is the recommended entry point; this method exists for
+    /// post-fix usage on an existing selector.</summary>
+    public Selector Where(params Selector[] inner) {
+        var parts = string.Join(", ", System.Array.ConvertAll(inner, s => s.Css));
+        return new Selector($"{Css}:where({parts})");
+    }
+
+    /// <summary>The <c>:is(...)</c> functional pseudo-class — like
+    /// <c>:where</c> but inherits the highest specificity among arguments.</summary>
+    public Selector Is(params Selector[] inner) {
+        var parts = string.Join(", ", System.Array.ConvertAll(inner, s => s.Css));
+        return new Selector($"{Css}:is({parts})");
+    }
+
     /// <summary>The <c>:not(...)</c> functional pseudo-class — match when the inner selector does NOT match.</summary>
     /// <param name="inner">The selector that must NOT match.</param>
     public Selector Not(Selector inner) => new($"{Css}:not({inner.Css})");
