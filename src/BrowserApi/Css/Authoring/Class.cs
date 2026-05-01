@@ -87,10 +87,24 @@ public sealed class Class : Declarations {
     public Class When(bool condition) => condition ? this : None;
 
     /// <summary>
-    /// BEM-style modifier — produces a selector for <c>&amp;--{slug}</c> nesting.
+    /// BEM-style modifier — returns a sibling <see cref="Class"/> whose name is
+    /// <c>{this.Name}--{slug}</c>. Use it to compose markup class lists like
+    /// <c>class="@(KanbanHeader + KanbanHeader.Variant(col.Slug))"</c> — the
+    /// <c>+</c> operator on <see cref="Class"/> produces a <see cref="ClassList"/>
+    /// (two class tokens), which is what the browser expects.
     /// </summary>
     /// <param name="slug">The variant suffix without leading <c>--</c>.</param>
-    public Selector Variant(string slug) => new($"{Selector.Css}--{slug}");
+    /// <remarks>
+    /// For the rule-side use (<c>[Self.Variant("active")] = new() { ... }</c>),
+    /// the <c>Variant</c> method on <see cref="Selector"/> returns a
+    /// <see cref="Selector"/> appropriate for nesting indexer keys. The two
+    /// methods coexist because they live on different types — <see cref="Class"/>
+    /// for markup composition, <see cref="Selector"/> for rule selectors.
+    /// </remarks>
+    public Class Variant(string slug) {
+        if (string.IsNullOrEmpty(Name)) CssRegistry.EnsureScanned();
+        return new Class { Name = $"{Name}--{slug}" };
+    }
 
     /// <summary>Implicit conversion to the bare class name (e.g. <c>"card"</c>).</summary>
     /// <remarks>This is what's emitted in HTML <c>class="…"</c> attributes. If the

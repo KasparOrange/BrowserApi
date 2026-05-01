@@ -89,6 +89,17 @@ public class StyleSheetTests {
         var list = FlatStyles.Card + "vendor-specific";
         Assert.Equal("card vendor-specific", list.ToString());
     }
+
+    [Fact]
+    public void Variant_on_Class_composes_into_ClassList_not_selector() {
+        // Regression: Class.Variant used to return Selector, which made
+        // `Card + Card.Variant("active")` resolve via Class→Selector implicit
+        // conversion to `Selector + Selector` (the adjacent-sibling combinator)
+        // — wrong type, wrong CSS, BEM modifiers silently broken in markup.
+        _ = StyleSheet.Render<FlatStyles>();
+        ClassList list = FlatStyles.Card + FlatStyles.Card.Variant("active");
+        Assert.Equal("card card--active", list.ToString());
+    }
 }
 
 /// <summary>Tests for the auto-discovery registry.</summary>
