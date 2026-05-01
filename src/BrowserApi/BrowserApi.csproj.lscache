@@ -82,11 +82,15 @@ Common/
 Css/
  Angle.cs
  Authoring/
+  Border.cs
   Class.cs
   ClassList.cs
+  CssRegistry.cs
   CssVar.cs
+  CssVarConversions.cs
   Declarations.cs
   El.cs
+  Keywords.cs
   PseudoElementSelector.cs
   Rule.cs
   Selector.cs

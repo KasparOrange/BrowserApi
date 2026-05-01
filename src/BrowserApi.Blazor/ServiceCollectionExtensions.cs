@@ -47,4 +47,33 @@ public static class ServiceCollectionExtensions {
         services.AddScoped<JSInteropBackend>();
         return services;
     }
+
+    /// <summary>
+    /// Eagerly scans the AppDomain for C#-authored stylesheets (subclasses of
+    /// <see cref="BrowserApi.Css.Authoring.StyleSheet"/>) and renders their CSS into
+    /// the static <see cref="BrowserApi.Css.Authoring.CssRegistry"/>. Optional —
+    /// the registry self-initializes lazily on first access — but calling this
+    /// during DI configuration moves the cost out of the request path.
+    /// </summary>
+    /// <param name="services">The service collection (returned unchanged for chaining).</param>
+    /// <returns>The same <see cref="IServiceCollection"/>.</returns>
+    /// <remarks>
+    /// <para>
+    /// Pair this with <c>&lt;BrowserApiCss /&gt;</c> in your <c>App.razor</c> to get
+    /// a fully wired CSS-in-C# pipeline:
+    /// </para>
+    /// <code language="csharp">
+    /// // Program.cs
+    /// builder.Services.AddBrowserApi();
+    /// builder.Services.AddBrowserApiCss();
+    /// </code>
+    /// <code language="razor">
+    /// &lt;!-- App.razor --&gt;
+    /// &lt;HeadContent&gt;&lt;BrowserApiCss /&gt;&lt;/HeadContent&gt;
+    /// </code>
+    /// </remarks>
+    public static IServiceCollection AddBrowserApiCss(this IServiceCollection services) {
+        BrowserApi.Css.Authoring.CssRegistry.EnsureScanned();
+        return services;
+    }
 }

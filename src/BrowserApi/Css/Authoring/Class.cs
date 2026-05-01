@@ -57,7 +57,19 @@ public sealed class Class : Declarations {
     /// Use this when composing selectors; the bare-name conversion is for HTML
     /// <c>class</c> attributes.
     /// </summary>
-    public Selector Selector => new($".{Name}");
+    /// <remarks>
+    /// If <see cref="Name"/> hasn't been populated yet (for example because the
+    /// stylesheet hasn't been rendered), <see cref="CssRegistry.EnsureScanned"/>
+    /// is triggered to populate it. This is the lazy-init mechanism that lets
+    /// <c>class="@AppStyles.Card"</c> in Razor work even before the
+    /// <c>&lt;BrowserApiCss /&gt;</c> component renders.
+    /// </remarks>
+    public Selector Selector {
+        get {
+            if (string.IsNullOrEmpty(Name)) CssRegistry.EnsureScanned();
+            return new Selector($".{Name}");
+        }
+    }
 
     /// <summary>An empty/sentinel <see cref="Class"/> used in conditional Razor expressions.</summary>
     public static Class None { get; } = new() { Name = string.Empty };
@@ -81,11 +93,23 @@ public sealed class Class : Declarations {
     public Selector Variant(string slug) => new($"{Selector.Css}--{slug}");
 
     /// <summary>Implicit conversion to the bare class name (e.g. <c>"card"</c>).</summary>
-    /// <remarks>This is what's emitted in HTML <c>class="…"</c> attributes.</remarks>
-    public static implicit operator string(Class c) => c?.Name ?? string.Empty;
+    /// <remarks>This is what's emitted in HTML <c>class="…"</c> attributes. Triggers a
+    /// lazy AppDomain scan if the name hasn't been resolved yet.</remarks>
+    public static implicit operator string(Class c) {
+        if (c is null) return string.Empty;
+        if (string.IsNullOrEmpty(c.Name)) CssRegistry.EnsureScanned();
+        return c.Name;
+    }
 
     /// <summary>Implicit conversion to a CSS selector (e.g. <c>.card</c>).</summary>
     public static implicit operator Selector(Class c) => c.Selector;
+
+    /// <summary>Returns the bare class name. Equivalent to the implicit string conversion
+    /// — provided so <see cref="object.ToString"/> debugger displays match Razor output.</summary>
+    public override string ToString() {
+        if (string.IsNullOrEmpty(Name)) CssRegistry.EnsureScanned();
+        return Name;
+    }
 
     /// <summary>Composes two classes into a <see cref="ClassList"/> for Razor markup.</summary>
     public static ClassList operator +(Class a, Class b) => new ClassList().Add(a).Add(b);

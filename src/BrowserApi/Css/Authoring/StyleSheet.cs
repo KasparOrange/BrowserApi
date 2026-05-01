@@ -110,6 +110,41 @@ public abstract class StyleSheet {
         var sb = new StringBuilder();
         var fields = styleSheetType.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
 
+        // Pass 1 — collect CssVar fields so their defaults can be emitted into a
+        // single :root block at the top of the file. Source order is preserved
+        // among the variables themselves.
+        var cssVars = new System.Collections.Generic.List<(string Name, string DefaultCss)>();
+        foreach (var field in fields) {
+            var value = field.GetValue(null);
+            if (value is null) continue;
+
+            var t = value.GetType();
+            if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(CssVar<>)) {
+                // Set the variable's name from the field if not already set
+                // (CssVar.External already sets Name explicitly).
+                var nameProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.Name));
+                var existing = (string?)nameProp?.GetValue(value);
+                if (string.IsNullOrEmpty(existing)) {
+                    nameProp?.SetValue(value, "--" + ToKebabCase(field.Name));
+                }
+                var name = (string)nameProp!.GetValue(value)!;
+
+                // Default value: read DefaultValue and call ToCss() on it.
+                var defaultProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.DefaultValue));
+                var defaultValue = defaultProp?.GetValue(value) as Common.ICssValue;
+                cssVars.Add((name, defaultValue?.ToCss() ?? ""));
+            }
+        }
+
+        if (cssVars.Count > 0) {
+            sb.Append(":root {");
+            foreach (var v in cssVars) {
+                sb.Append(' ').Append(v.Name).Append(": ").Append(v.DefaultCss).Append(';');
+            }
+            sb.Append(" }\n");
+        }
+
+        // Pass 2 — emit class and rule fields in declaration order.
         foreach (var field in fields) {
             var value = field.GetValue(null);
             switch (value) {
