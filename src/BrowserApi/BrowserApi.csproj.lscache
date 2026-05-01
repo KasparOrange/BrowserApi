@@ -90,10 +90,13 @@ Css/
   CssVarConversions.cs
   Declarations.cs
   El.cs
+  Keyframes.cs
   Keywords.cs
+  Media.cs
   PseudoElementSelector.cs
   Rule.cs
   Selector.cs
+  Sides.cs
   StyleSheet.cs
  CssColor.cs
  CssFormatting.cs

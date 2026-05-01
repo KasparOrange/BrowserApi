@@ -143,8 +143,10 @@ public class Declarations {
     /// <summary>The CSS <c>max-height</c> property.</summary>
     public Length MaxHeight { init => Set("max-height", value); }
 
-    /// <summary>The CSS <c>padding</c> shorthand (single length, all sides).</summary>
-    public Length Padding { init => Set("padding", value); }
+    /// <summary>The CSS <c>padding</c> shorthand. Accepts a single <see cref="Length"/>
+    /// (all sides), a <c>(vertical, horizontal)</c> tuple, or a
+    /// <c>(top, right, bottom, left)</c> tuple via <see cref="Sides"/>.</summary>
+    public Sides Padding { init => Set("padding", value); }
 
     /// <summary>The CSS <c>padding-top</c> property.</summary>
     public Length PaddingTop { init => Set("padding-top", value); }
@@ -158,8 +160,8 @@ public class Declarations {
     /// <summary>The CSS <c>padding-left</c> property.</summary>
     public Length PaddingLeft { init => Set("padding-left", value); }
 
-    /// <summary>The CSS <c>margin</c> shorthand.</summary>
-    public Length Margin { init => Set("margin", value); }
+    /// <summary>The CSS <c>margin</c> shorthand. Same multi-form input as <see cref="Padding"/>.</summary>
+    public Sides Margin { init => Set("margin", value); }
 
     /// <summary>The CSS <c>margin-top</c> property.</summary>
     public Length MarginTop { init => Set("margin-top", value); }

@@ -144,7 +144,7 @@ public abstract class StyleSheet {
             sb.Append(" }\n");
         }
 
-        // Pass 2 — emit class and rule fields in declaration order.
+        // Pass 2 — emit class, rule, and keyframes fields in declaration order.
         foreach (var field in fields) {
             var value = field.GetValue(null);
             switch (value) {
@@ -158,10 +158,29 @@ public abstract class StyleSheet {
                 case Rule rule:
                     EmitRule(sb, rule.Selector, rule);
                     break;
+                case Keyframes kf: {
+                    if (string.IsNullOrEmpty(kf.Name)) {
+                        kf.Name = ToKebabCase(field.Name);
+                    }
+                    EmitKeyframes(sb, kf);
+                    break;
+                }
             }
         }
 
         return sb.ToString();
+    }
+
+    private static void EmitKeyframes(StringBuilder sb, Keyframes kf) {
+        sb.Append("@keyframes ").Append(kf.Name).Append(" {\n");
+        foreach (var stop in kf.Stops) {
+            sb.Append("  ").Append(stop.Key).Append(" {");
+            foreach (var p in stop.Value.Properties) {
+                sb.Append(' ').Append(p.Key).Append(": ").Append(p.Value).Append(';');
+            }
+            sb.Append(" }\n");
+        }
+        sb.Append("}\n");
     }
 
     /// <summary>Convenience overload — <c>StyleSheet.Render&lt;AppStyles&gt;()</c>.</summary>
@@ -179,12 +198,25 @@ public abstract class StyleSheet {
             sb.Append(" }\n");
         }
 
-        // Emit nested blocks. The MVP resolves the SCSS '&' substitution itself rather
-        // than deferring to sass — keeps the path testable without a sass dependency.
+        // Emit nested blocks. MVP resolves the SCSS '&' substitution itself
+        // rather than deferring to sass — testable without a sass dependency.
         foreach (var nested in decl.Nested) {
-            var resolved = ResolveAmpersand(selector, nested.Key);
-            EmitRule(sb, resolved, nested.Value);
+            var nestedKey = nested.Key.Css;
+            if (nestedKey.StartsWith("@", System.StringComparison.Ordinal)) {
+                // At-rule block (@media, @supports, @container) — wrap, don't concatenate.
+                EmitAtRule(sb, selector, nested.Key, nested.Value);
+            } else {
+                var resolved = ResolveAmpersand(selector, nested.Key);
+                EmitRule(sb, resolved, nested.Value);
+            }
         }
+    }
+
+    private static void EmitAtRule(StringBuilder sb, Selector parent, Selector atRule, Declarations decl) {
+        // @media (min-width: ...) { .card { ... } .card:hover { ... } }
+        sb.Append(atRule.Css).Append(" {\n");
+        EmitRule(sb, parent, decl);
+        sb.Append("}\n");
     }
 
     private static Selector ResolveAmpersand(Selector parent, Selector child) {

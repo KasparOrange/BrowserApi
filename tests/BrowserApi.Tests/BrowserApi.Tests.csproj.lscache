@@ -82,6 +82,7 @@ Common/
 Css/
  AngleTests.cs
  Authoring/
+  AdvancedFeaturesTests.cs
   EndToEndTests.cs
   StyleSheetTests.cs
  CssColorTests.cs
