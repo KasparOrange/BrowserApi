@@ -2,6 +2,8 @@
 
     <PropertyGroup>
         <IsPackable>false</IsPackable>
+        <!-- Emit source-gen output to disk under obj/.../generated/ for inspection. -->
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,6 +13,9 @@
     <ItemGroup>
         <ProjectReference Include="../../src/BrowserApi/BrowserApi.csproj" />
         <ProjectReference Include="../../src/BrowserApi.Blazor/BrowserApi.Blazor.csproj" />
+        <ProjectReference Include="../../src/BrowserApi.Css.SourceGen/BrowserApi.Css.SourceGen.csproj"
+                          OutputItemType="Analyzer"
+                          ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>
