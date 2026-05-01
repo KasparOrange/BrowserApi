@@ -22,11 +22,13 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.*" PrivateAssets="all" />
     </ItemGroup>
 
-    <!-- Track diagnostic IDs as required by RS2008. -->
-    <ItemGroup>
-        <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
-        <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
-    </ItemGroup>
+    <!--
+        AnalyzerReleases.Shipped.md / Unshipped.md (RS2008 tracking) are picked up
+        automatically by the .NET SDK when IsRoslynComponent=true, so we don't add
+        an explicit <AdditionalFiles> entry here — that would be a duplicate
+        registration and MSBuild warns on it.
+    -->
+
 
     <!-- Pack the generator DLL into the analyzers folder -->
     <ItemGroup>
