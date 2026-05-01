@@ -46,7 +46,7 @@ public sealed class CssVar<T> : ICssValue where T : ICssValue {
     /// <summary>The CSS variable name including the leading <c>--</c>
     /// (e.g. <c>"--radius"</c>). Set by the source generator from the C# field name,
     /// or supplied explicitly via <see cref="CssVar.External(string)"/>.</summary>
-    public string Name { get; internal set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>Whether this variable inherits from ancestors (CSS default
     /// <see langword="true"/>). Emitted to <c>@property</c> when a syntax can be

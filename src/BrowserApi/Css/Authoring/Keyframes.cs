@@ -31,7 +31,7 @@ public sealed class Keyframes {
     /// <summary>The animation name; populated by the source generator
     /// (or by <see cref="StyleSheet.Render(System.Type)"/> at runtime) from
     /// the C# field name in PascalCase → kebab-case form.</summary>
-    public string Name { get; internal set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>The keyframe stops in source order.</summary>
     public IReadOnlyList<KeyValuePair<string, Declarations>> Stops => _stops;

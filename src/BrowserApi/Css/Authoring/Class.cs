@@ -50,7 +50,7 @@ public sealed class Class : Declarations {
     /// <see cref="Name"/> defaults to <see cref="string.Empty"/> until the field is
     /// scanned by <see cref="StyleSheet.Render(System.Type)"/>.
     /// </remarks>
-    public string Name { get; internal set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// The CSS selector form of this class, with leading dot (e.g. <c>".card"</c>).
