@@ -93,8 +93,12 @@ public sealed class Class : Declarations {
     public Selector Variant(string slug) => new($"{Selector.Css}--{slug}");
 
     /// <summary>Implicit conversion to the bare class name (e.g. <c>"card"</c>).</summary>
-    /// <remarks>This is what's emitted in HTML <c>class="…"</c> attributes. Triggers a
-    /// lazy AppDomain scan if the name hasn't been resolved yet.</remarks>
+    /// <remarks>This is what's emitted in HTML <c>class="…"</c> attributes. If the
+    /// name hasn't been resolved yet, triggers a lazy AppDomain scan; if that scan
+    /// is itself in progress (we're inside a static-field initializer that the scan
+    /// triggered), returns the bare empty string and the caller is responsible for
+    /// re-reading after the scan finishes — which is fine for Razor markup access
+    /// because Razor markup runs long after type initialization.</remarks>
     public static implicit operator string(Class c) {
         if (c is null) return string.Empty;
         if (string.IsNullOrEmpty(c.Name)) CssRegistry.EnsureScanned();

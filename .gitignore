@@ -47,3 +47,11 @@ artifacts/
 # docfx output
 docs/docfx/_site/
 docs/docfx/api/
+.todos/
+.sidecar/
+.sidecar-agent
+.sidecar-task
+.sidecar-pr
+.sidecar-start.sh
+.sidecar-base
+.td-root

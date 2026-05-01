@@ -113,7 +113,7 @@ public abstract class StyleSheet {
         // Pass 1 — collect CssVar fields so their defaults can be emitted into a
         // single :root block at the top of the file. Source order is preserved
         // among the variables themselves.
-        var cssVars = new System.Collections.Generic.List<(string Name, string DefaultCss)>();
+        var cssVars = new System.Collections.Generic.List<(string Name, string DefaultCss, string? Syntax, bool Inherits)>();
         foreach (var field in fields) {
             var value = field.GetValue(null);
             if (value is null) continue;
@@ -132,7 +132,18 @@ public abstract class StyleSheet {
                 // Default value: read DefaultValue and call ToCss() on it.
                 var defaultProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.DefaultValue));
                 var defaultValue = defaultProp?.GetValue(value) as Common.ICssValue;
-                cssVars.Add((name, defaultValue?.ToCss() ?? ""));
+
+                // @property syntax & inherits flags (spec §30).
+                var syntaxProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.Syntax));
+                var inheritsProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.Inherits));
+                var explicitSyntax = (string?)syntaxProp?.GetValue(value);
+                var inheritsValue = (bool?)inheritsProp?.GetValue(value) ?? true;
+
+                // Infer @property syntax from the value-type T when not explicit.
+                var innerType = t.GetGenericArguments()[0];
+                var syntax = explicitSyntax ?? InferAtPropertySyntax(innerType);
+
+                cssVars.Add((name, defaultValue?.ToCss() ?? "", syntax, inheritsValue));
             }
         }
 
@@ -142,9 +153,22 @@ public abstract class StyleSheet {
                 sb.Append(' ').Append(v.Name).Append(": ").Append(v.DefaultCss).Append(';');
             }
             sb.Append(" }\n");
+
+            // @property auto-emission (spec §30) — gives the browser a typed
+            // schema for each variable so animations, type-checking, and the
+            // dev-tools "Computed" tab work correctly.
+            foreach (var v in cssVars) {
+                if (v.Syntax is null) continue; // No inferable syntax → skip.
+                sb.Append("@property ").Append(v.Name).Append(" {");
+                sb.Append(" syntax: \"").Append(v.Syntax).Append("\";");
+                sb.Append(" inherits: ").Append(v.Inherits ? "true" : "false").Append(';');
+                sb.Append(" initial-value: ").Append(v.DefaultCss).Append(';');
+                sb.Append(" }\n");
+            }
         }
 
-        // Pass 2 — emit class, rule, and keyframes fields in declaration order.
+        // Pass 2 — emit class, rule, keyframes, font-face, and Rules-collection
+        // fields in declaration order.
         foreach (var field in fields) {
             var value = field.GetValue(null);
             switch (value) {
@@ -158,6 +182,9 @@ public abstract class StyleSheet {
                 case Rule rule:
                     EmitRule(sb, rule.Selector, rule);
                     break;
+                case Rules rules:
+                    foreach (var r in rules) EmitRule(sb, r.Selector, r);
+                    break;
                 case Keyframes kf: {
                     if (string.IsNullOrEmpty(kf.Name)) {
                         kf.Name = ToKebabCase(field.Name);
@@ -165,10 +192,24 @@ public abstract class StyleSheet {
                     EmitKeyframes(sb, kf);
                     break;
                 }
+                case FontFace ff:
+                    EmitFontFace(sb, ff);
+                    break;
             }
         }
 
-        return sb.ToString();
+        // Resolve any deferred .Or() fallback placeholders captured during
+        // type initialization. By this point PopulateFieldNames has run for
+        // every stylesheet, so all CssVar names are known.
+        return CssVarFallbackRegistry.Resolve(sb.ToString());
+    }
+
+    private static void EmitFontFace(StringBuilder sb, FontFace ff) {
+        sb.Append("@font-face {");
+        foreach (var p in ff.Properties) {
+            sb.Append(' ').Append(p.Key).Append(": ").Append(p.Value).Append(';');
+        }
+        sb.Append(" }\n");
     }
 
     private static void EmitKeyframes(StringBuilder sb, Keyframes kf) {
@@ -185,6 +226,44 @@ public abstract class StyleSheet {
 
     /// <summary>Convenience overload — <c>StyleSheet.Render&lt;AppStyles&gt;()</c>.</summary>
     public static string Render<T>() where T : StyleSheet => Render(typeof(T));
+
+    /// <summary>
+    /// Populates the kebab-cased <c>Name</c> on every <see cref="Class"/>,
+    /// <see cref="CssVar{T}"/>, and <see cref="Keyframes"/> field of
+    /// <paramref name="styleSheetType"/>. Called by
+    /// <see cref="CssRegistry"/> in a first pass so cross-stylesheet
+    /// references resolve correctly during rendering. Idempotent — fields
+    /// that already have a non-empty name (e.g. via
+    /// <see cref="CssVar.External{T}(string)"/>) are left untouched.
+    /// </summary>
+    public static void PopulateFieldNames(Type styleSheetType) {
+        if (styleSheetType is null) throw new ArgumentNullException(nameof(styleSheetType));
+        var fields = styleSheetType.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic);
+        foreach (var field in fields) {
+            var value = field.GetValue(null);
+            if (value is null) continue;
+
+            switch (value) {
+                case Class cls when string.IsNullOrEmpty(cls.Name):
+                    cls.Name = ToKebabCase(field.Name);
+                    break;
+                case Keyframes kf when string.IsNullOrEmpty(kf.Name):
+                    kf.Name = ToKebabCase(field.Name);
+                    break;
+                default: {
+                    var t = value.GetType();
+                    if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(CssVar<>)) {
+                        var nameProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.Name));
+                        var existing = (string?)nameProp?.GetValue(value);
+                        if (string.IsNullOrEmpty(existing)) {
+                            nameProp?.SetValue(value, "--" + ToKebabCase(field.Name));
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
 
     // ─────────────────────────────── Emitter internals ──────────────────────────────
 
@@ -232,6 +311,25 @@ public abstract class StyleSheet {
         }
         // No '&' — child is a descendant of parent (CSS nesting default).
         return new Selector(parent.Css + " " + c);
+    }
+
+    /// <summary>
+    /// Maps a <see cref="CssVar{T}"/>'s value type to a CSS <c>@property</c>
+    /// <c>syntax</c> string (spec §30). Returns <see langword="null"/> for types
+    /// without a known mapping — those variables are emitted without an
+    /// <c>@property</c> rule.
+    /// </summary>
+    private static string? InferAtPropertySyntax(System.Type valueType) {
+        var name = valueType.FullName;
+        return name switch {
+            "BrowserApi.Css.Length"     => "<length>",
+            "BrowserApi.Css.Percentage" => "<percentage>",
+            "BrowserApi.Css.CssColor"   => "<color>",
+            "BrowserApi.Css.Angle"      => "<angle>",
+            "BrowserApi.Css.Duration"   => "<time>",
+            "BrowserApi.Css.Resolution" => "<resolution>",
+            _ => null,
+        };
     }
 
     private static string ToKebabCase(string pascal) {

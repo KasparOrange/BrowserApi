@@ -48,4 +48,30 @@ public sealed class Keyframes {
         get => throw new System.NotSupportedException("Keyframes indexer is set-only.");
         set => _stops.Add(new(stop, value));
     }
+
+    /// <summary>Implicit conversion to <see cref="string"/> so a
+    /// <see cref="Keyframes"/> field can be referenced by its kebab-cased name
+    /// in animation/transition declarations:
+    /// <code>
+    /// Animation = AppStyles.FadeIn + " 200ms ease-out"
+    /// </code>
+    /// </summary>
+    /// <remarks>
+    /// The conversion runs at static-field-initializer time, before names are
+    /// populated by the AppDomain scan, so it returns a late-binding token
+    /// (registered with <see cref="CssVarFallbackRegistry"/>) that the renderer
+    /// resolves to the kebab-cased animation name at emit time.
+    /// </remarks>
+    public static implicit operator string(Keyframes kf) {
+        if (kf is null) return string.Empty;
+        if (!string.IsNullOrEmpty(kf.Name)) return kf.Name;
+        return CssVarFallbackRegistry.RegisterNameRef(kf);
+    }
+
+    /// <summary>Returns the kebab-cased animation name. Equivalent to the
+    /// implicit string conversion.</summary>
+    public override string ToString() {
+        if (string.IsNullOrEmpty(Name)) CssRegistry.EnsureScanned();
+        return Name;
+    }
 }

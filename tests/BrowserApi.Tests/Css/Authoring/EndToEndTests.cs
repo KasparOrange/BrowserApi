@@ -124,8 +124,10 @@ public class EndToEndTests {
         var css = StyleSheet.Render<DesignTokens>();
         // CssColor.White serializes to the keyword "white" (cleaner devtools output)
         // rather than the equivalent hex. Hex factory output is preserved verbatim.
-        var expected =
-            ":root { --radius: 8px; --spacing-md: 12px; --bg-surface: white; --primary: #0066cc; }\n";
-        Assert.Equal(expected, css);
+        // Each typed CssVar also produces an @property block (spec §30) right after
+        // the :root declaration, so the browser can type-check the variable.
+        Assert.StartsWith(":root { --radius: 8px; --spacing-md: 12px; --bg-surface: white; --primary: #0066cc; }\n", css);
+        Assert.Contains("@property --radius { syntax: \"<length>\"; inherits: true; initial-value: 8px; }", css);
+        Assert.Contains("@property --primary { syntax: \"<color>\"; inherits: true; initial-value: #0066cc; }", css);
     }
 }
