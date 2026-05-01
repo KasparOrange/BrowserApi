@@ -85,12 +85,14 @@ Css/
  Authoring/
   AdvancedFeaturesTests.cs
   AssetGeneratorTests.cs
+  AttrSelectorTests.cs
   ColorFunctionTests.cs
   CookbookTests.cs
   CssRegistryCollection.cs
   EndToEndTests.cs
   EnumImportantTests.cs
   ExternalCssTests.cs
+  LengthFunctionTests.cs
   PrefixTests.cs
   Round1FeaturesTests.cs
   StyleSheetTests.cs

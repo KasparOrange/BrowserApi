@@ -82,6 +82,7 @@ Common/
 Css/
  Angle.cs
  Authoring/
+  AttrSelector.cs
   Border.cs
   Class.cs
   ClassList.cs
@@ -97,6 +98,7 @@ Css/
   Keyframes.cs
   Keyword.cs
   Keywords.cs
+  LengthFunctions.cs
   LengthOrPercentage.cs
   Media.cs
   PrefixAttribute.cs
