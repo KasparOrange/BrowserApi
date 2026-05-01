@@ -10,6 +10,7 @@ namespace BrowserApi.Tests.Css.Authoring;
 /// the rendered CSS is what an HTTP-served stylesheet would contain. These are the
 /// tests MitWare's first integration would lean on.
 /// </summary>
+[Collection(nameof(CssRegistryCollection))]
 public class EndToEndTests {
     /// <summary>
     /// A representative "design tokens" stylesheet — defines variables consumed by

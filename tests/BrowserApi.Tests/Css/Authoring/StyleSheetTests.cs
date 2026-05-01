@@ -8,6 +8,7 @@ using StyleSheet = BrowserApi.Css.Authoring.StyleSheet;
 namespace BrowserApi.Tests.Css.Authoring;
 
 /// <summary>End-to-end tests for the CSS-in-C# authoring pipeline.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class StyleSheetTests {
     private class FlatStyles : StyleSheet {
         public static readonly Class Card = new() {
@@ -91,6 +92,7 @@ public class StyleSheetTests {
 }
 
 /// <summary>Tests for the auto-discovery registry.</summary>
+[Collection(nameof(CssRegistryCollection))]
 public class CssRegistryTests {
     private class RegistryStyles : StyleSheet {
         public static readonly Class Widget = new() {

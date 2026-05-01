@@ -84,6 +84,7 @@ Css/
  Authoring/
   AdvancedFeaturesTests.cs
   CookbookTests.cs
+  CssRegistryCollection.cs
   EndToEndTests.cs
   StyleSheetTests.cs
  CssColorTests.cs
