@@ -47,6 +47,14 @@ Do **not** split by API (e.g., "BrowserApi.Canvas" as a separate package). All t
 
 Generated code goes in `src/BrowserApi/Generated/`. Hand-written code goes alongside it in the normal namespace folders. Both are `partial class` so they compose cleanly.
 
+### CSS-in-C# Authoring (separate from the runtime CSSOM)
+
+`src/BrowserApi/Css/Authoring/` is a hand-written API for *authoring static stylesheets* in C# — distinct from the runtime CSSOM types in `BrowserApi.Css` (which are generated from the CSS WebIDL for live `element.style` manipulation). Two `StyleSheet` types exist on purpose: the CSSOM one for runtime DOM access, the authoring one for static stylesheet declaration. Consumers alias to disambiguate.
+
+Wire it up in three places: `AddBrowserApiCss()` in `Program.cs`, `<BrowserApiCss />` in `App.razor`'s `<HeadContent>`, and any number of `partial class … : StyleSheet` files declaring `static readonly Class`/`Rule`/`CssVar<T>`/`Keyframes` fields. The runtime renders all stylesheets to a single `<style>` tag at first access. Source generator path is decided in spec but not yet shipped — see `docs/plans/browser-api/css-in-csharp.md`.
+
+Read `src/BrowserApi/Css/Authoring/README.md` before touching this code.
+
 ### Spec Sources
 
 All specs come from [w3c/webref](https://github.com/w3c/webref):
