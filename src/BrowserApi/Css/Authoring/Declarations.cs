@@ -399,4 +399,21 @@ public class Declarations {
 
     /// <summary>The CSS <c>user-select</c> property.</summary>
     public string UserSelect { init => SetRaw("user-select", value); }
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    //  Container queries (CSS containment)
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    /// <summary>The CSS <c>container-type</c> property — establishes a containment
+    /// context for <c>@container</c> queries. Common values: <c>"inline-size"</c>,
+    /// <c>"size"</c>, <c>"normal"</c>.</summary>
+    public string ContainerType { init => SetRaw("container-type", value); }
+
+    /// <summary>The CSS <c>container-name</c> property — names the container for
+    /// targeted <c>@container</c> queries.</summary>
+    public string ContainerName { init => SetRaw("container-name", value); }
+
+    /// <summary>The CSS <c>container</c> shorthand (<c>container-name</c> /
+    /// <c>container-type</c>).</summary>
+    public string Container { init => SetRaw("container", value); }
 }

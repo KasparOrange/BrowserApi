@@ -90,6 +90,7 @@ Css/
   CssVarConversions.cs
   Declarations.cs
   El.cs
+  ImportantExtensions.cs
   Keyframes.cs
   Keywords.cs
   Media.cs
@@ -98,6 +99,7 @@ Css/
   Selector.cs
   Sides.cs
   StyleSheet.cs
+  Supports.cs
  CssColor.cs
  CssFormatting.cs
  CssStyleDeclaration.Shorthands.cs

@@ -83,6 +83,7 @@ Css/
  AngleTests.cs
  Authoring/
   AdvancedFeaturesTests.cs
+  CookbookTests.cs
   EndToEndTests.cs
   StyleSheetTests.cs
  CssColorTests.cs

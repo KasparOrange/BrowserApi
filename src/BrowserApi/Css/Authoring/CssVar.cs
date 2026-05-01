@@ -55,11 +55,20 @@ public sealed class CssVar<T> : ICssValue where T : ICssValue {
     }
 
     /// <summary>Variables are runtime-resolved by the browser — they carry through
-    /// the <see cref="ICssValue.IsVariable"/>-style taint that the spec defines on
+    /// the <c>IsVariable</c>-style taint that the spec defines on
     /// <see cref="ICssValue"/> (§29). Referencing this variable means any expression
     /// it participates in must emit through the CSS branch, not SCSS.</summary>
     /// <returns><c>var(--{Name})</c>.</returns>
-    public string ToCss() => $"var({Name})";
+    /// <remarks>
+    /// If <see cref="Name"/> hasn't been populated yet (e.g. another stylesheet
+    /// references this variable before the variable's stylesheet has been
+    /// rendered), <see cref="CssRegistry.EnsureScanned"/> is triggered to walk the
+    /// AppDomain and populate names from field identifiers. Lazy and idempotent.
+    /// </remarks>
+    public string ToCss() {
+        if (string.IsNullOrEmpty(Name)) CssRegistry.EnsureScanned();
+        return $"var({Name})";
+    }
 }
 
 /// <summary>
