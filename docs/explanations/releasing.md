@@ -1,7 +1,7 @@
 # Releasing a new version
 
-This repo publishes **five NuGet packages together** at a single shared version:
-`BrowserApi`, `BrowserApi.JSInterop`, `BrowserApi.Blazor`, `BrowserApi.Runtime`, `BrowserApi.SourceGen`.
+This repo publishes **six NuGet packages together** at a single shared version:
+`BrowserApi`, `BrowserApi.JSInterop`, `BrowserApi.Blazor`, `BrowserApi.Runtime`, `BrowserApi.SourceGen`, `BrowserApi.Css.SourceGen`.
 
 There are **two paths** to get a change into a consuming project:
 
@@ -57,7 +57,7 @@ Triggered on any tag matching `v*`, it:
 1. Extracts the version from the tag (`v0.1.0-preview.4` → `0.1.0-preview.4`).
 2. **Fails early** if `CHANGELOG.md` doesn't have a `## [0.1.0-preview.4]` section — no silent publish without notes.
 3. Restores, builds, runs the full test suite.
-4. Packs all five packages with `-p:Version=<version>`.
+4. Packs all six packages with `-p:Version=<version>`.
 5. Pushes all packages to nuget.org (`--skip-duplicate` makes re-runs safe).
 6. Creates a GitHub Release tagged `v0.1.0-preview.4` with the CHANGELOG section as the body, and attaches the `.nupkg` files.
 

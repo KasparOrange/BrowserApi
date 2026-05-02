@@ -56,7 +56,7 @@ jobs:
 
       - name: Pack
         run: |
-          for proj in BrowserApi BrowserApi.JSInterop BrowserApi.Blazor BrowserApi.Runtime BrowserApi.SourceGen; do
+          for proj in BrowserApi BrowserApi.JSInterop BrowserApi.Blazor BrowserApi.Runtime BrowserApi.SourceGen BrowserApi.Css.SourceGen; do
             dotnet pack "src/$proj/$proj.csproj" -c Release -o ./nupkgs -p:Version=${{ steps.version.outputs.version }}
           done
 

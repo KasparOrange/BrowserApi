@@ -11,6 +11,7 @@ Packages published from this repo:
 - `BrowserApi.Blazor` — Blazor DI + components
 - `BrowserApi.Runtime` — Jint-based server runtime
 - `BrowserApi.SourceGen` — Roslyn source generator for `.js` / `.d.ts` modules
+- `BrowserApi.Css.SourceGen` — Roslyn source generator for CSS-in-C# (class name population, asset gen, diagnostics)
 
 Entries are grouped by package. When an entry applies to a single package, the package name is in the heading.
 

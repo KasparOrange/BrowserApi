@@ -7,9 +7,14 @@
         <IsRoslynComponent>true</IsRoslynComponent>
         <RootNamespace>BrowserApi.Css.SourceGen</RootNamespace>
         <PackageId>BrowserApi.Css.SourceGen</PackageId>
-        <Version>0.1.0-preview.1</Version>
+        <Version>0.1.0-preview.9</Version>
+        <Authors>Konrad Entner</Authors>
         <Description>Roslyn source generator for the BrowserApi CSS-in-C# authoring API. Discovers StyleSheet subclasses at compile time and emits initializers that populate Class/CssVar/Keyframes names, replacing the runtime AppDomain reflection scan with build-time work. PREVIEW: API may change between versions.</Description>
         <PackageTags>blazor;css;source-generator;codegen;styles</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReleaseNotes>See https://github.com/KasparOrange/BrowserApi/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
+        <PackageProjectUrl>https://github.com/KasparOrange/BrowserApi</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/KasparOrange/BrowserApi</RepositoryUrl>
 
         <!-- Source generator NuGet packaging -->
         <IncludeBuildOutput>false</IncludeBuildOutput>
