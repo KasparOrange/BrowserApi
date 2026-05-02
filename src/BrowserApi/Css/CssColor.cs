@@ -166,21 +166,27 @@ public readonly partial struct CssColor : IEquatable<CssColor> {
     /// <returns>A <see cref="CssColor"/> that serializes to the given hex string.</returns>
     /// <exception cref="ArgumentException">
     /// Thrown when <paramref name="hex"/> is null, whitespace, does not start with <c>#</c>,
-    /// or is not exactly 4 or 7 characters long.
+    /// or is not a valid length (4, 5, 7, or 9 characters including the <c>#</c>).
     /// </exception>
     /// <example>
     /// <code>
     /// var color = CssColor.Hex("#ff0080");
     /// color.ToCss(); // "#ff0080"
     ///
-    /// var short = CssColor.Hex("#f08");
-    /// short.ToCss(); // "#f08"
+    /// var withAlpha = CssColor.Hex("#ff008080");
+    /// withAlpha.ToCss(); // "#ff008080"
+    ///
+    /// var short3 = CssColor.Hex("#f08");
+    /// short3.ToCss(); // "#f08"
+    ///
+    /// var short4 = CssColor.Hex("#f088");
+    /// short4.ToCss(); // "#f088"
     /// </code>
     /// </example>
     public static CssColor Hex(string hex) {
         ArgumentException.ThrowIfNullOrWhiteSpace(hex);
-        if (hex[0] != '#' || (hex.Length != 4 && hex.Length != 7))
-            throw new ArgumentException($"Invalid hex color format: '{hex}'. Expected '#rgb' or '#rrggbb'.", nameof(hex));
+        if (hex[0] != '#' || (hex.Length != 4 && hex.Length != 5 && hex.Length != 7 && hex.Length != 9))
+            throw new ArgumentException($"Invalid hex color format: '{hex}'. Expected '#rgb', '#rgba', '#rrggbb', or '#rrggbbaa'.", nameof(hex));
         return new(hex);
     }
 

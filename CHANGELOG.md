@@ -16,6 +16,8 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+## [0.1.0-preview.9] — 2026-05-02
+
 ### Added — `BrowserApi.Css.Authoring` (CSS-in-C# authoring API)
 
 A new namespace under `BrowserApi` that lets you write CSS in C# instead of
@@ -82,6 +84,17 @@ First real-world consumer is MitWare's `DnDTestPage`. The staged migration
 playbook, the spec-violation audit checklist, the known gaps (full property
 surface, sass intermediate, source maps), and the `Class.Variant` gotcha are
 in [`docs/plans/browser-api/lessons-learned.md`](docs/plans/browser-api/lessons-learned.md).
+
+### Fixed — `BrowserApi`
+
+- **`CssColor.Hex()` now accepts `#rgba` and `#rrggbbaa` hex formats** (4- and
+  8-digit hex with alpha channel). Previously only `#rgb` and `#rrggbb` were
+  accepted, causing `ArgumentException` at type-initializer time for any
+  stylesheet using hex colors with alpha (e.g. `#0000001f`).
+
+### BrowserApi.JSInterop, BrowserApi.Blazor, BrowserApi.Runtime, BrowserApi.SourceGen
+
+- No behavioral changes. Republished at the shared version so all packages stay version-aligned.
 
 ## [0.1.0-preview.8] — 2026-04-29
 

@@ -47,6 +47,16 @@ public class CssColorTests {
         Assert.Equal("#FF0000", CssColor.Hex("#FF0000").ToCss());
     }
 
+    [Fact]
+    public void Hex_valid_long_form_with_alpha() {
+        Assert.Equal("#0000001f", CssColor.Hex("#0000001f").ToCss());
+    }
+
+    [Fact]
+    public void Hex_valid_short_form_with_alpha() {
+        Assert.Equal("#f008", CssColor.Hex("#f008").ToCss());
+    }
+
     [Theory]
     [InlineData("invalid")]
     [InlineData("ff0000")]
