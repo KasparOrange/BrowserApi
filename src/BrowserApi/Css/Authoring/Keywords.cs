@@ -232,6 +232,78 @@ public enum WhiteSpace {
     BreakSpaces,
 }
 
+/// <summary>Values for the CSS <c>user-select</c> property.</summary>
+public enum UserSelect {
+    /// <summary><c>none</c> — text cannot be selected.</summary>
+    None,
+    /// <summary><c>auto</c> — browser default (usually text is selectable).</summary>
+    Auto,
+    /// <summary><c>text</c> — text can be selected.</summary>
+    Text,
+    /// <summary><c>all</c> — clicking selects the entire element content at once.</summary>
+    All,
+    /// <summary><c>contain</c> — selection is contained to the element boundary.</summary>
+    Contain,
+}
+
+/// <summary>Values for the CSS <c>text-overflow</c> property.</summary>
+public enum TextOverflow {
+    /// <summary><c>clip</c> — overflowing text is clipped at the content edge.</summary>
+    Clip,
+    /// <summary><c>ellipsis</c> — overflowing text is replaced with <c>…</c>.</summary>
+    Ellipsis,
+}
+
+/// <summary>Values for the CSS <c>pointer-events</c> property.</summary>
+public enum PointerEvents {
+    /// <summary><c>auto</c> — element responds to pointer events normally.</summary>
+    Auto,
+    /// <summary><c>none</c> — element is invisible to pointer events; clicks pass through.</summary>
+    None,
+    /// <summary><c>all</c> — SVG: responds to all pointer events on fill and stroke.</summary>
+    All,
+    /// <summary><c>fill</c> — SVG: responds only on the fill area.</summary>
+    Fill,
+    /// <summary><c>stroke</c> — SVG: responds only on the stroke area.</summary>
+    Stroke,
+    /// <summary><c>painted</c> — SVG: responds on painted fill and stroke areas.</summary>
+    Painted,
+    /// <summary><c>visible</c> — SVG: responds when the element is visible.</summary>
+    Visible,
+    /// <summary><c>visible-painted</c> — SVG: responds on painted areas when visible.</summary>
+    VisiblePainted,
+    /// <summary><c>visible-fill</c> — SVG: responds on fill area when visible.</summary>
+    VisibleFill,
+    /// <summary><c>visible-stroke</c> — SVG: responds on stroke area when visible.</summary>
+    VisibleStroke,
+}
+
+/// <summary>Values for the CSS <c>background-repeat</c> property.</summary>
+public enum BackgroundRepeat {
+    /// <summary><c>repeat</c> — tiles in both directions (default).</summary>
+    Repeat,
+    /// <summary><c>repeat-x</c> — tiles horizontally only.</summary>
+    RepeatX,
+    /// <summary><c>repeat-y</c> — tiles vertically only.</summary>
+    RepeatY,
+    /// <summary><c>no-repeat</c> — no tiling; image shown once.</summary>
+    NoRepeat,
+    /// <summary><c>space</c> — tiles without clipping; leftover space distributed evenly.</summary>
+    Space,
+    /// <summary><c>round</c> — tiles are scaled so a whole number fits.</summary>
+    Round,
+}
+
+/// <summary>Values for the CSS <c>container-type</c> property.</summary>
+public enum ContainerType {
+    /// <summary><c>normal</c> — no containment context (default).</summary>
+    Normal,
+    /// <summary><c>size</c> — establishes both inline and block containment.</summary>
+    Size,
+    /// <summary><c>inline-size</c> — establishes inline-axis containment only.</summary>
+    InlineSize,
+}
+
 /// <summary>Common border-style values.</summary>
 public enum BorderStyle {
     /// <summary><c>none</c></summary>

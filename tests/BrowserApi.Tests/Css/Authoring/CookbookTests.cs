@@ -242,7 +242,7 @@ public class CookbookTests {
 
     public class ContainerStyles : StyleSheet {
         public static readonly Class Wrapper = new() {
-            ContainerType = "inline-size",
+            ContainerType = ContainerType.InlineSize,
             ContainerName = "card",
         };
 

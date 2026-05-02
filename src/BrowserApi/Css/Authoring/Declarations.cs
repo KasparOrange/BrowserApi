@@ -319,7 +319,7 @@ public class Declarations {
     public string BackgroundPosition { init => SetRaw("background-position", value); }
 
     /// <summary>The CSS <c>background-repeat</c> property.</summary>
-    public string BackgroundRepeat { init => SetRaw("background-repeat", value); }
+    public Keyword<BackgroundRepeat> BackgroundRepeat { init => SetKeyword("background-repeat", value); }
 
     /// <summary>The CSS <c>opacity</c> property — 0..1.</summary>
     public double Opacity { init => SetRaw("opacity", Num(value)); }
@@ -365,8 +365,8 @@ public class Declarations {
     /// <summary>The CSS <c>white-space</c> property.</summary>
     public Keyword<WhiteSpace> WhiteSpace { init => SetKeyword("white-space", value); }
 
-    /// <summary>The CSS <c>text-overflow</c> property — typically <c>"ellipsis"</c> or <c>"clip"</c>.</summary>
-    public string TextOverflow { init => SetRaw("text-overflow", value); }
+    /// <summary>The CSS <c>text-overflow</c> property.</summary>
+    public Keyword<TextOverflow> TextOverflow { init => SetKeyword("text-overflow", value); }
 
     /// <summary>The CSS <c>text-indent</c> property.</summary>
     public Length TextIndent { init => Set("text-indent", value); }
@@ -408,20 +408,19 @@ public class Declarations {
     /// <summary>The CSS <c>backdrop-filter</c> property.</summary>
     public string BackdropFilter { init => SetRaw("backdrop-filter", value); }
 
-    /// <summary>The CSS <c>pointer-events</c> property — typically <c>"none"</c> or <c>"auto"</c>.</summary>
-    public string PointerEvents { init => SetRaw("pointer-events", value); }
+    /// <summary>The CSS <c>pointer-events</c> property.</summary>
+    public Keyword<PointerEvents> PointerEvents { init => SetKeyword("pointer-events", value); }
 
     /// <summary>The CSS <c>user-select</c> property.</summary>
-    public string UserSelect { init => SetRaw("user-select", value); }
+    public Keyword<UserSelect> UserSelect { init => SetKeyword("user-select", value); }
 
     // ═══════════════════════════════════════════════════════════════════════════════
     //  Container queries (CSS containment)
     // ═══════════════════════════════════════════════════════════════════════════════
 
     /// <summary>The CSS <c>container-type</c> property — establishes a containment
-    /// context for <c>@container</c> queries. Common values: <c>"inline-size"</c>,
-    /// <c>"size"</c>, <c>"normal"</c>.</summary>
-    public string ContainerType { init => SetRaw("container-type", value); }
+    /// context for <c>@container</c> queries.</summary>
+    public Keyword<ContainerType> ContainerType { init => SetKeyword("container-type", value); }
 
     /// <summary>The CSS <c>container-name</c> property — names the container for
     /// targeted <c>@container</c> queries.</summary>
