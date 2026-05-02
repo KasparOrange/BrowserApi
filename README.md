@@ -120,6 +120,7 @@ builder.Services.AddBrowserApi();
 | **BrowserApi.Blazor** | ASP.NET Components | `AddBrowserApi()` DI, `BrowserApiComponentBase`, lifecycle hooks. |
 | **BrowserApi.Runtime** | Jint | Server-side JS execution — test DOM interactions without a browser. |
 | **BrowserApi.SourceGen** | (build-time only) | Roslyn source generator: `.ts`/`.d.ts`/`.js` → typed C# module classes with DI, path resolver, and enum serialization. [Guide](https://kasparorange.github.io/BrowserApi/articles/source-generator.html) |
+| **BrowserApi.Css.SourceGen** | (build-time only) | Roslyn source generator + analyzers for the CSS-in-C# authoring API: pre-populates class/variable/keyframe names, generates typed `Assets.*` from `wwwroot/`, parses third-party CSS into `Mud.*`-style typed surfaces, and ships BCA001/BCA002/BCA003 diagnostics. Analyzer-only — ships nothing at runtime. [Guide](https://kasparorange.github.io/BrowserApi/articles/css-in-csharp.html) |
 
 ---
 
@@ -149,11 +150,38 @@ input.OnKeyDown(e => {
 ### CSS Value Types — not `"1.5rem"` strings
 
 ```csharp
-element.Style.Margin = Length.Rem(1.5);
+element.Style.Margin = 1.5.Rem;
 element.Style.Color = CssColor.Hsl(220, 90, 56);
-element.Style.Transform = Transform.Rotate(45.Deg()).Scale(1.2);
-element.Style.Transition = Transition.All(Duration.Ms(300), Easing.EaseInOut);
+element.Style.Transform = Transform.Rotate(45.Deg).Scale(1.2);
+element.Style.Transition = Transition.All(300.Ms, Easing.EaseInOut);
 ```
+
+### CSS-in-C# Authoring — not separate `.css` files
+
+```csharp
+public class AppStyles : StyleSheet {
+    public static readonly CssVar<CssColor> Primary = new(CssColor.Hex("#0066cc"));
+    public static readonly Class Btn = new() {
+        Display      = Display.InlineFlex,
+        Padding      = (8.Px, 16.Px),
+        Background   = Primary,
+        BorderRadius = 8.Px,
+        [Self.Hover] = new() { Background = ((CssColor)Primary).Darken(8) },
+    };
+}
+```
+```razor
+@* App.razor — emits combined CSS for every StyleSheet in the AppDomain *@
+<HeadContent><BrowserApiCss /></HeadContent>
+
+@* anywhere *@
+<button class="@AppStyles.Btn">Click me</button>
+```
+
+Typed selectors, typed values, BEM modifiers via `.Variant`, `:hover`/
+`:focus`/etc. as nested blocks, full `@media`/`@supports`/`@container`/
+`@keyframes` support, design-token variables via `CssVar<T>`. See the
+[CSS-in-C# guide](https://kasparorange.github.io/BrowserApi/articles/css-in-csharp.html).
 
 ### Fluent Fetch — not `IJSRuntime.InvokeAsync("fetch", ...)`
 

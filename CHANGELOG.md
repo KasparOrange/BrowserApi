@@ -16,6 +16,73 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+### Added — `BrowserApi.Css.Authoring` (CSS-in-C# authoring API)
+
+A new namespace under `BrowserApi` that lets you write CSS in C# instead of
+separate `.css` files. Class names, selectors, values, and at-rules are all
+typed C# identifiers — typos are compile errors, rename-refactoring works,
+and IntelliSense shows what's valid at every position. Full design in
+[`docs/plans/browser-api/css-in-csharp.md`](docs/plans/browser-api/css-in-csharp.md);
+user-facing guide in
+[`docs/docfx/articles/css-in-csharp.md`](docs/docfx/articles/css-in-csharp.md).
+
+**Three-place wiring** in a Blazor app:
+
+```csharp
+// Program.cs
+builder.Services.AddBrowserApiCss(opts => opts.GlobalPrefix = "mw");
+```
+```razor
+@* App.razor *@
+<HeadContent><BrowserApiCss /></HeadContent>
+```
+```csharp
+// AppStyles.cs
+public class AppStyles : StyleSheet {
+    public static readonly Class Btn = new() {
+        Padding      = (8.Px, 16.Px),
+        Background   = Tokens.Primary,
+        BorderRadius = 8.Px,
+        [Self.Hover] = new() { Background = ((CssColor)Tokens.Primary).Darken(8) },
+    };
+}
+```
+
+**What's covered:** all selector machinery (operators + 30+ pseudo-classes
++ pseudo-element terminal type), all at-rules (`@media`/`@supports`/
+`@container`/`@keyframes`/`@font-face`/`@property` auto-emitted/`@layer`),
+80+ typed properties, full color-manipulation surface, BEM modifiers via
+`.Variant`, conditional classes via `.When`, escape hatches, prefix system,
+`CssVar<T>` with `.Or()` fallbacks.
+
+**New companion package — `BrowserApi.Css.SourceGen`** (analyzer-only):
+pre-populates `Class`/`CssVar`/`Keyframes` names at module init so Razor
+`class="@AppStyles.X"` works without runtime reflection; ships
+`AssetGenerator` (typed `Assets.*` from `wwwroot/`), `ExternalCssGenerator`
+(typed `Mud.Button.Primary`-style hierarchies from third-party CSS), and
+three analyzers — **BCA001** (4-element Sides tuples should use named
+elements), **BCA002** (unsupported `<`/`<<` selector operators), **BCA003**
+(specificity threshold, `.editorconfig`-configurable).
+
+**Breaking change in `BrowserApi.Css`:**
+
+- `CssUnitExtensions` switched from extension methods to C# 14 extension
+  properties — `16.Px()` → `16.Px`, `1.5.Rem()` → `1.5.Rem`, etc. The
+  spec §1 shape has always been parens-free; the method form was the
+  initial-implementation fallback. Migration is mechanical — drop the
+  parens on every call site. Same change adds container-query units
+  (`50.Cqw`, `30.Cqh`) on the same surface.
+- `BoxShadow` / `TextShadow` / `Transition` setters on `Declarations`
+  changed from `string` to typed `Shadow` / `Transition`. Raw-string
+  callers wrap as `new Shadow("…")` / `new Transition("…")` — the
+  visually-distinct escape hatch per spec §1.
+
+**Status — ready for new components, not yet for wholesale CSS replacement.**
+First real-world consumer is MitWare's `DnDTestPage`. The staged migration
+playbook, the spec-violation audit checklist, the known gaps (full property
+surface, sass intermediate, source maps), and the `Class.Variant` gotcha are
+in [`docs/plans/browser-api/lessons-learned.md`](docs/plans/browser-api/lessons-learned.md).
+
 ## [0.1.0-preview.8] — 2026-04-29
 
 ### BrowserApi.SourceGen

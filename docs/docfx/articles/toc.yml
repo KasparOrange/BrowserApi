@@ -10,6 +10,8 @@
   href: source-generator-support-matrix.md
 - name: CSS Type System
   href: css-types.md
+- name: CSS-in-C# Authoring
+  href: css-in-csharp.md
 - name: Canvas 2D Cookbook
   href: canvas-cookbook.md
 - name: Event Handling Patterns
