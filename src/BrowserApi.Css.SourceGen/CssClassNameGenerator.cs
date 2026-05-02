@@ -139,6 +139,14 @@ public sealed class CssClassNameGenerator : IIncrementalGenerator {
         sb.AppendLine($"        // {typeName}");
         foreach (var member in info.Symbol.GetMembers().OfType<IFieldSymbol>()) {
             if (!member.IsStatic || !member.IsReadOnly) continue;
+            // Only emit for fields the generated module-init code can actually
+            // reach. Private/protected fields stay invisible — the runtime
+            // registry's reflection scan handles them via private-binding-flags.
+            if (member.DeclaredAccessibility != Accessibility.Public &&
+                member.DeclaredAccessibility != Accessibility.Internal &&
+                member.DeclaredAccessibility != Accessibility.ProtectedOrInternal) {
+                continue;
+            }
             var fieldType = member.Type.ToDisplayString();
             var baseName = ToKebabCase(member.Name);
             // Note: global prefix is a runtime option; we don't bake it into

@@ -1,39 +1,38 @@
 namespace BrowserApi.Css;
 
 /// <summary>
-/// Provides extension methods on numeric types (<see cref="int"/> and <see cref="double"/>)
-/// for creating CSS value types with a fluent, unit-suffix syntax.
+/// C# 14 extension properties on numeric types that produce CSS value structs
+/// — the spec §1 ergonomic shape: <c>16.Px</c> (not <c>16.Px()</c>).
 /// </summary>
 /// <remarks>
 /// <para>
-/// These extensions allow you to write CSS values in a natural, readable style that mirrors
-/// CSS syntax. For example, <c>16.Px()</c> instead of <c>Length.Px(16)</c>, or
-/// <c>200.Ms()</c> instead of <c>Duration.Ms(200)</c>.
+/// Spec §1 reads "Values read like CSS — <c>16.Px</c> not <c>Length.Px(16)</c>
+/// or <c>16.Px()</c>." This class is the realization of that. Each extension
+/// block adds parameterless properties to <see cref="int"/> or <see cref="double"/>;
+/// the property body delegates to the corresponding <see cref="Length"/> /
+/// <see cref="Duration"/> / <see cref="Angle"/> / <see cref="Percentage"/> /
+/// <see cref="Flex"/> static factory.
 /// </para>
 /// <para>
-/// Each extension method delegates to the corresponding static factory method on the
-/// appropriate CSS value type.
+/// Container-query units (<c>cqw</c>, <c>cqh</c>, <c>cqi</c>, <c>cqb</c>,
+/// <c>cqmin</c>, <c>cqmax</c>) live here too — same shape, same naming, no
+/// reason to split into a separate file.
 /// </para>
 /// </remarks>
 /// <example>
 /// <code>
-/// // Length extensions
-/// Length margin = 16.Px();
-/// Length fontSize = 1.5.Rem();
-/// Length width = 100.0.Vw();
+/// // Length
+/// Length margin    = 16.Px;
+/// Length fontSize  = 1.5.Rem;
+/// Length width     = 100.Vw;
+/// Length minHeight = 50.Cqh;
 ///
-/// // Duration extensions
-/// Duration fast = 200.Ms();
-/// Duration slow = 0.5.S();
-///
-/// // Angle extensions
-/// Angle rotation = 45.Deg();
-///
-/// // Percentage extensions
-/// Percentage half = 50.Percent();
-///
-/// // Flex extensions
-/// Flex column = 1.Fr();
+/// // Duration / Angle / Percentage / Flex
+/// Duration fast    = 200.Ms;
+/// Duration slow    = 0.5.S;
+/// Angle rotation   = 45.Deg;
+/// Percentage half  = 50.Percent;
+/// Flex column      = 1.Fr;
 /// </code>
 /// </example>
 /// <seealso cref="Length"/>
@@ -42,118 +41,77 @@ namespace BrowserApi.Css;
 /// <seealso cref="Percentage"/>
 /// <seealso cref="Flex"/>
 public static class CssUnitExtensions {
-    // Length
+    extension(int value) {
+        // ─── Length — absolute, font-relative, viewport-relative ────────────────
+        /// <summary>Pixels — absolute length.</summary>
+        public Length Px  => Length.Px(value);
+        /// <summary>Viewport height percentage (1vh = 1% of viewport height).</summary>
+        public Length Vh  => Length.Vh(value);
+        /// <summary>Viewport width percentage (1vw = 1% of viewport width).</summary>
+        public Length Vw  => Length.Vw(value);
 
-    /// <summary>
-    /// Creates a <see cref="Length"/> in pixels from this integer value.
-    /// </summary>
-    /// <param name="value">The pixel value.</param>
-    /// <returns>A <see cref="Length"/> equivalent to <see cref="Length.Px"/>.</returns>
-    public static Length Px(this int value) => Length.Px(value);
+        // ─── Length — container-query units (spec §32) ──────────────────────────
+        /// <summary>1% of the containing query container's width.</summary>
+        public Length Cqw => Length.Cqw(value);
+        /// <summary>1% of the containing query container's height.</summary>
+        public Length Cqh => Length.Cqh(value);
+        /// <summary>1% of the containing query container's inline size.</summary>
+        public Length Cqi => Length.Cqi(value);
+        /// <summary>1% of the containing query container's block size.</summary>
+        public Length Cqb => Length.Cqb(value);
+        /// <summary>1% of the smaller of <c>cqi</c> and <c>cqb</c>.</summary>
+        public Length Cqmin => Length.Cqmin(value);
+        /// <summary>1% of the larger of <c>cqi</c> and <c>cqb</c>.</summary>
+        public Length Cqmax => Length.Cqmax(value);
 
-    /// <summary>
-    /// Creates a <see cref="Length"/> in pixels from this double value.
-    /// </summary>
-    /// <param name="value">The pixel value.</param>
-    /// <returns>A <see cref="Length"/> equivalent to <see cref="Length.Px"/>.</returns>
-    public static Length Px(this double value) => Length.Px(value);
+        // ─── Duration / Angle / Percentage / Flex ───────────────────────────────
+        /// <summary>Milliseconds.</summary>
+        public Duration   Ms      => Duration.Ms(value);
+        /// <summary>Degrees of angle.</summary>
+        public Angle      Deg     => Angle.Deg(value);
+        /// <summary>CSS percentage.</summary>
+        public Percentage Percent => Percentage.Of(value);
+        /// <summary>Grid fractional unit (<c>fr</c>).</summary>
+        public Flex       Fr      => Flex.Fr(value);
+    }
 
-    /// <summary>
-    /// Creates a <see cref="Length"/> in em units from this double value.
-    /// </summary>
-    /// <param name="value">The em value, relative to the element's font size.</param>
-    /// <returns>A <see cref="Length"/> equivalent to <see cref="Length.Em"/>.</returns>
-    public static Length Em(this double value) => Length.Em(value);
+    extension(double value) {
+        // ─── Length — absolute, font-relative, viewport-relative ────────────────
+        /// <summary>Pixels — absolute length.</summary>
+        public Length Px  => Length.Px(value);
+        /// <summary>Em units — relative to the element's font size.</summary>
+        public Length Em  => Length.Em(value);
+        /// <summary>Root-em units — relative to the root element's font size.</summary>
+        public Length Rem => Length.Rem(value);
+        /// <summary>Viewport height percentage.</summary>
+        public Length Vh  => Length.Vh(value);
+        /// <summary>Viewport width percentage.</summary>
+        public Length Vw  => Length.Vw(value);
 
-    /// <summary>
-    /// Creates a <see cref="Length"/> in root em units from this double value.
-    /// </summary>
-    /// <param name="value">The rem value, relative to the root element's font size.</param>
-    /// <returns>A <see cref="Length"/> equivalent to <see cref="Length.Rem"/>.</returns>
-    public static Length Rem(this double value) => Length.Rem(value);
+        // ─── Length — container-query units ─────────────────────────────────────
+        /// <summary>1% of the containing query container's width.</summary>
+        public Length Cqw => Length.Cqw(value);
+        /// <summary>1% of the containing query container's height.</summary>
+        public Length Cqh => Length.Cqh(value);
+        /// <summary>1% of the containing query container's inline size.</summary>
+        public Length Cqi => Length.Cqi(value);
+        /// <summary>1% of the containing query container's block size.</summary>
+        public Length Cqb => Length.Cqb(value);
+        /// <summary>1% of the smaller of <c>cqi</c> and <c>cqb</c>.</summary>
+        public Length Cqmin => Length.Cqmin(value);
+        /// <summary>1% of the larger of <c>cqi</c> and <c>cqb</c>.</summary>
+        public Length Cqmax => Length.Cqmax(value);
 
-    /// <summary>
-    /// Creates a <see cref="Length"/> in viewport height units from this double value.
-    /// </summary>
-    /// <param name="value">The vh value (1vh = 1% of viewport height).</param>
-    /// <returns>A <see cref="Length"/> equivalent to <see cref="Length.Vh"/>.</returns>
-    public static Length Vh(this double value) => Length.Vh(value);
-
-    /// <summary>
-    /// Creates a <see cref="Length"/> in viewport width units from this double value.
-    /// </summary>
-    /// <param name="value">The vw value (1vw = 1% of viewport width).</param>
-    /// <returns>A <see cref="Length"/> equivalent to <see cref="Length.Vw"/>.</returns>
-    public static Length Vw(this double value) => Length.Vw(value);
-
-    // Duration
-
-    /// <summary>
-    /// Creates a <see cref="Duration"/> in milliseconds from this integer value.
-    /// </summary>
-    /// <param name="value">The duration in milliseconds.</param>
-    /// <returns>A <see cref="Duration"/> equivalent to <see cref="Duration.Ms"/>.</returns>
-    public static Duration Ms(this int value) => Duration.Ms(value);
-
-    /// <summary>
-    /// Creates a <see cref="Duration"/> in milliseconds from this double value.
-    /// </summary>
-    /// <param name="value">The duration in milliseconds.</param>
-    /// <returns>A <see cref="Duration"/> equivalent to <see cref="Duration.Ms"/>.</returns>
-    public static Duration Ms(this double value) => Duration.Ms(value);
-
-    /// <summary>
-    /// Creates a <see cref="Duration"/> in seconds from this double value.
-    /// </summary>
-    /// <param name="value">The duration in seconds.</param>
-    /// <returns>A <see cref="Duration"/> equivalent to <see cref="Duration.S"/>.</returns>
-    public static Duration S(this double value) => Duration.S(value);
-
-    // Angle
-
-    /// <summary>
-    /// Creates an <see cref="Angle"/> in degrees from this integer value.
-    /// </summary>
-    /// <param name="value">The angle in degrees.</param>
-    /// <returns>An <see cref="Angle"/> equivalent to <see cref="Angle.Deg"/>.</returns>
-    public static Angle Deg(this int value) => Angle.Deg(value);
-
-    /// <summary>
-    /// Creates an <see cref="Angle"/> in degrees from this double value.
-    /// </summary>
-    /// <param name="value">The angle in degrees.</param>
-    /// <returns>An <see cref="Angle"/> equivalent to <see cref="Angle.Deg"/>.</returns>
-    public static Angle Deg(this double value) => Angle.Deg(value);
-
-    // Percentage
-
-    /// <summary>
-    /// Creates a <see cref="Percentage"/> from this integer value.
-    /// </summary>
-    /// <param name="value">The percentage value (e.g., 50 for 50%).</param>
-    /// <returns>A <see cref="Percentage"/> equivalent to <see cref="Percentage.Of"/>.</returns>
-    public static Percentage Percent(this int value) => Percentage.Of(value);
-
-    /// <summary>
-    /// Creates a <see cref="Percentage"/> from this double value.
-    /// </summary>
-    /// <param name="value">The percentage value (e.g., 33.3 for 33.3%).</param>
-    /// <returns>A <see cref="Percentage"/> equivalent to <see cref="Percentage.Of"/>.</returns>
-    public static Percentage Percent(this double value) => Percentage.Of(value);
-
-    // Flex
-
-    /// <summary>
-    /// Creates a <see cref="Flex"/> in fractional units from this integer value.
-    /// </summary>
-    /// <param name="value">The fractional unit value for CSS Grid layouts.</param>
-    /// <returns>A <see cref="Flex"/> equivalent to <see cref="Flex.Fr"/>.</returns>
-    public static Flex Fr(this int value) => Flex.Fr(value);
-
-    /// <summary>
-    /// Creates a <see cref="Flex"/> in fractional units from this double value.
-    /// </summary>
-    /// <param name="value">The fractional unit value for CSS Grid layouts.</param>
-    /// <returns>A <see cref="Flex"/> equivalent to <see cref="Flex.Fr"/>.</returns>
-    public static Flex Fr(this double value) => Flex.Fr(value);
+        // ─── Duration / Angle / Percentage / Flex ───────────────────────────────
+        /// <summary>Milliseconds.</summary>
+        public Duration   Ms      => Duration.Ms(value);
+        /// <summary>Seconds.</summary>
+        public Duration   S       => Duration.S(value);
+        /// <summary>Degrees of angle.</summary>
+        public Angle      Deg     => Angle.Deg(value);
+        /// <summary>CSS percentage.</summary>
+        public Percentage Percent => Percentage.Of(value);
+        /// <summary>Grid fractional unit (<c>fr</c>).</summary>
+        public Flex       Fr      => Flex.Fr(value);
+    }
 }

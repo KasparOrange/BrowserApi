@@ -70,7 +70,7 @@ public class CookbookTests {
             FontWeight    = 600,
             FontSize      = Length.Rem(0.9375),
             BoxSizing     = BrowserApi.Css.BoxSizing.BorderBox,
-            Transition    = "background 120ms ease",
+            Transition    = Transition.For("background", 120.Ms, Easing.Ease),
 
             [Self.Hover]         = new() { Background = Tokens.PrimaryDark },
             [Self.FocusVisible]  = new() { Outline    = Border.Solid(Length.Px(2), Tokens.Primary) },
@@ -114,10 +114,10 @@ public class CookbookTests {
             Color        = Tokens.Text,
             Border       = Border.Solid(Length.Px(1), Tokens.Border),
             BorderRadius = Tokens.Radius,
-            BoxShadow    = "0 1px 2px rgba(0,0,0,0.04)",
+            BoxShadow    = new Shadow("0 1px 2px rgba(0,0,0,0.04)"),
 
             [Self.Hover] = new() {
-                BoxShadow = "0 4px 12px rgba(0,0,0,0.08)",
+                BoxShadow = new Shadow("0 4px 12px rgba(0,0,0,0.08)"),
             },
 
             [MediaQuery.PrefersDark] = new() {

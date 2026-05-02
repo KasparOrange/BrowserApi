@@ -378,11 +378,14 @@ public class Declarations {
     /// <summary>The CSS <c>cursor</c> property.</summary>
     public Keyword<Cursor> Cursor { init => SetKeyword("cursor", value); }
 
-    /// <summary>The CSS <c>box-shadow</c> property — string for now.</summary>
-    public string BoxShadow { init => SetRaw("box-shadow", value); }
+    /// <summary>The CSS <c>box-shadow</c> property. Accepts a typed
+    /// <see cref="Shadow"/> built via <c>Shadow.Box(...)</c> /
+    /// <c>Shadow.Combine(...)</c>; raw strings are still accepted via the
+    /// <see cref="RawValue"/> escape hatch.</summary>
+    public Shadow BoxShadow { init => Set("box-shadow", value); }
 
-    /// <summary>The CSS <c>text-shadow</c> property.</summary>
-    public string TextShadow { init => SetRaw("text-shadow", value); }
+    /// <summary>The CSS <c>text-shadow</c> property — typed <see cref="Shadow"/>.</summary>
+    public Shadow TextShadow { init => Set("text-shadow", value); }
 
     /// <summary>The CSS <c>transform</c> property.</summary>
     public string Transform { init => SetRaw("transform", value); }
@@ -390,8 +393,11 @@ public class Declarations {
     /// <summary>The CSS <c>transform-origin</c> property.</summary>
     public string TransformOrigin { init => SetRaw("transform-origin", value); }
 
-    /// <summary>The CSS <c>transition</c> shorthand.</summary>
-    public string Transition { init => SetRaw("transition", value); }
+    /// <summary>The CSS <c>transition</c> shorthand. Accepts a typed
+    /// <see cref="Transition"/> built via <c>Transition.For(...)</c> /
+    /// <c>Transition.All(...)</c> / <c>Transition.Combine(...)</c>; the
+    /// <see cref="RawValue"/> escape hatch covers anything not yet typed.</summary>
+    public Transition Transition { init => Set("transition", value); }
 
     /// <summary>The CSS <c>animation</c> shorthand.</summary>
     public string Animation { init => SetRaw("animation", value); }

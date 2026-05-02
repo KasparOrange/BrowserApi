@@ -83,7 +83,7 @@ public class KeyframesTests {
     private class AnimStyles : StyleSheet {
         public static readonly Keyframes FadeIn = new() {
             [From] = new() { Opacity = 0 },
-            [50.Percent()] = new() { Opacity = 0.5 },
+            [50.Percent] = new() { Opacity = 0.5 },
             [To] = new() { Opacity = 1 },
         };
     }

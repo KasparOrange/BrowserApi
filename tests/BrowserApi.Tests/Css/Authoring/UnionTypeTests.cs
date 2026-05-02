@@ -62,7 +62,7 @@ public class UnionTypeTests {
 
     [Fact]
     public void Sides_accepts_percentage_via_implicit_conversion() {
-        // Padding = 50.Percent() — single percentage applied to all sides.
+        // Padding = 50.Percent — single percentage applied to all sides.
         Sides padding = Length.Percent(50);
         Assert.Equal("50%", padding.ToCss());
 
