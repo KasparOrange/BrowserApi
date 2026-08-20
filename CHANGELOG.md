@@ -17,6 +17,54 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+### Added — `BrowserApi.SourceGen`: nullable unions (`| null` / `| undefined`)
+
+A `| null` or `| undefined` arm now maps to a nullable C# type instead of falling
+off the unknown-type path.
+
+```typescript
+export function getCookie(name: string): string | null;
+```
+```csharp
+public async Task<string?> GetCookieAsync(string name) { … }
+```
+
+The nullable arm is stripped before any other branch runs, so the rest of the type
+maps exactly as it always did and comes back with a `?`. That covers every position
+and every shape:
+
+| TypeScript | C# |
+|---|---|
+| `string \| null`, `null \| string`, `string \| null \| undefined` | `string?` |
+| `number \| null` | `double?` |
+| `string[] \| null` | `string[]?` |
+| `Marker \| null` (a generated record) | `Marker?` |
+| `Promise<string \| null>` (return type) | `Task<string?>` |
+| `'a' \| 'b' \| null` (property) | the enum is still generated — used as `<Interface><Property>?` |
+| `x: string \| null` (parameter) | `string? x` |
+
+**Why you care.** Before this release, writing the nullability a function actually has
+was a breaking change: the type hit the unknown-type path, `BAPI002` fired, and the
+generated wrapper returned `Task<object>` — so every C# caller stopped compiling
+(`CS0266`). With `TreatWarningsAsErrors` that is two build failures for one honest
+annotation, and nothing upstream catches it, because neither a bundler nor a JS test
+runner typechecks a module. A one-word TypeScript edit took down a production deploy
+on 2026-08-20 exactly this way.
+
+**Unchanged on purpose:**
+
+- A bare `null` still maps to `object` and a bare `undefined` still maps to `void` —
+  neither is a union, so there is no other arm to carry a type.
+- Non-nullable unions (`string | number`) still degrade to `object` and still report
+  `BAPI002`. Only string-literal unions and nullable unions have a single C# type to
+  land on.
+- Stripping `| null` off an unmappable type does not make it mappable:
+  `HTMLElement | null` becomes `object?` and `BAPI002` still names `HTMLElement`.
+- JSDoc-typed `.js` modules are unaffected — `@returns {string|null}` still maps to
+  `object`. The JSDoc parser has its own type mapper and no diagnostic to catch a
+  retype, so it was left alone.
+
+
 ## [0.1.0-preview.9] — 2026-05-02
 
 ### Added — `BrowserApi.Css.Authoring` (CSS-in-C# authoring API)

@@ -1023,4 +1023,229 @@ export function addClassToMatching(selector: string, className: string): void;
         Assert.Null(result.Functions[1].ReturnType); // destroyDrag → void
         Assert.Equal("double", result.Functions[1].Params[0].CSharpType); // contextId: number
     }
+
+    // ─── Nullable unions (`| null` / `| undefined`) ──────────────────────────
+    //
+    // Regression suite for the 2026-08-20 MitWare deploy break: annotating a module
+    // function with the nullability it actually has (`getCookie(name: string): string | null`)
+    // used to hit the unknown-type path — BAPI002 plus a fallback to `object` — which made
+    // the generated wrapper stop compiling against its C# caller. A nullable arm must strip
+    // cleanly and leave a nullable C# type behind.
+
+    [Fact]
+    public void Parse_nullable_string_return_maps_to_nullable_string() {
+        var dts = "export function getCookie(name: string): string | null;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Functions);
+        Assert.Equal("string?", result.Functions[0].ReturnType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_undefined_union_return_maps_to_nullable() {
+        var dts = "export function findLabel(id: string): string | undefined;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Functions);
+        Assert.Equal("string?", result.Functions[0].ReturnType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_promise_wrapped_nullable_return_maps_to_nullable() {
+        // The real getCookie shape once the module is async — the Promise has to unwrap
+        // before the union is examined, which is why the union split respects `<>` depth.
+        var dts = "export async function getCookie(name: string): Promise<string | null> {}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Functions);
+        Assert.Equal("string?", result.Functions[0].ReturnType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_nullable_union_ignores_arm_order() {
+        var dts = "export function pick(): null | string;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("string?", result.Functions[0].ReturnType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_null_and_undefined_together_collapse_to_one_marker() {
+        var dts = "export function pick(): string | null | undefined;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("string?", result.Functions[0].ReturnType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_nullable_number_return_maps_to_nullable_double() {
+        var dts = "export function measure(): number | null;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("double?", result.Functions[0].ReturnType);
+    }
+
+    [Fact]
+    public void Parse_nullable_array_return_maps_to_nullable_array() {
+        var dts = "export function names(): string[] | null;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("string[]?", result.Functions[0].ReturnType);
+    }
+
+    [Fact]
+    public void Parse_nullable_param_maps_to_nullable() {
+        var dts = "export function setCookie(name: string, value: string | null): void;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal(2, result.Functions[0].Params.Count);
+        Assert.Equal("string", result.Functions[0].Params[0].CSharpType);
+        Assert.Equal("string?", result.Functions[0].Params[1].CSharpType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_nullable_interface_property_maps_to_nullable() {
+        var dts = @"
+export interface Selection {
+    anchorId: string | null;
+    count: number | null;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        var props = result.Interfaces[0].Properties;
+        Assert.Equal("string?", props[0].CSharpType);
+        Assert.Equal("double?", props[1].CSharpType);
+        // Present-but-nullable is still a required member: the JSON must carry the key.
+        Assert.True(props[0].IsRequired);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_optional_nullable_property_does_not_double_the_marker() {
+        var dts = @"
+export interface Selection {
+    anchorId?: string | null;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("string?", result.Interfaces[0].Properties[0].CSharpType);
+    }
+
+    [Fact]
+    public void Parse_nullable_reference_to_generated_record_maps_to_nullable_record() {
+        var dts = @"
+export interface Marker {
+    id: string;
+}
+
+export function findMarker(id: string): Marker | null;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("Marker?", result.Functions[0].ReturnType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_nullable_string_literal_union_still_generates_an_enum() {
+        var dts = @"
+export interface Ghost {
+    mode: 'clone' | 'template' | null;
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Enums);
+        Assert.Equal("GhostMode", result.Enums[0].CSharpName);
+        Assert.Equal(2, result.Enums[0].Members.Count);
+        Assert.Equal("GhostMode?", result.Interfaces[0].Properties[0].CSharpType);
+    }
+
+    [Fact]
+    public void Parse_string_literal_union_still_maps_to_enum_not_nullable_string() {
+        // Guard against the strip widening into "any union takes its first arm": a plain
+        // literal union has no nullable arm and must keep its existing enum treatment.
+        var dts = @"
+export interface Ghost {
+    mode: 'clone' | 'template' | 'label' | 'none';
+}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Single(result.Enums);
+        Assert.Equal("GhostMode", result.Enums[0].CSharpName);
+        Assert.Equal(4, result.Enums[0].Members.Count);
+        Assert.Equal("GhostMode", result.Interfaces[0].Properties[0].CSharpType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_non_nullable_union_is_still_an_unknown_type_fallback() {
+        // `string | number` has no nullable arm to strip, so it must keep degrading to
+        // `object` AND keep reporting the fallback that fuels BAPI002.
+        var dts = "export function weird(): string | number;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("object", result.Functions[0].ReturnType);
+        Assert.Single(result.UnknownTypeFallbacks);
+        Assert.Equal("string | number", result.UnknownTypeFallbacks[0].TsType);
+    }
+
+    [Fact]
+    public void Parse_unmappable_nullable_union_reports_the_stripped_type() {
+        // Stripping `| null` off an unmappable type does not make it mappable — the
+        // fallback still fires, so BAPI002 still tells the author what to fix.
+        var dts = "export function el(): HTMLElement | null;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Equal("object?", result.Functions[0].ReturnType);
+        Assert.Single(result.UnknownTypeFallbacks);
+        Assert.Equal("HTMLElement", result.UnknownTypeFallbacks[0].TsType);
+    }
+
+    [Fact]
+    public void Parse_bare_undefined_return_is_still_void() {
+        // `undefined` alone is not a nullable union — no other arm carries a type — so it
+        // keeps mapping to void and the wrapper stays an InvokeVoidAsync call.
+        var dts = "export function nothing(): undefined;";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Null(result.Functions[0].ReturnType);
+    }
+
+    [Fact]
+    public void Parse_promise_void_return_is_still_void() {
+        var dts = "export async function dispose(): Promise<void> {}";
+        var result = TsDeclarationParser.Parse(dts);
+
+        Assert.Null(result.Functions[0].ReturnType);
+    }
+
+    [Fact]
+    public void SplitTopLevelUnion_respects_generics_and_quotes() {
+        Assert.Equal(new[] { "string", "null" }, TsDeclarationParser.SplitTopLevelUnion("string | null"));
+        Assert.Equal(new[] { "Promise<string | null>" }, TsDeclarationParser.SplitTopLevelUnion("Promise<string | null>"));
+        Assert.Equal(new[] { "Record<string, 'a' | 'b'>", "null" },
+            TsDeclarationParser.SplitTopLevelUnion("Record<string, 'a' | 'b'> | null"));
+        Assert.Equal(new[] { "string" }, TsDeclarationParser.SplitTopLevelUnion("string"));
+    }
+
+    [Fact]
+    public void TryStripNullableUnionArms_only_fires_on_a_real_nullable_union() {
+        Assert.True(TsDeclarationParser.TryStripNullableUnionArms("string | null", out var a));
+        Assert.Equal("string", a);
+
+        Assert.True(TsDeclarationParser.TryStripNullableUnionArms("'x' | 'y' | undefined", out var b));
+        Assert.Equal("'x' | 'y'", b);
+
+        Assert.False(TsDeclarationParser.TryStripNullableUnionArms("string | number", out var c));
+        Assert.Equal("string | number", c);
+
+        // Nothing left to carry the type → not a nullable union.
+        Assert.False(TsDeclarationParser.TryStripNullableUnionArms("null | undefined", out _));
+        Assert.False(TsDeclarationParser.TryStripNullableUnionArms("null", out _));
+    }
 }

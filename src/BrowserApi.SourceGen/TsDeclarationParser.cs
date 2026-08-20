@@ -121,16 +121,20 @@ internal static class TsDeclarationParser {
                 var tsType = propMatch.Groups[3].Value.Trim();
 
                 // Inline string-literal union → synthesize an enum and use it as the type.
-                if (IsStringLiteralUnion(tsType)) {
+                // A nullable literal union (`'a' | 'b' | null`) still earns its enum: strip the
+                // nullable arm first, then treat what is left as the union it is. Without the
+                // strip the whole type reads as "not a literal union" and degrades to `object`.
+                var isNullableUnion = TryStripNullableUnionArms(tsType, out var tsTypeCore);
+                if (IsStringLiteralUnion(tsTypeCore)) {
                     var enumName = iface.CSharpName + JsDocParser.ToPascalCase(propName);
-                    var enumInfo = ParseStringLiteralUnion(enumName, tsType);
+                    var enumInfo = ParseStringLiteralUnion(enumName, tsTypeCore);
                     result.Enums.Add(enumInfo);
-                    result.TypeMap[tsType] = enumName;
+                    result.TypeMap[tsTypeCore] = enumName;
 
                     iface.Properties.Add(new TsPropertyInfo {
                         TsName = propName,
                         CSharpName = JsDocParser.ToPascalCase(propName),
-                        CSharpType = isOptional ? enumName + "?" : enumName,
+                        CSharpType = isOptional || isNullableUnion ? enumName + "?" : enumName,
                         IsOptional = isOptional,
                         IsRequired = !isOptional,
                         Summary = propSummary
@@ -447,9 +451,117 @@ internal static class TsDeclarationParser {
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Splits a TypeScript union at its <em>top level</em> — commas and pipes nested inside
+    /// <c>&lt;&gt;</c>, <c>()</c>, <c>[]</c> or a quoted string literal are left alone. Returns a
+    /// single-element list when the type is not a union.
+    /// </summary>
+    /// <remarks>
+    /// A naive <c>Split('|')</c> would shred <c>Record&lt;string, 'a' | 'b'&gt;</c> into nonsense.
+    /// Depth tracking keeps <c>Promise&lt;string | null&gt;</c> intact so the Promise branch of
+    /// <see cref="MapTsType"/> gets a chance to unwrap it before the union is examined.
+    /// </remarks>
+    /// <param name="tsType">Raw TypeScript type text.</param>
+    /// <returns>The union arms, in source order, each trimmed.</returns>
+    internal static List<string> SplitTopLevelUnion(string tsType) {
+        var arms = new List<string>();
+        var depth = 0;
+        var start = 0;
+        var inString = false;
+        var stringChar = '\0';
+        for (var i = 0; i < tsType.Length; i++) {
+            var c = tsType[i];
+            if (inString) {
+                if (c == stringChar) inString = false;
+                continue;
+            }
+
+            switch (c) {
+                case '\'':
+                case '"':
+                case '`':
+                    inString = true;
+                    stringChar = c;
+                    break;
+                case '<':
+                case '(':
+                case '[':
+                    depth++;
+                    break;
+                case '>':
+                case ')':
+                case ']':
+                    depth--;
+                    break;
+                case '|' when depth == 0:
+                    arms.Add(tsType.Substring(start, i - start).Trim());
+                    start = i + 1;
+                    break;
+            }
+        }
+
+        arms.Add(tsType.Substring(start).Trim());
+        return arms;
+    }
+
+    /// <summary>
+    /// Detects a nullable union (<c>string | null</c>, <c>T | undefined</c>, <c>null | T</c>,
+    /// <c>string | null | undefined</c>) and hands back the union with its <c>null</c> /
+    /// <c>undefined</c> arms removed.
+    /// </summary>
+    /// <remarks>
+    /// This exists because a nullable union used to fall straight through to the unknown-type
+    /// path: the type became <c>object</c> and the generator raised BAPI002. Annotating a module
+    /// function with the nullability it actually has therefore broke every C# caller of the
+    /// generated wrapper — a real MitWare deploy died that way on 2026-08-20. Stripping the
+    /// nullable arm first lets the remaining type map normally and come back nullable.
+    /// <para>
+    /// A bare <c>null</c> or <c>undefined</c> is <em>not</em> a nullable union — there is no other
+    /// arm to carry the type — so those keep their existing primitive mappings.
+    /// </para>
+    /// </remarks>
+    /// <param name="tsType">Raw TypeScript type text.</param>
+    /// <param name="remainder">The non-nullable arms rejoined with <c>" | "</c>; the input when the method returns false.</param>
+    /// <returns><c>true</c> when at least one nullable arm was stripped and at least one other arm survived.</returns>
+    internal static bool TryStripNullableUnionArms(string tsType, out string remainder) {
+        remainder = tsType.Trim();
+        var arms = SplitTopLevelUnion(remainder);
+        if (arms.Count < 2) return false;
+
+        var kept = arms.Where(a => a != "null" && a != "undefined").ToList();
+        if (kept.Count == arms.Count || kept.Count == 0) return false;
+
+        remainder = string.Join(" | ", kept);
+        return true;
+    }
+
+    /// <summary>
+    /// Appends the C# nullable marker to an already-mapped type, unless doing so would produce
+    /// something that cannot compile.
+    /// </summary>
+    /// <remarks>
+    /// One <c>?</c> covers both halves of the C# nullability system — <c>double?</c> is
+    /// <c>Nullable&lt;double&gt;</c>, <c>string?</c> is a nullable reference annotation — and every
+    /// file the generator emits opens with <c>#nullable enable</c>, so the annotation is always in
+    /// context. <c>void</c> is the one type that cannot take the marker; a degenerate
+    /// <c>never | null</c> stays <c>void</c> and ends up as a void-returning wrapper method.
+    /// </remarks>
+    /// <param name="csType">A mapped C# type name.</param>
+    /// <returns>The nullable form of <paramref name="csType"/>.</returns>
+    private static string MakeNullable(string csType) =>
+        csType is "void" || csType.EndsWith("?") ? csType : csType + "?";
+
     internal static string MapTsType(string tsType, Dictionary<string, string> typeMap,
         List<TsTypeFallback>? fallbacks = null, string? context = null) {
         var trimmed = tsType.Trim();
+
+        // Nullable union (`string | null`, `T | undefined`, `null | T`, …) → map whatever
+        // survives the strip and mark the result nullable. This runs before every other
+        // branch on purpose: the arms have to be gone before the string-literal-union check
+        // sees the type, or `'a' | 'b' | null` reads as a literal union with a stray arm and
+        // degrades to `object`.
+        if (TryStripNullableUnionArms(trimmed, out var nonNullable))
+            return MakeNullable(MapTsType(nonNullable, typeMap, fallbacks, context));
 
         // Primitives + width aliases (intentional mappings — no fallback reported).
         //

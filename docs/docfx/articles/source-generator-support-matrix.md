@@ -134,6 +134,7 @@ public sealed class EntityConfig {
 |---|---|
 | `'a' \| 'b' \| 'c'` as a property type | `enum` named `<InterfaceName><PropertyName>` with `[JsonStringEnumMemberName("a")]` per member, decorated with `[JsonConverter(typeof(JsonStringEnumConverter<...>))]` |
 | `'kebab-case'` values | PascalCased to `KebabCase`; original preserved via `[JsonStringEnumMemberName]` |
+| `'a' \| 'b' \| null` as a property type | the same `enum`, used as `<InterfaceName><PropertyName>?` |
 
 **Why enums instead of `string`.** A plain `string` loses the invariant that only certain values are valid. An enum gives compile-time enforcement and IntelliSense. JSON round-tripping is handled by the attributes — values serialize to the original TypeScript literal.
 
@@ -203,6 +204,32 @@ In practice this is fine: `DotNetObjectReference` is almost always passed as a d
 | `foo?: CustomType` in a property | `CustomType? Foo` (adds `?` if missing) |
 | `foo?: Type` as a function parameter | `Type? foo` |
 | `foo?: DotNetObjectReference` | `DotNetObjectReference<TDotNetRef>? foo` (generic method, nullable generic param) |
+| `string \| null` anywhere | `string?` |
+| `string \| undefined` anywhere | `string?` |
+| `string \| null \| undefined` | `string?` (one marker, not two) |
+| `null \| string` | `string?` (arm order doesn't matter) |
+| `number \| null` | `double?` |
+| `string[] \| null` | `string[]?` |
+| `CustomType \| null` | `CustomType?` |
+| `Promise<string \| null>` as a return type | `Task<string?>` |
+| `'a' \| 'b' \| null` in a property | `<Interface><Property>?` — the enum is still generated |
+| `foo?: string \| null` in a property | `string?` — the two markers collapse into one |
+
+**Nullable unions (preview.10+).** A `| null` or `| undefined` arm is stripped before anything
+else is examined; whatever is left maps normally and comes back with a `?`. Every emitted file
+opens with `#nullable enable`, so the single `?` covers both halves of C# nullability —
+`double?` is `Nullable<double>`, `string?` is a nullable reference annotation.
+
+Before preview.10 a nullable union hit the unknown-type path: `BAPI002` plus a fallback to
+`object`. That made *annotating a function with the nullability it actually has* a breaking
+change for every C# caller of the generated wrapper — one that only a full `dotnet build`
+could find, since neither a bundler nor a JS test runner typechecks a module. It broke a real
+production deploy on 2026-08-20.
+
+**What is still not a nullable union.** A bare `null` or `undefined` has no other arm to carry a
+type, so those keep their [primitive mappings](#primitives) (`object` and `void`). And stripping
+`| null` off an unmappable type does not make it mappable — `HTMLElement | null` becomes
+`object?` and still reports `BAPI002`, naming `HTMLElement`.
 
 **Why `?` only on value-producing positions.** Generated records use `required` for non-optional properties and plain `get; init;` for optional ones. The nullable `?` conveys the JSON-shape contract both to the C# compiler and to `System.Text.Json` — deserialization sees a missing key and sets the property to `null` / default without complaint.
 
@@ -264,6 +291,9 @@ Causes that trigger `BAPI002`:
 
 - **Complex generics** other than the supported short list (`Array<T>`, `Promise<T>`, `Record<string, T>`). E.g. `Foo<T extends Bar>`, conditional types, mapped types, and type aliases built from those.
 - **Intersection types** like `A & B`. A single interface that lists all members is better for interop anyway.
+- **Non-nullable unions** like `string | number`. Only two union shapes are understood: a
+  [string-literal union](#string-literal-unions--enums) and a [nullable union](#nullability--optionality).
+  Anything else has no single C# type to land on.
 - **Cross-file interface references.** If you reference a type declared in a different `.d.ts` file, the parser can't find it and falls back.
 - **Typos and simple typos in type names.** Same code path as "unknown reference" — you'll see the typo in the warning message.
 
@@ -274,6 +304,8 @@ These are fallbacks by design, not silent failures. No warning is emitted:
 - `any` → `object`
 - `null` → `object`
 - `DotNetObjectReference` in non-direct-param positions → `object`
+- **Nullable unions** (`T | null`, `T | undefined`) — preview.10+ maps these to `T?`. They used
+  to trigger `BAPI002`; see [Nullability / optionality](#nullability--optionality).
 
 ---
 

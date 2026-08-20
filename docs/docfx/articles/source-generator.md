@@ -65,6 +65,7 @@ For much better type safety, use TypeScript declaration files. The generator par
 | `Record<string, T>` | `Dictionary<string, T>` |
 | `items: string[]` | `string[] Items` |
 | `handle?: string` | `string? Handle` |
+| `value: string \| null` | `string? Value` ([nullable unions](source-generator-support-matrix.md#nullability--optionality)) |
 | `Promise<string>` | unwrapped to `string` (method returns `Task<string>`) |
 | `id: int` / `id: Guid` | `int Id` / `System.Guid Id` ([width aliases](source-generator-support-matrix.md#numeric-width-aliases)) |
 
@@ -364,4 +365,5 @@ The full support matrix — every pattern, what it maps to, and whether `BAPI002
 - **`DotNetObjectReference` is also an ambient declaration.** The same `browserapi.d.ts` provides a richly-typed `DotNetObjectReference` interface with `invokeMethodAsync<TResult>` and `dispose()`. No more per-module stub declarations. The C# generator behavior is unchanged — top-level `DotNetObjectReference` parameters still promote to generic over `TDotNetRef`.
 - **Interfaces** (exported or not) become sealed C# records with `[JsonPropertyName]`. A stub `interface DotNetObjectReference {}` is recognized as a Blazor primitive and skipped — no colliding class is emitted.
 - **String literal unions** (`'a' | 'b'`) become C# enums with proper `JsonStringEnumMemberName` serialization.
+- **Nullable unions** (`string | null`, `T | undefined`) become the nullable C# type (`string?`, `T?`) — including through `Promise<>`, arrays, generated records, and literal-union enums. Annotating a module function with the nullability it actually has is safe; see the [nullability section](source-generator-support-matrix.md#nullability--optionality) of the matrix.
 - **Not recognized**: `export default`, const-bound arrow exports, class methods, complex generics (conditional / mapped / intersection types), cross-file type references. Most can be worked around with a tiny named re-export or a local interface redeclaration.

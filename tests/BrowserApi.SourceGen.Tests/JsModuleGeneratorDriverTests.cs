@@ -454,6 +454,87 @@ export function fetchThing(id: string): Promise<DragConfig>;
             string.Join("\n", errors.Select(e => $"  {e.Id} at {e.Location.GetLineSpan()}: {e.GetMessage()}")));
     }
 
+    [Fact]
+    public void Generator_maps_a_nullable_return_without_reporting_BAPI002() {
+        // `string | null` is the nullability the function actually has. Before preview.10 it
+        // hit the unknown-type path: BAPI002 plus `Task<object>`.
+        var dts = @"
+export function getCookie(name: string): string | null;
+export function eraseCookie(name: string): void;
+";
+
+        var result = RunGenerator(dts, "wwwroot/js/src/mw-cookie.ts");
+
+        Assert.Empty(result.Diagnostics);
+
+        var moduleSource = result.GeneratedTrees
+            .First(t => t.FilePath.EndsWith("MwCookieModule.g.cs"))
+            .GetText().ToString();
+        Assert.Contains("Task<string?> GetCookieAsync", moduleSource);
+        Assert.Contains("InvokeAsync<string?>(\"getCookie\"", moduleSource);
+        Assert.DoesNotContain("Task<object>", moduleSource);
+    }
+
+    [Fact]
+    public void Consumer_can_assign_a_nullable_return_to_a_nullable_local() {
+        // The exact shape that broke the 2026-08-20 MitWare deploy: a C# service assigning
+        // the wrapper's result to `string?`. With the return type degraded to `object` this
+        // is CS0266, and TreatWarningsAsErrors turns the accompanying BAPI002 into a second
+        // hard failure. Compiling the consumer alongside the generated code catches both.
+        var dts = @"
+export function getCookie(name: string): string | null;
+";
+
+        var consumerCode = @"
+using System.Threading.Tasks;
+using JsModules;
+
+namespace TestConsumer {
+    public class CookieService {
+        public async Task<string> GetCookieAsync(MwCookieModule module, string name) {
+            string? raw = await module.GetCookieAsync(name);
+
+            return raw ?? string.Empty;
+        }
+    }
+}";
+
+        var errors = CompileGeneratorOutputWithConsumerCode(dts, "wwwroot/js/src/mw-cookie.ts", consumerCode)
+            .Where(d => d.Severity == DiagnosticSeverity.Error)
+            .ToList();
+
+        Assert.True(errors.Count == 0,
+            "Consumer code + generated code has compile errors:\n" +
+            string.Join("\n", errors.Select(e => $"  {e.Id} at {e.Location.GetLineSpan()}: {e.GetMessage()}")));
+    }
+
+    [Fact]
+    public void Generated_nullable_types_compile_across_every_shape() {
+        // Nullable records, nullable enums, nullable arrays, nullable params and a nullable
+        // Promise return all in one compilation — `?` has to be legal on each mapped form.
+        var dts = @"
+export interface Marker {
+    id: string;
+    label: string | null;
+    kind: 'pin' | 'dot' | null;
+}
+
+export function findMarker(id: string): Marker | null;
+export function labelsOf(id: string): string[] | null;
+export function countOf(id: string): number | null;
+export function setLabel(id: string, label: string | null): void;
+export function loadMarker(id: string): Promise<Marker | null>;
+";
+
+        var errors = CompileGeneratorOutput(dts, "wwwroot/js/src/mw-map.ts")
+            .Where(d => d.Severity == DiagnosticSeverity.Error)
+            .ToList();
+
+        Assert.True(errors.Count == 0,
+            "Generated code has compile errors:\n" +
+            string.Join("\n", errors.Select(e => $"  {e.Id} at {e.Location.GetLineSpan()}: {e.GetMessage()}")));
+    }
+
     private static ImmutableArray<Diagnostic> CompileGeneratorOutput(string dts, string dtsPath) {
         // Step 1: run the generator against a seed compilation so it emits trees.
         var seed = CSharpCompilation.Create("SeedAssembly",
