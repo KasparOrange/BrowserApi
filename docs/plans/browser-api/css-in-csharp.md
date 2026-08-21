@@ -100,6 +100,14 @@ Stylesheet
 
 ## Build Pipeline
 
+> **SUPERSEDED 2026-08-21.** The SCSS intermediate is RETIRED — the shipped
+> runtime renderer (`StyleSheet.Render`) is the single canonical emitter, and
+> static output is the same render written to a file. Rationale + the new
+> mode model (runtime / hot-reload / static asset): see
+> [css-emission-modes.md](css-emission-modes.md) § Decision record. The
+> diagram below is kept as the historical design (potential future value:
+> Sass-ecosystem interop only).
+
 ```
 ┌─────────────┐     ┌──────────┐     ┌──────────┐     ┌──────────────┐
 │ .css.cs      │     │ Source   │     │ .scss    │     │ .css          │
@@ -836,9 +844,12 @@ Same nesting indexer as `@media`:
 
 ### 27. Source Maps
 
-**Status: DECIDED**
+**Status: RE-DECIDED 2026-08-21** — with SCSS retired, the chained-map design
+below is superseded: the renderer emits the CSS→C# map **directly** (the
+source generator already tracks every declaration's file/line). See
+[css-emission-modes.md](css-emission-modes.md) § Source maps.
 
-All three layers: C# → SCSS → CSS. Full transparency.
+Historical design (chained): all three layers: C# → SCSS → CSS. Full transparency.
 
 1. Our emitter tracks C# file/line (from `SyntaxNode.GetLocation()`) as it writes SCSS, embeds as comments, generates SCSS→C# source map.
 2. Sass generates CSS→SCSS map automatically.

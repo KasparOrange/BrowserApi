@@ -65,7 +65,7 @@ public class AppStyles : StyleSheet {
 | 9 | Element Selectors | ✓ | Common HTML subset; full HTML-spec list is a generator addition. |
 | 10 | External Classes | ✓ | `ExternalCssGenerator` parses CSS files via `<AdditionalFiles>` + `BrowserApiExternalCss="true"`. |
 | 11 | ClassList | ✓ | `+` operator, 4-slot inline + overflow. |
-| 12 | Build Pipeline | ✓ | Runtime `StyleSheet.Render` + `CssClassNameGenerator` for compile-time names. Sass intermediate is the remaining stretch goal. |
+| 12 | Build Pipeline | ✓ | Runtime `StyleSheet.Render` + `CssClassNameGenerator` for compile-time names. SCSS intermediate RETIRED 2026-08-21 — see [css-emission-modes.md](../../../../docs/plans/browser-api/css-emission-modes.md). |
 | 13 | Asset Source Generator | ✓ | `AssetGenerator` parses `<AdditionalFiles>` + `BrowserApiAsset="true"`. |
 | 14 | !important | ✓ | `.Important` on `Length`/`CssColor`/`Percentage` partials + C# 14 extension property on every keyword enum (returns `Keyword<TEnum>`). |
 | 15 | Attribute Selectors | ✓ | `Attr.Type`, `Attr.Aria.Hidden`, `Attr.Data(...)`, `Attr.Of(...)` with `.Equals`/`.HasWord`/`.DashMatch`/`.StartsWith`/`.EndsWith`/`.Contains`. |
@@ -80,7 +80,7 @@ public class AppStyles : StyleSheet {
 | 24 | @font-face | ✓ | `FontFace` discovered by type, init-only properties for family/src/weight/style/display/unicode-range. |
 | 25 | @supports | ✓ | `Supports.Property/Grid/Flex/Nesting`, `&`/`\|`/`!` operators. |
 | 26 | Not Supported | ✓ | IDs for styling, `::deep`, 3-value sides, `@import`, Tailwind. |
-| 27 | Source Maps | — | Deferred; runtime emits CSS directly without an SCSS intermediate. |
+| 27 | Source Maps | — | Deferred; re-specced 2026-08-21 as DIRECT CSS→C# map emission (no SCSS hop) — see css-emission-modes.md. |
 | 28 | Source Gen DX | partial | BCA001/BCA002/BCA003 analyzers shipped; scaffold/converter/code-fix providers deferred. |
 | 29 | Color Functions | ✓ | `.Lighten/.Darken/.Saturate/.Desaturate/.AdjustHue/.Complement/.Grayscale/.Invert/.WithAlpha/.Mix` using CSS relative-color syntax (works for both literals and variables). |
 | 30 | @property | ✓ | Auto-emitted from `CssVar<T>` with syntax inferred from T (Length → `<length>`, etc.). |
@@ -116,9 +116,15 @@ public class AppStyles : StyleSheet {
 
 ## What's NOT here (real follow-up work)
 
-1. **Sass intermediate + chained source maps** (spec §27) — would require
-   sass invocation from an MSBuild target plus tooling to chain source
-   maps across the C# → SCSS → CSS hops.
+Planned next (see [css-emission-modes.md](../../../../docs/plans/browser-api/css-emission-modes.md)):
+hot-reload awareness (MetadataUpdateHandler + re-instantiating registry +
+live style push), Roslyn sidecar watcher over the `.css.cs` island, static
+asset emission with drift guard, and **direct** CSS→C# source maps. The
+former #1 on this list — the Sass intermediate — was RETIRED 2026-08-21
+(rationale in that plan's decision record; the design stays sketched in the
+spec for potential Sass-ecosystem interop).
+
+1. ~~Sass intermediate + chained source maps~~ — RETIRED, see above.
 2. **Full HTML / CSS spec generators** — `El.*` and the typed-property
    surface are hand-written subsets. Generator-driven completion is
    plumbing work that doesn't change the API shape.
