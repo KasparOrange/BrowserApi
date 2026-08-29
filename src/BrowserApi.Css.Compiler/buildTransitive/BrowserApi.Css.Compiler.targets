@@ -1,0 +1,33 @@
+<Project>
+    <!--
+        Static CSS emission, driven entirely by Program.cs.
+
+        Nothing to configure here. After the app compiles, the `browserapi-css`
+        tool is handed the built assembly (bin/, so app references resolve); it reads [assembly: BrowserApiCssConfig]
+        (emitted by BrowserApi.Css.SourceGen from AddBrowserApiCss(css => …)) and
+        writes wwwroot/<StaticAssetPath>. If StaticAssetPath was never set the
+        tool exits quietly, so referencing this package costs nothing for
+        inline-mode apps.
+
+        The tool is a dotnet tool (`dotnet tool install BrowserApi.Css.Cli`,
+        local manifest recommended). The step is skipped with a message when
+        no manifest above the project lists it, rather than failing the build.
+
+        Escape hatches: BrowserApiCssEmit=false disables the step;
+        BrowserApiCssToolCommand overrides how the tool is invoked.
+    -->
+    <PropertyGroup>
+        <BrowserApiCssEmit Condition="'$(BrowserApiCssEmit)' == ''">true</BrowserApiCssEmit>
+        <BrowserApiCssToolCommand Condition="'$(BrowserApiCssToolCommand)' == ''">dotnet browserapi-css</BrowserApiCssToolCommand>
+        <_BrowserApiCssManifest>$([MSBuild]::GetPathOfFileAbove('dotnet-tools.json', '$(MSBuildProjectDirectory)/.config/'))</_BrowserApiCssManifest>
+        <_BrowserApiCssToolInstalled Condition="'$(_BrowserApiCssManifest)' != '' And $([System.IO.File]::ReadAllText('$(_BrowserApiCssManifest)').ToLowerInvariant().Contains('browserapi.css.cli'))">true</_BrowserApiCssToolInstalled>
+    </PropertyGroup>
+
+    <Target Name="BrowserApiCssEmit" AfterTargets="Build" Condition="'$(BrowserApiCssEmit)' == 'true' And '$(DesignTimeBuild)' != 'true'">
+        <Message Importance="high" Condition="'$(_BrowserApiCssToolInstalled)' != 'true'"
+                 Text="BrowserApi.Css: static CSS emission skipped — install the tool once with `dotnet new tool-manifest` + `dotnet tool install BrowserApi.Css.Cli` (only needed if AddBrowserApiCss sets StaticAssetPath)." />
+        <Exec Condition="'$(_BrowserApiCssToolInstalled)' == 'true'"
+              Command="$(BrowserApiCssToolCommand) build --project &quot;$(MSBuildProjectDirectory)&quot; --app &quot;$(TargetPath)&quot;"
+              WorkingDirectory="$(MSBuildProjectDirectory)" />
+    </Target>
+</Project>

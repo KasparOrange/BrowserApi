@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <PackageId>BrowserApi.Css.Cli</PackageId>
+        <Version>0.1.0</Version>
+        <RootNamespace>BrowserApi.Css.Cli</RootNamespace>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>browserapi-css</ToolCommandName>
+        <Description>`browserapi-css build` renders a project's *.css.cs stylesheets to a static .css file (mode 3 of the CSS-in-C# pipeline); `browserapi-css watch` keeps it current while you edit. Also the token exporter for non-.NET consumers.</Description>
+        <PackageReleaseNotes>See https://github.com/KasparOrange/BrowserApi/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
+        <RollForward>Major</RollForward>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../BrowserApi.Css.Compiler/BrowserApi.Css.Compiler.csproj" />
+        <!-- Reads [assembly: BrowserApiCssConfig] from the app DLL without loading it for execution. -->
+        <PackageReference Include="System.Reflection.MetadataLoadContext" Version="10.0.*" />
+    </ItemGroup>
+
+</Project>

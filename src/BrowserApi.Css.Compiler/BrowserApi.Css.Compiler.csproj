@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>BrowserApi.Css.Compiler</PackageId>
+        <Version>0.1.0</Version>
+        <RootNamespace>BrowserApi.Css.Compiler</RootNamespace>
+        <Description>Compiles the `*.css.cs` stylesheet island of a project with Roslyn and renders it through the canonical BrowserApi CSS renderer — without MSBuild, Razor, or the app assembly. Powers the in-app dev live loop (AddBrowserApiCssHotReload) and the static CSS emission CLI. Development-time dependency; do not reference from production code paths.</Description>
+        <PackageReleaseNotes>See https://github.com/KasparOrange/BrowserApi/blob/main/CHANGELOG.md for release notes.</PackageReleaseNotes>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../BrowserApi/BrowserApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.*" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.*" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.*" />
+    </ItemGroup>
+
+    <!-- Mode-3 MSBuild hook, imported into any project referencing this package. -->
+    <ItemGroup>
+        <None Include="buildTransitive/BrowserApi.Css.Compiler.targets" Pack="true" PackagePath="buildTransitive/;build/" />
+    </ItemGroup>
+
+</Project>
