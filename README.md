@@ -117,10 +117,12 @@ builder.Services.AddBrowserApi();
 |---------|:---:|---|
 | **BrowserApi** | None | 2,693 generated types: DOM, CSS, Canvas, Fetch, Storage, Events, Animations. Pure C#. |
 | **BrowserApi.JSInterop** | Microsoft.JSInterop | `IJSRuntime` bridge — connects types to a live browser. |
-| **BrowserApi.Blazor** | ASP.NET Components | `AddBrowserApi()` DI, `BrowserApiComponentBase`, lifecycle hooks. |
+| **BrowserApi.Blazor** | ASP.NET Components, Hosting.Abstractions | `AddBrowserApi()` DI, `BrowserApiComponentBase`, lifecycle hooks, `<BrowserApiCss />`. |
 | **BrowserApi.Runtime** | Jint | Server-side JS execution — test DOM interactions without a browser. |
 | **BrowserApi.SourceGen** | (build-time only) | Roslyn source generator: `.ts`/`.d.ts`/`.js` → typed C# module classes with DI, path resolver, and enum serialization. [Guide](https://kasparorange.github.io/BrowserApi/articles/source-generator.html) |
-| **BrowserApi.Css.SourceGen** | (build-time only) | Roslyn source generator + analyzers for the CSS-in-C# authoring API: pre-populates class/variable/keyframe names, generates typed `Assets.*` from `wwwroot/`, parses third-party CSS into `Mud.*`-style typed surfaces, and ships BCA001/BCA002/BCA003 diagnostics. Analyzer-only — ships nothing at runtime. [Guide](https://kasparorange.github.io/BrowserApi/articles/css-in-csharp.html) |
+| **BrowserApi.Css.SourceGen** | (build-time only) | Roslyn source generator + analyzers for the CSS-in-C# authoring API: pre-populates class/variable/keyframe names, generates typed `Assets.*` from `wwwroot/`, parses third-party CSS into `Mud.*`-style typed surfaces, bridges the `AddBrowserApiCss` lambda into an assembly attribute for build-time tools, and ships BCA001/002/003/005 diagnostics. Analyzer-only — ships nothing at runtime. [Guide](https://kasparorange.github.io/BrowserApi/articles/css-in-csharp.html) |
+| **BrowserApi.Css.Compiler** | Roslyn, BrowserApi | Dev-time compiler for the `*.css.cs` stylesheet island. With `css.HotReload = true` it recompiles on save and swaps the CSS into the running app (~100 ms, no rebuild/reload); its MSBuild target also drives static emission on every build. Roslyn only loads in Development. [Guide](https://kasparorange.github.io/BrowserApi/articles/css-in-csharp.html#emission-modes-inline-live-reload-static-asset) |
+| **BrowserApi.Css.Cli** | (dotnet tool) | `browserapi-css build\|watch` — writes the rendered stylesheets to a static `.css` under `wwwroot` (driven by `css.StaticAssetPath` in `Program.cs`; run automatically by the build) for production `<link>` delivery, strict CSP, and export to non-.NET consumers. |
 
 ---
 
@@ -334,8 +336,12 @@ BrowserApi/
 │   ├── BrowserApi.JSInterop/       # IJSRuntime backend + browserapi.js
 │   ├── BrowserApi.Blazor/          # DI + BrowserApiComponentBase
 │   ├── BrowserApi.Runtime/         # Jint + VirtualDom + BrowserEngine
-│   └── BrowserApi.Generator/       # WebIDL/CSS → C# code generator
-├── tests/                          # 599 tests, no browser needed
+│   ├── BrowserApi.Generator/       # WebIDL/CSS → C# code generator
+│   ├── BrowserApi.SourceGen/       # Roslyn gen: .js/.d.ts → typed modules
+│   ├── BrowserApi.Css.SourceGen/   # Roslyn gen + analyzers for CSS-in-C#
+│   ├── BrowserApi.Css.Compiler/    # *.css.cs island compiler (live reload, static emission)
+│   └── BrowserApi.Css.Cli/         # `browserapi-css` dotnet tool
+├── tests/                          # ~1,150 tests, no browser needed
 ├── specs/                          # W3C/WHATWG spec files (generator input)
 └── docs/                           # docfx API documentation
 ```

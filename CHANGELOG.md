@@ -11,11 +11,68 @@ Packages published from this repo:
 - `BrowserApi.Blazor` — Blazor DI + components
 - `BrowserApi.Runtime` — Jint-based server runtime
 - `BrowserApi.SourceGen` — Roslyn source generator for `.js` / `.d.ts` modules
-- `BrowserApi.Css.SourceGen` — Roslyn source generator for CSS-in-C# (class name population, asset gen, diagnostics)
+- `BrowserApi.Css.SourceGen` — Roslyn source generator for CSS-in-C# (Program.cs config bridge, class name population, asset gen, diagnostics)
+- `BrowserApi.Css.Compiler` — dev-time island compiler for CSS-in-C# (live reload, static emission engine)
+- `BrowserApi.Css.Cli` — `browserapi-css` dotnet tool (build/watch static CSS from `*.css.cs`)
 
 Entries are grouped by package. When an entry applies to a single package, the package name is in the heading.
 
 ## [Unreleased]
+
+### Added — CSS-in-C#: one-place configuration + emission modes
+
+**Configure once, in `Program.cs`.** `AddBrowserApiCss(css => …)` is now the
+only place CSS-in-C# is configured — prefix, static-asset delivery, live
+reload, island rules. No MSBuild properties, no CLI flags to keep in sync.
+Build-time tools get the same values because `BrowserApi.Css.SourceGen` reads
+the lambda during your normal build and mirrors its *constant* assignments
+into `[assembly: BrowserApiCssConfig]`. The one rule: `GlobalPrefix`,
+`StaticAssetPath`, and `AllowAppReferences` must be literals or consts; new
+analyzer **BCA005** warns otherwise (runtime unaffected, build-time tools
+blind). Why this design: developer experience is the north star, and "one
+file you already open" beats "three places that must agree".
+
+**Live reload.** `css.HotReload = true` + a reference to the new dev-time
+package `BrowserApi.Css.Compiler`: save a `.css.cs`, the running app restyles
+in ~100 ms — no rebuild, no page reload, circuit state intact. Not .NET Hot
+Reload (which can't re-run `static readonly` initializers): the package
+recompiles only your `*.css.cs` island with Roslyn, renders it through the
+same `StyleSheet.Render`, and swaps the CSS into `CssRegistry`. Development
+only; safe to commit.
+
+**Static asset.** `css.StaticAssetPath = "css/app.css"` + install the new
+`browserapi-css` dotnet tool once (`BrowserApi.Css.Cli`): every build writes
+the file, `<BrowserApiCss />` serves a cache-busted `<link>`, and a drift
+guard falls back to inline with a warning if the file doesn't match the
+running assemblies. Browser-cacheable, strict-CSP friendly, and the export
+for non-.NET consumers.
+
+**Island rule + escape hatch.** Stylesheet files are compiled in isolation,
+so they may reference `BrowserApi` and each other only. `css.AllowAppReferences
+= true` lets them also read the app's own constants/enums. Runtime-varying
+values were never a stylesheet concern — use `CssVar<T>` and set it on an
+element.
+
+API surface: `CssOptions.{StaticAssetPath, HotReload, AllowAppReferences}`,
+`BrowserApiCssConfigAttribute` (generated, not hand-written),
+`StyleSheet.RenderAll(types)`, `CssRegistry.SetOverride` / `HasOverride` /
+`Changed` / `Combine`. `AddBrowserApiCss()`'s lambda is optional.
+
+### Changed — `BrowserApi` (CSS authoring)
+
+- Combined CSS output now orders stylesheets by type full name (was: assembly
+  load order). Needed so the app and the CLI produce identical bytes. Source
+  order *within* a stylesheet is unchanged.
+- `CssVar<T>.ToCss()` late-binds the variable name when called before its
+  stylesheet has been named (e.g. from another sheet's static initializer)
+  instead of emitting `var()`.
+
+### Decided — SCSS intermediate retired
+
+The planned `C# → .scss → dart-sass` pipeline is retired; every benefit it
+was chosen for is covered by the C# renderer, and a second emitter would have
+had to stay byte-identical with it forever. Rationale in
+[`docs/plans/browser-api/css-emission-modes.md`](docs/plans/browser-api/css-emission-modes.md).
 
 ## [0.1.0-preview.9] — 2026-05-02
 
@@ -33,7 +90,7 @@ user-facing guide in
 
 ```csharp
 // Program.cs
-builder.Services.AddBrowserApiCss(opts => opts.GlobalPrefix = "mw");
+builder.Services.AddBrowserApiCss(css => css.GlobalPrefix = "mw");
 ```
 ```razor
 @* App.razor *@

@@ -35,8 +35,13 @@ The split is by **dependency**, not by API:
 |---------|-----------|----------|
 | BrowserApi | Nothing | All types: CSS, DOM, Canvas, Fetch, Events, etc. |
 | BrowserApi.JSInterop | Microsoft.JSInterop | `IJSRuntime` bridge layer |
-| BrowserApi.Blazor | ASP.NET Components | DI, components, lifecycle |
+| BrowserApi.Blazor | ASP.NET Components, Hosting.Abstractions | DI, components, lifecycle, `<BrowserApiCss />` |
+| BrowserApi.Runtime | Jint | Server-side JS runtime (browserless tests) |
+| BrowserApi.SourceGen | Roslyn (analyzer) | Typed wrappers for `.js`/`.d.ts` modules |
 | BrowserApi.Generator | (standalone tool) | WebIDL parser, C# emitter |
+| BrowserApi.Css.SourceGen | Roslyn (analyzer) | Compile-time class-name population, asset/external-CSS generators, analyzers |
+| BrowserApi.Css.Compiler | Roslyn + BrowserApi | Dev-time `*.css.cs` island compiler: live reload (auto-wired by `css.HotReload = true`), MSBuild target that drives static emission |
+| BrowserApi.Css.Cli | BrowserApi.Css.Compiler | `browserapi-css build\|watch` dotnet tool (mode-3 static CSS) |
 
 Do **not** split by API (e.g., "BrowserApi.Canvas" as a separate package). All types live in the core package, organized by namespace.
 
@@ -51,7 +56,11 @@ Generated code goes in `src/BrowserApi/Generated/`. Hand-written code goes along
 
 `src/BrowserApi/Css/Authoring/` is a hand-written API for *authoring static stylesheets* in C# — distinct from the runtime CSSOM types in `BrowserApi.Css` (which are generated from the CSS WebIDL for live `element.style` manipulation). Two `StyleSheet` types exist on purpose: the CSSOM one for runtime DOM access, the authoring one for static stylesheet declaration. Consumers alias to disambiguate.
 
-Wire it up in three places: `AddBrowserApiCss()` in `Program.cs`, `<BrowserApiCss />` in `App.razor`'s `<HeadContent>`, and any number of `partial class … : StyleSheet` files declaring `static readonly Class`/`Rule`/`CssVar<T>`/`Keyframes` fields. The runtime renders all stylesheets to a single `<style>` tag at first access. Source generator path is decided in spec but not yet shipped — see `docs/plans/browser-api/css-in-csharp.md`.
+Wire it up in three places: `AddBrowserApiCss()` in `Program.cs`, `<BrowserApiCss />` in `App.razor`'s `<HeadContent>`, and any number of `partial class … : StyleSheet` files declaring `static readonly Class`/`Rule`/`CssVar<T>`/`Keyframes` fields. The runtime renders all stylesheets to a single `<style>` tag at first access.
+
+**Configuration is `Program.cs`, only.** `AddBrowserApiCss(css => …)` is the single surface (prefix, `StaticAssetPath`, `HotReload`, `AllowAppReferences`). Build-time tools get those values through `CssConfigGenerator`, which mirrors the lambda's *constant* assignments into `[assembly: BrowserApiCssConfig]`; BCA005 warns on non-constants. Do not add MSBuild properties, CLI flags, or attributes as a *required* way to configure anything — flags on `browserapi-css` are export-only overrides. `[Prefix]` on a sheet is the one per-file override.
+
+**Emission modes** (`docs/plans/browser-api/css-emission-modes.md`): one renderer, three delivery paths — inline `<style>` (default), dev live reload (`css.HotReload = true`; `BrowserApi.Css.Compiler` is discovered by reflection and recompiles the `*.css.cs` island in-process, swapping CSS via `CssRegistry.SetOverride`), and static asset (`css.StaticAssetPath` set → the Compiler package's MSBuild target runs `dotnet browserapi-css build --app <dll>` after every build; component serves `<link>` with a drift guard). Invariants: `.css.cs` files reference only `BrowserApi` and each other unless `AllowAppReferences`; stylesheet output order is deterministic (sorted by type full name). Never try to re-run `static readonly` initializers for hot reload — the CLR can't; that's why the island exists. The SCSS intermediate is retired.
 
 Read `src/BrowserApi/Css/Authoring/README.md` before touching this code.
 

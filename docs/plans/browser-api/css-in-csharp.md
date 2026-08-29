@@ -716,7 +716,7 @@ Used inside any `partial class … : StyleSheet`:
 
 ### 20. Prefixing & Configuration
 
-**Status: DECIDED for MVP. Single-place `Program.cs` config noted as the aspirational end state.**
+**Status: SHIPPED 2026-08-21 — single-place `Program.cs` config (see the shipped note below). The MVP configuration ladder in this section is historical.**
 
 Two prefix levels: global (project-wide) and per-stylesheet. Chain: `{global}-{stylesheet}-{classname}`.
 
@@ -750,7 +750,9 @@ Prefix is transparent in Razor — the developer never writes it.
 | Analyzer severity & per-rule options | `.editorconfig` | Idiomatic for Roslyn analyzers; same place as built-in `CAxxxx` rules. |
 | Runtime DI registration | `Program.cs` (`AddBrowserApiCss(...)`) | What `Program.cs` is for. No build-time reading happens here. |
 
-**Aspirational: single-place config in `Program.cs` (post-MVP).**
+**Single-place config in `Program.cs` — SHIPPED 2026-08-21 via path 1 below (`CssConfigGenerator` reads the lambda's constants into `[assembly: BrowserApiCssConfig]`; BCA005 flags non-constants). The MSBuild-property ladder above is historical. Details: css-emission-modes.md § Configuration.**
+
+*Original note kept for the record:*
 
 The "configure once in `Program.cs` and the analyzers, prefix, and runtime all pick it up" UX matches what most NuGet packages already deliver, and devs expect it. The friction is build-time vs runtime: source gens and analyzers run before `Program.cs` ever executes. Paths to revisit:
 
@@ -1007,7 +1009,7 @@ public static readonly Class CardContainer = new() {
 | `@layer` | `CssLayer` type, `[LayerOrder]` attribute | Needs deeper exploration |
 | CSS trig functions | `Css.Sin()`, `Css.Cos()` inside calc | Niche |
 | Scroll-driven animations | `AnimationTimeline.Scroll()` / `.View()` | Firefox ~v150 (mid-2026) |
-| Single-place config in `Program.cs` | See §20 aspirational note | Investigate after MVP friction maps |
+| ~~Single-place config in `Program.cs`~~ | See §20 | **Shipped 2026-08-21** via `CssConfigGenerator` + BCA005 |
 | BCA004 override-conflict analyzer | See §35 | Layer in after BCA003 ships |
 
 ---
@@ -1136,7 +1138,7 @@ public static readonly Class Card = new() { ... };
 | 17 | CSS Functions | **Decided** — on value type or `Css`; primitive union wrappers (`LengthOrPercentage`, etc.) replace cross-primitive implicit conversions |
 | 18 | Value Shorthands | **Decided** — Sides type, tuples, skip 3-value, property-specific types |
 | 19 | Stylesheet-Injected Helpers | **Decided** — `Self`, `From`/`To`, `Is`, `Where` via `protected static` on `StyleSheet` base; same names also on `Css` |
-| 20 | Prefixing & Config | **Decided** — MSBuild property + `.editorconfig` + per-sheet attribute; single-place `Program.cs` config is the post-MVP aspiration |
+| 20 | Prefixing & Config | **Shipped 2026-08-21** — single-place `Program.cs` config via `CssConfigGenerator` (path 1 of the aspirational note) + BCA005; per-sheet `[Prefix]`. See css-emission-modes.md |
 | 21 | File Convention | **Decided** — `.css.cs` |
 | 22 | Conditional Classes | **Decided** — `.When()` + `Class.None` |
 | 23 | Class Variants | **Decided** — `.Variant(slug)` BEM modifiers |

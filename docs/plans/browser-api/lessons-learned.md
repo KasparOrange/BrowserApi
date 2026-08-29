@@ -111,7 +111,7 @@ Items called out in the spec as deferred or not-yet-done. Capturing here so they
 | Source-gen DX features | §28 | each medium | Scaffold code fix, CSS preview comments, CSS-to-C# converter, extract-to-CssVar refactor. Three analyzers shipped today (BCA001/2/3); the rest are separate work. |
 | Property-specific keyword types | §18 | medium | `Width.Auto`, `FontSize.Large` — typed keywords on per-property union types. Some exist (`Length.Auto`, `Length.MinContent`), most don't. |
 | Trig functions, scroll-driven animations | §33 | low / wait | Listed as Post-MVP. Low priority. |
-| Single-place `Program.cs` config | §20 | medium | Currently config is split across MSBuild properties (`GlobalPrefix`), `.editorconfig` (analyzer severity), and `AddBrowserApiCss(opts =>)` runtime. The aspiration is one place. Three paths sketched in §20; pick one after the MVP friction map is real. |
+| ~~Single-place `Program.cs` config~~ | §20 | — | **Shipped 2026-08-21** via `CssConfigGenerator` (path 1): `AddBrowserApiCss(css => …)` is the only surface; constants mirrored into `[assembly: BrowserApiCssConfig]`; BCA005 on non-constants. See css-emission-modes.md. |
 | Razor source-gen interception for true const-equivalent name access | perf plan §4.5 | large | Only path to ~1-ns access for `class="@AppStyles.X"`. Worth pursuing only if perf benchmarks (which haven't run yet) say it matters at the realistic-render level. |
 | BCA004 override-conflict analyzer | §35 | medium-large | "Same property declared twice with declining specificity within the same stylesheet." Hard part is the "could match the same element" analysis. Defer until BCA003 has signal from real usage. |
 

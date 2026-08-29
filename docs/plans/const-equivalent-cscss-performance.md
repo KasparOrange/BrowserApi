@@ -268,7 +268,7 @@ public ClassList PlusVariant(string slug) =>
 
 **Expected delta:** removes one heap allocation per kanban-card render. ~32 B/op saved. Time small (allocations on this scale are fast).
 
-**Decision criteria:** Merge the helper unconditionally (it's strictly an additive option). Add the analyzer (BCA005?) only if we measure the unhelped path being a real allocation hot spot in realistic renders.
+**Decision criteria:** Merge the helper unconditionally (it's strictly an additive option). Add the analyzer (BCA006?) only if we measure the unhelped path being a real allocation hot spot in realistic renders.
 
 ### 4.5 [E] Razor source-gen interception that rewrites `class="@DnD.Card"` to a literal
 

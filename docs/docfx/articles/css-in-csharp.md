@@ -8,13 +8,16 @@ This guide is the user-facing introduction. The full design rationale (every dec
 
 **Use CSS-in-C# for:** new components in a Blazor app where you'd otherwise hand-write a `.css` file. You get type safety, refactoring, IntelliSense, and design tokens-as-types — at the cost of a small runtime overhead per `class` attribute (typically 5–10 ns; invisible against the rest of a Blazor render).
 
-**Don't migrate everything at once.** The property surface is ~80 of CSS's hundreds; the full sass intermediate isn't wired (we emit CSS direct via relative-color syntax); browser-side debugging shows the rendered CSS, not your C# source. Migrate one stylesheet at a time and you'll find the gaps before they bite. See `docs/plans/browser-api/lessons-learned.md` in the repo for the staged playbook.
+**Don't migrate everything at once.** The property surface is ~80 of CSS's hundreds; source maps aren't emitted yet, so browser-side debugging shows the rendered CSS (readable prefixed class names), not your C# source. Migrate one stylesheet at a time and you'll find the gaps before they bite. See `docs/plans/browser-api/lessons-learned.md` in the repo for the staged playbook.
 
 ## Setup — three places to wire it
 
 ```csharp
-// Program.cs
-builder.Services.AddBrowserApiCss(opts => opts.GlobalPrefix = "mw");
+// Program.cs — the ONLY place CSS-in-C# is configured (see "Configuration" below)
+builder.Services.AddBrowserApiCss(css => {
+    css.GlobalPrefix = "mw";
+    css.HotReload    = true;   // dev live loop; ignored outside Development
+});
 ```
 
 ```razor
@@ -25,7 +28,7 @@ builder.Services.AddBrowserApiCss(opts => opts.GlobalPrefix = "mw");
 ```
 
 ```csharp
-// AppStyles.cs (or any file you want to declare styles in)
+// AppStyles.css.cs — the .css.cs suffix matters (see "The island rule")
 using BrowserApi.Css;
 using BrowserApi.Css.Authoring;
 using StyleSheet = BrowserApi.Css.Authoring.StyleSheet;
@@ -48,6 +51,8 @@ public class AppStyles : StyleSheet {
 ```
 
 That's it. `<BrowserApiCss />` walks the AppDomain at first render, finds every `StyleSheet` subclass, and emits one combined `<style>` block. The class name `AppStyles.Btn` resolves to `mw-btn` automatically (kebab-cased field name, prefixed with the global prefix you configured).
+
+Packages: `BrowserApi` + `BrowserApi.Blazor` (runtime), `BrowserApi.Css.SourceGen` (analyzer — compile-time names, diagnostics, and the config bridge described below), and `BrowserApi.Css.Compiler` whenever you use live reload or static assets (it carries the island compiler and the MSBuild target; Roslyn is only loaded in Development).
 
 ## Core concepts
 
@@ -259,8 +264,8 @@ Color     = CssColor.Red.Important;
 Two levels of prefix combine into the final class name:
 
 ```csharp
-// Project-wide:
-builder.Services.AddBrowserApiCss(opts => opts.GlobalPrefix = "mw");
+// Project-wide (Program.cs):
+builder.Services.AddBrowserApiCss(css => css.GlobalPrefix = "mw");
 
 // Per-stylesheet:
 [Prefix("dt")]
@@ -272,6 +277,105 @@ public class DnDTestStyles : StyleSheet {
 
 Prefixes scope your CSS away from third-party stylesheets (no specificity wars) and avoid name collisions across feature areas.
 
+## Configuration — one place, `Program.cs`
+
+Everything CSS-in-C# does is configured in a single call. There is no MSBuild property, no `.editorconfig` key, no CLI flag you have to keep in sync with it:
+
+```csharp
+builder.Services.AddBrowserApiCss(css => {
+    css.GlobalPrefix       = "mw";          // prefix on every class / variable / keyframes name
+    css.StaticAssetPath    = "css/app.css"; // set ⇒ build writes the file, app serves <link>
+    css.HotReload          = true;          // dev live loop; safe to commit, Development-only
+    css.AllowAppReferences = false;         // may .css.cs files reference the app assembly?
+});
+```
+
+| Option | Default | Who reads it |
+|---|---|---|
+| `GlobalPrefix` | `""` | runtime, live reload, static build, source generator |
+| `StaticAssetPath` | `null` (inline) | runtime, static build |
+| `HotReload` | `false` | runtime (Development only) |
+| `AllowAppReferences` | `false` | live reload, static build |
+
+The only per-file override is `[Prefix("…")]` on a stylesheet — a *scoping* decision that belongs next to the styles it scopes.
+
+### Why this works — and the one rule it imposes
+
+The natural objection: source generators and the `browserapi-css` build tool run *before* `Program.cs` executes. How can they read it?
+
+They don't, directly. `BrowserApi.Css.SourceGen` reads the lambda **during your normal build**, takes every `css.X = …` assignment whose right-hand side is a compile-time constant, and emits
+
+```csharp
+// obj/…/BrowserApiCssConfig.g.cs  (generated — never edit)
+[assembly: BrowserApi.Css.Authoring.BrowserApiCssConfig(GlobalPrefix = "mw", StaticAssetPath = "css/app.css")]
+```
+
+into your assembly. The static build reads that attribute from the compiled DLL; the class-name generator uses the same prefix; the runtime simply runs the lambda. One declaration, every consumer.
+
+**The rule:** options that build-time tools need — `GlobalPrefix`, `StaticAssetPath`, `AllowAppReferences` — must be **literals or `const`s** in the lambda. A value from `IConfiguration` or an environment variable still works for the running app, but the build can't see it; analyzer **BCA005** warns so you're never surprised when `browserapi-css build` emits with a different prefix and the drift guard rejects the file. `HotReload` is runtime-only and may be anything.
+
+We chose this over the alternatives deliberately. MSBuild properties and CLI flags are what build tools *natively* read, but they would give you three places to keep in sync and three places to look — the drift guard would catch mismatches, yet "correct but annoying" is not the bar. An assembly-level attribute you write yourself is one place, but it's not the place .NET developers expect (`Program.cs` is). Parsing the lambda costs one constraint (constants) that matches how 99% of apps configure a prefix anyway, and it keeps the file everyone already opens as the single source of truth. Developer experience is the north star of this library; this is that principle applied to configuration.
+
+## Emission modes — inline, live reload, static asset
+
+One renderer, three places its output can land. Authoring never changes, and the output is byte-identical by construction because every mode calls the same `StyleSheet.Render`.
+
+| Mode | When | What you do |
+|---|---|---|
+| **Inline** | default, zero build | nothing — `<BrowserApiCss />` emits one `<style>` tag, rendered once per process |
+| **Live reload** | development | `css.HotReload = true` + reference `BrowserApi.Css.Compiler` |
+| **Static asset** | production, strict CSP, exports | `css.StaticAssetPath = "css/app.css"` + reference `BrowserApi.Css.Compiler` + install the `browserapi-css` tool once |
+
+### Live reload — save a `.css.cs`, see it in ~100 ms
+
+```csharp
+css.HotReload = true;   // Program.cs
+```
+```xml
+<PackageReference Include="BrowserApi.Css.Compiler" Version="…" />   <!-- dev-time dependency -->
+```
+
+Why this isn't .NET Hot Reload: your stylesheet fields are `static readonly`, initialized once by the type initializer. Hot Reload can patch that initializer's body but the runtime never runs it again, so the old values stay in the fields and the rendered CSS never changes. (We verified there is no supported way around this on .NET 10.)
+
+What happens instead: a hosted service — registered for you when `HotReload` is set and the Compiler package is present — watches `**/*.css.cs`. On save it recompiles **just those files** with Roslyn (tens of milliseconds; no MSBuild, no Razor), loads the result into a collectible load context, renders it through the same `StyleSheet.Render`, and swaps the CSS into `CssRegistry`. `<BrowserApiCss />` observes `CssRegistry.Changed` and re-renders its `<style>` body through the normal Blazor diff. No page reload; circuit state survives.
+
+The running app's own `AppStyles.Btn` objects are never touched — the island is a *second copy* whose CSS replaces the registry output. Class names are a pure function of field name + prefix, so existing markup keeps pointing at the right selectors while the rules behind them change. Renames, deletions, and new classes all work because every save is a full island compile. A Razor file that references a *new* class still goes through `dotnet watch`'s own hot reload; that's outside the CSS loop.
+
+Works under plain `dotnet run`. Only Development pays for Roslyn and a file watcher, so leaving `HotReload = true` in committed code is fine. A compile error in the island is logged and the last good CSS keeps serving.
+
+### Static asset — build-time `.css`, served via `<link>`
+
+```csharp
+css.StaticAssetPath = "css/app.css";   // Program.cs
+```
+```bash
+dotnet new tool-manifest                # once per repo, if you don't have one
+dotnet tool install BrowserApi.Css.Cli  # once; commit the manifest
+```
+
+That's the whole setup. `BrowserApi.Css.Compiler` ships an MSBuild target that runs after every build: it hands the compiled app DLL to `dotnet browserapi-css build`, which reads the `[BrowserApiCssConfig]` attribute, compiles the island, and writes `wwwroot/css/app.css` — only touching the file when the content changed. If `StaticAssetPath` was never set, the tool exits quietly; if the tool isn't installed, the build prints a one-line hint and continues.
+
+`<BrowserApiCss />` now emits `<link rel="stylesheet" href="/css/app.css?v=<hash>">`. Gains: browser-cacheable across sessions, no inline `<style>` (strict CSP without `unsafe-inline`), styles exist without a running circuit, and the `.css` file is the export for non-.NET consumers — design tokens for a Svelte build, say.
+
+**Drift guard.** Before trusting the file, the component compares its content once per process against what the loaded assemblies render. Any mismatch — stale build output, a prefix that reached the runtime but not the build (BCA005) — falls back to inline delivery and logs a warning. Wrong styles are never served silently. While live reload has swapped in newer CSS, the component also serves inline, since the file on disk is older than what you just saved.
+
+`dotnet browserapi-css watch --app bin/Debug/net10.0/MyApp.dll` keeps the file current without the app running (design-mode iteration, token export) — `--app` is how the tool finds your configuration when the build isn't driving it. `--out`, `--prefix`, `--allow-app-references`, `--reference` exist as explicit overrides for export scenarios; you never need them for the app itself.
+
+### The island rule — what a `.css.cs` file may reference
+
+Live reload and the static build compile your `*.css.cs` files **in isolation**: the files plus a reference to `BrowserApi`, nothing else. That's what makes the compile take milliseconds instead of an MSBuild round-trip. It imposes one rule:
+
+> A `.css.cs` file may reference `BrowserApi` and other stylesheets. Nothing else from your app.
+
+| You want to… | Do this |
+|---|---|
+| Share a value between stylesheets | `CssVar<T>` or a `const` in a stylesheet; reference it as `Tokens.Spacing` |
+| Read an app constant / enum / static helper | `css.AllowAppReferences = true` — the island then also references the app's **last built** assembly (a newly added constant appears after the next normal build) |
+| Use a per-user, per-theme, or per-component value | **Not a stylesheet concern.** Declare a `CssVar<T>` with a default and set the variable on an element at runtime (`style="--accent: …"`). The browser recomputes instantly; no CSS is regenerated. This is also how a theme editor works. |
+| Read a DI service or request state | Impossible in any mode — stylesheets are static by design, same for every user |
+
+A file that breaks the rule compiles fine in the app (inline mode is unaffected) but fails the island build. The watcher logs the normal C# diagnostic and keeps serving the last good CSS; the static build fails loudly.
+
 ## Companion source generator — `BrowserApi.Css.SourceGen`
 
 Add the package as an analyzer reference:
@@ -280,7 +384,11 @@ Add the package as an analyzer reference:
 <PackageReference Include="BrowserApi.Css.SourceGen" Version="..." PrivateAssets="all" />
 ```
 
-It ships three generators and three analyzers:
+It ships four generators and four analyzers:
+
+### `CssConfigGenerator` — the `Program.cs` bridge
+
+Reads `AddBrowserApiCss(css => …)` and emits `[assembly: BrowserApiCssConfig(…)]` with the constant option values, so `browserapi-css` and the other generators read the same configuration as the runtime. Details and the constants-only rule in "Configuration" above.
 
 ### `CssClassNameGenerator` — module-init pre-population
 
@@ -330,6 +438,7 @@ Mud.Palette.Primary;           // CssVar<CssColor> for --mud-palette-primary
   dotnet_diagnostic.BCA003.severity = warning
   ```
   Recommended fix: wrap in `:where(...)` to flatten specificity to zero, or reduce the modifier count.
+- **BCA005** — warns when an `AddBrowserApiCss` option that build-time tools need (`GlobalPrefix`, `StaticAssetPath`, `AllowAppReferences`) is assigned a non-constant. The runtime still honors it; the static build won't see it. Fix: use a literal or `const`. See "Configuration" above for why.
 
 ## Disambiguation — two `StyleSheet` types
 
