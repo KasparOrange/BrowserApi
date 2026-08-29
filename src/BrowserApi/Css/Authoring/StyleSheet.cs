@@ -240,6 +240,31 @@ public abstract class StyleSheet {
     public static string Render<T>() where T : StyleSheet => Render(typeof(T));
 
     /// <summary>
+    /// Renders a set of stylesheet types together, keyed by the type's
+    /// <see cref="Type.FullName"/>. This is the two-pass form: every type has its
+    /// field names populated before any type is rendered, so cross-stylesheet
+    /// references (<c>Padding = Tokens.Spacing</c>) serialize correctly regardless
+    /// of order. <see cref="CssRegistry"/> uses it for the AppDomain scan; the
+    /// island compiler uses it for stylesheets loaded from a throwaway assembly.
+    /// </summary>
+    /// <param name="styleSheetTypes">Types deriving from <see cref="StyleSheet"/>. Order is preserved in the result.</param>
+    public static IReadOnlyDictionary<string, string> RenderAll(IEnumerable<Type> styleSheetTypes) {
+        if (styleSheetTypes is null) throw new ArgumentNullException(nameof(styleSheetTypes));
+        var types = new List<Type>(styleSheetTypes);
+
+        foreach (var type in types) {
+            PopulateFieldNames(type);
+        }
+
+        // Insertion-ordered so the combined document is deterministic.
+        var result = new Dictionary<string, string>(types.Count);
+        foreach (var type in types) {
+            result[type.FullName ?? type.Name] = Render(type);
+        }
+        return result;
+    }
+
+    /// <summary>
     /// Populates the kebab-cased <c>Name</c> on every <see cref="Class"/>,
     /// <see cref="CssVar{T}"/>, and <see cref="Keyframes"/> field of
     /// <paramref name="styleSheetType"/>, applying the global prefix and any

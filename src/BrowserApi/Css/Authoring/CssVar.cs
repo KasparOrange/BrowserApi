@@ -77,6 +77,14 @@ public sealed class CssVar<T> : ICssValue where T : ICssValue {
     /// </remarks>
     public string ToCss() {
         if (string.IsNullOrEmpty(Name)) CssRegistry.EnsureScanned();
+        if (string.IsNullOrEmpty(Name)) {
+            // Still unnamed: we are inside the scan itself — this stylesheet's
+            // cctor ran before PopulateFieldNames reached the sheet that owns
+            // this variable. Emit a late-bound token instead of "var()"; the
+            // renderer resolves it once every name is known. Keeps output
+            // independent of cctor / discovery order.
+            return $"var({CssVarFallbackRegistry.RegisterNameRef(this)})";
+        }
         return $"var({Name})";
     }
 

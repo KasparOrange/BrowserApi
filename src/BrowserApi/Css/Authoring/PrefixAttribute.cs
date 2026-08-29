@@ -4,7 +4,7 @@ namespace BrowserApi.Css.Authoring;
 
 /// <summary>
 /// Per-stylesheet class-name prefix. Combined with the global prefix configured
-/// via <c>AddBrowserApiCss(opts =&gt; opts.GlobalPrefix = "...")</c> the final
+/// via <c>AddBrowserApiCss(css =&gt; css.GlobalPrefix = "...")</c> the final
 /// class name is <c>{global}-{stylesheet-prefix}-{class-name}</c>.
 /// </summary>
 /// <remarks>

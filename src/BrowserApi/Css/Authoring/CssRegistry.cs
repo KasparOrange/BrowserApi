@@ -29,6 +29,15 @@ namespace BrowserApi.Css.Authoring;
 /// result is reused.
 /// </para>
 /// <para>
+/// <strong>Override slot.</strong> The rendered output can be replaced
+/// wholesale via <see cref="SetOverride"/>. This is how the dev-time island
+/// compiler (<c>BrowserApi.Css.Compiler</c>) pushes freshly compiled CSS into a
+/// running app without touching the app's own (immutable, cctor-initialized)
+/// stylesheet fields: class <em>names</em> never change for a given field, so
+/// the app's <c>AppStyles.Btn</c> references stay valid while the CSS text behind
+/// them is swapped. Consumers observe swaps through <see cref="Changed"/>.
+/// </para>
+/// <para>
 /// Thread-safety: the registry uses concurrent collections and double-checked
 /// locking so concurrent first-access from multiple Blazor circuits is safe.
 /// </para>
@@ -41,15 +50,32 @@ namespace BrowserApi.Css.Authoring;
 /// </code>
 /// </example>
 public static class CssRegistry {
+    /// <summary>
+    /// Assembly-name prefix of throwaway island assemblies emitted by
+    /// <c>BrowserApi.Css.Compiler</c>. The AppDomain scan skips them — they hold
+    /// <em>copies</em> of the app's stylesheets, and counting both would
+    /// duplicate every rule in the combined output.
+    /// </summary>
+    public const string IslandAssemblyPrefix = "BrowserApi.CssIsland.";
+
     private static readonly object _scanLock = new();
     private static readonly ConcurrentDictionary<Type, string> _rendered = new();
+    private static Type[] _order = Array.Empty<Type>();
     private static volatile bool _scanned;
     private static string? _combined;
     private static CssOptions _options = new();
+    private static IReadOnlyDictionary<string, string>? _override;
 
     /// <summary>The configured runtime options (global prefix, etc.). Set
-    /// before the first scan via <c>AddBrowserApiCss(opts =&gt; ...)</c>.</summary>
+    /// before the first scan via <c>AddBrowserApiCss(css =&gt; ...)</c>.</summary>
     public static CssOptions Options => _options;
+
+    /// <summary>
+    /// Raised whenever the CSS a consumer would receive may have changed: after
+    /// <see cref="Refresh"/>, <see cref="Configure"/>, and <see cref="SetOverride"/>.
+    /// <c>BrowserApiCss</c> subscribes to re-render its <c>&lt;style&gt;</c> tag live.
+    /// </summary>
+    public static event EventHandler? Changed;
 
     /// <summary>Replaces the runtime options. Triggers a refresh so any
     /// previously-cached output is regenerated under the new options.</summary>
@@ -61,8 +87,11 @@ public static class CssRegistry {
     /// <summary>
     /// Renders every <see cref="StyleSheet"/>-derived type in the AppDomain into
     /// a single CSS document. Idempotent — subsequent calls return the cached result.
+    /// When an override is active, returns the override's combined document instead.
     /// </summary>
     public static string GetCombinedCss() {
+        var ov = _override;
+        if (ov is not null) return Combine(ov.Values);
         EnsureScanned();
         return _combined ?? RebuildCombined();
     }
@@ -70,16 +99,39 @@ public static class CssRegistry {
     /// <summary>
     /// Returns the rendered CSS for a single stylesheet type, scanning the
     /// AppDomain first if needed. Use this when you only need one stylesheet's
-    /// output (e.g. for testing or selective serving).
+    /// output (e.g. for testing or selective serving). Honors the override slot,
+    /// matched by <see cref="Type.FullName"/>.
     /// </summary>
     public static string GetCss(Type styleSheetType) {
         if (styleSheetType is null) throw new ArgumentNullException(nameof(styleSheetType));
+        var ov = _override;
+        if (ov is not null) {
+            return ov.TryGetValue(styleSheetType.FullName ?? styleSheetType.Name, out var o) ? o : string.Empty;
+        }
         EnsureScanned();
         return _rendered.TryGetValue(styleSheetType, out var css) ? css : string.Empty;
     }
 
     /// <summary>Strongly-typed convenience: <c>CssRegistry.GetCss&lt;AppStyles&gt;()</c>.</summary>
     public static string GetCss<T>() where T : StyleSheet => GetCss(typeof(T));
+
+    /// <summary>
+    /// Replaces (or, with <c>null</c>, clears) the registry's output with CSS
+    /// rendered elsewhere — keyed by stylesheet <see cref="Type.FullName"/>, the
+    /// same shape <see cref="StyleSheet.RenderAll"/> returns. Raises <see cref="Changed"/>.
+    /// </summary>
+    /// <remarks>
+    /// Intended for the dev-time live loop only. The override is a snapshot: a
+    /// later <see cref="Refresh"/> does not clear it, because the island output
+    /// is by definition newer than anything the app's own assemblies can render.
+    /// </remarks>
+    public static void SetOverride(IReadOnlyDictionary<string, string>? cssByType) {
+        _override = cssByType;
+        Changed?.Invoke(null, EventArgs.Empty);
+    }
+
+    /// <summary>True while <see cref="SetOverride"/> output is being served.</summary>
+    public static bool HasOverride => _override is not null;
 
     /// <summary>
     /// Forces re-scanning of the AppDomain. Useful for hot-reload scenarios
@@ -98,42 +150,29 @@ public static class CssRegistry {
             ClearFieldNames();
             ScanAndRenderAll();
         }
+        Changed?.Invoke(null, EventArgs.Empty);
     }
 
     private static void ClearFieldNames() {
-        foreach (var asm in AppDomain.CurrentDomain.GetAssemblies()) {
-            if (asm.IsDynamic) continue;
-            var asmName = asm.GetName().Name;
-            if (asmName is null) continue;
-            if (asmName.StartsWith("System.", StringComparison.Ordinal) ||
-                asmName.StartsWith("Microsoft.", StringComparison.Ordinal) ||
-                asmName == "mscorlib" || asmName == "netstandard") {
-                continue;
-            }
-            foreach (var type in SafeGetTypes(asm)) {
-                if (type is null) continue;
-                if (type.IsAbstract || type.IsGenericTypeDefinition) continue;
-                if (!typeof(StyleSheet).IsAssignableFrom(type)) continue;
-
-                foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic)) {
-                    var value = field.GetValue(null);
-                    switch (value) {
-                        case Class cls: cls.Name = string.Empty; break;
-                        case Keyframes kf: kf.Name = string.Empty; break;
-                        default: {
-                            var t = value?.GetType();
-                            if (t is not null && t.IsGenericType && t.GetGenericTypeDefinition() == typeof(CssVar<>)) {
-                                var nameProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.Name));
-                                // External-named variables (CssVar.External) carry their literal
-                                // name in the same field, so reset only when the name looks like
-                                // one we previously assigned (kebab-cased, leading "--").
-                                var existing = (string?)nameProp?.GetValue(value);
-                                if (existing is not null && existing.StartsWith("--", StringComparison.Ordinal)) {
-                                    nameProp?.SetValue(value, string.Empty);
-                                }
+        foreach (var type in DiscoverStyleSheetTypes()) {
+            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic)) {
+                var value = field.GetValue(null);
+                switch (value) {
+                    case Class cls: cls.Name = string.Empty; break;
+                    case Keyframes kf: kf.Name = string.Empty; break;
+                    default: {
+                        var t = value?.GetType();
+                        if (t is not null && t.IsGenericType && t.GetGenericTypeDefinition() == typeof(CssVar<>)) {
+                            var nameProp = t.GetProperty(nameof(CssVar<Common.ICssValue>.Name));
+                            // External-named variables (CssVar.External) carry their literal
+                            // name in the same field, so reset only when the name looks like
+                            // one we previously assigned (kebab-cased, leading "--").
+                            var existing = (string?)nameProp?.GetValue(value);
+                            if (existing is not null && existing.StartsWith("--", StringComparison.Ordinal)) {
+                                nameProp?.SetValue(value, string.Empty);
                             }
-                            break;
                         }
+                        break;
                     }
                 }
             }
@@ -161,23 +200,50 @@ public static class CssRegistry {
         }
     }
 
+    /// <summary>
+    /// Concatenates per-stylesheet CSS documents into one, guaranteeing a
+    /// trailing newline between them. Shared by the registry and by mode-3
+    /// file writers so a file on disk and the runtime <c>&lt;style&gt;</c> body are
+    /// byte-identical for the same input.
+    /// </summary>
+    public static string Combine(IEnumerable<string> cssDocuments) {
+        var sb = new StringBuilder();
+        foreach (var css in cssDocuments) {
+            sb.Append(css);
+            if (!css.EndsWith("\n", StringComparison.Ordinal)) sb.Append('\n');
+        }
+        return sb.ToString();
+    }
+
     // ─────────────────────────────────── Internals ──────────────────────────────────
 
     private static void ScanAndRenderAll() {
         // Mark scan complete BEFORE any rendering so re-entrant calls from
         // within Render (e.g. CssVar.ToCss → lazy ToScan) see the flag and
-        // short-circuit instead of recursing infinitely. The two-pass design
-        // below populates all names first, so by the time we render anything
+        // short-circuit instead of recursing infinitely. RenderAll's two-pass
+        // design populates all names first, so by the time we render anything
         // every cross-stylesheet reference is resolvable.
         _scanned = true;
 
-        var styleSheetTypes = new System.Collections.Generic.List<Type>();
+        var styleSheetTypes = DiscoverStyleSheetTypes();
+        var rendered = StyleSheet.RenderAll(styleSheetTypes);
+        foreach (var type in styleSheetTypes) {
+            _rendered.TryAdd(type, rendered[type.FullName ?? type.Name]);
+        }
+        _order = styleSheetTypes.ToArray();
+
+        _combined = null; // mark for rebuild on next read
+    }
+
+    private static List<Type> DiscoverStyleSheetTypes() {
+        var styleSheetTypes = new List<Type>();
         foreach (var asm in AppDomain.CurrentDomain.GetAssemblies()) {
             if (asm.IsDynamic) continue;
             var name = asm.GetName().Name;
             if (name is null) continue;
             if (name.StartsWith("System.", StringComparison.Ordinal) ||
                 name.StartsWith("Microsoft.", StringComparison.Ordinal) ||
+                name.StartsWith(IslandAssemblyPrefix, StringComparison.Ordinal) ||
                 name == "mscorlib" || name == "netstandard") {
                 continue;
             }
@@ -188,29 +254,16 @@ public static class CssRegistry {
                 styleSheetTypes.Add(type);
             }
         }
-
-        // Pass 1 — populate names on every Class / CssVar / Keyframes field
-        // so cross-stylesheet references (`Padding = OtherStyles.Spacing`) can
-        // serialize to `var(--spacing)` regardless of render order.
-        foreach (var type in styleSheetTypes) {
-            StyleSheet.PopulateFieldNames(type);
-        }
-
-        // Pass 2 — render each stylesheet to its CSS string.
-        foreach (var type in styleSheetTypes) {
-            _rendered.TryAdd(type, StyleSheet.Render(type));
-        }
-
-        _combined = null; // mark for rebuild on next read
+        // Assembly load order differs between processes (app vs. CLI vs. test
+        // host), so sort by full name: the combined document must be the same
+        // bytes wherever it is rendered or mode-3 drift detection would fire
+        // on every start.
+        styleSheetTypes.Sort((a, b) => string.CompareOrdinal(a.FullName, b.FullName));
+        return styleSheetTypes;
     }
 
     private static string RebuildCombined() {
-        var sb = new StringBuilder();
-        foreach (var kvp in _rendered) {
-            sb.Append(kvp.Value);
-            if (!kvp.Value.EndsWith("\n", StringComparison.Ordinal)) sb.Append('\n');
-        }
-        var result = sb.ToString();
+        var result = Combine(_order.Select(t => _rendered[t]));
         _combined = result;
         return result;
     }

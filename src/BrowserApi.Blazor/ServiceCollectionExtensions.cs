@@ -49,56 +49,79 @@ public static class ServiceCollectionExtensions {
     }
 
     /// <summary>
-    /// Eagerly scans the AppDomain for C#-authored stylesheets (subclasses of
-    /// <see cref="BrowserApi.Css.Authoring.StyleSheet"/>) and renders their CSS into
-    /// the static <see cref="BrowserApi.Css.Authoring.CssRegistry"/>. Optional —
-    /// the registry self-initializes lazily on first access — but calling this
-    /// during DI configuration moves the cost out of the request path.
+    /// Wires CSS-in-C#. This is <strong>the one place it is configured</strong>:
+    /// prefix, static-asset delivery, live reload, island rules — see
+    /// <see cref="BrowserApi.Css.Authoring.CssOptions"/> for every option and
+    /// the "Configuration" section of the CSS-in-C# guide for the reasoning.
+    /// Pair with <c>&lt;BrowserApiCss /&gt;</c> in <c>App.razor</c>.
     /// </summary>
-    /// <param name="services">The service collection (returned unchanged for chaining).</param>
-    /// <returns>The same <see cref="IServiceCollection"/>.</returns>
     /// <remarks>
     /// <para>
-    /// Pair this with <c>&lt;BrowserApiCss /&gt;</c> in your <c>App.razor</c> to get
-    /// a fully wired CSS-in-C# pipeline:
+    /// Applies the options, eagerly scans the AppDomain for stylesheets so the
+    /// render cost leaves the request path, and — when <c>css.HotReload</c> is set
+    /// and the <c>BrowserApi.Css.Compiler</c> package is referenced — registers the
+    /// dev live loop. The Compiler package is located by reflection so this
+    /// package carries no Roslyn dependency; if it isn't referenced, a warning is
+    /// logged at startup and everything else works.
     /// </para>
-    /// <code language="csharp">
-    /// // Program.cs
-    /// builder.Services.AddBrowserApi();
-    /// builder.Services.AddBrowserApiCss();
-    /// </code>
-    /// <code language="razor">
-    /// &lt;!-- App.razor --&gt;
-    /// &lt;HeadContent&gt;&lt;BrowserApiCss /&gt;&lt;/HeadContent&gt;
-    /// </code>
+    /// <para>
+    /// Values that build-time tools need (<c>GlobalPrefix</c>, <c>StaticAssetPath</c>,
+    /// <c>AllowAppReferences</c>) must be literals or consts in the lambda; the
+    /// source generator copies them into the assembly for the <c>browserapi-css</c>
+    /// tool. Analyzer BCA005 warns otherwise.
+    /// </para>
     /// </remarks>
-    public static IServiceCollection AddBrowserApiCss(this IServiceCollection services) {
-        BrowserApi.Css.Authoring.CssRegistry.EnsureScanned();
-        return services;
-    }
-
-    /// <summary>
-    /// Configures the CSS-in-C# pipeline (global prefix, etc.) and triggers
-    /// the eager AppDomain scan with those options applied.
-    /// </summary>
-    /// <param name="services">The service collection (returned for chaining).</param>
-    /// <param name="configure">Callback that receives a fresh
-    /// <see cref="BrowserApi.Css.Authoring.CssOptions"/> to mutate.</param>
-    /// <returns>The same <see cref="IServiceCollection"/>.</returns>
     /// <example>
     /// <code>
-    /// builder.Services.AddBrowserApiCss(opts =&gt; {
-    ///     opts.GlobalPrefix = "mw";
+    /// builder.Services.AddBrowserApiCss(css => {
+    ///     css.GlobalPrefix    = "mw";
+    ///     css.StaticAssetPath = "css/app.css";
+    ///     css.HotReload       = true;
     /// });
     /// </code>
     /// </example>
     public static IServiceCollection AddBrowserApiCss(
         this IServiceCollection services,
-        System.Action<BrowserApi.Css.Authoring.CssOptions> configure) {
-        if (configure is null) throw new System.ArgumentNullException(nameof(configure));
+        System.Action<BrowserApi.Css.Authoring.CssOptions>? configure = null) {
         var options = new BrowserApi.Css.Authoring.CssOptions();
-        configure(options);
+        configure?.Invoke(options);
         BrowserApi.Css.Authoring.CssRegistry.Configure(options);
+
+        if (options.HotReload) {
+            RegisterHotReload(services);
+        }
         return services;
+    }
+
+    /// <summary>
+    /// Finds <c>BrowserApi.Css.Compiler.CssHotReloadExtensions.AddBrowserApiCssHotReload</c>
+    /// without a compile-time reference. A missing package is a configuration
+    /// slip, not a crash: register a startup warning instead.
+    /// </summary>
+    private static void RegisterHotReload(IServiceCollection services) {
+        System.Reflection.MethodInfo? method = null;
+        try {
+            var asm = System.Reflection.Assembly.Load("BrowserApi.Css.Compiler");
+            method = asm.GetType("BrowserApi.Css.Compiler.CssHotReloadExtensions")
+                ?.GetMethod("AddBrowserApiCssHotReload", new[] { typeof(IServiceCollection), typeof(string) });
+        } catch (System.IO.FileNotFoundException) {
+            // not referenced
+        }
+
+        if (method is null) {
+            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService>(sp => {
+                var log = sp.GetService<Microsoft.Extensions.Logging.ILoggerFactory>()?.CreateLogger("BrowserApi.Css");
+                Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(log!,
+                    "AddBrowserApiCss: HotReload = true but the BrowserApi.Css.Compiler package is not referenced; live reload is off. Add <PackageReference Include=\"BrowserApi.Css.Compiler\" /> (dev-time dependency).");
+                return new NoopHostedService();
+            });
+            return;
+        }
+        method.Invoke(null, new object?[] { services, null });
+    }
+
+    private sealed class NoopHostedService : Microsoft.Extensions.Hosting.IHostedService {
+        public System.Threading.Tasks.Task StartAsync(System.Threading.CancellationToken cancellationToken) => System.Threading.Tasks.Task.CompletedTask;
+        public System.Threading.Tasks.Task StopAsync(System.Threading.CancellationToken cancellationToken) => System.Threading.Tasks.Task.CompletedTask;
     }
 }

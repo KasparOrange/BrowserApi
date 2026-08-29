@@ -6,8 +6,12 @@ Complete spec: [`docs/plans/browser-api/css-in-csharp.md`](../../../../docs/plan
 ## TL;DR — three places to wire it
 
 ```csharp
-// 1. Program.cs — eager scan with options:
-builder.Services.AddBrowserApiCss(opts => opts.GlobalPrefix = "mw");
+// 1. Program.cs — THE single configuration place (prefix, static asset, live reload):
+builder.Services.AddBrowserApiCss(css => {
+    css.GlobalPrefix = "mw";
+    css.HotReload    = true;              // dev live loop (needs BrowserApi.Css.Compiler)
+    // css.StaticAssetPath = "css/app.css"; // prod: build writes the file, app serves <link>
+});
 ```
 
 ```razor
@@ -18,7 +22,7 @@ builder.Services.AddBrowserApiCss(opts => opts.GlobalPrefix = "mw");
 ```
 
 ```csharp
-// 3. AppStyles.cs — declare your styles. Field names auto-convert to CSS.
+// 3. AppStyles.css.cs — declare your styles (.css.cs suffix = part of the island). Field names auto-convert to CSS.
 using BrowserApi.Css;
 using BrowserApi.Css.Authoring;
 using StyleSheet = BrowserApi.Css.Authoring.StyleSheet;
@@ -73,15 +77,15 @@ public class AppStyles : StyleSheet {
 | 17 | CSS Functions | ✓ | `Length.Clamp/Min/Max/FitContent`, `GridTemplate.Repeat/MinMax`, `CssFn.Url/Env/String`, `CssFn.SafeArea.*`. |
 | 18 | Value Shorthands | ✓ | `Sides` (1 / 2-tuple / 4-tuple via `Sides.Of`), `Border.Solid/Dashed/...`, BCA001 warns on unnamed 4-tuples. |
 | 19 | Stylesheet-Injected Helpers | ✓ | `Self`, `From`, `To`, `Is(...)`, `Where(...)` via `protected static` on `StyleSheet`. |
-| 20 | Prefixing & Config | ✓ | `[Prefix("...")]` attribute + `CssOptions.GlobalPrefix` via `AddBrowserApiCss(opts => ...)`. Single-place Program.cs config remains the post-MVP aspiration. |
-| 21 | File Convention | ✓ | `.css.cs` extension is a human convention; the source gen and runtime walker don't depend on it. |
+| 20 | Prefixing & Config | ✓ | **Single-place `Program.cs` config shipped 2026-08-21.** `AddBrowserApiCss(css => …)` is the only surface; `CssConfigGenerator` mirrors constant values into `[assembly: BrowserApiCssConfig]` for build-time tools; BCA005 warns on non-constants. `[Prefix("...")]` is the per-sheet override. |
+| 21 | File Convention | ✓ | `.css.cs` is what the island compiler (`BrowserApi.Css.Compiler`) collects for live reload and static emission; the source gen and runtime walker don't depend on it. Island files may reference `BrowserApi` and other stylesheets only. |
 | 22 | Conditional Classes | ✓ | `.When(bool)` + `Class.None`. |
 | 23 | Class Variants | ✓ | `.Variant(slug)` for BEM-style modifiers. |
 | 24 | @font-face | ✓ | `FontFace` discovered by type, init-only properties for family/src/weight/style/display/unicode-range. |
 | 25 | @supports | ✓ | `Supports.Property/Grid/Flex/Nesting`, `&`/`\|`/`!` operators. |
 | 26 | Not Supported | ✓ | IDs for styling, `::deep`, 3-value sides, `@import`, Tailwind. |
 | 27 | Source Maps | — | Deferred; re-specced 2026-08-21 as DIRECT CSS→C# map emission (no SCSS hop) — see css-emission-modes.md. |
-| 28 | Source Gen DX | partial | BCA001/BCA002/BCA003 analyzers shipped; scaffold/converter/code-fix providers deferred. |
+| 28 | Source Gen DX | partial | BCA001/BCA002/BCA003/BCA005 analyzers shipped; scaffold/converter/code-fix providers deferred. |
 | 29 | Color Functions | ✓ | `.Lighten/.Darken/.Saturate/.Desaturate/.AdjustHue/.Complement/.Grayscale/.Invert/.WithAlpha/.Mix` using CSS relative-color syntax (works for both literals and variables). |
 | 30 | @property | ✓ | Auto-emitted from `CssVar<T>` with syntax inferred from T (Length → `<length>`, etc.). |
 | 31 | var() Fallbacks | ✓ | `.Or(fallback)` returns T for inside-out nesting. |
@@ -92,7 +96,7 @@ public class AppStyles : StyleSheet {
 
 ## Test surface
 
-678 unit tests in `tests/BrowserApi.Tests/Css/Authoring/`:
+Unit tests live in `tests/BrowserApi.Tests/Css/Authoring/` (plus `tests/BrowserApi.Css.Compiler.Tests/` for the island compiler):
 
 - `StyleSheetTests` / `SelectorTests` — operator precedence, pseudo-class chaining, nesting.
 - `InjectedHelperTests` — `Self`, `Is`, `Where` from inside a stylesheet.
@@ -116,13 +120,14 @@ public class AppStyles : StyleSheet {
 
 ## What's NOT here (real follow-up work)
 
-Planned next (see [css-emission-modes.md](../../../../docs/plans/browser-api/css-emission-modes.md)):
-hot-reload awareness (MetadataUpdateHandler + re-instantiating registry +
-live style push), Roslyn sidecar watcher over the `.css.cs` island, static
-asset emission with drift guard, and **direct** CSS→C# source maps. The
-former #1 on this list — the Sass intermediate — was RETIRED 2026-08-21
-(rationale in that plan's decision record; the design stays sketched in the
-spec for potential Sass-ecosystem interop).
+Emission modes shipped 2026-08-21 (see
+[css-emission-modes.md](../../../../docs/plans/browser-api/css-emission-modes.md)):
+live reload via the in-process `*.css.cs` island compiler
+(`BrowserApi.Css.Compiler`, `css.HotReload = true`), static asset
+emission with drift guard (`css.StaticAssetPath`, `browserapi-css` tool run
+by the build), the app-not-running watcher, and `css.AllowAppReferences`
+for stylesheets that read app constants. Direct CSS→C# source maps remain open. The
+Sass intermediate was RETIRED the same day (rationale in that plan).
 
 1. ~~Sass intermediate + chained source maps~~ — RETIRED, see above.
 2. **Full HTML / CSS spec generators** — `El.*` and the typed-property
@@ -149,6 +154,18 @@ spec for potential Sass-ecosystem interop).
   placeholder tokens at static-cctor time and resolve them at render time
   (after names are populated), so users can compose freely in field
   initializers without ordering hazards.
+- **Config bridge.** `CssOptions` is set once in `Program.cs`.
+  `CssConfigGenerator` (SourceGen) copies the constant values into
+  `BrowserApiCssConfigAttribute` so `browserapi-css` can read them from the
+  built DLL without running the app. Non-constants → BCA005.
+- **Override slot.** `CssRegistry.SetOverride` swaps in CSS rendered by
+  the island compiler; `Changed` tells `<BrowserApiCss />` to re-render.
+  The app's `static readonly` fields are never mutated — the CLR can't
+  re-run a type initializer — the island is a second copy whose *CSS*
+  replaces the registry output while class names stay identical.
+- **Deterministic order.** Stylesheets render sorted by type full name so
+  the app, the CLI, and the test host produce identical bytes (mode-3
+  drift guard depends on it).
 - **Source generator is additive.** The runtime registry's lazy
   AppDomain scan still works without `BrowserApi.Css.SourceGen`; the
   generator just moves the cost to compile time and gives compile-time
