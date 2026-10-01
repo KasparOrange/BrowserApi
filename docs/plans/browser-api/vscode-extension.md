@@ -229,6 +229,24 @@ The "wow" tier — only worth doing after the CSS-in-C# API in [css-in-csharp.md
 - **MDN data licensing** — MDN content is CC-BY-SA 2.5. We can link and quote; bundling excerpts needs attribution.
 - **Does the "Show generated CSS" preview require the project to build?** Almost certainly yes. Cache the last successful build output and show stale-with-warning if the build is failing.
 
+## Editor Platform Comparison (May 2026)
+
+After researching Zed (Rust/WASM extensions) and revisiting VS Code's limitations, a Rider plugin (Kotlin, IntelliJ Platform) appears to be the strongest path for custom tooling — especially for features that require inline rich rendering, which neither VS Code nor Zed can do.
+
+| Capability | Rider (Kotlin plugin) | VS Code (TS extension) | Zed (Rust/WASM) |
+|---|---|---|---|
+| Inline rich rendering | Full | CSS decorations only | Not possible |
+| Custom panels/webviews | Swing + JCEF | Webview API | Not possible |
+| Editor buffer manipulation | Full PSI | Limited | Not possible |
+| Custom commands | Full action system | Command palette | Not possible |
+| Inlay hints (programmatic) | Full | `InlayHintsProvider` | LSP-only |
+| File decorations | Full | `FileDecorationProvider` | Icon themes only |
+| Semantic code analysis | PSI + Roslyn (ReSharper layer) | Via LSP | Via LSP |
+| Drag-and-drop | Full | Partial | Not possible |
+| .NET/Blazor support built-in | Best in class | Good (C# Dev Kit) | Minimal |
+
+**Key takeaway:** Rider/IntelliJ gives the most headroom. The flagship features in this plan — color pickers, inline CSS previews, "show generated CSS" panel, drag-drop asset insertion — are all straightforward with the IntelliJ API. Zed's extension API is deliberately minimal (no custom UI, no inlays, no editor manipulation) and expansion is at least 12–18 months away with no official roadmap commitment. The Roslyn-side work (analyzers, code fixes, source generators) remains IDE-agnostic and covers all three editors.
+
 ## What NOT to Do
 
 - Do not put diagnostics, analyzers, or refactorings in the extension. They belong in Roslyn so Rider/VS/CLI get them too.
