@@ -15,7 +15,7 @@ lastDtbSucceeded
 [properties]
 AssemblyName=BrowserApi.Tests
 CommandLineArgsForDesignTimeEvaluation=-langversion:14 -define:TRACE
-CompilerGeneratedFilesOutputPath=
+CompilerGeneratedFilesOutputPath=obj\Debug/net10.0//generated
 MaxSupportedLangVersion=14.0
 ProjectAssetsFile=<PATH>obj/project.assets.json
 RootNamespace=BrowserApi.Tests
