@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 
 namespace BrowserApi.SourceGen;
@@ -12,12 +13,17 @@ namespace BrowserApi.SourceGen;
 [Generator(LanguageNames.CSharp)]
 public sealed class JsModuleGenerator : IIncrementalGenerator {
     private const string AttributeFullName = "BrowserApi.SourceGen.JsModuleAttribute";
+    private const string PathResolverFullName = "BrowserApi.SourceGen.IJsModulePathResolver";
+    private const string ElementReferenceFullName = "Microsoft.AspNetCore.Components.ElementReference";
+    private const string DefaultNamespace = "JsModules";
 
     public void Initialize(IncrementalGeneratorInitializationContext context) {
-        // Emit marker attribute + path resolver interface
+        // Only the marker attribute is emitted unconditionally, and it stays internal. Anything
+        // public emitted here lands in every assembly under one fixed name, which is what made a
+        // generator-using library unusable from a generator-using app. The path resolver contract
+        // therefore lives in BrowserApi.JSInterop, not in generated code.
         context.RegisterPostInitializationOutput(static ctx => {
             ctx.AddSource("JsModuleAttribute.g.cs", SourceText.From(AttributeSource, Encoding.UTF8));
-            ctx.AddSource("IJsModulePathResolver.g.cs", SourceText.From(PathResolverSource, Encoding.UTF8));
         });
 
         // Get all .js and .d.ts AdditionalFiles
@@ -32,12 +38,39 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
                 transform: static (ctx, ct) => GetExplicitClassInfo(ctx, ct))
             .Where(static info => info is not null);
 
-        var combined = scriptFiles.Collect().Combine(explicitDeclarations.Collect());
+        // Reduced to plain values right away so the output step only reruns when one of them
+        // changes, not on every keystroke's new Compilation.
+        var compilationFacts = context.CompilationProvider.Select(static (compilation, _) => (
+            compilation.AssemblyName,
+            // Plural lookup on purpose: GetTypeByMetadataName returns null when two referenced
+            // assemblies define the name, which would silently drop resolver support. An old
+            // library still carrying its generated copy should fail loudly as CS0433 instead.
+            HasPathResolver: compilation.GetTypesByMetadataName(PathResolverFullName).Length > 0,
+            HasElementReference: compilation.GetTypeByMetadataName(ElementReferenceFullName) is not null));
 
-        context.RegisterSourceOutput(combined, static (spc, pair) => {
-            var (allFiles, explicitClasses) = pair;
-            GenerateAll(spc, allFiles, explicitClasses!);
+        var buildProperties = context.AnalyzerConfigOptionsProvider.Select(static (options, _) => (
+            Namespace: ReadBuildProperty(options, "BrowserApiSourceGenNamespace"),
+            ModuleBasePath: ReadBuildProperty(options, "BrowserApiSourceGenModuleBasePath")));
+
+        var combined = scriptFiles.Collect()
+            .Combine(explicitDeclarations.Collect())
+            .Combine(compilationFacts)
+            .Combine(buildProperties);
+
+        context.RegisterSourceOutput(combined, static (spc, input) => {
+            var (((allFiles, explicitClasses), facts), properties) = input;
+            var settings = new GenerationSettings(
+                facts.AssemblyName, facts.HasPathResolver, facts.HasElementReference,
+                properties.Namespace, properties.ModuleBasePath);
+            GenerateAll(spc, allFiles, explicitClasses!, settings);
         });
+    }
+
+    private static string? ReadBuildProperty(AnalyzerConfigOptionsProvider options, string name) {
+        return options.GlobalOptions.TryGetValue("build_property." + name, out var value)
+            && !string.IsNullOrWhiteSpace(value)
+            ? value.Trim()
+            : null;
     }
 
     private static ExplicitClassInfo? GetExplicitClassInfo(GeneratorAttributeSyntaxContext ctx, CancellationToken ct) {
@@ -70,7 +103,8 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
     private static void GenerateAll(
         SourceProductionContext context,
         ImmutableArray<AdditionalText> allFiles,
-        ImmutableArray<ExplicitClassInfo?> explicitClasses) {
+        ImmutableArray<ExplicitClassInfo?> explicitClasses,
+        GenerationSettings settings) {
 
         if (allFiles.IsEmpty) return;
 
@@ -109,10 +143,10 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             if (dtsFile is not null) {
                 var dtsSource = dtsFile.GetText(context.CancellationToken)?.ToString();
                 if (dtsSource is not null) {
-                    var parsed = ParseAndReport(dtsSource, context);
+                    var parsed = ParseAndReport(dtsSource, context, settings);
                     if (parsed.Functions.Count > 0 || parsed.Interfaces.Count > 0) {
                         EmitFromTsResult(context, ec.ClassName, ec.Namespace, ec.JsPath,
-                            ec.Accessibility, parsed, emittedTypes, dtsFile.Path);
+                            ec.Accessibility, parsed, emittedTypes, dtsFile.Path, settings);
                         generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
                         continue;
                     }
@@ -123,10 +157,10 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             if (tsFile is not null) {
                 var tsSource = tsFile.GetText(context.CancellationToken)?.ToString();
                 if (tsSource is not null) {
-                    var parsed = ParseAndReport(tsSource, context);
+                    var parsed = ParseAndReport(tsSource, context, settings);
                     if (parsed.Functions.Count > 0 || parsed.Interfaces.Count > 0) {
                         EmitFromTsResult(context, ec.ClassName, ec.Namespace, ec.JsPath,
-                            ec.Accessibility, parsed, emittedTypes, tsFile.Path);
+                            ec.Accessibility, parsed, emittedTypes, tsFile.Path, settings);
                         generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
                         continue;
                     }
@@ -148,7 +182,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             if (jsSource is null) continue;
             var functions = JsDocParser.Parse(jsSource);
             if (functions.Count == 0) continue;
-            EmitModuleClass(context, ec.ClassName, ec.Namespace, ec.JsPath, ec.Accessibility, functions);
+            EmitModuleClass(context, ec.ClassName, ec.Namespace, ec.JsPath, ec.Accessibility, functions, settings);
             generatedClasses.Add(new GeneratedClassInfo(ec.ClassName, ec.Namespace));
         }
 
@@ -175,14 +209,14 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             var dtsSource = dtsFile.GetText(context.CancellationToken)?.ToString();
             if (dtsSource is null) continue;
 
-            var parsed = ParseAndReport(dtsSource, context);
+            var parsed = ParseAndReport(dtsSource, context, settings);
             if (parsed.Functions.Count == 0 && parsed.Interfaces.Count == 0) continue;
 
             var className = JsDocParser.SanitizeIdentifier(JsDocParser.ToPascalCase(stem)) + "Module";
-            var jsPath = DeriveImportPath(dtsFile.Path);
-            var ns = "JsModules";
+            var jsPath = DeriveImportPath(dtsFile.Path, settings);
+            var ns = settings.Namespace;
 
-            EmitFromTsResult(context, className, ns, jsPath, "public", parsed, emittedTypes, dtsFile.Path);
+            EmitFromTsResult(context, className, ns, jsPath, "public", parsed, emittedTypes, dtsFile.Path, settings);
             generatedClasses.Add(new GeneratedClassInfo(className, ns));
         }
 
@@ -198,7 +232,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             var tsSource = tsFile.GetText(context.CancellationToken)?.ToString();
             if (tsSource is null) continue;
 
-            var parsed = ParseAndReport(tsSource, context);
+            var parsed = ParseAndReport(tsSource, context, settings);
             // If nothing was parsed, fall through to the JSDoc-only pass below. That preserves
             // the legacy "parse any .ts like a .js" behavior for files that have JSDoc on
             // plain JavaScript without TypeScript typing annotations.
@@ -208,10 +242,10 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             }
 
             var className = JsDocParser.SanitizeIdentifier(JsDocParser.ToPascalCase(stem)) + "Module";
-            var jsPath = DeriveImportPath(tsFile.Path);
-            var ns = "JsModules";
+            var jsPath = DeriveImportPath(tsFile.Path, settings);
+            var ns = settings.Namespace;
 
-            EmitFromTsResult(context, className, ns, jsPath, "public", parsed, emittedTypes, tsFile.Path);
+            EmitFromTsResult(context, className, ns, jsPath, "public", parsed, emittedTypes, tsFile.Path, settings);
             generatedClasses.Add(new GeneratedClassInfo(className, ns));
         }
 
@@ -229,21 +263,32 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
             if (functions.Count == 0) continue;
 
             var className = JsDocParser.SanitizeIdentifier(JsDocParser.ToPascalCase(stem)) + "Module";
-            var jsPath = DeriveImportPath(jsFile.Path);
-            var ns = "JsModules";
+            var jsPath = DeriveImportPath(jsFile.Path, settings);
+            var ns = settings.Namespace;
 
-            EmitModuleClass(context, className, ns, jsPath, "public", functions);
+            EmitModuleClass(context, className, ns, jsPath, "public", functions, settings);
             generatedClasses.Add(new GeneratedClassInfo(className, ns));
         }
 
-        // 3. Generate AddJsModules()
+        // 3. Generate the DI registration
         if (generatedClasses.Count > 0)
-            EmitServiceRegistration(context, generatedClasses);
+            EmitServiceRegistration(context, generatedClasses, settings);
     }
 
-    private static TsParseResult ParseAndReport(string dtsSource, SourceProductionContext context) {
-        var parsed = TsDeclarationParser.Parse(dtsSource);
+    private static TsParseResult ParseAndReport(string dtsSource, SourceProductionContext context,
+        GenerationSettings settings) {
+        var parsed = TsDeclarationParser.Parse(dtsSource, settings.HasElementReference);
         foreach (var fb in parsed.UnknownTypeFallbacks) {
+            if (fb.IsSkippedProperty) {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    new DiagnosticDescriptor("BAPI002",
+                        "TypeScript property left out of the generated record",
+                        "Could not parse '{0}' in interface {1}, so this property is left out of the generated record. Its type is not supported; declare an interface or use a supported shape.",
+                        "BrowserApi.SourceGen", DiagnosticSeverity.Warning, true),
+                    Location.None, fb.TsType, fb.Context));
+                continue;
+            }
+
             context.ReportDiagnostic(Diagnostic.Create(
                 new DiagnosticDescriptor("BAPI002",
                     "Unknown TypeScript type mapped to object",
@@ -260,7 +305,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         SourceProductionContext context, string className, string? ns,
         string jsPath, string accessibility, TsParseResult parsed,
         System.Collections.Generic.HashSet<string> emittedTypes,
-        string sourcePath) {
+        string sourcePath, GenerationSettings settings) {
 
         // Emit enum files (skip duplicates across files)
         foreach (var enumInfo in parsed.Enums) {
@@ -278,7 +323,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
 
         // Emit module class
         if (parsed.Functions.Count > 0)
-            EmitModuleClass(context, className, ns, jsPath, accessibility, parsed.Functions, sourcePath);
+            EmitModuleClass(context, className, ns, jsPath, accessibility, parsed.Functions, settings, sourcePath);
     }
 
     /// <summary>
@@ -381,6 +426,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         SourceProductionContext context, string className, string? ns,
         string jsPath, string accessibility,
         System.Collections.Generic.List<JsFunctionInfo> functions,
+        GenerationSettings settings,
         string? sourcePath = null) {
 
         var moduleName = GetStem(jsPath);
@@ -399,7 +445,7 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
 
         sb.AppendLine($"/// <summary>Typed C# wrapper for the <c>{jsPath}</c> JavaScript module.</summary>");
         sb.AppendLine($"/// <remarks>");
-        sb.AppendLine($"/// Register in DI via <c>builder.Services.AddJsModules();</c>, then inject as a scoped service.");
+        sb.AppendLine($"/// Register in DI via <c>services.AddJsModules()</c> inside the <c>{settings.AssemblyDisplayName}</c> assembly, or <c>services.{settings.RegistrationMethodName}()</c> from any other, then inject as a scoped service.");
         sb.AppendLine($"/// The JavaScript is lazily imported on first call, not at registration time.");
         sb.AppendLine($"/// </remarks>");
         sb.AppendLine($"{accessibility} partial class {className} : System.IAsyncDisposable {{");
@@ -408,13 +454,21 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         sb.AppendLine($"    private IJSObjectReference? _module;");
         sb.AppendLine();
 
-        // Constructor with optional path resolver
+        // Constructor with optional path resolver. Without BrowserApi.JSInterop referenced there
+        // is no contract to name, and a generator-only consumer must keep compiling, so the
+        // parameter is left out rather than emitting a private copy of the interface again.
         sb.AppendLine($"    /// <summary>Creates a new <see cref=\"{className}\"/>.</summary>");
         sb.AppendLine($"    /// <param name=\"js\">The Blazor JS runtime.</param>");
-        sb.AppendLine($"    /// <param name=\"pathResolver\">Optional path resolver for Vite/hashed module paths.</param>");
-        sb.AppendLine($"    public {className}(IJSRuntime js, BrowserApi.SourceGen.IJsModulePathResolver? pathResolver = null) {{");
-        sb.AppendLine($"        _js = js;");
-        sb.AppendLine($"        _modulePath = pathResolver?.Resolve(\"{moduleName}\") ?? \"{jsPath}\";");
+        if (settings.HasPathResolver) {
+            sb.AppendLine($"    /// <param name=\"pathResolver\">Optional path resolver for Vite/hashed module paths.</param>");
+            sb.AppendLine($"    public {className}(IJSRuntime js, global::{PathResolverFullName}? pathResolver = null) {{");
+            sb.AppendLine($"        _js = js;");
+            sb.AppendLine($"        _modulePath = pathResolver?.Resolve(\"{moduleName}\", \"{settings.AssemblyDisplayName}\") ?? \"{jsPath}\";");
+        } else {
+            sb.AppendLine($"    public {className}(IJSRuntime js) {{");
+            sb.AppendLine($"        _js = js;");
+            sb.AppendLine($"        _modulePath = \"{jsPath}\";");
+        }
         sb.AppendLine($"    }}");
         sb.AppendLine();
 
@@ -448,9 +502,18 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         context.AddSource($"{className}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
     }
 
+    /// <summary>
+    /// Emit the DI registration as two classes, so it cannot collide across assemblies:
+    /// a public one named after the assembly, reachable from a host, and an internal
+    /// <c>AddJsModules()</c> alias that keeps the short name working inside the assembly.
+    /// Internal types of a referenced assembly are invisible to the compiler, which is what
+    /// makes the fixed short name safe (barring <c>InternalsVisibleTo</c> between two
+    /// generator-using assemblies).
+    /// </summary>
     private static void EmitServiceRegistration(
         SourceProductionContext context,
-        System.Collections.Generic.List<GeneratedClassInfo> classes) {
+        System.Collections.Generic.List<GeneratedClassInfo> classes,
+        GenerationSettings settings) {
 
         var sb = new StringBuilder();
         sb.AppendLine("// <auto-generated/>");
@@ -458,10 +521,10 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         sb.AppendLine();
         sb.AppendLine("namespace Microsoft.Extensions.DependencyInjection;");
         sb.AppendLine();
-        sb.AppendLine("/// <summary>Registers all generated JS module wrapper classes.</summary>");
-        sb.AppendLine("public static class JsModuleServiceCollectionExtensions {");
-        sb.AppendLine("    /// <summary>Registers all generated JS module wrappers as scoped services.</summary>");
-        sb.AppendLine("    public static IServiceCollection AddJsModules(this IServiceCollection services) {");
+        sb.AppendLine($"/// <summary>Registers the JS module wrappers generated into the <c>{settings.AssemblyDisplayName}</c> assembly.</summary>");
+        sb.AppendLine($"public static class {settings.RegistrationClassName} {{");
+        sb.AppendLine($"    /// <summary>Registers the JS module wrappers of <c>{settings.AssemblyDisplayName}</c> as scoped services.</summary>");
+        sb.AppendLine($"    public static IServiceCollection {settings.RegistrationMethodName}(this IServiceCollection services) {{");
 
         foreach (var c in classes) {
             var fullName = c.Namespace is not null ? $"{c.Namespace}.{c.ClassName}" : c.ClassName;
@@ -470,6 +533,12 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
 
         sb.AppendLine("        return services;");
         sb.AppendLine("    }");
+        sb.AppendLine("}");
+        sb.AppendLine();
+        sb.AppendLine($"/// <summary>Short alias of <see cref=\"{settings.RegistrationClassName}.{settings.RegistrationMethodName}\"/> for code inside this assembly.</summary>");
+        sb.AppendLine("internal static class JsModuleServiceCollectionExtensions {");
+        sb.AppendLine("    /// <summary>Registers the JS module wrappers of this assembly as scoped services.</summary>");
+        sb.AppendLine($"    internal static IServiceCollection AddJsModules(this IServiceCollection services) => services.{settings.RegistrationMethodName}();");
         sb.AppendLine("}");
 
         context.AddSource("JsModuleServiceCollectionExtensions.g.cs",
@@ -583,10 +652,16 @@ public sealed class JsModuleGenerator : IIncrementalGenerator {
         return name;
     }
 
-    private static string DeriveImportPath(string filePath) {
+    private static string DeriveImportPath(string filePath, GenerationSettings settings) {
         var normalized = filePath.Replace("\\", "/");
         // Always use .js extension for the import path (browsers don't load .d.ts or .ts)
         var stem = GetStem(filePath);
+
+        // An RCL serves its bundles from _content/<PackageId>/, a URL the source file's location
+        // can't reveal, so the project states the folder.
+        if (settings.ModuleBasePath is not null)
+            return settings.ModuleBasePath.TrimEnd('/') + "/" + stem + ".js";
+
         var dir = "";
         var wwwrootIndex = normalized.LastIndexOf("wwwroot/");
         if (wwwrootIndex >= 0) {
@@ -605,7 +680,7 @@ namespace BrowserApi.SourceGen;
 /// <summary>
 /// Marks a partial class as a typed wrapper for a JavaScript ES module.
 /// For zero-config auto-discovery, just add JS/TS files as AdditionalFiles
-/// and call <c>builder.Services.AddJsModules();</c>.
+/// and call <c>services.AddJsModules()</c>.
 /// </summary>
 [System.AttributeUsage(System.AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
 internal sealed class JsModuleAttribute : System.Attribute {
@@ -616,32 +691,47 @@ internal sealed class JsModuleAttribute : System.Attribute {
 }
 ";
 
-    private const string PathResolverSource = @"// <auto-generated/>
-namespace BrowserApi.SourceGen;
-
-/// <summary>
-/// Resolves JS module names to their actual import paths.
-/// Implement this to integrate with build tools like Vite that produce
-/// content-hashed filenames (e.g., ""mw-dnd"" → ""/js/dist/mw-dnd.a1b2c3.mjs"").
-/// </summary>
-/// <remarks>
-/// Register your implementation in DI:
-/// <code>builder.Services.AddSingleton&lt;IJsModulePathResolver, MyViteResolver&gt;();</code>
-/// Generated module classes accept it via constructor injection automatically.
-/// If not registered, modules fall back to their raw file paths.
-/// </remarks>
-public interface IJsModulePathResolver {
-    /// <summary>
-    /// Resolves a module name (e.g., ""mw-dnd"") to its importable path
-    /// (e.g., ""/js/dist/mw-dnd.a1b2c3.mjs"").
-    /// </summary>
-    /// <param name=""moduleName"">The module name without extension.</param>
-    /// <returns>The full path suitable for JavaScript dynamic import().</returns>
-    string Resolve(string moduleName);
-}
-";
-
     // ─── Internal types ─────────────────────────────────────────────────────
+
+    /// <summary>Everything about the consuming project that shapes the generated code.</summary>
+    private sealed class GenerationSettings {
+        public string AssemblyDisplayName { get; }
+        public bool HasPathResolver { get; }
+        public bool HasElementReference { get; }
+        public string Namespace { get; }
+        public string? ModuleBasePath { get; }
+        public string RegistrationClassName { get; }
+        public string RegistrationMethodName { get; }
+
+        public GenerationSettings(string? assemblyName, bool hasPathResolver, bool hasElementReference,
+            string? ns, string? moduleBasePath) {
+            AssemblyDisplayName = assemblyName ?? "";
+            HasPathResolver = hasPathResolver;
+            HasElementReference = hasElementReference;
+            Namespace = ns ?? DefaultNamespace;
+            ModuleBasePath = moduleBasePath;
+
+            var stem = ToIdentifierStem(assemblyName);
+            RegistrationClassName = stem + "JsModuleServiceCollectionExtensions";
+            RegistrationMethodName = "Add" + stem + "JsModules";
+        }
+
+        /// <summary>Turns <c>MitWare.Components.Interop</c> into <c>MitWareComponentsInterop</c>.</summary>
+        private static string ToIdentifierStem(string? assemblyName) {
+            var sb = new StringBuilder();
+            var startOfWord = true;
+            foreach (var c in assemblyName ?? "") {
+                if (!char.IsLetterOrDigit(c)) {
+                    startOfWord = true;
+                    continue;
+                }
+                sb.Append(startOfWord ? char.ToUpperInvariant(c) : c);
+                startOfWord = false;
+            }
+            if (sb.Length > 0 && char.IsDigit(sb[0])) sb.Insert(0, '_');
+            return sb.ToString();
+        }
+    }
 
     private sealed class ExplicitClassInfo {
         public string ClassName { get; }

@@ -7,6 +7,9 @@
 
     <ItemGroup>
         <ProjectReference Include="../../src/BrowserApi.SourceGen/BrowserApi.SourceGen.csproj" />
+        <!-- The real IJsModulePathResolver, so the cross-assembly tests compile against the
+             same contract consumers get. -->
+        <ProjectReference Include="../../src/BrowserApi.JSInterop/BrowserApi.JSInterop.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -20,7 +23,7 @@
              and we confirm the emitted C# compiles cleanly against the real types a Blazor
              consumer would see. -->
         <PackageReference Include="Microsoft.JSInterop" Version="10.0.*" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.*" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.*" />
     </ItemGroup>
 
     <ItemGroup>

@@ -35,6 +35,12 @@ internal sealed class TsEnumMember {
 internal sealed class TsTypeFallback {
     public string TsType { get; set; } = "";
     public string Context { get; set; } = "";
+
+    /// <summary>
+    /// The whole property was left out of the record, rather than typed <c>object</c>.
+    /// <see cref="TsType"/> then holds the property's text, <see cref="Context"/> the interface.
+    /// </summary>
+    public bool IsSkippedProperty { get; set; }
 }
 
 /// <summary>Result of parsing a .d.ts file.</summary>

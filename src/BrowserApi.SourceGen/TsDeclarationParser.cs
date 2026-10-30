@@ -67,6 +67,26 @@ internal static class TsDeclarationParser {
         @"(\w+)(\??):\s*(.+)",
         RegexOptions.Compiled);
 
+    // Line breaks around a union's `|`. Prettier formats a long union one member per line,
+    // and PropertyRegex / TypedParamRegex work on one line. The newline requirement keeps
+    // this away from a `|` inside a string literal.
+    private static readonly Regex MultiLineUnionBreakRegex = new(
+        @"\s*\n\s*\|\s*|\|\s*\n\s*",
+        RegexOptions.Compiled);
+
+    // The optional `|` before a union's first member: `kind: | 'a' | 'b'`.
+    private static readonly Regex LeadingUnionPipeRegex = new(
+        @"^(\s*\w+\??\s*:)\s*\|",
+        RegexOptions.Compiled);
+
+    // DOM element types a function parameter can carry. Blazor passes an ElementReference
+    // and revives it into the element on the JS side.
+    private static readonly Regex DomElementTypeRegex = new(
+        @"^(?:Element|(?:HTML|SVG)\w*Element)$",
+        RegexOptions.Compiled);
+
+    private const string ElementReferenceTypeName = "Microsoft.AspNetCore.Components.ElementReference";
+
     // Blazor interop type names that are pre-declared by Microsoft.JSInterop.
     // If a consumer declares these as stub `interface X {}` in a .d.ts (usually just
     // to satisfy the TypeScript compiler), we ignore the declaration entirely — no
@@ -77,7 +97,12 @@ internal static class TsDeclarationParser {
         "DotNetObjectReference",
     };
 
-    public static TsParseResult Parse(string dtsSource) {
+    /// <param name="dtsSource">The <c>.ts</c> / <c>.d.ts</c> source text.</param>
+    /// <param name="elementReferenceAvailable">
+    /// Whether the consumer can see Blazor's <c>ElementReference</c>. Without it, DOM element
+    /// parameters stay the reported <c>object</c> fallback instead of a compile error.
+    /// </param>
+    public static TsParseResult Parse(string dtsSource, bool elementReferenceAvailable = false) {
         var result = new TsParseResult();
 
         // Pass 1: Collect all interface names into the type map (handles forward references).
@@ -113,24 +138,39 @@ internal static class TsDeclarationParser {
             // Walk the body stateful: each property is paired with whatever JSDoc
             // preceded it (property-level summary), or null if none was written.
             foreach (var (propSummary, propLine) in IterInterfacePropertiesWithJsDoc(rawBody)) {
-                var propMatch = PropertyRegex.Match(propLine);
-                if (!propMatch.Success) continue;
+                var propText = JoinMultiLineUnion(propLine);
+                var propMatch = PropertyRegex.Match(propText);
+                if (!propMatch.Success) {
+                    // Dropping a property unreported loses data at runtime with a green build.
+                    // The `:` check skips what isn't a property at all, like the stray `};`
+                    // left over after an inline object type.
+                    if (propText.Contains(":")) {
+                        result.UnknownTypeFallbacks.Add(new TsTypeFallback {
+                            TsType = propText.Trim(),
+                            Context = ifaceName,
+                            IsSkippedProperty = true
+                        });
+                    }
+                    continue;
+                }
 
                 var propName = propMatch.Groups[1].Value;
                 var isOptional = propMatch.Groups[2].Value == "?";
                 var tsType = propMatch.Groups[3].Value.Trim();
 
                 // Inline string-literal union → synthesize an enum and use it as the type.
-                if (IsStringLiteralUnion(tsType)) {
+                var isNullableUnion = TryStripNullFromUnion(tsType, out var unionWithoutNull);
+                var enumSource = isNullableUnion ? unionWithoutNull : tsType;
+                if (IsStringLiteralUnion(enumSource)) {
                     var enumName = iface.CSharpName + JsDocParser.ToPascalCase(propName);
-                    var enumInfo = ParseStringLiteralUnion(enumName, tsType);
+                    var enumInfo = ParseStringLiteralUnion(enumName, enumSource);
                     result.Enums.Add(enumInfo);
-                    result.TypeMap[tsType] = enumName;
+                    result.TypeMap[enumSource] = enumName;
 
                     iface.Properties.Add(new TsPropertyInfo {
                         TsName = propName,
                         CSharpName = JsDocParser.ToPascalCase(propName),
-                        CSharpType = isOptional ? enumName + "?" : enumName,
+                        CSharpType = isOptional || isNullableUnion ? enumName + "?" : enumName,
                         IsOptional = isOptional,
                         IsRequired = !isOptional,
                         Summary = propSummary
@@ -171,14 +211,14 @@ internal static class TsDeclarationParser {
             // Parse typed parameters
             if (!string.IsNullOrWhiteSpace(paramStr)) {
                 foreach (var paramPart in SplitParams(paramStr)) {
-                    var trimmed = paramPart.Trim();
+                    var trimmed = JoinMultiLineUnion(paramPart).Trim();
                     if (string.IsNullOrEmpty(trimmed)) continue;
 
                     var typedMatch = TypedParamRegex.Match(trimmed);
                     if (typedMatch.Success) {
                         var pName = typedMatch.Groups[1].Value;
                         var pOptional = typedMatch.Groups[2].Value == "?";
-                        var pType = typedMatch.Groups[3].Value.Trim();
+                        var pType = StripDefaultInitializer(typedMatch.Groups[3].Value).Trim();
 
                         // Path C: if the parameter's top-level type is DotNetObjectReference
                         // (with or without a type argument), flag it. The generator will
@@ -197,8 +237,11 @@ internal static class TsDeclarationParser {
                             continue;
                         }
 
+                        // Parameters only: a DOM element can travel to JS as an ElementReference,
+                        // but cannot come back, so return types keep the object fallback.
                         var csPType = MapTsType(pType, result.TypeMap,
-                            result.UnknownTypeFallbacks, $"{funcName}({pName})");
+                            result.UnknownTypeFallbacks, $"{funcName}({pName})",
+                            mapDomElements: elementReferenceAvailable);
                         if (pOptional && !csPType.EndsWith("?"))
                             csPType += "?";
 
@@ -337,7 +380,8 @@ internal static class TsDeclarationParser {
 
     /// <summary>
     /// Find the next <c>;</c> character in <paramref name="body"/> starting at
-    /// <paramref name="start"/>, ignoring semicolons inside string literals.
+    /// <paramref name="start"/>, ignoring semicolons inside string literals and comments
+    /// (a comment on a union member's line may hold an apostrophe).
     /// Returns <c>-1</c> if none is found.
     /// </summary>
     private static int FindNextSemicolonOutsideStrings(string body, int start) {
@@ -347,6 +391,18 @@ internal static class TsDeclarationParser {
             var c = body[i];
             if (inString) {
                 if (c == stringChar && (i == 0 || body[i - 1] != '\\')) inString = false;
+                continue;
+            }
+            if (c == '/' && i + 1 < body.Length && body[i + 1] == '/') {
+                var nl = body.IndexOf('\n', i + 2);
+                if (nl < 0) return -1;
+                i = nl;
+                continue;
+            }
+            if (c == '/' && i + 1 < body.Length && body[i + 1] == '*') {
+                var end = body.IndexOf("*/", i + 2, StringComparison.Ordinal);
+                if (end < 0) return -1;
+                i = end + 1;
                 continue;
             }
             if (c == '\'' || c == '"' || c == '`') { inString = true; stringChar = c; continue; }
@@ -447,8 +503,80 @@ internal static class TsDeclarationParser {
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Rewrite a property or parameter whose union spans several lines into the one-line form
+    /// the regexes understand, dropping any comments between the members.
+    /// </summary>
+    private static string JoinMultiLineUnion(string text) {
+        var code = StripComments(text);
+        code = MultiLineUnionBreakRegex.Replace(code, " | ");
+        return LeadingUnionPipeRegex.Replace(code, "$1");
+    }
+
+    /// <summary>
+    /// Split a type at its top-level <c>|</c>, leaving those inside generics, parentheses,
+    /// object types and string literals alone.
+    /// </summary>
+    private static List<string> SplitTopLevelUnion(string tsType) {
+        var parts = new List<string>();
+        var depth = 0;
+        var start = 0;
+        var stringChar = '\0';
+        for (var i = 0; i < tsType.Length; i++) {
+            var c = tsType[i];
+            if (stringChar != '\0') {
+                if (c == stringChar) stringChar = '\0';
+                continue;
+            }
+            switch (c) {
+                case '\'' or '"' or '`': stringChar = c; break;
+                case '<' or '(' or '[' or '{': depth++; break;
+                // The `>` of an arrow type closes nothing.
+                case '>' when i > 0 && tsType[i - 1] == '=': break;
+                case '>' or ')' or ']' or '}': depth--; break;
+                case '|' when depth == 0:
+                    parts.Add(tsType.Substring(start, i - start).Trim());
+                    start = i + 1;
+                    break;
+            }
+        }
+        parts.Add(tsType.Substring(start).Trim());
+        return parts;
+    }
+
+    /// <summary>
+    /// Recognize <c>T | null</c> and <c>T | undefined</c> (in any order) and return the rest of
+    /// the union. <c>false</c> when the type has no such member or consists of nothing else.
+    /// </summary>
+    internal static bool TryStripNullFromUnion(string tsType, out string withoutNull) {
+        var parts = SplitTopLevelUnion(tsType);
+        var kept = parts.Where(p => p != "null" && p != "undefined").ToList();
+        withoutNull = string.Join(" | ", kept);
+        return kept.Count > 0 && kept.Count < parts.Count;
+    }
+
+    /// <summary>Remove a parameter's <c>= default</c> from its type text.</summary>
+    /// <remarks>
+    /// The default stays a JS concern. The C# parameter keeps the declared type and stays
+    /// required, because passing <c>null</c> from C# would not trigger the JS default anyway:
+    /// only <c>undefined</c> does.
+    /// </remarks>
+    private static string StripDefaultInitializer(string tsType) {
+        var depth = 0;
+        for (var i = 0; i < tsType.Length; i++) {
+            switch (tsType[i]) {
+                case '<' or '(' or '[' or '{': depth++; break;
+                case '>' when i > 0 && tsType[i - 1] == '=': break;
+                case '>' or ')' or ']' or '}': depth--; break;
+                case '=' when depth == 0 && (i + 1 >= tsType.Length || tsType[i + 1] != '>'):
+                    return tsType.Substring(0, i);
+            }
+        }
+        return tsType;
+    }
+
     internal static string MapTsType(string tsType, Dictionary<string, string> typeMap,
-        List<TsTypeFallback>? fallbacks = null, string? context = null) {
+        List<TsTypeFallback>? fallbacks = null, string? context = null, bool mapDomElements = false) {
         var trimmed = tsType.Trim();
 
         // Primitives + width aliases (intentional mappings — no fallback reported).
@@ -490,6 +618,13 @@ internal static class TsDeclarationParser {
             case "Guid": return "System.Guid";
         }
 
+        // `T | null` / `T | undefined`. Checked before the shapes below because a union can
+        // look like one of them from the outside: `null | string[]` ends like an array.
+        if (TryStripNullFromUnion(trimmed, out var withoutNull)) {
+            var inner = MapTsType(withoutNull, typeMap, fallbacks, context, mapDomElements);
+            return inner == "void" || inner.EndsWith("?") ? inner : inner + "?";
+        }
+
         // Blazor interop types. `DotNetObjectReference<T>` is generic and there is no
         // non-generic parameterizable base — `Microsoft.JSInterop.DotNetObjectReference`
         // is a static factory class (CS0721 if used as a parameter type). We can't
@@ -500,25 +635,25 @@ internal static class TsDeclarationParser {
         // Array<T>
         if (trimmed.StartsWith("Array<") && trimmed.EndsWith(">")) {
             var inner = trimmed.Substring(6, trimmed.Length - 7);
-            return MapTsType(inner, typeMap, fallbacks, context) + "[]";
+            return MapTsType(inner, typeMap, fallbacks, context, mapDomElements) + "[]";
         }
 
         // T[]
         if (trimmed.EndsWith("[]")) {
             var inner = trimmed.Substring(0, trimmed.Length - 2);
-            return MapTsType(inner, typeMap, fallbacks, context) + "[]";
+            return MapTsType(inner, typeMap, fallbacks, context, mapDomElements) + "[]";
         }
 
         // Promise<T> → unwrap
         if (trimmed.StartsWith("Promise<") && trimmed.EndsWith(">")) {
             var inner = trimmed.Substring(8, trimmed.Length - 9);
-            return MapTsType(inner, typeMap, fallbacks, context);
+            return MapTsType(inner, typeMap, fallbacks, context, mapDomElements);
         }
 
         // Record<string, T> → Dictionary<string, T>
         var recordMatch = RecordTypeRegex.Match(trimmed);
         if (recordMatch.Success) {
-            var valueType = MapTsType(recordMatch.Groups[1].Value, typeMap, fallbacks, context);
+            var valueType = MapTsType(recordMatch.Groups[1].Value, typeMap, fallbacks, context, mapDomElements);
             return $"System.Collections.Generic.Dictionary<string, {valueType}>";
         }
 
@@ -532,6 +667,10 @@ internal static class TsDeclarationParser {
         // Known interface name → use generated C# record name
         if (typeMap.TryGetValue(trimmed, out var mapped))
             return mapped;
+
+        // After the typeMap lookup, so an interface the author declared under a DOM name wins.
+        if (mapDomElements && DomElementTypeRegex.IsMatch(trimmed))
+            return ElementReferenceTypeName;
 
         // Unknown → object (silent degradation — record for diagnostic)
         if (fallbacks is not null && context is not null)

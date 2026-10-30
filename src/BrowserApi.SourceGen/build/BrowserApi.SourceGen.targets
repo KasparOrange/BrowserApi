@@ -30,6 +30,13 @@
         <BrowserApiTypeDeclarationsDest>$(MSBuildProjectDirectory)/obj/browserapi-types/browserapi.d.ts</BrowserApiTypeDeclarationsDest>
     </PropertyGroup>
 
+    <!-- Optional per-project settings. Listing them here is what makes them readable by
+         the generator; see the package README for what they do. -->
+    <ItemGroup>
+        <CompilerVisibleProperty Include="BrowserApiSourceGenNamespace" />
+        <CompilerVisibleProperty Include="BrowserApiSourceGenModuleBasePath" />
+    </ItemGroup>
+
     <Target Name="BrowserApiSourceGenCopyTypeDeclarations"
             BeforeTargets="BeforeBuild;BeforeRebuild"
             Inputs="$(BrowserApiTypeDeclarationsSource)"

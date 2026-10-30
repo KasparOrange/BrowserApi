@@ -134,6 +134,8 @@ public sealed class EntityConfig {
 |---|---|
 | `'a' \| 'b' \| 'c'` as a property type | `enum` named `<InterfaceName><PropertyName>` with `[JsonStringEnumMemberName("a")]` per member, decorated with `[JsonConverter(typeof(JsonStringEnumConverter<...>))]` |
 | `'kebab-case'` values | PascalCased to `KebabCase`; original preserved via `[JsonStringEnumMemberName]` |
+| Union over several lines, with or without a leading `\|` | same as the one-line form. Comments between members are fine in a property. In a function parameter they must not hold `,` or `)`, which end the parameter or the list |
+| Union as a function parameter | `string`, or the enum if an interface in the same file declares the identical union |
 
 **Why enums instead of `string`.** A plain `string` loses the invariant that only certain values are valid. An enum gives compile-time enforcement and IntelliSense. JSON round-tripping is handled by the attributes — values serialize to the original TypeScript literal.
 
@@ -194,6 +196,17 @@ In practice this is fine: `DotNetObjectReference` is almost always passed as a d
 
 ---
 
+### DOM elements
+
+| TypeScript | C# |
+|---|---|
+| `Element`, `HTMLElement`, `HTMLInputElement`, `SVGElement`, … as a function parameter | `Microsoft.AspNetCore.Components.ElementReference` |
+| The same, returned or in an interface property | `object`, with `BAPI002` |
+
+**Why parameters only.** Blazor revives an `ElementReference` into the element on its way to JS. Nothing converts a live element back on the way to .NET, so reading one would throw at runtime. An interface you declare under one of these names wins over the mapping, and a project that can't see `ElementReference` gets the `object` fallback with `BAPI002` instead of a compile error.
+
+---
+
 ## Nullability / optionality
 
 | TypeScript | C# |
@@ -203,6 +216,11 @@ In practice this is fine: `DotNetObjectReference` is almost always passed as a d
 | `foo?: CustomType` in a property | `CustomType? Foo` (adds `?` if missing) |
 | `foo?: Type` as a function parameter | `Type? foo` |
 | `foo?: DotNetObjectReference` | `DotNetObjectReference<TDotNetRef>? foo` (generic method, nullable generic param) |
+| `T \| null`, `T \| undefined`, either order | `T?`, in properties, parameters and `Promise<...>` returns |
+| `'a' \| 'b' \| null` in a property | the generated enum, nullable |
+| `foo: T = value` as a function parameter | `T foo` |
+
+**Why a default value changes nothing in C#.** JS applies a default only for `undefined`, and a null sent from C# arrives as `null`. So the parameter stays required and non-nullable, and the caller passes a real value.
 
 **Why `?` only on value-producing positions.** Generated records use `required` for non-optional properties and plain `get; init;` for optional ones. The nullable `?` conveys the JSON-shape contract both to the C# compiler and to `System.Text.Json` — deserialization sees a missing key and sets the property to `null` / default without complaint.
 
@@ -266,6 +284,7 @@ Causes that trigger `BAPI002`:
 - **Intersection types** like `A & B`. A single interface that lists all members is better for interop anyway.
 - **Cross-file interface references.** If you reference a type declared in a different `.d.ts` file, the parser can't find it and falls back.
 - **Typos and simple typos in type names.** Same code path as "unknown reference" — you'll see the typo in the warning message.
+- **A property the parser can't read at all**, like a generic split over several lines. The property is left out of the record, not typed `object`, and the message says so instead.
 
 ### Intentional mappings that do NOT emit `BAPI002`
 

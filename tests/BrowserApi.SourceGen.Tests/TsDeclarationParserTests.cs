@@ -1023,4 +1023,178 @@ export function addClassToMatching(selector: string, className: string): void;
         Assert.Null(result.Functions[1].ReturnType); // destroyDrag → void
         Assert.Equal("double", result.Functions[1].Params[0].CSharpType); // contextId: number
     }
+
+    // ─── Multi-line unions ───────────────────────────────────────────────────
+
+    [Fact]
+    public void Parse_keeps_property_whose_union_spans_several_lines() {
+        // This shape used to vanish from the record with no diagnostic: a green build and a
+        // property that silently never crossed the JS boundary.
+        var result = TsDeclarationParser.Parse(@"
+export interface Config {
+    kind:
+        | 'a'
+        | 'b'
+        | 'c';
+    after: string;
+}");
+
+        var config = Assert.Single(result.Interfaces);
+        Assert.Equal(new[] { "kind", "after" }, config.Properties.Select(p => p.TsName));
+        Assert.Equal("ConfigKind", config.Properties[0].CSharpType);
+        Assert.Equal(new[] { "a", "b", "c" }, Assert.Single(result.Enums).Members.Select(m => m.JsValue));
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Theory]
+    [InlineData("kind: 'a'\n    | 'b';")]
+    [InlineData("kind: 'a' |\n    'b';")]
+    [InlineData("kind: | 'a' | 'b';")]
+    [InlineData("kind:\n    | 'a' // it's the first\n    | 'b'; // the second")]
+    [InlineData("kind:\n    /** The first. */\n    | 'a'\n    | 'b';")]
+    public void Parse_understands_every_union_layout(string property) {
+        var result = TsDeclarationParser.Parse("export interface Config {\n" + property + "\n}");
+
+        Assert.Equal("ConfigKind", Assert.Single(Assert.Single(result.Interfaces).Properties).CSharpType);
+        Assert.Equal(new[] { "a", "b" }, Assert.Single(result.Enums).Members.Select(m => m.JsValue));
+    }
+
+    [Fact]
+    public void Parse_understands_multi_line_union_parameter() {
+        var result = TsDeclarationParser.Parse(@"
+export function setMode(
+    mode:
+        | 'a'
+        | 'b',
+    id: number,
+): void;");
+
+        var function = Assert.Single(result.Functions);
+        Assert.Equal(new[] { "string", "double" }, function.Params.Select(p => p.CSharpType));
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_reports_a_property_it_has_to_skip() {
+        var result = TsDeclarationParser.Parse(@"
+export interface Config {
+    shape:
+        Foo<A,
+            B>;
+}");
+
+        Assert.Empty(Assert.Single(result.Interfaces).Properties);
+        var fallback = Assert.Single(result.UnknownTypeFallbacks);
+        Assert.True(fallback.IsSkippedProperty);
+        Assert.Equal("Config", fallback.Context);
+    }
+
+    [Fact]
+    public void Parse_does_not_report_the_closing_brace_of_an_inline_object_type() {
+        var result = TsDeclarationParser.Parse(@"
+export interface Config {
+    size: {
+        width: number;
+    };
+}");
+
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    // ─── Nullable unions ─────────────────────────────────────────────────────
+
+    [Theory]
+    [InlineData("int | null", "int?")]
+    [InlineData("null | int", "int?")]
+    [InlineData("string | undefined", "string?")]
+    [InlineData("string | null | undefined", "string?")]
+    [InlineData("null | string[]", "string[]?")]
+    [InlineData("Array<int | null>", "int?[]")]
+    [InlineData("Config | null", "Config?")]
+    [InlineData("'a' | 'b' | null", "string?")]
+    public void MapTsType_turns_null_union_into_nullable(string tsType, string expected) {
+        var typeMap = new Dictionary<string, string> { ["Config"] = "Config" };
+
+        Assert.Equal(expected, TsDeclarationParser.MapTsType(tsType, typeMap));
+    }
+
+    [Fact]
+    public void MapTsType_keeps_reporting_a_union_of_two_real_types() {
+        var fallbacks = new List<TsTypeFallback>();
+
+        var mapped = TsDeclarationParser.MapTsType("string | number | null", new(), fallbacks, "ctx");
+
+        Assert.Equal("object?", mapped);
+        Assert.Single(fallbacks);
+    }
+
+    [Fact]
+    public void MapTsType_leaves_null_inside_a_callback_type_alone() {
+        var fallbacks = new List<TsTypeFallback>();
+
+        var mapped = TsDeclarationParser.MapTsType("(value: string | null) => void", new(), fallbacks, "ctx");
+
+        Assert.Equal("object", mapped);
+        Assert.Single(fallbacks);
+    }
+
+    [Fact]
+    public void Parse_unwraps_nullable_promise_return_type() {
+        var result = TsDeclarationParser.Parse("export function find(): Promise<string | null>;");
+
+        Assert.Equal("string?", Assert.Single(result.Functions).ReturnType);
+    }
+
+    [Fact]
+    public void Parse_makes_nullable_string_union_property_a_nullable_enum() {
+        var result = TsDeclarationParser.Parse("export interface Config { mode: 'a' | 'b' | null; }");
+
+        Assert.Equal("ConfigMode?", Assert.Single(Assert.Single(result.Interfaces).Properties).CSharpType);
+        Assert.Equal(2, Assert.Single(result.Enums).Members.Count);
+    }
+
+    [Theory]
+    [InlineData("limit: int | null = null", "int?")]
+    [InlineData("name: string = 'a=b'", "string")]
+    [InlineData("count: number = 5", "double")]
+    public void Parse_ignores_a_default_value_on_a_parameter(string parameter, string expected) {
+        var result = TsDeclarationParser.Parse($"export function load({parameter}): void {{ }}");
+
+        Assert.Equal(expected, Assert.Single(Assert.Single(result.Functions).Params).CSharpType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    // ─── DOM elements ────────────────────────────────────────────────────────
+
+    [Theory]
+    [InlineData("HTMLElement", "Microsoft.AspNetCore.Components.ElementReference")]
+    [InlineData("Element", "Microsoft.AspNetCore.Components.ElementReference")]
+    [InlineData("HTMLInputElement", "Microsoft.AspNetCore.Components.ElementReference")]
+    [InlineData("SVGElement", "Microsoft.AspNetCore.Components.ElementReference")]
+    [InlineData("HTMLElement | null", "Microsoft.AspNetCore.Components.ElementReference?")]
+    [InlineData("HTMLElement[]", "Microsoft.AspNetCore.Components.ElementReference[]")]
+    public void Parse_maps_dom_element_parameter_to_ElementReference(string tsType, string expected) {
+        var result = TsDeclarationParser.Parse($"export function focus(el: {tsType}): void;", elementReferenceAvailable: true);
+
+        Assert.Equal(expected, Assert.Single(Assert.Single(result.Functions).Params).CSharpType);
+        Assert.Empty(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_keeps_object_fallback_for_a_returned_dom_element() {
+        // ElementReference can only travel from .NET to JS: reading one back throws at runtime.
+        var result = TsDeclarationParser.Parse("export function find(): HTMLElement;", elementReferenceAvailable: true);
+
+        Assert.Equal("object", Assert.Single(result.Functions).ReturnType);
+        Assert.Single(result.UnknownTypeFallbacks);
+    }
+
+    [Fact]
+    public void Parse_prefers_an_interface_declared_under_a_dom_name() {
+        var result = TsDeclarationParser.Parse(@"
+export interface Element { id: string; }
+export function focus(el: Element): void;", elementReferenceAvailable: true);
+
+        Assert.Equal("Element", Assert.Single(Assert.Single(result.Functions).Params).CSharpType);
+    }
 }

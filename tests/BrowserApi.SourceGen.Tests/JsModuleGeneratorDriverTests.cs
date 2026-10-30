@@ -62,8 +62,9 @@ export function addClassToMatching(selector: string, className: string): void;
             .OrderBy(n => n)
             .ToList();
 
-        // Infrastructure (PostInitialization)
-        Assert.Contains("IJsModulePathResolver.g.cs", sourceNames);
+        // Infrastructure (PostInitialization). The resolver contract is not among it: it lives
+        // in BrowserApi.JSInterop, so assemblies share one interface.
+        Assert.DoesNotContain("IJsModulePathResolver.g.cs", sourceNames);
         Assert.Contains("JsModuleAttribute.g.cs", sourceNames);
 
         // Records
@@ -193,6 +194,23 @@ export function configure(opts: SomeUnresolvedThing): void;
         var message = diag.GetMessage();
         Assert.Contains("SomeUnresolvedThing", message);
         Assert.Contains("configure", message);
+    }
+
+    [Fact]
+    public void Generator_reports_a_skipped_property_as_left_out_not_as_object_fallback() {
+        var dts = @"
+export interface Config {
+    shape:
+        Foo<A,
+            B>;
+}
+";
+
+        var diagnostic = Assert.Single(RunGenerator(dts, "wwwroot/js/probe.d.ts").Diagnostics);
+
+        Assert.Equal("BAPI002", diagnostic.Id);
+        Assert.Contains("left out of the generated record", diagnostic.GetMessage());
+        Assert.DoesNotContain("falling back", diagnostic.GetMessage());
     }
 
     [Fact]

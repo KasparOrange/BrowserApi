@@ -19,6 +19,52 @@ Entries are grouped by package. When an entry applies to a single package, the p
 
 ## [Unreleased]
 
+### Fixed — `BrowserApi.SourceGen`: a library and an app can both run the generator
+
+A Razor class library using the generator couldn't be referenced by an app using it: both
+carried public `IJsModulePathResolver` and `AddJsModules()` under the same name, which broke the
+app's build with CS0436 / CS0121. Now:
+
+- **One resolver contract.** `BrowserApi.SourceGen.IJsModulePathResolver` is a real interface in
+  `BrowserApi.JSInterop` instead of generated code. Same full name, so existing implementations
+  compile unchanged, and one registration serves every assembly.
+- **Registration per assembly.** Each assembly gets a public `Add{AssemblyName}JsModules()` plus
+  an internal `AddJsModules()` alias, so `AddJsModules()` in `Program.cs` keeps working.
+- **`<BrowserApiSourceGenNamespace>`** moves a library's modules out of `JsModules`, for when the
+  app has a module or interface of the same name.
+- **`<BrowserApiSourceGenModuleBasePath>`** sets the default import folder, like
+  `./_content/MyLibrary/js` in an RCL, so a library works without a resolver.
+- **`IJsModulePathResolver.Resolve`** may return `null` to use that default path, and a new
+  `Resolve(moduleName, assemblyName)` overload tells two assemblies' same-named modules apart.
+  It has a default implementation, so nothing needs to implement it.
+
+**What you need to do when upgrading:**
+
+- Upgrade `BrowserApi.JSInterop` together with `BrowserApi.SourceGen`, and reference it if you
+  implement the resolver. A project without it still builds, but its modules have no resolver
+  parameter.
+- A library whose consumers called its generated public `AddJsModules()` from another assembly
+  must call `Add{AssemblyName}JsModules()` there instead. That call is a compile error otherwise.
+- **Check your resolver if you reference a library that uses the generator.** Before, each
+  assembly's modules took their own interface. Now one registration, the last one, serves all of
+  them, even if the library registers nothing. A resolver that throws on unknown modules breaks
+  library modules at runtime, with a clean build. Override the two-argument `Resolve` and return
+  `null` for other assemblies.
+
+### Fixed — `BrowserApi.SourceGen`: TypeScript parsing
+
+- **A string union over several lines no longer loses its property.** The property vanished from
+  the record with no diagnostic. Every line layout now parses like the one-line form, in
+  parameters too. A property whose type still can't be read is still left out, but now reports
+  `BAPI002`.
+- **`T | null` and `T | undefined` map to `T?`** in properties, parameters and `Promise<...>`
+  returns, instead of `BAPI002` and `object`. `'a' | 'b' | null` in a property becomes a nullable
+  enum.
+- **Parameter defaults are understood.** `limit: int | null = null` used to fall back to `object`.
+- **DOM element parameters map to `ElementReference`** when the project can see that type:
+  `Element`, `HTMLElement`, `HTML*Element`, `SVG*Element`. Return types keep the `object`
+  fallback, because an element can't be read back into .NET.
+
 ### Added — CSS-in-C#: one-place configuration + emission modes
 
 **Configure once, in `Program.cs`.** `AddBrowserApiCss(css => …)` is now the

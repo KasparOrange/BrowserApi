@@ -34,10 +34,10 @@ The split is by **dependency**, not by API:
 | Package | Depends On | Contains |
 |---------|-----------|----------|
 | BrowserApi | Nothing | All types: CSS, DOM, Canvas, Fetch, Events, etc. |
-| BrowserApi.JSInterop | Microsoft.JSInterop | `IJSRuntime` bridge layer |
+| BrowserApi.JSInterop | Microsoft.JSInterop, BrowserApi | `IJSRuntime` bridge layer, `IJsModulePathResolver` (the one contract all generated modules share) |
 | BrowserApi.Blazor | ASP.NET Components, Hosting.Abstractions | DI, components, lifecycle, `<BrowserApiCss />` |
 | BrowserApi.Runtime | Jint | Server-side JS runtime (browserless tests) |
-| BrowserApi.SourceGen | Roslyn (analyzer) | Typed wrappers for `.js`/`.d.ts` modules |
+| BrowserApi.SourceGen | Roslyn (analyzer) | Typed wrappers for `.js`/`.d.ts` modules. Emits nothing public under a fixed name except modules: a library and its host both run it |
 | BrowserApi.Generator | (standalone tool) | WebIDL parser, C# emitter |
 | BrowserApi.Css.SourceGen | Roslyn (analyzer) | Compile-time class-name population, asset/external-CSS generators, analyzers |
 | BrowserApi.Css.Compiler | Roslyn + BrowserApi | Dev-time `*.css.cs` island compiler: live reload (auto-wired by `css.HotReload = true`), MSBuild target that drives static emission |
@@ -167,15 +167,21 @@ dotnet test tests/BrowserApi.Generator.Tests/  # generator tests only
 
 ### SourceGen: Local Development
 
-MitWare.Blazor consumes `BrowserApi.SourceGen` as a local NuGet package. For local dev, pack and install from the local feed:
+MitWare.Blazor consumes `BrowserApi.SourceGen` as a local NuGet package. For local dev, pack and install from the local feed. `BrowserApi.JSInterop` goes with it because it holds `IJsModulePathResolver`, and it depends on `BrowserApi` at the same version:
+
+The version must sort above the public one MitWare pins: `0.1.0-local.X` sorts below `0.1.0-preview.9`, and pinning it is an NU1605 downgrade.
 
 ```bash
 # Pack a new version
-dotnet pack src/BrowserApi.SourceGen/BrowserApi.SourceGen.csproj -c Release \
-    -o nupkgs -p:Version=0.1.0-local.X
+for p in BrowserApi BrowserApi.JSInterop BrowserApi.SourceGen; do
+    dotnet pack src/$p/$p.csproj -c Release -o nupkgs -p:Version=0.1.0-preview.10.local.X
+done
 
-# In MitWare.Blazor, update to the new version
-dotnet add package BrowserApi.SourceGen --version 0.1.0-local.X
+# Update to the new version: SourceGen where it runs,
+# BrowserApi and BrowserApi.JSInterop in both MitWare.Blazor and MitWare.Components
+dotnet add package BrowserApi.SourceGen --version 0.1.0-preview.10.local.X
+dotnet add package BrowserApi.JSInterop --version 0.1.0-preview.10.local.X
+dotnet add package BrowserApi --version 0.1.0-preview.10.local.X
 ```
 
 The local NuGet source at `nupkgs/` is already registered as `BrowserApiLocal`.
@@ -185,10 +191,12 @@ The local NuGet source at `nupkgs/` is already registered as `BrowserApiLocal`.
 When the source generator changes and MitWare needs the update on the server, run:
 
 ```bash
-./scripts/publish-local.sh 0.1.0-local.X
+./scripts/publish-local.sh 0.1.0-preview.10.local.X
 ```
 
-This packs the `.nupkg` and copies it via `scp` to the MitWare server's `tools/nupkg/` directories (main + dev). The server's `NuGet.Config` already has `tools/nupkg/` as a local source — no server-side config needed.
+This clears `nupkgs/`, packs the `.nupkg` and copies it via `scp` to the MitWare server's `tools/nupkg/` directories (main + dev). The server's `NuGet.Config` already has `tools/nupkg/` as a local source — no server-side config needed.
+
+The script handles `BrowserApi.SourceGen` only, so run it **before** the pack loop above, never after: it would delete those packages. Whenever MitWare pins `BrowserApi.JSInterop` to a local version, it and `BrowserApi` must reach the server too, copied to the same directories by hand.
 
 Then update `MitWare.Blazor.csproj` to reference the new version and deploy MitWare normally.
 

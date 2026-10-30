@@ -1,20 +1,20 @@
 # Releasing a new version
 
-This repo publishes **six NuGet packages together** at a single shared version:
-`BrowserApi`, `BrowserApi.JSInterop`, `BrowserApi.Blazor`, `BrowserApi.Runtime`, `BrowserApi.SourceGen`, `BrowserApi.Css.SourceGen`.
+This repo publishes **eight NuGet packages together** at a single shared version:
+`BrowserApi`, `BrowserApi.JSInterop`, `BrowserApi.Blazor`, `BrowserApi.Runtime`, `BrowserApi.SourceGen`, `BrowserApi.Css.SourceGen`, `BrowserApi.Css.Compiler`, `BrowserApi.Css.Cli`.
 
 There are **two paths** to get a change into a consuming project:
 
 | Path | Destination | When to use |
 |---|---|---|
 | **Public release** | nuget.org, visible to everyone | Cut versions, publish to the public feed, GitHub Release created automatically. |
-| **Local feed** | Private local folder / server feed | Pre-release testing loop — pack a `-local.N` build, install into MitWare, verify, *then* cut a public release. |
+| **Local feed** | Private local folder / server feed | Pre-release testing loop — pack a local build, install into MitWare, verify, *then* cut a public release. |
 
 ### Which path to take
 
 The choice depends on **what kind of change** the release contains:
 
-- **Changes that alter the shape of generator *output* (BrowserApi.SourceGen)** — e.g. new type mappings, changed parameter types, new emitted classes, signature changes. These **must go through the local feed first**. The generator's output is compiled by downstream consumers, so a subtle shape mistake (wrong type name, CS0721-class errors, namespace resolution issues, ambiguous references) cannot be caught by the generator's own unit tests — it only surfaces when a real consumer tries to build. MitWare's build is the first real consumer. If it doesn't build against a local-feed `-local.N` package, the public release is not safe.
+- **Changes that alter the shape of generator *output* (BrowserApi.SourceGen)** — e.g. new type mappings, changed parameter types, new emitted classes, signature changes. These **must go through the local feed first**. The generator's output is compiled by downstream consumers, so a subtle shape mistake (wrong type name, CS0721-class errors, namespace resolution issues, ambiguous references) cannot be caught by the generator's own unit tests — it only surfaces when a real consumer tries to build. MitWare's build is the first real consumer. If it doesn't build against a local-feed package, the public release is not safe.
 - **Internal refactors, fixes that don't change emitted code shape, and changes to non-SourceGen packages** (BrowserApi, BrowserApi.Blazor, BrowserApi.JSInterop, BrowserApi.Runtime) — go straight to the public path. The compile-output integration test (`tests/BrowserApi.SourceGen.Tests/JsModuleGeneratorDriverTests.cs` → `Generator_output_compiles_cleanly_against_real_Microsoft_JSInterop`) already catches the common cases, but it runs against a synthetic consumer, not a real one.
 
 The default for a SourceGen output-shape change is **local feed → MitWare build → public**. When in doubt, take the longer path — a local-feed iteration costs minutes; a broken public preview costs a new version number and a cycle of consumer confusion.
@@ -57,7 +57,7 @@ Triggered on any tag matching `v*`, it:
 1. Extracts the version from the tag (`v0.1.0-preview.4` → `0.1.0-preview.4`).
 2. **Fails early** if `CHANGELOG.md` doesn't have a `## [0.1.0-preview.4]` section — no silent publish without notes.
 3. Restores, builds, runs the full test suite.
-4. Packs all six packages with `-p:Version=<version>`.
+4. Packs all eight packages with `-p:Version=<version>`.
 5. Pushes all packages to nuget.org (`--skip-duplicate` makes re-runs safe).
 6. Creates a GitHub Release tagged `v0.1.0-preview.4` with the CHANGELOG section as the body, and attaches the `.nupkg` files.
 
@@ -74,7 +74,7 @@ Editing `CHANGELOG.md` after the fact updates the nuget.org and IDE link target 
 ### Versioning rules
 
 - Follow [SemVer](https://semver.org/). While in preview, use `0.1.0-preview.N` (increment `N` per preview release).
-- All five packages release at the same version. The `<Version>` in each csproj is a local-dev placeholder; the workflow overrides it via `-p:Version=`.
+- All eight packages release at the same version. The `<Version>` in each csproj is a local-dev placeholder; the workflow overrides it via `-p:Version=`.
 - Do **not** create a GitHub Release manually — the workflow handles that. Creating one by hand will result in two releases for the same tag.
 
 ### If something fails mid-release
@@ -89,32 +89,37 @@ Use this when a source-gen change needs to be validated in MitWare (or another c
 
 ### The flow
 
-1. **Pack a `-local.N` version** into the local feed:
+Local versions must sort above the public version MitWare pins, so use `0.1.0-preview.10.local.X`, not `0.1.0-local.X`: that sorts below `0.1.0-preview.9`, and pinning it is an NU1605 downgrade.
+
+1. **Deploy to the MitWare server if needed** (only when the change must reach the server, not just local dev):
    ```bash
-   dotnet pack src/BrowserApi.SourceGen/BrowserApi.SourceGen.csproj -c Release \
-       -o nupkgs -p:Version=0.1.0-local.X
+   ./scripts/publish-local.sh 0.1.0-preview.10.local.X
+   ```
+   This script clears `nupkgs/`, packs `BrowserApi.SourceGen` only and `scp`s it to the MitWare server's `tools/nupkg/` directories (main + dev), so it comes before step 2: run later, it would delete those packages. The server's `NuGet.Config` has `tools/nupkg/` registered as a local source. Whenever MitWare pins `BrowserApi.JSInterop` to a local version, it and `BrowserApi` must reach those directories too, copied by hand after step 2.
+
+2. **Pack the local version** into the local feed. `BrowserApi.JSInterop` holds `IJsModulePathResolver` and depends on `BrowserApi` at the same version:
+   ```bash
+   for p in BrowserApi BrowserApi.JSInterop BrowserApi.SourceGen; do
+       dotnet pack src/$p/$p.csproj -c Release -o nupkgs -p:Version=0.1.0-preview.10.local.X
+   done
    ```
    `nupkgs/` is already registered as NuGet source `BrowserApiLocal` (local dev).
 
-2. **Deploy to the MitWare server if needed** (only when the change must reach the server, not just local dev):
+3. **Bump MitWare's references** to the local version: `BrowserApi.SourceGen` where it runs, `BrowserApi` and `BrowserApi.JSInterop` in both MitWare.Blazor and MitWare.Components:
    ```bash
-   ./scripts/publish-local.sh 0.1.0-local.X
-   ```
-   This script packs the `.nupkg` and `scp`s it to the MitWare server's `tools/nupkg/` directories (main + dev). The server's `NuGet.Config` has `tools/nupkg/` registered as a local source.
-
-3. **Bump MitWare's reference** to the local version:
-   ```bash
-   dotnet add package BrowserApi.SourceGen --version 0.1.0-local.X
+   dotnet add package BrowserApi.SourceGen --version 0.1.0-preview.10.local.X
+   dotnet add package BrowserApi.JSInterop --version 0.1.0-preview.10.local.X
+   dotnet add package BrowserApi --version 0.1.0-preview.10.local.X
    ```
    Since `local-tools` / `BrowserApiLocal` is registered as a NuGet source in MitWare's `NuGet.Config`, the package resolves from there by exact-version match.
 
-4. **Test in MitWare**, iterate, re-pack with a bumped `-local.(X+1)` version as needed.
+4. **Test in MitWare**, iterate, re-pack with a bumped `local.(X+1)` version as needed.
 
 5. **When satisfied, cut a public release** via Path 1.
 
 ### Caveats
 
-- `-local.N` versions do **not** show up on nuget.org. Do not reference them from projects that need to build on clean CI environments unless that CI has access to the same local feed.
+- Local versions do **not** show up on nuget.org. Do not reference them from projects that need to build on clean CI environments unless that CI has access to the same local feed.
 - MitWare's production server only has `BrowserApi` packages in `tools/nupkg/` *if* `publish-local.sh` has been run against it — otherwise the server resolves from public nuget.org like everywhere else.
 - Normal MitWare deploys do not touch `tools/nupkg/`. Run `publish-local.sh` only when the generator itself has a pending change that must reach the server.
 

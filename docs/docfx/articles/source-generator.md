@@ -37,7 +37,7 @@ dotnet add package BrowserApi.SourceGen
 
 ```csharp
 // Program.cs
-builder.Services.AddJsModules(); // auto-generated, registers all discovered modules
+builder.Services.AddJsModules(); // auto-generated, registers this assembly's modules
 ```
 
 ### 4. Use
@@ -239,7 +239,7 @@ The generated code needs to `import()` the hashed path, not the source path.
 
 ### The Solution: IJsModulePathResolver
 
-The generator emits an `IJsModulePathResolver` interface. Implement it to hook into your build tool's manifest:
+`IJsModulePathResolver` ships in the **`BrowserApi.JSInterop`** package (full name `BrowserApi.SourceGen.IJsModulePathResolver`). Reference that package and implement the interface to hook into your build tool's manifest:
 
 ```csharp
 // Implement the interface (wraps your existing path service)
@@ -266,7 +266,9 @@ Now every generated module class automatically resolves `"mw-dnd"` → `"/js/dis
 
 ### Without a Path Resolver
 
-If you don't register an `IJsModulePathResolver`, the generated code uses the raw file path from the `AdditionalFiles` entry. This works fine for development or projects without a bundler.
+If you don't register an `IJsModulePathResolver`, the generated code uses the generated default path: the file's location below `wwwroot/` with a `.js` extension, or `<BrowserApiSourceGenModuleBasePath>` when set. This works fine for development or projects without a bundler.
+
+Without `BrowserApi.JSInterop` referenced at all, modules still generate and work on that same path. Their constructor just has no resolver parameter, and naming the interface in your own code fails to compile (CS0246, or CS0234 with the full name) until you add the package.
 
 ### How It Works Internally
 
@@ -275,11 +277,53 @@ The generated constructor accepts the resolver as an optional parameter:
 ```csharp
 public MwDndModule(IJSRuntime js, IJsModulePathResolver? pathResolver = null) {
     _js = js;
-    _modulePath = pathResolver?.Resolve("mw-dnd") ?? "./js/src/mw-dnd.js";
+    _modulePath = pathResolver?.Resolve("mw-dnd", "MyApp") ?? "./js/src/mw-dnd.js";
 }
 ```
 
-DI injects it if registered, otherwise the fallback path is used.
+DI injects it if registered, otherwise the fallback path is used. A resolver that returns `null` also lands on the fallback. The second argument is the generating assembly's name; the default implementation of that overload ignores it and calls `Resolve(moduleName)`.
+
+## Libraries and Apps Together
+
+A Razor class library and the app using it can both run the generator. Nothing public is shared by name except the modules themselves:
+
+| Generated | Accessibility | Why it can't collide |
+|---|---|---|
+| `Add{AssemblyName}JsModules()` in `{AssemblyName}JsModuleServiceCollectionExtensions` | public | The name carries the assembly (`MitWare.Components` → `AddMitWareComponentsJsModules`). |
+| `AddJsModules()` in `JsModuleServiceCollectionExtensions` | internal | Another assembly's internal type is invisible, so inside an assembly it means that assembly's modules. |
+| `IJsModulePathResolver` | not generated | One real interface in `BrowserApi.JSInterop`, shared by every assembly. |
+
+A host registers both:
+
+```csharp
+builder.Services.AddSingleton<IJsModulePathResolver, ViteResolver>();
+builder.Services.AddJsModules();          // the app's modules
+builder.Services.AddMyLibraryJsModules(); // the library's modules (or its own AddMyLibrary())
+```
+
+Two project properties cover the rest. Set them in the library:
+
+```xml
+<PropertyGroup>
+    <!-- Default JsModules. Needed once the app has a module or interface of the same name. -->
+    <BrowserApiSourceGenNamespace>MyLibrary.JsModules</BrowserApiSourceGenNamespace>
+    <!-- Default derived from wwwroot/. An RCL's files are served from _content/<PackageId>/.
+         Write the id out: $(PackageId) is still empty at this point in a project file. -->
+    <BrowserApiSourceGenModuleBasePath>./_content/MyLibrary/js</BrowserApiSourceGenModuleBasePath>
+</PropertyGroup>
+```
+
+**One resolver sees every module.** There is one interface, so one DI registration, and the last `AddSingleton` wins for all assemblies. A resolver that only knows the app's bundle must let library modules through, or it breaks them at runtime:
+
+```csharp
+public class ViteResolver : IJsModulePathResolver {
+    public string? Resolve(string moduleName) => GetScriptPath(moduleName);
+
+    // Generated modules call this overload. null = stay on the generated default path.
+    public string? Resolve(string moduleName, string assemblyName)
+        => assemblyName == "MyApp" ? GetScriptPath(moduleName) : null;
+}
+```
 
 ## Module Loading
 
@@ -349,7 +393,7 @@ This produces typed parameters (`double amount, string currency`) and XML doc co
 | **csproj** | `<AdditionalFiles Include="**/*.js" />` | `<AdditionalFiles Include="**/*.d.ts" />` |
 | **Program.cs** | `AddJsModules()` | `AddSingleton<IJsModulePathResolver, ViteResolver>()` + `AddJsModules()` |
 | **Type safety** | Basic (JSDoc types, unknown → `object`) | Full (TS interfaces → records, unions → enums) |
-| **Import paths** | Raw file paths | Hashed via manifest |
+| **Import paths** | Generated default paths | Hashed via manifest |
 | **Cache busting** | No | Yes |
 | **Config** | 2 lines | ~15 lines (one-time) |
 | **Runtime cost** | Same | Same |
